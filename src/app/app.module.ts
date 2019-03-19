@@ -15,12 +15,10 @@ import { SmallComponent } from './Component/profile/small/small.component';
 import { OktaAuthGuard } from './app.guard';
 import { OktaAuthService } from './app.service';
 import { PageNotFoundComponent } from './Component/page-not-found/page-not-found.component';
+import { CallbackComponent } from './callback/callback.component';
+import { ProtectedComponent } from './protected/protected.component';
 
-const appRoutes: Routes = [
-  { path: '/signup', component: SignupComponent },
-  { path: '/login',  component: LoginComponent },
-  { path: '**', component: PageNotFoundComponent }
-];
+
 
 @NgModule({
   declarations: [
@@ -33,16 +31,19 @@ const appRoutes: Routes = [
     SettingsComponent,
     ForgotComponent,
     SmallComponent,
+    CallbackComponent,
+    ProtectedComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    RouterModule.forRoot(
-      appRoutes,
-      { enableTracing: true } // <-- debugging purposes only
-    ),
+    RouterModule
   ],
-  providers: [],
+  providers: [
+    OktaAuthGuard,
+    OktaAuthService,
+  ],
   bootstrap: [AppComponent]
 })
 

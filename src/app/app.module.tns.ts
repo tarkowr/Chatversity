@@ -16,6 +16,8 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { App } from './app.guard/app.guard.component';
 import { PageNotFoundComponent } from './Component/page-not-found/page-not-found.component';
+import { CallbackComponent } from './callback/callback.component';
+import { ProtectedComponent } from './protected/protected.component';
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -40,6 +42,8 @@ import { PageNotFoundComponent } from './Component/page-not-found/page-not-found
     FooterComponent,
     App.GuardComponent,
     PageNotFoundComponent,
+    CallbackComponent,
+    ProtectedComponent,
   ],
   imports: [
     NativeScriptModule,
