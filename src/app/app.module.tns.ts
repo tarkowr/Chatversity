@@ -4,6 +4,14 @@ import { NativeScriptModule } from 'nativescript-angular/nativescript.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { DashboardComponent } from './Component/dashboard/dashboard.component';
+import { ErrorComponent } from './Component/error/error.component';
+import { LoginComponent } from './Component/login/login.component';
+import { SignupComponent } from './Component/signup/signup.component';
+import { ProfileComponent } from './Component/profile/profile.component';
+import { SettingsComponent } from './Component/settings/settings.component';
+import { ForgotComponent } from './Component/login/forgot/forgot.component';
+import { SmallComponent } from './Component/profile/small/small.component';
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -16,6 +24,14 @@ import { HomeComponent } from './home/home.component';
   declarations: [
     AppComponent,
     HomeComponent,
+    DashboardComponent,
+    ErrorComponent,
+    LoginComponent,
+    SignupComponent,
+    ProfileComponent,
+    SettingsComponent,
+    ForgotComponent,
+    SmallComponent,
   ],
   imports: [
     NativeScriptModule,
