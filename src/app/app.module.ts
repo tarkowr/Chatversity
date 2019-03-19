@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 // Component Import
 import { AppRoutingModule } from './app-routing.module';
@@ -12,6 +13,9 @@ import { DashboardComponent } from './Modules/home/dashboard/dashboard.component
 import { ProfileComponent } from './Modules/home/profile/profile.component';
 import { SmallComponent } from './Modules/home/profile/small/small.component';
 import { SettingsComponent } from './Modules/home/settings/settings.component';
+
+// Angular Bootstrap
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Onboarding Module Import
 import { LoginComponent } from './Modules/onboarding/login/login.component';
@@ -30,6 +34,7 @@ import {
 } from '@okta/okta-angular';
 import { routes } from './app.routes';
 import { HomeComponent } from './home/home.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const config = {
   issuer: 'https://dev-117825.okta.com',
@@ -59,8 +64,12 @@ const config = {
     RouterModule.forRoot(routes),
     OktaAuthModule.initAuth(config),
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
-    RouterModule
+    RouterModule,
+    NgbModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     OktaAuthGuard,
