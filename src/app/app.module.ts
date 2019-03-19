@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 // Component Import
 import { AppRoutingModule } from './app-routing.module';
@@ -33,6 +34,7 @@ import {
 } from '@okta/okta-angular';
 import { routes } from './app.routes';
 import { HomeComponent } from './home/home.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const config = {
   issuer: 'https://dev-117825.okta.com',
@@ -62,9 +64,12 @@ const config = {
     RouterModule.forRoot(routes),
     OktaAuthModule.initAuth(config),
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     RouterModule,
-    NgbModule
+    NgbModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     OktaAuthGuard,
