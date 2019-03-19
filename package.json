@@ -30,6 +30,7 @@
     "@compodoc/compodoc": "^1.1.9",
     "@fortawesome/angular-fontawesome": "^0.3.0",
     "@ng-bootstrap/ng-bootstrap": "^4.1.0",
+    "@okta/okta-angular": "^1.1.0",
     "@okta/okta-auth-js": "^2.3.1",
     "@pusher/chatkit-client": "^1.4.1",
     "@pusher/chatkit-server": "^1.1.0",
@@ -48,9 +49,9 @@
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "^0.11.4",
     "@angular/cli": "^7.2.0",
     "@angular/compiler-cli": "~7.2.0",
-    "@angular-devkit/build-angular": "~0.11.4",
     "@nativescript/schematics": "~0.4.0",
     "@types/jasmine": "2.8.6",
     "@types/jasminewd2": "~2.0.3",
