@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { RouterModule, Routes } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './Component/dashboard/dashboard.component';
@@ -14,7 +14,13 @@ import { SmallComponent } from './Component/profile/small/small.component';
 // Okta Guard and Service
 import { OktaAuthGuard } from './app.guard';
 import { OktaAuthService } from './app.service';
+import { PageNotFoundComponent } from './Component/page-not-found/page-not-found.component';
 
+const appRoutes: Routes = [
+  { path: '/signup', component: SignupComponent },
+  { path: '/login',  component: LoginComponent },
+  { path: '**', component: PageNotFoundComponent }
+];
 
 @NgModule({
   declarations: [
@@ -31,8 +37,13 @@ import { OktaAuthService } from './app.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    RouterModule.forRoot(
+      appRoutes,
+      { enableTracing: true } // <-- debugging purposes only
+    ),
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

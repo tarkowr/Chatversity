@@ -1,1 +1,7 @@
+<!-- app.component.html -->
+
+<button routerLink="/"> Home </button>
+<button *ngIf="!oktaAuth.isAuthenticated()" (click)="oktaAuth.login()"> Login </button>
+<button *ngIf="oktaAuth.isAuthenticated()" (click)="oktaAuth.logout()"> Logout </button>
+<button routerLink="/protected"> Protected </button>
 <router-outlet></router-outlet>
