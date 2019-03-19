@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './Component/dashboard/dashboard.component';
 import { ErrorComponent } from './Component/error/error.component';
 import { LoginComponent } from './Component/login/login.component';
@@ -17,7 +16,6 @@ import { SmallComponent } from './Component/profile/small/small.component';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     DashboardComponent,
     ErrorComponent,
     LoginComponent,
