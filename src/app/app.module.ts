@@ -18,7 +18,18 @@ import { PageNotFoundComponent } from './Component/page-not-found/page-not-found
 import { CallbackComponent } from './callback/callback.component';
 import { ProtectedComponent } from './protected/protected.component';
 
+import {
+  OktaAuthModule,
+  OktaCallbackComponent,
+} from '@okta/okta-angular';
+import { routes } from './app.routes';
+import { HomeComponent } from './home/home.component';
 
+const config = {
+  issuer: 'https://dev-117825.okta.com',
+  redirectUri: 'http://localhost:4200/implicit/callback',
+  clientId: '0oadacumlPWmV9j5a356'
+};
 
 @NgModule({
   declarations: [
@@ -34,8 +45,11 @@ import { ProtectedComponent } from './protected/protected.component';
     CallbackComponent,
     ProtectedComponent,
     PageNotFoundComponent,
+    HomeComponent,
   ],
   imports: [
+    RouterModule.forRoot(routes),
+    OktaAuthModule.initAuth(config),
     BrowserModule,
     AppRoutingModule,
     RouterModule

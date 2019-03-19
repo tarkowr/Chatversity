@@ -8,7 +8,7 @@ If isAuthenticated() returns false, start the login flow. */
 
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import * as OktaAuth from '@okta/okta-auth-js';
+import * as OktaAuth from '@okta/okta-angular';
 
 @Injectable()
 export class OktaAuthService {

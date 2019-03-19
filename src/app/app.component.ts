@@ -1,11 +1,33 @@
-import { Component } from '@angular/core';
-import { OktaAuthService } from './app.service';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
+import { OktaAuthService } from '@okta/okta-angular';
+import { AsyncHook } from 'async_hooks';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  constructor(public oktaAuth: OktaAuthService) {}
+export class AppComponent implements OnInit {
+  isAuthenticated: boolean;
+
+  constructor(public oktaAuth: OktaAuthService) {
+    // Subscribe to authentication state changes
+    this.oktaAuth.$authenticationState.subscribe(
+      (isAuthenticated: boolean)  => this.isAuthenticated = isAuthenticated
+    );
+  }
+
+
+  async ngOnInit() {
+    // Get the authentication state for immediate use
+    this.isAuthenticated = await this.oktaAuth.isAuthenticated();
+  }
+
+  login() {
+    this.oktaAuth.loginRedirect('/dashboard');
+  }
+
+  logout() {
+    this.oktaAuth.logout('/');
+  }
 }
