@@ -1,27 +1,23 @@
-# Chatversity
+<h3 align="center">Chatversity</h3>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.0.
+<p align="center">Chatversity is an app created by college students for college students.  Join your schools server and create or join discussion boards and more.  Get started today!</p>
 
-## Development server
+<br />
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+<p align="center"><a href="https://github.com/NoahsNMC/TrainingModule/wiki/Getting-Started">Get Started</a> · <a href="https://github.com/NoahsNMC/Chatversity_App/wiki">Wiki</a> · <a href="https://github.com/NoahsNMC/Chatversity_App/wiki/FAQ">FAQ</a> · <a href="https://github.com/NoahsNMC/Chatversity_App/issues/new?assignees=&labels=enhancement&template=feature_request.md">Request Feature</a> · <a href="https://github.com/NoahsNMC/Chatversity_App/issues/new?assignees=&labels=bug&template=bug_report.md">Report Bug</a></p>
 
-## Code scaffolding
+## Status
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+![](https://img.shields.io/github/issues/NoahsNMC/Chatversity_App.svg)
+![](https://img.shields.io/github/forks/NoahsNMC/Chatversity_App.svg)
+![](https://img.shields.io/github/stars/NoahsNMC/Chatversity_App.svg)
+![](https://img.shields.io/github/license/NoahsNMC/Chatversity_App.svg)
+![](https://img.shields.io/twitter/url/https/github.com/NoahsNMC/Chatversity_App.svg?style=social)
 
-## Build
+## Creators
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+>[Cati Kujawski](https://github.com/kujawsc)  
+[Noah Osterhout](https://github.com/NoahFlowa)  
+[Richie Tarkowski](https://github.com/tarkowr)  
+[Scott Peterson](https://github.com/peter610)  
+[Connor Hansen](https://github.com/hansenconnor)
