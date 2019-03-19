@@ -4,7 +4,7 @@
 /* In order to handle the redirect back from Okta, we need to capture the token values from the URL. Use the /callback route to handle the logic of storing these tokens and redirecting back to the main page. */
 
 import { Component } from '@angular/core';
-import { OktaAuthService } from '../app.service';
+import { OktaAuthService } from '@okta/okta-angular';
 
 @Component({ template: `` })
 export class CallbackComponent {

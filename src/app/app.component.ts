@@ -1,6 +1,6 @@
-import { Component, AfterViewInit, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { OktaAuthService } from '@okta/okta-angular';
-import { AsyncHook } from 'async_hooks';
+
 
 @Component({
   selector: 'app-root',
