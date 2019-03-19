@@ -1,16 +1,23 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
+
+// Component Import
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './Component/dashboard/dashboard.component';
 import { ErrorComponent } from './Component/error/error.component';
-import { LoginComponent } from './Component/login/login.component';
-import { SignupComponent } from './Component/signup/signup.component';
-import { ProfileComponent } from './Component/profile/profile.component';
-import { SettingsComponent } from './Component/settings/settings.component';
-import { ForgotComponent } from './Component/login/forgot/forgot.component';
-import { SmallComponent } from './Component/profile/small/small.component';
+
+// Home Module Import
+import { DashboardComponent } from './Modules/home/dashboard/dashboard.component';
+import { ProfileComponent } from './Modules/home/profile/profile.component';
+import { SmallComponent } from './Modules/home/profile/small/small.component';
+import { SettingsComponent } from './Modules/home/settings/settings.component';
+
+// Onboarding Module Import
+import { LoginComponent } from './Modules/onboarding/login/login.component';
+import { SignupComponent } from './Modules/onboarding/signup/signup.component';
+import { ForgotComponent } from './Modules/onboarding/forgot/forgot.component';
+
 // Okta Guard and Service
 import { OktaAuthGuard } from './app.guard';
 import { OktaAuthService } from './app.service';
@@ -34,7 +41,6 @@ const config = {
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
     ErrorComponent,
     LoginComponent,
     SignupComponent,
