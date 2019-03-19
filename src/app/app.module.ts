@@ -11,6 +11,9 @@ import { ProfileComponent } from './Component/profile/profile.component';
 import { SettingsComponent } from './Component/settings/settings.component';
 import { ForgotComponent } from './Component/login/forgot/forgot.component';
 import { SmallComponent } from './Component/profile/small/small.component';
+// Okta Guard and Service
+import { OktaAuthGuard } from './app.guard';
+import { OktaAuthService } from './app.service';
 
 
 @NgModule({
