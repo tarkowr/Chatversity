@@ -52,22 +52,8 @@ export class LoginComponent implements OnInit {
         }
 
         this.loading = true;
+        // TODO: Add login method to AuthService
         this.authenticationService.loginRedirect(this.f.username.value, this.f.password.value);
+        // Replace this with login method in AuthService ^
     }
-
-
-  // TODO: Move the login function to service
-
-  // login (hero: Hero): Observable<Hero> {
-  //   return this.http.post<Hero>(this.heroesUrl, hero, httpOptions)
-  //     .pipe(
-  //       catchError(this.handleError('addHero', hero))
-  //     );
-  // }
-
-
-  // click() {
-  //   this.login(newHero)
-  // .subscribe(hero => this.heroes.push(hero));
-  // }
 }
