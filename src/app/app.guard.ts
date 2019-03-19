@@ -2,7 +2,7 @@
 
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { OktaAuthService } from './app.service';
+import { OktaAuthService } from '@okta/okta-angular';
 
 @Injectable()
 export class OktaAuthGuard implements CanActivate {

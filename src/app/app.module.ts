@@ -13,6 +13,9 @@ import { ProfileComponent } from './Modules/home/profile/profile.component';
 import { SmallComponent } from './Modules/home/profile/small/small.component';
 import { SettingsComponent } from './Modules/home/settings/settings.component';
 
+// Angular Bootstrap
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 // Onboarding Module Import
 import { LoginComponent } from './Modules/onboarding/login/login.component';
 import { SignupComponent } from './Modules/onboarding/signup/signup.component';
@@ -60,7 +63,8 @@ const config = {
     OktaAuthModule.initAuth(config),
     BrowserModule,
     AppRoutingModule,
-    RouterModule
+    RouterModule,
+    NgbModule
   ],
   providers: [
     OktaAuthGuard,
