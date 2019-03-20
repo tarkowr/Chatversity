@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OktaAuthService } from '@okta/okta-angular';
+import {AuthService} from '../../../_services/auth.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -30,7 +31,7 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: OktaAuthService ) {}
+    private auth: AuthService ) {}
 
   ngOnInit() {
     console.log(this.submitted);
@@ -52,8 +53,7 @@ export class LoginComponent implements OnInit {
         }
 
         this.loading = true;
-        // TODO: Add login method to AuthService
-        this.authenticationService.loginRedirect(this.f.username.value, this.f.password.value);
+        this.auth.login(this.f.username.value, this.f.password.value);
         // Replace this with login method in AuthService ^
     }
 }
