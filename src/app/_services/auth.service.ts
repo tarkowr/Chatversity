@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { OktaAuthService } from '@okta/okta-angular';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { environment } from '~/environments/environment';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +23,7 @@ export class AuthService {
 }
 
 logout() {
-    // TODO: Add logout function to autentication API - this is fine for now
+    // TODO: Add logout function to authentication API - this is fine for now
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
 }
