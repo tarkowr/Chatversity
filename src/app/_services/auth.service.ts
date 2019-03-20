@@ -23,6 +23,7 @@ export class AuthService {
 }
 
 logout() {
+    // TODO: Add logout function to autentication API - this is fine for now
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
 }
