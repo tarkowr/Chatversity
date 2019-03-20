@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import {AuthService} from './_services/auth.service';
 
 // Component Import
 import { AppRoutingModule } from './app-routing.module';
@@ -74,6 +75,7 @@ const config = {
   providers: [
     OktaAuthGuard,
     OktaAuthService,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

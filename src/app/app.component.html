@@ -1,8 +1,9 @@
 <!-- app.component.html -->
 
 
-<button *ngIf="!isAuthenticated" (click)="login()"> Login </button>
-<button *ngIf="isAuthenticated" (click)="logout()"> Logout </button>
-<router-outlet></router-outlet>
+<!-- Main Navigation | Only show if user is authenticated -->
 
+<div *ngIf="isAuthenticated">[ main navigation container ]</div>
+
+<!-- Router Outlet -->
 <router-outlet></router-outlet>
