@@ -1,3 +1,4 @@
+// Angular Component Imports
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
@@ -34,7 +35,6 @@ import {
   OktaAuthModule,
 } from '@okta/okta-angular';
 import { routes } from './app.routes';
-import { HomeComponent } from './home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const config = {
@@ -57,7 +57,6 @@ const config = {
     CallbackComponent,
     ProtectedComponent,
     PageNotFoundComponent,
-    HomeComponent,
     DashboardComponent,
     CallbackComponent
   ],

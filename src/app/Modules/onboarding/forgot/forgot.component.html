@@ -1,3 +1,43 @@
-<p>
-  forgot works!
-</p>
+<!-- Main Container Div -->
+<section class="d-flex align-items-center" style="min-height:100vh; margin-bottom: 30px;">
+  <div class="container-fluid">
+    <div class="text-center">
+      <div>
+        <img src="/assets/images/forgot_circle-lock.png" alt="">
+      </div>
+      <div>
+        <p class="" style="font-weight: bold; color: #115073; margin-top: 5vh;">Trouble logging in?</p>
+        <p style="color: #94B0C0;">Enter your username or email and we'll send <br> you a link to get back into your account.</p>
+      </div>
+      <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+        <div class="form-row d-flex justify-content-center">
+          <h5 *ngIf="primary">Your form is valid!</h5>
+
+          <div class="form-group col-md-3 my-3 pb-3">
+            <input type="email" class="form-control" style="height: 50px; border: 2px solid #94B0C0; color: #94B0C0;" id="emailInput" aria-describedby="emailHelp" placeholder="Email" formControlName="email">
+            <div *ngIf="submitted && messageForm.controls.name.errors" class="error">
+              <div *ngIf="messageForm.controls.name.errors.required">Your email is required</div>
+            </div>
+          </div>
+
+          <br>
+        </div>
+        <button type="submit" class="btn btn-primary py-3 mx-2" style="width: 400px; font-weight: bold; font-size: 14px; background-color: #24B6FF; border-color: #24B6FF;" value="Send Email">SEND LOGIN LINK</button>
+      </form>
+      <div>
+        <p class="my-4">OR</p>
+        <p style="font-weight: bold; color: #24B6FF;">CREATE NEW ACCOUNT</p>
+      </div>
+      <div class="my-5">
+        <p class="my-5" style="color: #115073; font-weight: bold;"><i class="fas fa-long-arrow-left"></i> <span class="pl-3">BACK TO LOGIN</span></p>
+      </div>
+        <div *ngIf="submitted" class="results">
+          <strong>Name:</strong> 
+          <span>{{ messageForm.controls.name.value }}</span>
+      
+          <strong>Message:</strong> 
+          <span>{{ messageForm.controls.message.value }}</span>
+        </div>
+    </div>
+  </div>
+</section>
