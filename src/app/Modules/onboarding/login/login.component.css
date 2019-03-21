@@ -1,0 +1,55 @@
+h1{
+    font-family: Poppins;
+font-style: normal;
+font-size: 60px;
+line-height: normal;
+letter-spacing: -1.5px;   
+color:#115073;
+}
+
+/*  */
+/* Form */
+/*  */
+
+.form-group{
+    font-family: Roboto;
+    color:#115073;
+    font-size: 16px;
+    font-weight: bold;
+}
+input:focus{
+    box-shadow: #24B6FF;
+}
+
+/*  */
+/* Buttons */
+/*  */
+
+.btn-login{
+    font-family: Poppins;
+font-style: normal;
+font-weight: bold;
+font-size: 14px;
+line-height: normal;
+letter-spacing: 0.75px;
+text-transform: uppercase;
+color:white;
+background-color: #24B6FF;
+border:none;
+}
+.btn-password{
+    font-family: Roboto;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: right;
+    color:#24B6FF;
+
+}
+.btn-signup{
+    font-family: Poppins;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #24B6FF;
+
+}
