@@ -19,6 +19,7 @@ import { PageNotFoundComponent } from './Component/page-not-found/page-not-found
 import { CallbackComponent } from './callback/callback.component';
 import { ProtectedComponent } from './protected/protected.component';
 import { ScssTestComponent } from './scss-test/scss-test.component';
+import { TestComponent } from './test/test.component';
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -46,6 +47,7 @@ import { ScssTestComponent } from './scss-test/scss-test.component';
     CallbackComponent,
     ProtectedComponent,
     ScssTestComponent,
+    TestComponent,
   ],
   imports: [
     NativeScriptModule,
