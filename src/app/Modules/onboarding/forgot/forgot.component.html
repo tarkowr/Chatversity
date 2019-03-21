@@ -1,6 +1,37 @@
 <!-- Main Container Div -->
-<div class="container">
-  <div class="text-center">
-    <div id="circle">CIRCLE</div>
+<section class="d-flex align-items-center" style="min-height:50vh; margin-bottom: 30px;">
+  <div class="container-fluid">
+    <div class="text-center">
+      <div>
+        <img src="/assets/images/forgot_circle-lock.png" alt="">
+      </div>
+      <div>
+        <p class="" style="font-family: 'Poppins', sans-serif; font-weight: bold; color: #115073; margin-top: 5vh;">Trouble logging in?</p>
+        <p style="font-family: 'Poppins', sans-serif; color: #94B0C0;">Enter your username or email and we'll send <br> you a link to get back into your account.</p>
+      </div>
+      <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+          <div class="form-row d-flex justify-content-center">
+            <h5 *ngIf="success">Your form is valid!</h5>
+        
+            <div class="form-group col-md-3">
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" formControlName="email">
+              <div *ngIf="submitted && messageForm.controls.name.errors" class="error">
+                  <div *ngIf="messageForm.controls.name.errors.required">Your email is required</div>
+              </div>
+            </div>
+
+            <br>
+          </div>
+          <button type="submit" class="btn btn-primary" value="Send Email">Submit</button>
+        </form>
+      
+        <div *ngIf="submitted" class="results">
+          <strong>Name:</strong> 
+          <span>{{ messageForm.controls.name.value }}</span>
+      
+          <strong>Message:</strong> 
+          <span>{{ messageForm.controls.message.value }}</span>
+        </div>
+    </div>
   </div>
-</div>
+</section>

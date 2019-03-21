@@ -12,6 +12,12 @@ import { ProfileComponent } from './Component/profile/profile.component';
 import { SettingsComponent } from './Component/settings/settings.component';
 import { ForgotComponent } from './Component/login/forgot/forgot.component';
 import { SmallComponent } from './Component/profile/small/small.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { App } from './app.guard/app.guard.component';
+import { PageNotFoundComponent } from './Component/page-not-found/page-not-found.component';
+import { CallbackComponent } from './callback/callback.component';
+import { ProtectedComponent } from './protected/protected.component';
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -32,6 +38,12 @@ import { SmallComponent } from './Component/profile/small/small.component';
     SettingsComponent,
     ForgotComponent,
     SmallComponent,
+    HeaderComponent,
+    FooterComponent,
+    App.GuardComponent,
+    PageNotFoundComponent,
+    CallbackComponent,
+    ProtectedComponent,
   ],
   imports: [
     NativeScriptModule,
