@@ -1,5 +1,7 @@
+// Angular Component Imports
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
 
 // Component Import
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +27,7 @@ import { ForgotComponent } from './Modules/onboarding/forgot/forgot.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
