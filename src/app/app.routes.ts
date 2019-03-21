@@ -7,7 +7,6 @@ import { LoginComponent } from './Modules/onboarding/login/login.component';
 import { ForgotComponent } from './Modules/onboarding/forgot/forgot.component';
 import { SignupComponent } from './Modules/onboarding/signup/signup.component';
 import { PageNotFoundComponent } from './Component/page-not-found/page-not-found.component';
-import { HomeComponent } from './home/home.component';
 import { OktaCallbackComponent } from '@okta/okta-angular';
 import { DashboardComponent } from './Modules/home/dashboard/dashboard.component';
 
