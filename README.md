@@ -1,4 +1,4 @@
-<img src="./src/assets/images/Logo-Name.png" />
+<img align="center" src="./src/assets/images/Logo-Name.png" />
 
 <p align="center">Chatversity is an app created by college students for college students.  Join your schools server and create or join discussion boards and more.  Get started today!</p>
 
