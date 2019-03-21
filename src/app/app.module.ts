@@ -60,7 +60,7 @@ const config = {
     PageNotFoundComponent,
     DashboardComponent,
     CallbackComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),

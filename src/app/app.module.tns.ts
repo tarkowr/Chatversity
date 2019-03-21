@@ -18,6 +18,7 @@ import { App } from './app.guard/app.guard.component';
 import { PageNotFoundComponent } from './Component/page-not-found/page-not-found.component';
 import { CallbackComponent } from './callback/callback.component';
 import { ProtectedComponent } from './protected/protected.component';
+import { ScssTestComponent } from './scss-test/scss-test.component';
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -44,6 +45,7 @@ import { ProtectedComponent } from './protected/protected.component';
     PageNotFoundComponent,
     CallbackComponent,
     ProtectedComponent,
+    ScssTestComponent,
   ],
   imports: [
     NativeScriptModule,
