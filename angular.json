@@ -126,5 +126,10 @@
       }
     }
   },
-  "defaultProject": "Chatversity"
+  "defaultProject": "Chatversity",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }
