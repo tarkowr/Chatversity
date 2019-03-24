@@ -7,6 +7,7 @@ import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OktaAuthService } from '@okta/okta-angular';
 import {AuthService} from '../../../_services/auth.service';
+import { first } from 'rxjs/operators';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -39,6 +40,7 @@ export class LoginComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', Validators.required]
   });
+    this.returnUrl = '/';
   }
 
   // convenience getter for easy access to form fields
@@ -52,6 +54,14 @@ export class LoginComponent implements OnInit {
             return;
         }
 
-        this.auth.login(JSON.stringify({username: this.f.username.value, password: this.f.password.value}));
+        this.auth.login(JSON.stringify({username: this.f.username.value, password: this.f.password.value})).pipe(first())
+        .subscribe(
+            data => {
+                this.router.navigate([this.returnUrl]);
+            },
+            error => {
+                // this.alertService.error(error);
+                this.loading = false;
+            });
     }
 }

@@ -13,7 +13,10 @@ export class AuthService {
 
   // Handle user login
   login(logindetails) {
-      return this.http.post<any>(`${environment.apiUrl}/okta/login`, logindetails);
+      return this.http.post<any>(`${environment.apiUrl}/okta/login`, logindetails)
+      .pipe(map(user => {
+          console.log(user);
+      }));
     // return this.http.post<any>(`${environment.apiUrl}/users/authenticate`, { username: username, password: password })
     //     .pipe(map(user => {
     //         console.log(user);
