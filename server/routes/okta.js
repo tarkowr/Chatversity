@@ -16,7 +16,7 @@ router.post('/login', (req, res) => {
     console.log(req);
     axios.post(`https://dev-117825.okta.com/api/v1/authn`, {
         "username": req.body.username,
-        "password": "Rycbar123",
+        "password": req.body.password,
         "relayState": "localhost:4200",
         "options": {
           "multiOptionalFactorEnroll": false,
