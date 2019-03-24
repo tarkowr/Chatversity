@@ -1,4 +1,5 @@
 // Get dependencies
+const cors = require('cors');
 const express = require('express');
 const path = require('path');
 const http = require('http');
@@ -14,10 +15,15 @@ const app = express();
 
 // Parsers for POST data
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Point static path to dist
 app.use(express.static(path.join(__dirname, 'dist')));
+
+// User CORS for local testing
+// ! TESTING ONLY - REMOVE FOR PROD
+app.use(cors());
+
 
 // API route
 app.use('/api', api);

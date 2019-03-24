@@ -12,18 +12,23 @@ router.get('/', (req, res) => {
 // Handle user login
 // TODO: Update to dynamically pull url from config
 router.post('/login', (req, res) => {
+    console.log("request: ");
+    console.log(req);
     axios.post(`https://dev-117825.okta.com/api/v1/authn`, {
         "username": req.body.username,
-        "password": req.body.password,
+        "password": "Rycbar123",
         "relayState": "localhost:4200",
         "options": {
           "multiOptionalFactorEnroll": false,
           "warnBeforePasswordExpired": false
         }
-      }, {headers:{
+      }, 
+      {
+        headers:{
         "Accept":'application/json',
         "Content-Type": 'application/json'
-    }})
+        }
+    })
     .then(posts => {
         res.status(200).json(posts.data);
     })
