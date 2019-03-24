@@ -52,7 +52,6 @@ export class LoginComponent implements OnInit {
             return;
         }
 
-        this.loading = true;
-        this.auth.login(this.f.username.value, this.f.password.value);
+        this.auth.login(JSON.stringify({username: this.f.username.value, password: this.f.password.value}));
     }
 }
