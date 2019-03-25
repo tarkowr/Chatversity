@@ -1,6 +1,8 @@
 
 <div [class.app-mount]="this.router.url != '/login'">
-    <app-navbar *ngIf="this.router.url != '/login'"></app-navbar>
+    <div id="primary_navigation">
+        <app-navbar *ngIf="this.router.url != '/login'" class="h-100 d-flex align-items-center"></app-navbar>
+    </div>
     <router-outlet></router-outlet>
 </div>
 
