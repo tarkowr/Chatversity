@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit {
     private auth: AuthService ) {}
 
   ngOnInit() {
+    // TODO: Check if already logged in, redirect
     // console.log(this.submitted);
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],

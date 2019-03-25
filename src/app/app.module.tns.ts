@@ -20,6 +20,7 @@ import { CallbackComponent } from './callback/callback.component';
 import { ProtectedComponent } from './protected/protected.component';
 import { ScssTestComponent } from './scss-test/scss-test.component';
 import { TestComponent } from './test/test.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -48,6 +49,7 @@ import { TestComponent } from './test/test.component';
     ProtectedComponent,
     ScssTestComponent,
     TestComponent,
+    NavbarComponent,
   ],
   imports: [
     NativeScriptModule,
