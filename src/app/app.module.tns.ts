@@ -21,6 +21,7 @@ import { ProtectedComponent } from './protected/protected.component';
 import { ScssTestComponent } from './scss-test/scss-test.component';
 import { TestComponent } from './test/test.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { MessagesComponent } from './messages/messages.component';
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -50,6 +51,7 @@ import { NavbarComponent } from './navbar/navbar.component';
     ScssTestComponent,
     TestComponent,
     NavbarComponent,
+    MessagesComponent,
   ],
   imports: [
     NativeScriptModule,
