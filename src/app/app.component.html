@@ -1,9 +1,9 @@
-<!-- app.component.html -->
 
-
-<!-- Main Navigation | Only show if user is authenticated -->
-
-<div *ngIf="isAuthenticated">[ main navigation container ]</div>
+<div [class.app-mount]="this.router.url != '/login'">
+    <div id="primary_navigation">
+        <app-navbar *ngIf="this.router.url != '/login'" class="h-100 d-flex align-items-center"></app-navbar>
+    </div>
+    <router-outlet></router-outlet>
+</div>
 
 <!-- Router Outlet -->
-<router-outlet></router-outlet>

@@ -3,10 +3,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OktaAuthService } from '@okta/okta-angular';
 import {AuthService} from '../../../_services/auth.service';
+import { first } from 'rxjs/operators';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -27,6 +28,8 @@ export class LoginComponent implements OnInit {
   submitted = false;
   returnUrl: string;
 
+  // username = new FormControl('');
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -34,11 +37,13 @@ export class LoginComponent implements OnInit {
     private auth: AuthService ) {}
 
   ngOnInit() {
-    console.log(this.submitted);
+    // TODO: Check if already logged in, redirect
+    // console.log(this.submitted);
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
   });
+    this.returnUrl = '/';
   }
 
   // convenience getter for easy access to form fields
@@ -52,7 +57,24 @@ export class LoginComponent implements OnInit {
             return;
         }
 
-        this.loading = true;
-        this.auth.login(this.f.username.value, this.f.password.value);
+        // Create obj to hold formdata
+        const formData: FormData = new FormData();
+        // Append username and password to form data
+        formData.append('username', this.loginForm.get('username').value);
+        formData.append('password', this.loginForm.get('password').value);
+
+        console.log(formData);
+
+        // Send the obj to our user auth function
+        this.auth.login(this.f.username.value, this.f.password.value).pipe(first())
+        .subscribe(
+            data => {
+                this.router.navigate([this.returnUrl]);
+            },
+            error => {
+                // this.alertService.error(error);
+                this.loading = false;
+                this.f.username.setErrors({invalid: true});
+            });
     }
 }
