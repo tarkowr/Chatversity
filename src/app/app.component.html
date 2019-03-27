@@ -1,9 +1,9 @@
 
-<div [class.app-mount]="this.router.url != '/login'">
+<div [class.app-mount]="((this.router.url != '/login') && (this.router.url != '/signup') && (this.router.url != '/forgot'))">
     <div id="primary_navigation">
-        <app-navbar *ngIf="this.router.url != '/login'" class="h-100 d-flex align-items-center"></app-navbar>
+        <app-navbar *ngIf="((this.router.url != '/login') && (this.router.url != '/signup') && (this.router.url != '/forgot'))" class="h-100 d-flex align-items-center"></app-navbar>
     </div>
-    <router-outlet></router-outlet>
+    <router-outlet></router-outlet> 
 </div>
 
 <!-- Router Outlet -->
