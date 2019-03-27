@@ -9,3 +9,42 @@
     color: #94B0C0;
 }
 
+#messages {
+    position: relative;
+    top: 80px;
+}
+
+
+.message-wrap {
+
+    background:#F3F6F8;
+    padding: 16px 16px;
+    margin-top: 3px;
+    border-radius: 3px;
+    transition: 0.2s ease box-shadow;
+    position:relative;
+
+
+    &:hover:after {
+        content: "";
+        position: absolute;
+        top: 0px;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        right: 0;
+        z-index: 1;
+        box-shadow: 0px 4px 12px rgba(21, 157, 246, 0.5);    
+    }
+
+    #status {
+        font-size: 8px;
+        margin-left: 40px;
+        line-height: .005 !important;
+    }
+
+}
+
+#messages-add {
+    float: right;
+}

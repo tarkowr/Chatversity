@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { OktaAuthService } from '@okta/okta-angular';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, } from 'rxjs';
 import { User } from '../_models/user';
 
 @Injectable()
@@ -20,20 +19,25 @@ export class AuthService {
         return this.currentUserSubject.value;
     }
 
-  // Handle user login
-  login(username: string, password: string) {
+    // Send sign up request to server // TODO: Implement user sign up
+    signup() {
+        return;
+    }
+
+    login(username: string, password: string) {
         return this.http.post<any>(`${environment.apiUrl}/okta/login`, { username, password })
-            .pipe(map(user => {
-                console.log(user);
-                // login successful if there's a jwt token in the response
-                if (user && user.sessionToken) {
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify(user));
-                    this.currentUserSubject.next(user);
-                }
-                return user;
-            }
-        ));
+        .pipe(switchMap(user => {
+            const user_id = user._embedded.user.id;
+            console.log(user);
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            this.currentUserSubject.next(user);
+            return this.http.post(`${environment.apiUrl}/chatkit/createtoken`, {user_id});
+        }))
+        .pipe(map(data => {
+            console.log(data);
+            localStorage.setItem('chatkitToken', JSON.stringify(data));
+            return data;
+        }));
     }
 
     logout() {

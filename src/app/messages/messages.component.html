@@ -2,217 +2,233 @@
   <!-- Messages Header -->
   <div id="messages_header" class="row position-fixed py-3">
     <div class="col-12">
-        <span class="text-uppercase">Messages</span><span><a src="/assets"></a></span>
+        <div><span class="text-uppercase">Messages</span><a routerlink="" id="messages-add"><img src="/assets/images/Messages_Plus.png" height="36" width="36"></a></div>
     </div>
   </div>
   <!-- Begin Messages outlet -->
-  <div class="row">
+  <div id="messages" class="row">
     <div class="col-12">
-      Messages works!
-    </div>
-    <div class="col-12">
-      Messages works!
-    </div>
-    <div class="col-12">
-      Messages works!
-    </div>
-    <div class="col-12">
-      Messages works!
-    </div>
-    <div class="col-12">
-      Messages works!
-    </div>
-    <div class="col-12">
-      Messages works!
-    </div>
-    <div class="col-12">
-      Messages works!
-    </div>
-    <div class="col-12">
-      Messages works!
-    </div>
-    <div *ngIf="(currentUser)">
-        <span>{{ currentUser.name }}</span>
+      <div class="message-wrap">
+          <!-- Font Awesome Profile Silouhette(?) -->
+          <i class="fas fa-user fa-lg mr-3" style="color: #C3D3DC;"></i>
+          <!-- Load users profile picture here -->
+          <img src="/assets/images/dummy_profile_pic.png" height="36" width="36" class="rounded-circle border border-success">
+          <!-- Load users name here -->
+          <span class="ml-3 mr-5" style="font-weight: bold; color: #115073;">User 5</span>
+          <!-- Disable or change the text to something relevant -->
+          <span class="badge ml-5 pl-2 pr-2" style="background-color: #FF247F; color: #FFF;">new</span>
+          <div class="text-uppercase pl-5" style="font-weight: bold; color: #94B0C0" id="status">online</div>
       </div>
-    <div class="col-12">
-      Messages works!
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
+    </div>
+    <ng-container *ngIf="rooms">
+      <div *ngFor="let room of rooms" class="col-12">
+          <div>{{ room.name }}</div>
+      </div>
+    </ng-container>
+
+    <div *ngIf="(currentUser)" class="col-12">
+        <div class="message-wrap"><span>{{ currentUser.name }}</span></div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
     </div>
     <div class="col-12">
-      Messages works!
+      <div class="message-wrap">Messages works!</div>
+    </div>
+    <div class="col-12">
+      <div class="message-wrap">Messages works!</div>
+    </div>
+    <div class="col-12">
+      <div class="message-wrap">Messages works!</div>
+    </div>
+    <div class="col-12">
+      <div class="message-wrap">Messages works!</div>
+    </div>
+    <div class="col-12">
+      <div class="message-wrap">Messages works!</div>
+    </div>
+    <div class="col-12">
+      <div class="message-wrap">Messages works!</div>
+    </div>
+    <div class="col-12">
+      <div class="message-wrap">Messages works!</div>
+    </div>
+    <div class="col-12">
+      <div class="message-wrap">Messages works!</div>
+    </div>
+    <div class="col-12">
+      <div class="message-wrap">Messages works!</div>
     </div>
   </div>
 </div>
