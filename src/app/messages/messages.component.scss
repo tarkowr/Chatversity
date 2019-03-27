@@ -5,3 +5,30 @@
     max-width:350px;
     box-shadow: 0px 5px 15px rgba(21, 157, 246, 0.15);
 }
+
+#messages {
+    position: relative;
+    top: 80px;
+}
+
+.message-wrap {
+
+    background:white;
+    padding: 4px 12px;
+    margin-top: 2px;
+    border-radius: 3px;
+    transition: 0.2s ease box-shadow;
+    position:relative;
+
+    &:hover:after {
+        content: "";
+        position: absolute;
+        top: 0px;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        right: 0;
+        z-index: 1;
+        box-shadow: 0px 4px 12px rgba(21, 157, 246, 0.5);    
+    }
+}

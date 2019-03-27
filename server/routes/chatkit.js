@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
 
 
 // Get a User
-router.post('/getuser', async (req, res) => {
+router.post('/getuser', (req, res) => {
 
     chatkit.getUser({
         id: req.body.user_id,

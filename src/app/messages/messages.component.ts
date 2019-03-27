@@ -1,6 +1,7 @@
-import { Component} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -8,29 +9,54 @@ import { environment } from '../../environments/environment';
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.scss']
 })
-export class MessagesComponent {
+export class MessagesComponent implements OnInit {
 
-      rooms = [];
-      currentUser: any;
-      user_id: any;
+  rooms: any;
+  currentUser: any;
+  user_id: any;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient) {}
 
-    // Get User ID
-    // TODO: Refactor => Add to user service
-    const user_id = JSON.parse(localStorage.getItem('currentUser'))._embedded.user.id;
-    this.user_id = user_id;
-    console.log(`User ID: ${user_id}`);
-
-    // Get Chatkit user
-    this.http.post(`${environment.apiUrl}/chatkit/getuser`, {user_id}).subscribe(user => {
-      this.currentUser = user;
-    });
-
-    // Get all of the current user's rooms
-    this.http.post(`${environment.apiUrl}/chatkit/GetUserRooms`, {user_id}).subscribe(rooms => {
-      this.rooms.push(rooms);
-      console.log(`Rooms: ${rooms}`);
-    });
+  // Get Chatkit user
+  getUser(user_id) {
+    this.http.post<any>(`${environment.apiUrl}/chatkit/getuser`, {user_id})
+    .toPromise()
+    .then(res => {
+      this.currentUser = res;
+      this.user_id = res.id;
+      console.log(res);
+    })
+    .catch(error => console.log(error));
   }
+
+    // Get Chatkit user's rooms
+    getUserRooms(user_id) {
+      this.http.post<any>(`${environment.apiUrl}/chatkit/getuserrooms`, {user_id})
+      .toPromise()
+      .then(res => {
+        this.rooms = res;
+        console.log(res);
+      })
+      .catch(error => console.log(error));
+    }
+
+
+
+  ngOnInit() {
+    const user_id = JSON.parse(localStorage.getItem('currentUser'))._embedded.user.id;
+    this.getUser(user_id);
+    this.getUserRooms(user_id);
+    console.log('adsf');
+  }
+
+  // Get User ID
+    // TODO: Refactor => Add to user service
+    // const user_id = JSON.parse(localStorage.getItem('currentUser'))._embedded.user.id;
+    // this.user_id = user_id;
+    // console.log(`User ID: ${user_id}`);
+  // Get all of the current user's rooms
+  // this.rooms = return this.http.post<arr>(`${environment.apiUrl}/chatkit/GetUserRooms`, {user_id})
+  // .pipe(map(res => {
+  //   res.json();
+  // }));
 }
