@@ -18,13 +18,13 @@
 <br />
 
 
-### Status
+## Status
 
-  <p align="left"><a href="https://docs.pusher.com/chatkit/reference/api">Pusher</a>
+  <p align="left"><a href="https://docs.pusher.com/chatkit/reference/api">- Pusher</a>
   
-  -Okta https://www.okta.com/products/api-access-management/
+  <p align="left"><a href="https://www.okta.com/products/api-access-management/">- Okta</a>
   
-  -MongoDB https://docs.atlas.mongodb.com/api/
+  <p align="left"><a href="https://docs.atlas.mongodb.com/api/">- MongoDB</a>
 
 
 ## Creators
