@@ -20,11 +20,12 @@
 
 ## Status
 
-![](https://img.shields.io/github/issues/NoahsNMC/Chatversity_App.svg)
-![](https://img.shields.io/github/forks/NoahsNMC/Chatversity_App.svg)
-![](https://img.shields.io/github/stars/NoahsNMC/Chatversity_App.svg)
-![](https://img.shields.io/badge/license-CC%20BY--NC--ND%204.0-critical.svg)
-![](https://img.shields.io/twitter/url/https/github.com/NoahsNMC/Chatversity_App.svg?style=social)
+<p align="left">
+  -Pusher
+  -Okta
+  -MongoDB  
+ </p>
+
 
 ## Creators
 
