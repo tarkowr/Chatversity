@@ -39,6 +39,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FooterComponent } from './Shared/footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MessagesComponent } from './messages/messages.component';
+import { SettingsProfileComponent } from './settings-profile/settings-profile.component';
 
 const config = {
   issuer: 'https://dev-117825.okta.com',
@@ -65,6 +66,7 @@ const config = {
     FooterComponent,
     NavbarComponent,
     MessagesComponent,
+    SettingsProfileComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
