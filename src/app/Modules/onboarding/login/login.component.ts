@@ -66,15 +66,22 @@ export class LoginComponent implements OnInit {
         console.log(formData);
 
         // Send the obj to our user auth function
-        this.auth.login(this.f.username.value, this.f.password.value).pipe(first())
-        .subscribe(
-            data => {
-                this.router.navigate([this.returnUrl]);
-            },
-            error => {
-                // this.alertService.error(error);
-                this.loading = false;
-                this.f.username.setErrors({invalid: true});
-            });
+        // this.auth.login(this.f.username.value, this.f.password.value).pipe()
+        // .subscribe(
+        //     data => {
+        //         this.router.navigate([this.returnUrl]);
+        //     },
+        //     error => {
+        //         // this.alertService.error(error);
+        //         this.loading = false;
+        //         this.f.username.setErrors({invalid: true});
+        //     });
+        this.auth.login(this.f.username.value, this.f.password.value).pipe(first()).subscribe(data => {
+          this.router.navigate([this.returnUrl]);
+        },
+        error => {
+          this.loading = false;
+          this.f.username.setErrors({invalid: true});
+        });
     }
 }

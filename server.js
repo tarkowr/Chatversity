@@ -5,11 +5,18 @@ const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 
+
+
 // Get our API routes
 const api = require('./server/routes/api');
 
 // Get authentication routes
 const okta = require('./server/routes/okta');
+
+// Get Chatkit routes for Pusher
+const chatkit = require('./server/routes/chatkit');
+
+
 
 const app = express();
 
@@ -25,11 +32,16 @@ app.use(express.static(path.join(__dirname, 'dist')));
 app.use(cors());
 
 
+
 // API route
 app.use('/api', api);
 
 // Okta route for user auth
 app.use('/okta', okta);
+
+// Chatkit route for messaging
+app.use('/chatkit', chatkit);
+
 
 
 // Catch all other routes and return the index file

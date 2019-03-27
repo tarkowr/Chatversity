@@ -3,14 +3,10 @@ import { ChatManager, TokenProvider } from '@pusher/chatkit-client';
 import Chatkit from '@pusher/chatkit-client';
 import { Observable } from 'rxjs';
 import axios from 'axios';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { map } from 'rxjs/operators';
 
-const chatManager = new Chatkit.ChatManager({
-  instanceLocator: 'v1:us1:a54bdf12-93d6-46f9-be3b-bfa837917fb5',
-  userId: 'testuser1',
-  tokenProvider: new Chatkit.TokenProvider({
-    url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/a54bdf12-93d6-46f9-be3b-bfa837917fb5/token'
-  })
-});
 
 @Component({
   selector: 'app-messages',
@@ -19,9 +15,11 @@ const chatManager = new Chatkit.ChatManager({
 })
 export class MessagesComponent implements OnInit {
 
-  messages = [];
+      messages = [];
       users = [];
+      rooms = [];
       currentUser: any;
+      user_id: any;
 
       _username = '';
       get username(): string {
@@ -48,59 +46,43 @@ export class MessagesComponent implements OnInit {
         this.message = '';
       }
 
-      addUser() {
-        const { username } = this;
-        axios.post('http://localhost:5200/users', { username })
-          .then(() => {
-            // const tokenProvider = new Chatkit.TokenProvider({
-            //   url: 'http://localhost:5200/authenticate'
-            // });
+  constructor(private http: HttpClient) {
 
-            // const chatManager = new Chatkit.ChatManager({
-            //   instanceLocator: '<your instance locator>',
-            //   userId: username,
-            //   tokenProvider
-            // });
+    // Get User ID
+    // TODO: Refactor => Add to user service
+    const user_id = JSON.parse(localStorage.getItem('currentUser'))._embedded.user.id;
+    this.user_id = user_id;
+    console.log(user_id);
 
-            return chatManager
-              .connect()
-              .then(currentUser => {
-                currentUser.subscribeToRoom({
-                  roomId: '<your room id>',
-                  messageLimit: 100,
-                  hooks: {
-                    onMessage: message => {
-                      this.messages.push(message);
-                    },
-                    onPresenceChanged: (state, user) => {
-                      this.users = currentUser.users.sort((a, b) => {
-                        if (a.presence.state === 'online') {
-                          return -1;
-                        }
-                        return 1;
-                      });
-                    },
-                  },
-                });
+    // Get Chatkit user
+    this.http.post(`${environment.apiUrl}/chatkit/getuser`, {user_id}).subscribe(user => {
+      this.currentUser = user;
+    });
 
-                this.currentUser = currentUser;
-                this.users = currentUser.users;
-              });
-          })
-            .catch(error => console.error(error));
-      }
+    // Get all of the current user's rooms
+    this.http.post(`${environment.apiUrl}/chatkit/GetUserRooms`, {user_id}).subscribe(rooms => {
+      this.rooms.push(rooms);
+      console.log(rooms);
+    });
 
-  constructor() { }
+    console.log(this.rooms);
+  }
 
   ngOnInit() {
-  return chatManager.connect()
-  .then(currentUser => {
-    this.currentUser = currentUser;
-    console.log('Successful connection', currentUser);
-  })
-  .catch(err => {
-    console.log('Error on connection', err);
-  });
+    // pipe(map(user => {
+    //   this.currentUser = user;
+    //   console.log('user: ');
+    //   console.log(user);
+    // }));
+
+    // return chatManager.connect()
+    // .then(currentUser => {
+    //   this.currentUser = currentUser;
+    //   console.log('Successful connection', currentUser);
+    // })
+    // .catch(err => {
+    //   console.log('Error on connection', err);
+    // });
   }
 
 }

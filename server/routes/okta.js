@@ -29,8 +29,10 @@ router.post('/login', (req, res) => {
         "Content-Type": 'application/json'
         }
     })
-    .then(posts => {
-        res.status(200).json(posts.data);
+    .then(user => { 
+      // TODO: Create and return Session with Session Token 
+      // TODO: https://developer.okta.com/docs/api/resources/sessions/#create-session-with-session-token
+        res.status(200).json(user.data);
     })
     .catch(error => {
       res.status(500).send('<p>'+ error +'</p>');
