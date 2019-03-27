@@ -5,7 +5,7 @@
 <p align="left">Chatversity is an app created by college students for college students.  Join your college or university and create or join discussion boards and more. Chatversity is entirely free to use and can help students discover new groups or clubs of their interest.</p>
 
 <p align="center">
-  Get started today!
+  ## Get started today!
 </p>
 
 <br />
