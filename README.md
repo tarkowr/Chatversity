@@ -20,11 +20,9 @@
 
 ## Status
 
-<p align="left">
   -Pusher
   -Okta
   -MongoDB  
- </p>
 
 
 ## Creators
