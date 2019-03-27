@@ -2,11 +2,13 @@
   <a href= "https://chatversityapp.com/"><img src="./src/assets/images/logo-color-text-under.png" width="200px"/></a>
 </p>
 
+<p align="center">
 ![](https://img.shields.io/github/issues/NoahsNMC/Chatversity_App.svg)
 ![](https://img.shields.io/github/forks/NoahsNMC/Chatversity_App.svg)
 ![](https://img.shields.io/github/stars/NoahsNMC/Chatversity_App.svg)
 ![](https://img.shields.io/badge/license-CC%20BY--NC--ND%204.0-critical.svg)
 ![](https://img.shields.io/twitter/url/https/github.com/NoahsNMC/Chatversity_App.svg?style=social)
+</p>
 
 
 <p align="left">Chatversity is an app created by college students for college students.  Join your college or university and create or join discussion boards and more. Chatversity is entirely free to use and can help students discover new groups or clubs of their interest.</p>
@@ -21,9 +23,7 @@
 ## Status
 
   <p align="left"><a href="https://docs.pusher.com/chatkit/reference/api">- Pusher</a>
-  
   <p align="left"><a href="https://www.okta.com/products/api-access-management/">- Okta</a>
-  
   <p align="left"><a href="https://docs.atlas.mongodb.com/api/">- MongoDB</a>
 
 
