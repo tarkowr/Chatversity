@@ -20,7 +20,7 @@
 
 ## Status
 
-  <p align="left"><href="https://docs.pusher.com/chatkit/reference/api">- Pusher>
+  <p align="left"><ahref="https://docs.pusher.com/chatkit/reference/api">- Pusher</a>
   <p align="left"><a href="https://www.okta.com/products/api-access-management/">- Okta</a>
   <p align="left"><a href="https://docs.atlas.mongodb.com/api/">- MongoDB</a>
 
