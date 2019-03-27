@@ -3,13 +3,18 @@
     <div class="col-12">
       <ul class="nav nav-pills nav-justified flex-column">
         <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="dashboard"><i class="fa fa-home"></i></a>
+          <img src="/assets/images/logo-mark-64.png" height="32" width="32" class="mt-1 mb-1">
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="messages"><i class="fa fa-envelope"></i></a>
+          <a class="nav-link mt-1 mb-1 pt-3 pb-3" routerLinkActive="active" routerLink="dashboard"><i class="fa fa-home fa-lg"></i></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLinkActive="active" routerLink="settings"><i class="fa fa-cogs"></i></a>
+          <!-- From Noah: I tried to get a similar red dot from the figma design to be placed near the messages icon when the user has new messages.  To get rid of it we can do some JS or TS (like disable it) 
+          when there is no messages.  To get rid of it just remove the span class and everything in between -->
+          <a class="nav-link mt-1 mb-1 pt-3 pb-3" routerLinkActive="active" routerLink="messages"><i class="far fa-envelope fa-lg"><span class="badge badge-danger badge-pill pb-1 pl-1 mb-3">&shy;</span></i></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link mt-1 mb-1 pt-3 pb-3" routerLinkActive="active" routerLink="settings"><i class="fa fa-cogs fa-lg"></i></a>
         </li>
       </ul>
     </div>
