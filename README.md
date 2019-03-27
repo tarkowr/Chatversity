@@ -20,7 +20,7 @@
 
 ### Status
 
-  -Pusher https://docs.pusher.com/chatkit/reference/api
+  <p align="left"><a href="https://docs.pusher.com/chatkit/reference/api">Pusher</a>
   
   -Okta https://www.okta.com/products/api-access-management/
   
