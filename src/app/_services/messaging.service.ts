@@ -36,10 +36,7 @@ export class MessagingService {
     });
   }
 
-  logUser() {
-    console.log(this.currentUser);
-  }
-
+  // Join a room
   joinRoom(roomID) {
     this.chatkitUser.joinRoom( { roomId: roomID } )
     .then(room => {
@@ -47,6 +44,21 @@ export class MessagingService {
     })
     .catch(err => {
       console.log(`Error joining room ${roomID}: ${err}`);
+    });
+  }
+
+  // Fetch messages from room
+  fetchMessages(roomID) {
+    return this.chatkitUser
+    .fetchMultipartMessages(
+    {
+      roomId: roomID,
+      direction: 'older',
+      limit: 10,
+    })
+    .then(messages => messages )
+    .catch(err => {
+      console.log(`Error fetching messages: ${err}`);
     });
   }
 }

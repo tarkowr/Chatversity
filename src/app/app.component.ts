@@ -21,7 +21,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('Hello from app component');
     console.log(this.currentUser);
   }
 

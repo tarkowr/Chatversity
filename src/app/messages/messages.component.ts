@@ -18,6 +18,17 @@ export class MessagesComponent implements OnInit {
 
   constructor(private http: HttpClient, private msgService: MessagingService) {}
 
+  // Join a room
+  public joinRoom(roomID) {
+    this.msgService.joinRoom(roomID); // Join
+    this.msgService.fetchMessages(roomID).then(messages => {
+      messages.forEach(message => {
+        console.log(message);
+      });
+    }); // Get messages
+    // TODO: Display fetched messages in chat window
+  }
+
 
   // Get Chatkit user
   getUser(user_id) {
@@ -42,20 +53,11 @@ export class MessagesComponent implements OnInit {
     .catch(error => console.log(error));
   }
 
-  // Join a room
-  public joinRoom(roomID) {
-    this.msgService.joinRoom(roomID);
-  }
-
 
   ngOnInit() {
-
-    // this.msgService.chatManager().then(data => console.log(data));
-
     const user_id = JSON.parse(localStorage.getItem('currentUser'))._embedded.user.id;
     this.getUser(user_id);
     this.getUserRooms(user_id);
-    console.log('adsf');
   }
 
   // Get User ID
