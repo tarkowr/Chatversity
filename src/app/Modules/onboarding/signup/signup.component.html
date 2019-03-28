@@ -1,3 +1,92 @@
-<p>
-  signup works!
-</p>
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Nunito|Poppins|Roboto" rel="stylesheet">
+
+  <style>
+    .signup-pic{
+      background: url('../../../../assets/images/signup-pic.png'); 
+      background-size: contain;
+      height: 100vh;
+      background-repeat: no-repeat;
+    }
+  </style>
+</head>
+
+<body>
+  <section style="min-height:100vh;">
+    <div class="container-fluid px-0">
+      <div class="row">
+        <!--Sign Up Picture-->
+        <div class="col-md-6">
+          <div class="signup-pic">
+          <!--<p>
+              <span class="pic-title">Chatversity</span>  <br>
+              <span class="pic-msg">Simplifying Communication</span>  
+          </p>--->
+          </div>  
+        </div>
+        
+        <!--Sign Up Form-->
+        <div class="col-md-6">
+          <h1 class="text-center h4">Sign Up</h1>
+          <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+
+              <!--Summary Error Alert-->
+            <div *ngIf="submitted && f.username.errors">
+                <div *ngIf="f.username.errors.invalid" class="alert alert-danger" role="alert">Username {{ f.username.value }} is invalid.</div>
+                <div *ngIf="f.password.errors.invalid" class="alert alert-danger" role="alert">
+                  Invalid password. Your password must have atleast:
+                  <ul>
+                    <li>6 characters</li>
+                    <li>1 uppercase letter</li>
+                    <li>1 number</li>
+                  </ul>
+                </div>
+                <div *ngIf="f.university.errors.invalid" class="alert alert-danger" role="alert">Please select a university.</div>
+            </div>
+
+              <!--Name Textbox-->
+              <div class="form-group">
+                  <label for="username">Name</label>
+                  <input type="text" name="username" formControlName="username" placeholder="Enter your name" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+                  <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                      <div *ngIf="f.username.errors.required">Name is required</div>
+                  </div>
+              </div>
+
+              <!--Username (Email) Textbox-->
+              <div class="form-group">
+                  <label for="username">Email</label>
+                  <input type="email" name="username" formControlName="username" placeholder="Enter your university email" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+                  <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                      <div *ngIf="f.username.errors.required">Username is required</div>
+                  </div>
+              </div>
+
+              <!--Password-->
+              <div class="form-group">
+                  <div class="row">
+                      <div class="col-6">
+                          <label for="password">Password</label>
+                      </div>
+                  </div>
+                  <input type="password" formControlName="password" placeholder="Enter your password"
+                      class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                  <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                      <div *ngIf="f.password.errors.required">Password is required</div>
+                  </div>
+                  <button [disabled]="loading" class="btn btn-login btn-primary btn-block mt-3">Sign Up</button>
+                  <img *ngIf="loading"
+                      src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
