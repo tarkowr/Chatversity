@@ -15,6 +15,7 @@ export class MessagesComponent implements OnInit {
   rooms: any;
   currentUser: any;
   user_id: any;
+  room_messages: any;
 
   constructor(private http: HttpClient, private msgService: MessagingService) {}
 
@@ -23,8 +24,9 @@ export class MessagesComponent implements OnInit {
     this.msgService.joinRoom(roomID); // Join
     this.msgService.fetchMessages(roomID).then(messages => {
       messages.forEach(message => {
-        console.log(message);
+        console.log(message.parts[0].payload.content);
       });
+      this.room_messages = messages;
     }); // Get messages
     // TODO: Display fetched messages in chat window
   }

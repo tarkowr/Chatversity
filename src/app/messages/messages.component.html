@@ -246,7 +246,9 @@
     </div>
     <div class="col-8" style="background:#FAFDFF;">
       <div class="chat-window">
-        
+        <ng-container *ngIf="room_messages">
+          <div *ngFor="let message of room_messages">{{ message.parts[0].payload.content }}</div>
+        </ng-container>
       </div>
     </div>
   </div>
