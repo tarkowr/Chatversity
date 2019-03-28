@@ -55,8 +55,8 @@
               <div class="message-wrap">Messages works!</div>
             </div>
             <ng-container *ngIf="rooms">
-              <div *ngFor="let room of rooms" class="col-12">
-                  <div>{{ room.name }}</div>
+              <div *ngFor="let room of rooms" class="col-12" (click)="joinRoom(room.id)">
+                  <div class="message-wrap room">{{ room.name }}</div>
               </div>
             </ng-container>
             <div *ngIf="(currentUser)" class="col-12">
