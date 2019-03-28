@@ -1,7 +1,6 @@
-
-<div [class.app-mount]="((this.router.url != '/login') && (this.router.url != '/signup') && (this.router.url != '/forgot'))">
-    <div id="primary_navigation">
-        <app-navbar *ngIf="((this.router.url != '/login') && (this.router.url != '/signup') && (this.router.url != '/forgot'))" class="h-100 d-flex align-items-center"></app-navbar>
+<div [class.app-mount]="currentUser">
+    <div *ngIf="currentUser" id="primary_navigation">
+        <app-navbar *ngIf="currentUser" class="h-100 d-flex align-items-center flex-column"></app-navbar>
     </div>
     <router-outlet></router-outlet> 
 </div>
