@@ -1,8 +1,9 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs';
 import { MessagingService } from '../_services/messaging.service';
+import bsCustomFileInput from 'bs-custom-file-input';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 
 @Component({
@@ -11,6 +12,10 @@ import { MessagingService } from '../_services/messaging.service';
   styleUrls: ['./messages.component.scss']
 })
 export class MessagesComponent implements OnInit {
+
+  @ViewChild('labelImport')
+  labelImport: ElementRef;
+  fileToUpload: File = null;
 
   rooms: any;
   currentUser: any;
@@ -28,7 +33,45 @@ export class MessagesComponent implements OnInit {
     this._message = value;
   }
 
+  // _roomName = '';
+  // get roomName(): string {
+  //   return this._roomName;
+  // }
+  // set roomName(value: string) {
+  //   this._roomName = value;
+  // }
+
+  _roomPrivate = '';
+  get roomPrivate(): string {
+    return this._roomPrivate;
+  }
+  set roomPrivate(value: string) {
+    this._roomPrivate = value;
+  }
+
+  formImport = new FormGroup({
+    importFileGroup: new FormGroup({
+      importFile: new FormControl(''),
+    }),
+    roomNameGroup: new FormGroup({
+      roomName: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(60)
+      ])
+    }),
+    privateRoomGroup: new FormGroup({
+      privateRoom: new FormControl('')
+    })
+  });
+
   constructor(private http: HttpClient, private msgService: MessagingService) {}
+
+  onFileChange(files: FileList) {
+    this.labelImport.nativeElement.innerText = Array.from(files)
+      .map(f => f.name)
+      .join(', ');
+    this.fileToUpload = files.item(0);
+  }
 
   // Send a message
   sendMessage() {
@@ -103,13 +146,29 @@ export class MessagesComponent implements OnInit {
     });
   }
 
+  // Create room
+  createRoom() {
+    console.log(this.formImport.value);
+    // this.msgService.chatkitUser.createRoom({
+    //   name: 'general',
+    //   private: true,
+    //   addUserIds: ['craig', 'kate'],
+    //   customData: { foo: 42 },
+    // }).then(room => {
+    //   console.log(`Created room called ${room.name}`);
+    // })
+    // .catch(err => {
+    //   console.log(`Error creating room ${err}`);
+    // });
+  }
+
 
   ngOnInit() {
     // Get user id from local storage
-    this.user_id = JSON.parse(localStorage.getItem('currentUser'))._embedded.user.id;
+    const user_id = JSON.parse(localStorage.getItem('currentUser'))._embedded.user.id;
 
     // Get chatkit user
-    this.getUser(this.user_id).then(user => {
+    this.getUser(user_id).then(user => {
       this.currentUser = user;
       this.user_id = user.id;
 
