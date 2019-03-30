@@ -20,7 +20,8 @@ export class AuthService {
     }
 
     // Send sign up request to server // TODO: Implement user sign up
-    signup() {
+    signup(name:string, universityId:number, username:string, password:string) {
+        console.log(name, universityId, username, password);
         return;
     }
 

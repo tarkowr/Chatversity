@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OktaAuthService } from '@okta/okta-angular';
 import { AuthService } from '../../../_services/auth.service';
 import { first } from 'rxjs/operators';
+import { University } from '../../../_models/university';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -23,10 +24,11 @@ const httpOptions = {
 })
 
 export class SignupComponent implements OnInit {
-  loginForm: FormGroup;
+  signupForm: FormGroup;
   loading = false;
   submitted = false;
   returnUrl: string;
+  universities: University[];
 
   constructor(    
     private formBuilder: FormBuilder,
@@ -35,13 +37,49 @@ export class SignupComponent implements OnInit {
     private auth: AuthService ) { }
 
   ngOnInit() {
-    this.loginForm = this.formBuilder.group({
-      name: ['', Validators.required, Validators.minLength(5)],
+    this.signupForm = this.formBuilder.group({
+      firstlastname: [''],
+      university: ['', Validators.required],
       username: ['', Validators.required, Validators.email],
       password: ['', Validators.required, Validators.minLength(6)]
     });
 
+    //
+    // ToDo: Get list of universities via service
+    //
+
     this.returnUrl = '/';
   }
 
+  checkForFormErrors(){
+    if(this.f.username.errors || this. f.password.errors){
+      return true;
+    }
+    return false;
+  }
+
+  // convenience getter for easy access to form fields
+  get f() { return this.signupForm.controls; }
+
+  onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.signupForm.invalid) {
+      return;
+    }
+
+    // Create obj to hold formdata
+    const formData: FormData = new FormData();
+
+    // Append input to form data
+    formData.append('firstlastname', this.signupForm.get('firstlastname').value);
+    formData.append('university', this.signupForm.get('university').value);
+    formData.append('username', this.signupForm.get('username').value);
+    formData.append('password', this.signupForm.get('password').value);
+
+    console.log(formData);
+
+    this.auth.signup(this.f.firstlastname.value, this.f.university.value, this.f.username.value, this.f.password.value);
+  }
 }
