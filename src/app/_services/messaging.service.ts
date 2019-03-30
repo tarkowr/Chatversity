@@ -69,19 +69,24 @@ export class MessagingService {
     .then(room => {
       console.log(`Joined room with ID: ${room.id}`);
       // Subscribe to room to receive notifications
-      this.chatkitUser.subscribeToRoomMultipart({
-        roomId: roomID,
-        hooks: {
-          onMessage: message => {
-            console.log('received message', message);
-          }
-        },
-        messageLimit: 10
-      });
       return room;
     })
     .catch(err => {
       console.log(`Error joining room ${roomID}: ${err}`);
+    });
+  }
+
+  // Subscribe to room
+  subscribeToRoom(roomID) {
+    return this.chatkitUser.subscribeToRoomMultipart({
+      roomId: roomID,
+      hooks: {
+        onMessage: message => {
+          console.log('received message', message);
+          return message;
+        }
+      },
+      messageLimit: 10
     });
   }
 

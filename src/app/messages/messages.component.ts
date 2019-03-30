@@ -15,7 +15,8 @@ export class MessagesComponent implements OnInit {
   rooms: any;
   currentUser: any;
   user_id: any;
-  room_messages: any;
+  room_messages: Array<any> = [];
+  // room_messages: Observable<any[]>;
   current_room: any;
 
   _message = '';
@@ -43,7 +44,10 @@ export class MessagesComponent implements OnInit {
   public joinRoom(roomID) {
     this.msgService.joinRoom(roomID).then(room => {
       this.current_room = room;
-    }); // Join
+    });
+    this.msgService.subscribeToRoom(roomID).then(message => {
+      console.log(message);
+    });
     this.msgService.fetchMessages(roomID).then(messages => {
       messages.forEach(message => {
         console.log(message.parts[0].payload.content);
@@ -51,6 +55,18 @@ export class MessagesComponent implements OnInit {
       this.room_messages = messages;
     }); // Get messages
     // TODO: Display fetched messages in chat window
+    this.msgService.chatkitUser.subscribeToRoomMultipart({
+      roomId: roomID,
+      hooks: {
+        onMessage: message => {
+          console.log('received message', message);
+          // Display message in chat window when message received
+          this.room_messages.push(message);
+          // this.room_messages.message;
+        }
+      },
+      messageLimit: 10
+    });
   }
 
 
