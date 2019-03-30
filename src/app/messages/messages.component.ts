@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { Observable } from 'rxjs';
 import { MessagingService } from '../_services/messaging.service';
 
 
@@ -15,6 +16,7 @@ export class MessagesComponent implements OnInit {
   currentUser: any;
   user_id: any;
   room_messages: Array<any> = [];
+  // room_messages: Observable<any[]>;
   current_room: any;
   chatUser: any;
 
@@ -38,6 +40,20 @@ export class MessagesComponent implements OnInit {
       console.log(res);
     });
     this.message = '';
+  }
+
+  // Join a room
+  joinRoom(roomID) {
+    this.msgService.joinRoom(roomID).then(room => {
+      this.current_room = room;
+    });
+
+    this.msgService.fetchMessages(roomID).then(messages => {
+      messages.forEach(message => {
+        console.log(message.parts[0].payload.content);
+      });
+      this.room_messages = messages;
+    });
   }
 
   // Get Chatkit user
