@@ -38,10 +38,10 @@ export class SignupComponent implements OnInit {
 
   ngOnInit() {
     this.signupForm = this.formBuilder.group({
-      firstlastname: [''],
+      firstlastname: ['', Validators.required],
       university: ['', Validators.required],
-      username: ['', Validators.required, Validators.email],
-      password: ['', Validators.required, Validators.minLength(6)]
+      username: ['', Validators.compose([, Validators.required, Validators.email, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
+      password: ['', Validators.compose([ Validators.required, Validators.minLength(6), Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$')])]
     });
 
     //
@@ -78,7 +78,7 @@ export class SignupComponent implements OnInit {
     formData.append('username', this.signupForm.get('username').value);
     formData.append('password', this.signupForm.get('password').value);
 
-    console.log(formData);
+    //console.log(formData);
 
     this.auth.signup(this.f.firstlastname.value, this.f.university.value, this.f.username.value, this.f.password.value);
   }
