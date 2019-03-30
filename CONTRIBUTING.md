@@ -2,8 +2,6 @@
 
 ## Branching Strategy
 
-**Goal: NEVER Break Master**
-
 1. Pull from Master ```git pull```
 2. Create a Feature Branch off of Master ```git checkout -b Feature/FeatureName```  
 *Example:* ```git checkout -b Feature/Navbar```
