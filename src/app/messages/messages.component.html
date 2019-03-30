@@ -250,6 +250,11 @@
           <div *ngFor="let message of room_messages">{{ message.parts[0].payload.content }}</div>
         </ng-container>
       </div>
+      <div class="chat-footer">
+        <form (ngSubmit)='sendMessage()'>
+          <input placeholder="Type a message. Hit Enter to send" type="text" name="message" [(ngModel)]="message">
+        </form>
+      </div>
     </div>
   </div>
   <!-- Messages Header -->

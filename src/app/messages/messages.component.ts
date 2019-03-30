@@ -16,12 +16,34 @@ export class MessagesComponent implements OnInit {
   currentUser: any;
   user_id: any;
   room_messages: any;
+  current_room: any;
+
+  _message = '';
+  get message(): string {
+    return this._message;
+  }
+  set message(value: string) {
+    this._message = value;
+  }
+
+  sendMessage() {
+    const { message, currentUser } = this;
+    this.msgService.chatkitUser.sendMessage({
+      text: message,
+      roomId: this.current_room.id,
+    }).then(res => {
+      console.log(res);
+    });
+    this.message = '';
+  }
 
   constructor(private http: HttpClient, private msgService: MessagingService) {}
 
   // Join a room
   public joinRoom(roomID) {
-    this.msgService.joinRoom(roomID); // Join
+    this.msgService.joinRoom(roomID).then(room => {
+      this.current_room = room;
+    }); // Join
     this.msgService.fetchMessages(roomID).then(messages => {
       messages.forEach(message => {
         console.log(message.parts[0].payload.content);
@@ -30,6 +52,15 @@ export class MessagesComponent implements OnInit {
     }); // Get messages
     // TODO: Display fetched messages in chat window
   }
+
+
+  // Send a message
+  // sendMessage() {
+  //   // console.log(this, $scope)
+  //   // const asdf = this;
+  //   const {current_room, _message} = this;
+  //   this.msgService.sendMessage(current_room, _message);
+  // }
 
 
   // Get Chatkit user

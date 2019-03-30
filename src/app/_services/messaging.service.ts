@@ -12,6 +12,32 @@ export class MessagingService {
   currentUser: any;
   chatManager: any;
   chatkitUser: any;
+  messages = [];
+
+
+  _message = '';
+  get message(): string {
+    return this._message;
+  }
+  set message(value: string) {
+    this._message = value;
+  }
+
+  // Send a message
+  sendMessage(room, message) {
+    this.chatkitUser.sendSimpleMessage({
+      roomId: room.id,
+      text: 'Hi there!',
+    })
+    .then(messageId => {
+      // console.log(`Added message to ${myRoom.name}`);
+      console.log(`Added message to ${room.name}`);
+    })
+    .catch(err => {
+      // console.log(`Error adding message to ${myRoom.name}: ${err}`);
+      console.log(`Error adding message to ${room.name}: ${err}`);
+    });
+  }
 
   constructor( private authenticationService: AuthService) {
 
@@ -25,6 +51,7 @@ export class MessagingService {
       })
     });
 
+    // TODO: Add this to an addUser function - only call when necessary
     this.chatManager
     .connect()
     .then(currentUser => {
@@ -38,14 +65,27 @@ export class MessagingService {
 
   // Join a room
   joinRoom(roomID) {
-    this.chatkitUser.joinRoom( { roomId: roomID } )
+    return this.chatkitUser.joinRoom( { roomId: roomID } )
     .then(room => {
       console.log(`Joined room with ID: ${room.id}`);
+      // Subscribe to room to receive notifications
+      this.chatkitUser.subscribeToRoomMultipart({
+        roomId: roomID,
+        hooks: {
+          onMessage: message => {
+            console.log('received message', message);
+          }
+        },
+        messageLimit: 10
+      });
+      return room;
     })
     .catch(err => {
       console.log(`Error joining room ${roomID}: ${err}`);
     });
   }
+
+
 
   // Fetch messages from room
   fetchMessages(roomID) {
