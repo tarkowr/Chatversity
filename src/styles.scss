@@ -23,7 +23,7 @@ html, body {
   }
 
 app-messages {
-    width:100%;
+    width: calc(100vw - 88px);
     height: 100%;
     background-color:#DAE6ED;
     overflow-y: scroll;
