@@ -23,22 +23,6 @@ export class MessagingService {
     this._message = value;
   }
 
-  // Send a message
-  sendMessage(room, message) {
-    this.chatkitUser.sendSimpleMessage({
-      roomId: room.id,
-      text: 'Hi there!',
-    })
-    .then(messageId => {
-      // console.log(`Added message to ${myRoom.name}`);
-      console.log(`Added message to ${room.name}`);
-    })
-    .catch(err => {
-      // console.log(`Error adding message to ${myRoom.name}: ${err}`);
-      console.log(`Error adding message to ${room.name}: ${err}`);
-    });
-  }
-
   constructor( private authenticationService: AuthService) {
 
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
@@ -55,11 +39,28 @@ export class MessagingService {
     this.chatManager
     .connect()
     .then(currentUser => {
-      this.chatkitUser = currentUser;
       console.log('Connected as user ', currentUser);
+      this.chatkitUser = currentUser;
     })
     .catch(error => {
       console.error('error:', error);
+    });
+  }
+
+
+  // Send a message
+  sendMessage(room, message) {
+    this.chatkitUser.sendSimpleMessage({
+      roomId: room.id,
+      text: 'Hi there!',
+    })
+    .then(messageId => {
+      // console.log(`Added message to ${myRoom.name}`);
+      console.log(`Added message to ${room.name}`);
+    })
+    .catch(err => {
+      // console.log(`Error adding message to ${myRoom.name}: ${err}`);
+      console.log(`Error adding message to ${room.name}: ${err}`);
     });
   }
 
@@ -89,8 +90,6 @@ export class MessagingService {
       messageLimit: 10
     });
   }
-
-
 
   // Fetch messages from room
   fetchMessages(roomID) {

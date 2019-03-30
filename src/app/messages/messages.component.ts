@@ -1,7 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs';
 import { MessagingService } from '../_services/messaging.service';
 
 
@@ -16,8 +15,8 @@ export class MessagesComponent implements OnInit {
   currentUser: any;
   user_id: any;
   room_messages: Array<any> = [];
-  // room_messages: Observable<any[]>;
   current_room: any;
+  chatUser: any;
 
   _message = '';
   get message(): string {
@@ -27,6 +26,9 @@ export class MessagesComponent implements OnInit {
     this._message = value;
   }
 
+  constructor(private http: HttpClient, private msgService: MessagingService) {}
+
+  // Send a message
   sendMessage() {
     const { message, currentUser } = this;
     this.msgService.chatkitUser.sendMessage({
@@ -38,28 +40,44 @@ export class MessagesComponent implements OnInit {
     this.message = '';
   }
 
-  constructor(private http: HttpClient, private msgService: MessagingService) {}
+  // Get Chatkit user
+  getUser(user_id) {
+    return this.http.post<any>(`${environment.apiUrl}/chatkit/getuser`, {user_id})
+    .toPromise()
+    .then(res => {
+      return res;
+      console.log(res);
+    })
+    .catch(error => console.log(error));
+  }
 
-  // Join a room
-  public joinRoom(roomID) {
-    this.msgService.joinRoom(roomID).then(room => {
-      this.current_room = room;
-    });
-    this.msgService.subscribeToRoom(roomID).then(message => {
-      console.log(message);
-    });
-    this.msgService.fetchMessages(roomID).then(messages => {
-      messages.forEach(message => {
-        console.log(message.parts[0].payload.content);
-      });
-      this.room_messages = messages;
-    }); // Get messages
-    // TODO: Display fetched messages in chat window
+  // Get Chatkit user's rooms
+  getUserRooms(user_id) {
+    return this.http.post<any>(`${environment.apiUrl}/chatkit/getuserrooms`, {user_id})
+    .toPromise()
+    .then(res => {
+      // this.rooms = res;
+      return res;
+      console.log(res);
+    })
+    .catch(error => console.log(error));
+  }
+
+  subscribeToRoom(roomID) {
     this.msgService.chatkitUser.subscribeToRoomMultipart({
       roomId: roomID,
       hooks: {
-        onMessage: message => {
+        onMessage: message => { // When a message is received...
+          if (message.roomId === this.current_room.id) { // Was the message sent in the current room?
+            // Yes -> push to chat window
+            console.log('Message received in current room.');
+          } else {
+            // No -> Add notification marker to respective room card
+            console.log('Message received in different room.');
+          }
           console.log('received message', message);
+          console.log(`Room ID: ${message.roomId}`);
+          console.log(`Current Room ID: ${this.current_room.id}`);
           // Display message in chat window when message received
           this.room_messages.push(message);
           // this.room_messages.message;
@@ -70,53 +88,38 @@ export class MessagesComponent implements OnInit {
   }
 
 
-  // Send a message
-  // sendMessage() {
-  //   // console.log(this, $scope)
-  //   // const asdf = this;
-  //   const {current_room, _message} = this;
-  //   this.msgService.sendMessage(current_room, _message);
-  // }
-
-
-  // Get Chatkit user
-  getUser(user_id) {
-    this.http.post<any>(`${environment.apiUrl}/chatkit/getuser`, {user_id})
-    .toPromise()
-    .then(res => {
-      this.currentUser = res;
-      this.user_id = res.id;
-      console.log(res);
-    })
-    .catch(error => console.log(error));
-  }
-
-  // Get Chatkit user's rooms
-  getUserRooms(user_id) {
-    this.http.post<any>(`${environment.apiUrl}/chatkit/getuserrooms`, {user_id})
-    .toPromise()
-    .then(res => {
-      this.rooms = res;
-      console.log(res);
-    })
-    .catch(error => console.log(error));
-  }
-
-
   ngOnInit() {
-    const user_id = JSON.parse(localStorage.getItem('currentUser'))._embedded.user.id;
-    this.getUser(user_id);
-    this.getUserRooms(user_id);
-  }
+    // Get user id from local storage
+    this.user_id = JSON.parse(localStorage.getItem('currentUser'))._embedded.user.id;
 
-  // Get User ID
-    // TODO: Refactor => Add to user service
-    // const user_id = JSON.parse(localStorage.getItem('currentUser'))._embedded.user.id;
-    // this.user_id = user_id;
-    // console.log(`User ID: ${user_id}`);
-  // Get all of the current user's rooms
-  // this.rooms = return this.http.post<arr>(`${environment.apiUrl}/chatkit/GetUserRooms`, {user_id})
-  // .pipe(map(res => {
-  //   res.json();
-  // }));
+    // Get chatkit user
+    this.getUser(this.user_id).then(user => {
+      this.currentUser = user;
+      this.user_id = user.id;
+
+      // Get chatkit user rooms
+      this.getUserRooms(user.id).then(rooms => {
+        this.rooms = rooms;
+
+        // Join first room in array
+        // TODO: refactor this implementation
+        this.msgService.joinRoom(this.rooms[0].id).then(room => {
+          this.current_room = room;
+
+          // Fetch all messages for joined room
+          this.msgService.fetchMessages(this.rooms[0].id).then(messages => {
+            messages.forEach(message => {
+              console.log(message.parts[0].payload.content);
+            });
+            this.room_messages = messages;
+          });
+        });
+
+        // Iterate through rooms and subscribe to each
+        this.rooms.forEach(room => {
+          this.subscribeToRoom(room.id);
+        });
+      });
+    });
+  }
 }
