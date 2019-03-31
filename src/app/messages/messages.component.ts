@@ -26,6 +26,7 @@ export class MessagesComponent implements OnInit {
   chatUser: any;
 
   _message = '';
+  chatkitUser: any;
   get message(): string {
     return this._message;
   }
@@ -41,6 +42,7 @@ export class MessagesComponent implements OnInit {
   //   this._roomName = value;
   // }
 
+  // TODO: Can probably remove these props
   _roomPrivate = '';
   get roomPrivate(): string {
     return this._roomPrivate;
@@ -76,7 +78,7 @@ export class MessagesComponent implements OnInit {
   // Send a message
   sendMessage() {
     const { message, currentUser } = this;
-    this.msgService.chatkitUser.sendMessage({
+    this.chatkitUser.sendMessage({
       text: message,
       roomId: this.current_room.id,
     }).then(res => {
@@ -87,13 +89,14 @@ export class MessagesComponent implements OnInit {
 
   // Join a room
   joinRoom(roomID) {
-    this.msgService.joinRoom(roomID).then(room => {
+    this.chatkitUser.joinRoom({roomId: roomID}).then(room => {
       this.current_room = room;
+      console.log(room);
     });
 
-    this.msgService.fetchMessages(roomID).then(messages => {
+    this.chatkitUser.fetchMultipartMessages({roomId: roomID}).then(messages => {
       messages.forEach(message => {
-        console.log(message.parts[0].payload.content);
+        // console.log(message.parts[0].payload.content);
       });
       this.room_messages = messages;
     });
@@ -116,14 +119,14 @@ export class MessagesComponent implements OnInit {
     .toPromise()
     .then(res => {
       // this.rooms = res;
-      return res;
       console.log(res);
+      return res;
     })
     .catch(error => console.log(error));
   }
 
   subscribeToRoom(roomID) {
-    this.msgService.chatkitUser.subscribeToRoomMultipart({
+    this.chatkitUser.subscribeToRoomMultipart({
       roomId: roomID,
       hooks: {
         onMessage: message => { // When a message is received...
@@ -140,6 +143,9 @@ export class MessagesComponent implements OnInit {
           // Display message in chat window when message received
           this.room_messages.push(message);
           // this.room_messages.message;
+        },
+        onAddedToRoom: room => {
+          console.log(`Added to room ${room.name}`);
         }
       },
       messageLimit: 10
@@ -148,23 +154,38 @@ export class MessagesComponent implements OnInit {
 
   // Create room
   createRoom() {
-    console.log(this.formImport.value);
+    const roomName = this.formImport.value.roomNameGroup.roomName;
+    const privateRoom = this.formImport.value.privateRoomGroup.privateRoom;
+    const roomAvatar = this.formImport.value.importFileGroup.importFile;
+    console.log(this.formImport.value.roomNameGroup.roomName);
     console.log(this.formImport.value.privateRoomGroup.privateRoom);
-    // this.msgService.chatkitUser.createRoom({
-    //   name: 'general',
-    //   private: true,
-    //   addUserIds: ['craig', 'kate'],
-    //   customData: { foo: 42 },
-    // }).then(room => {
-    //   console.log(`Created room called ${room.name}`);
-    // })
-    // .catch(err => {
-    //   console.log(`Error creating room ${err}`);
-    // });
+    console.log(this.formImport.value.importFileGroup.importFile);
+    this.chatkitUser.createRoom({
+      name: roomName,
+      private: true,
+      customData: { roomAvatar: roomAvatar },
+    }).then(room => {
+      console.log(`Created room called ${room.name}`);
+    })
+    .catch(err => {
+      console.log(`Error creating room ${err}`);
+    });
   }
 
 
   ngOnInit() {
+
+    // TODO: Add this to an addUser function - only call when necessary
+    this.msgService.chatManager
+    .connect()
+    .then(currentUser => {
+      console.log('Connected as user ', currentUser);
+      this.chatkitUser = currentUser;
+    })
+    .catch(error => {
+      console.error('error:', error);
+    });
+
     // Get user id from local storage
     const user_id = JSON.parse(localStorage.getItem('currentUser'))._embedded.user.id;
 
@@ -179,11 +200,14 @@ export class MessagesComponent implements OnInit {
 
         // Join first room in array
         // TODO: refactor this implementation
-        this.msgService.joinRoom(this.rooms[0].id).then(room => {
+        this.chatkitUser.joinRoom({roomId: this.rooms[0].id}).then(room => {
           this.current_room = room;
 
           // Fetch all messages for joined room
-          this.msgService.fetchMessages(this.rooms[0].id).then(messages => {
+          this.chatkitUser.fetchMultipartMessages({
+            roomId: this.rooms[0].id,
+            limit: 10,
+          }).then(messages => {
             messages.forEach(message => {
               console.log(message.parts[0].payload.content);
             });

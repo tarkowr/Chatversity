@@ -35,10 +35,12 @@
                   <div class="text-uppercase pl-5" style="font-weight: bold; color: #94B0C0" id="status">online</div>
               </div>
             </div>
-            <ng-container *ngIf="rooms">
-              <div *ngFor="let room of rooms" class="col-12" (click)="joinRoom(room.id)">
+            <ng-container *ngFor="let room of rooms">
+              <div class="col-12" (click)="joinRoom(room.id)">
                   <div class="message-wrap room">
-                    <!-- <img src="{{ room.customData.roomAvatar }}" alt=""> -->
+                    <ng-container *ngIf="room?.custom_data !== undefined">
+                        <!-- <img src="{{ room.custom_data.roomAvatar }}" alt=""> -->
+                    </ng-container>
                     <span>{{ room.name }}</span>
                   </div>
               </div>

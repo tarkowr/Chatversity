@@ -36,15 +36,15 @@ export class MessagingService {
     });
 
     // TODO: Add this to an addUser function - only call when necessary
-    this.chatManager
-    .connect()
-    .then(currentUser => {
-      console.log('Connected as user ', currentUser);
-      this.chatkitUser = currentUser;
-    })
-    .catch(error => {
-      console.error('error:', error);
-    });
+    // this.chatManager
+    // .connect()
+    // .then(currentUser => {
+    //   console.log('Connected as user ', currentUser);
+    //   this.chatkitUser = currentUser;
+    // })
+    // .catch(error => {
+    //   console.error('error:', error);
+    // });
   }
 
 
@@ -65,17 +65,17 @@ export class MessagingService {
   }
 
   // Join a room
-  joinRoom(roomID) {
-    return this.chatkitUser.joinRoom( { roomId: roomID } )
-    .then(room => {
-      console.log(`Joined room with ID: ${room.id}`);
-      // Subscribe to room to receive notifications
-      return room;
-    })
-    .catch(err => {
-      console.log(`Error joining room ${roomID}: ${err}`);
-    });
-  }
+  // joinRoom(roomID) {
+  //   return this.chatkitUser.joinRoom( { roomId: roomID } )
+  //   .then(room => {
+  //     console.log(`Joined room with ID: ${room.id}`);
+  //     // Subscribe to room to receive notifications
+  //     return room;
+  //   })
+  //   .catch(err => {
+  //     console.log(`Error joining room ${roomID}: ${err}`);
+  //   });
+  // }
 
   // Subscribe to room
   subscribeToRoom(roomID) {
