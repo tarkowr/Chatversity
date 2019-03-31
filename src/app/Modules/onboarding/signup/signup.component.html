@@ -37,25 +37,45 @@
               <div *ngIf="f.password.errors.invalid" class="alert alert-danger" role="alert">Incorrect password.</div>-->
           </div>
 
-            <!--Name Textbox-->
-            <div class="form-group mb-3">
-                <label for="firstlastname" class="text-secondary">Name <span class="text-danger">*</span></label>
-                <input type="text" required name="firstlastname" formControlName="firstlastname" placeholder="John Doe" class="form-control primary-border"
-                    [ngClass]="{ 'is-invalid': submitted && f.firstlastname.errors, 'danger-border': submitted && f.firstlastname.errors }" />
+          <div class="row">
+            <div class="col-12 col-sm-6 col-md-6">
+  
+              <!--First Name-->
+              <div class="form-group mb-3">
+                <label for="firstname" class="text-secondary">First Name <span class="text-danger">*</span></label>
+                <input type="text" required class="form-control primary-border" id="firstname" name="firstname" placeholder="John" 
+                formControlName="firstname"
+                [ngClass]="{ 'is-invalid': submitted && f.firstname.errors, 'danger-border': submitted && f.firstname.errors }">
 
-                <div *ngIf="submitted && f.firstlastname.errors" class="invalid-feedback">
-                    <div *ngIf="f.firstlastname.errors.required">Please provide your first and last name.</div>
+                <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
+                  <div *ngIf="f.firstname.errors.required">Please provide your first name.</div>
                 </div>
+                </div>
+              </div>
+  
+              <!--Last Name-->
+              <div class="col-12 col-sm-6 col-md-6">
+                <div class="form-group mb-3">
+                  <label for="lastname" class="text-secondary">Last Name <span class="text-danger">*</span></label>
+                  <input type="text" required class="form-control primary-border" id="lastname" name="lastname" placeholder="Doe" 
+                  formControlName="lastname"
+                  [ngClass]="{ 'is-invalid': submitted && f.lastname.errors, 'danger-border': submitted && f.lastname.errors }">
+
+                <div *ngIf="submitted && f.lastname.errors" class="invalid-feedback">
+                  <div *ngIf="f.lastname.errors.required">Please provide your last name.</div>
+                </div>
+              </div>
             </div>
+          </div>
 
             <!--University Select-->
             <!--ToDo: Loop through list of universities-->
             <div class="form-group mb-3">
               <label for="university" class="text-secondary">University <span class="text-danger">*</span></label>
-              <select name="university" formControlName="university" class="form-control primary-border" required
+              <select name="university" required formControlName="university" class="form-control primary-border"
                   [ngClass]="{ 'is-invalid': submitted && f.university.errors, 'danger-border': submitted && f.university.errors }">
-                  <option value="" selected>&mdash; Please select a university &mdash;</option>
-                  <!--<option *ngFor="let uni of universities" [value]="uni.id">{{ uni.name }}</option>-->
+                  <option [value]="" [disabled]="true" [selected]="true">&mdash; Please select a university &mdash;</option>
+                  <option *ngFor="let uni of universities" [value]="uni.id" [selected]="uni.name == 'NMC'">{{ uni.name }}</option>
               </select>
 
               <div *ngIf="submitted && f.university.errors" class="invalid-feedback">
