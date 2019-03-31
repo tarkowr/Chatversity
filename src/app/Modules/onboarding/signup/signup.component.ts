@@ -51,6 +51,7 @@ export class SignupComponent implements OnInit {
     this.returnUrl = '/';
   }
 
+  // Check for username or password errors
   checkForFormErrors(){
     if(this.f.username.errors || this. f.password.errors){
       return true;
