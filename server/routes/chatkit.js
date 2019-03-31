@@ -1,6 +1,6 @@
 const cors = require('cors');
 const express = require('express');
-const router = express.Router();
+// const router = express.Router();
 const Chatkit = require('@pusher/chatkit-server');
 const mongoose = require('mongoose');
 const multer  = require('multer');
@@ -8,6 +8,9 @@ const upload = multer({ dest: 'upload/'});
 const bodyParser = require('body-parser');
 const axios = require('axios');
 
+var router = express();
+router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.json());
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -32,8 +35,44 @@ const chatkit = new Chatkit.default({
 });
 
 router.post('/testing', (req, res) => {
-  axios.post('https://webhook.site/68f42878-3fc6-4974-8fbe-0e434e858be6', req.body).then(res => {
-    console.log(res);
+  console.log(req.body);
+  // res.status(201).send(req);
+  return;
+  mongoose.connect('mongodb+srv://chatversity_admin:Te0PU0MZzEQOIvmB@primary-qvaqq.mongodb.net/live_db?retryWrites=true', {useNewUrlParser: true});
+
+  var db = mongoose.connection;
+  db.on('error', console.error.bind(console, 'connection error:'));
+  db.once('open', function() {
+    // we're connected!
+    console.log('mongoose connected');
+
+    // Define file schema
+    var fileSchema = new mongoose.Schema({
+      avatar: String
+    });
+  
+    // Create object from schema
+    var File = mongoose.model('files', fileSchema, 'files');
+  
+    var file = new File({avatar: req.body.file})
+    file.save(function (err, file) {
+      if (err) return console.error(err);
+      else { return console.log(file); }
+    });
+  
+    // File.find(function (err, files) {
+    //   if (err) return console.error(err);
+    //   console.log(files);
+    // })
+
+  // axios.post('https://webhook.site/68f42878-3fc6-4974-8fbe-0e434e858be6', req)
+  // .then(function (response) {
+  //   // console.log(response);
+  //   res.status(200).json(response.data);
+  // })
+  // .catch(function (error) {
+  //   console.log('error');
+  // });
   });
 });
 
@@ -50,38 +89,35 @@ router.post('/getuser', (req, res) => {
 var type = upload.single('file');
 // Upload room or user avatar to Mongo
 router.post('/upload/avatar', type, (req, res) => {
+  // console.log(req.body);
+  // return;
+  // mongoose.connect('mongodb+srv://chatversity_admin:Te0PU0MZzEQOIvmB@primary-qvaqq.mongodb.net/live_db?retryWrites=true', {useNewUrlParser: true});
 
-  console.log(req.body);
-  return;
-  mongoose.connect('mongodb+srv://chatversity_admin:Te0PU0MZzEQOIvmB@primary-qvaqq.mongodb.net/live_db?retryWrites=true', {useNewUrlParser: true});
+  // var db = mongoose.connection;
+  // db.on('error', console.error.bind(console, 'connection error:'));
+  // db.once('open', function() {
+  //   // we're connected!
+  //   console.log('mongoose connected');
 
-  var db = mongoose.connection;
-  db.on('error', console.error.bind(console, 'connection error:'));
-  db.once('open', function() {
-    // we're connected!
-    console.log('mongoose connected');
-    console.log(req.body);
+  //   // Define file schema
+  //   var fileSchema = new mongoose.Schema({
+  //     id: String
+  //   });
   
-    // var ObjectId = mongoose.SchemaTypes.ObjectId;
+  //   // Create object from schema
+  //   var File = mongoose.model('files', fileSchema, 'files');
   
-    // var fileSchema = new mongoose.Schema({
-    //   id: String
-    // });
+  //   var file = new File({avatar: req.body.file})
+  //   // var fluffy = new File({ id: 'Silence' });
+  //   // fluffy.save(function (err, fluffy) {
+  //   //   if (err) return console.error(err);
+  //   // });
   
-    // var File = mongoose.model('files', fileSchema, 'files');
-  
-    // var fluffy = new File({ id: 'Silence' });
-    // fluffy.save(function (err, fluffy) {
-    //   if (err) return console.error(err);
-    // });
-  
-    // File.find(function (err, files) {
-    //   if (err) return console.error(err);
-    //   console.log(files);
-    // })
+  //   // File.find(function (err, files) {
+  //   //   if (err) return console.error(err);
+  //   //   console.log(files);
+  //   // })
   });
-
-})
 
 
 

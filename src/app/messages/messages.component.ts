@@ -71,9 +71,10 @@ export class MessagesComponent implements OnInit {
   url: string;
   onFileChange(event) {
     if (!(event.target.files && event.target.files[0])) { return; }
-
+    const file = event.target.files[0];
+    this.fileToUpload = file;
     const reader = new FileReader();
-    reader.readAsDataURL(event.target.files[0]); // read file as data url
+    reader.readAsDataURL(file); // read file as data url
     reader.onload = (_event) => {
       console.log(reader.result); // log base64 string
       this.imagePath = reader.result;
@@ -171,6 +172,7 @@ export class MessagesComponent implements OnInit {
 
   // Create room
   createRoom() {
+    // this.isLoading = true; // Display loading icon
     const roomName = this.formImport.value.roomNameGroup.roomName;
     const privateRoom = this.formImport.value.privateRoomGroup.privateRoom;
     const roomAvatar = this.formImport.value.importFileGroup.importFile;
@@ -178,21 +180,46 @@ export class MessagesComponent implements OnInit {
     console.log(this.formImport.value.privateRoomGroup.privateRoom);
     console.log(this.formImport.value.importFileGroup.importFile);
 
-      console.log(this.fileToUpload);
+    console.log(this.fileToUpload);
     console.log(this.formImport.value);
 
     const formData = new FormData();
-    formData.append('file', this.avatar.nativeElement.files[0] , this.avatar.nativeElement.files[0].name);
+    const b64string = JSON.stringify(this.imagePath);
 
-  console.log(formData);
+    formData.append('file', b64string);
+    formData.append('testvar', 'my test var value');
 
-  const headers = new HttpHeaders();
-        headers.append('Content-Type', 'multipart/form-data');
-        headers.append('Accept', 'application/json');
+    console.log(formData);
 
-    this.http.post(`${environment.apiUrl}/chatkit/testing`, formData, {headers: headers}).subscribe(res => {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    headers.append('Accept', 'application/json');
+
+    // Create room and insert room avatar into database
+    this.http.post(`${environment.apiUrl}/asdf`, formData)
+    .toPromise()
+    .then(res => { // Image uploaded
       console.log(res);
+
+      console.log('Image uploaded');
+      // this.chatkitUser.createRoom({ // Create the room
+      //   name: roomName,
+      //   private: true,
+      //   customData: { roomAvatar: b64string },
+      // }).then(room => {
+      //   // this.isLoading = false;
+      //   console.log(`Created room called ${room.name}`);
+      // })
+      // .catch(err => {
+      //   console.log(`Error creating room ${err}`);
+      // });
+    })
+    .catch(err => {
+      console.log('Error uploading room image');
     });
+
+    // console.log(b64string);
+
 
   //   $http.post('yourUrl', formData, {
   //     transformRequest: angular.identity,
@@ -216,17 +243,6 @@ export class MessagesComponent implements OnInit {
     // reader.onerror = function (error) {
     //   console.log('Error: ', error);
     // };
-
-    // this.chatkitUser.createRoom({
-    //   name: roomName,
-    //   private: true,
-    //   customData: { roomAvatar: roomAvatar },
-    // }).then(room => {
-    //   console.log(`Created room called ${room.name}`);
-    // })
-    // .catch(err => {
-    //   console.log(`Error creating room ${err}`);
-    // });
   }
 
 

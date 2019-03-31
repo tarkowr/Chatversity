@@ -85,7 +85,7 @@
                 </div>
                 <div class="modal-body">
                   <!-- Add room form -->
-                  <form (ngSubmit)='createRoom()' [formGroup]="formImport">
+                  <form (ngSubmit)='createRoom()' [formGroup]="formImport" enctype="multipart/form-data">
                     <!-- Room Name -->
                     <div class="form-group" formGroupName="roomNameGroup">
                       <label for="room_name">Room name</label>
