@@ -1,6 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const Chatkit = require('@pusher/chatkit-server');
+// const mongoose = require('mongoose');
+// const url = 'mongodb://localhost/blogDb'; // TODO: Place in env
+
+
+
+
+
 
 // TODO: Place this in messaging service?
 // TODO: Dynamically pull config vars from env
