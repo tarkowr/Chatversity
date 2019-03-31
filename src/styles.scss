@@ -32,3 +32,9 @@ app-messages {
 .text-strong{
     font-weight: 700;
 }
+
+#app-main {
+  display: flex;
+  width: calc(100vw - 88px);
+  flex-direction: column;
+}
