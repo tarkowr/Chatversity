@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { MessagingService } from '../_services/messaging.service';
 import bsCustomFileInput from 'bs-custom-file-input';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class MessagesComponent implements OnInit {
 
   _message = '';
   chatkitUser: any;
+  roomCreated: boolean;
   get message(): string {
     return this._message;
   }
@@ -172,6 +174,7 @@ export class MessagesComponent implements OnInit {
 
   // Create room
   createRoom() {
+    this.roomCreated = true; return;
     // this.isLoading = true; // Display loading icon
     const roomName = this.formImport.value.roomNameGroup.roomName;
     const privateRoom = this.formImport.value.privateRoomGroup.privateRoom;
@@ -202,47 +205,22 @@ export class MessagesComponent implements OnInit {
       console.log(res);
 
       console.log('Image uploaded');
-      // this.chatkitUser.createRoom({ // Create the room
-      //   name: roomName,
-      //   private: true,
-      //   customData: { roomAvatar: b64string },
-      // }).then(room => {
-      //   // this.isLoading = false;
-      //   console.log(`Created room called ${room.name}`);
-      // })
-      // .catch(err => {
-      //   console.log(`Error creating room ${err}`);
-      // });
+      this.chatkitUser.createRoom({ // Create the room
+        name: roomName,
+        private: true,
+        customData: { roomAvatar: res['_id'] },
+      }).then(room => { // Success
+        // this.isLoading = false;
+        this.roomCreated = true;
+        console.log(`Created room called ${room.name}`);
+      })
+      .catch(err => { // Failed room creation
+        console.log(`Error creating room ${err}`);
+      });
     })
-    .catch(err => {
+    .catch(err => { // Failed image upload
       console.log('Error uploading room image');
     });
-
-    // console.log(b64string);
-
-
-  //   $http.post('yourUrl', formData, {
-  //     transformRequest: angular.identity,
-  //     headers: {'Content-Type': undefined}
-  //  }).then(function () {
-  //     // ...
-  //  });
-
-    // this.uploadService.upload(formData, this.userId).subscribe(
-    //   (res) => this.uploadResponse = res,
-    //   (err) => this.error = err
-    // );
-
-    // let file = event.target.files[0];
-    // let reader = new FileReader();
-    // reader.readAsDataURL(file);
-    // reader.onload = function () {
-    //   //me.modelvalue = reader.result;
-    //   console.log(reader.result);
-    // };
-    // reader.onerror = function (error) {
-    //   console.log('Error: ', error);
-    // };
   }
 
 

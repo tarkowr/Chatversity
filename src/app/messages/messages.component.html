@@ -4,19 +4,19 @@
         <div class="d-flex align-items-center">
           <span class="text-uppercase">Rooms</span>
           <!-- Add Room -->
-          <button type="button" class="ml-auto btn btn-outline-primary" data-toggle="modal" data-target="#addRoomModal">
+          <button type="button" class="ml-auto btn btn-outline-primary" data-toggle="modal" data-target="#addRoomModal" (click)="roomCreated = false">
             <i class="fa fa-plus"></i>
           </button>
         </div>
     </div>
     <div class="col-8">
-        <div class="d-flex align-items-center">
-            <span class="text-uppercase">(Room Name)</span>
-            <!-- Add Room -->
-            <button type="button" class="ml-auto btn btn-outline-primary" data-toggle="modal" data-target="#addRoomModal">
-              <i class="fa fa-cog"></i>
-            </button>
-          </div>
+      <div class="d-flex align-items-center">
+          <span class="text-uppercase">(Room Name)</span>
+          <!-- Add Room -->
+          <button type="button" class="ml-auto btn btn-outline-primary" data-toggle="modal" data-target="#addRoomModal">
+            <i class="fa fa-cog"></i>
+          </button>
+        </div>
     </div>
   </div>
   <div class="row" style="height: calc(100vh - 54px);">
@@ -71,53 +71,66 @@
   <!-- Messages Header -->
 </div>
 
-        <!-- Add room modal -->
-        <div class="modal fade" id="addRoomModal" tabindex="-1" role="dialog" aria-labelledby="addRoomModal" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                  <!-- Modal Title -->
-                  <h5 class="modal-title" id="exampleModalLabel">Create Room</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <!-- Add room form -->
-                  <form (ngSubmit)='createRoom()' [formGroup]="formImport" enctype="multipart/form-data">
-                    <!-- Room Name -->
-                    <div class="form-group" formGroupName="roomNameGroup">
-                      <label for="room_name">Room name</label>
-                      <input id="room_name" formControlName="roomName" placeholder="Enter a room name" type="text" class="form-control" required>
-                      <small id="roomNameHelp" class="form-text text-muted">A room name must be no longer than 60 characters.</small>
-                    </div>
-                    <!-- Private? -->
-                    <div class="form-group" formGroupName="privateRoomGroup">
-                      <div class="custom-control custom-switch">
-                        <input type="checkbox" formControlName="privateRoom" class="custom-control-input" id="private_room">
-                        <label class="custom-control-label" for="private_room">Private room?</label>
-                      </div>
-                    </div>
-                    <!-- Room Avatar -->
-                    <div class="form-group" formGroupName="importFileGroup">
-                      <div class="form-control-file">
-                        <div class="custom-file">
-                          <img src={{imagePath}} width="150" alt="Thumb preview...">
-                          <input formControlName="importFile" name="avatar" (change)="onFileChange($event)" type="file" accept=".png, .jpg, .jpeg" class="custom-file-input" id="customFile" #avatar>
-                          <label class="custom-file-label" #labelImport for="customFile">Choose file</label>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Submit -->
-                    <button type="submit" class="btn btn-primary" [disabled]="!formImport.valid">Submit</button>
-                  </form>
-                </div>
-                <!-- Modal Footer -->
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+<!-- Create room modal -->
+<div class="modal fade" id="addRoomModal" tabindex="-1" role="dialog" aria-labelledby="addRoomModal" aria-hidden="true">
+
+  <!-- Show success alert on room created -->
+  <div *ngIf="roomCreated" class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> Created room
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>  <!-- End success modal dialog -->
+
+  <div *ngIf="!roomCreated" class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <!-- Modal Title -->
+        <h5 class="modal-title" id="exampleModalLabel">Create Room</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Add room form -->
+        <form (ngSubmit)='createRoom()' [formGroup]="formImport" enctype="multipart/form-data">
+          <!-- Room Name -->
+          <div class="form-group" formGroupName="roomNameGroup">
+            <label for="room_name">Room name</label>
+            <input id="room_name" formControlName="roomName" placeholder="Enter a room name" type="text" class="form-control" required>
+            <small id="roomNameHelp" class="form-text text-muted">A room name must be no longer than 60 characters.</small>
+          </div>
+          <!-- Private? -->
+          <div class="form-group" formGroupName="privateRoomGroup">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" formControlName="privateRoom" class="custom-control-input" id="private_room">
+              <label class="custom-control-label" for="private_room">Private room?</label>
+            </div>
+          </div>
+          <!-- Room Avatar -->
+          <div class="form-group" formGroupName="importFileGroup">
+            <div class="form-control-file">
+              <div class="custom-file">
+                <img src={{imagePath}} width="150" alt="Thumb preview...">
+                <input formControlName="importFile" name="avatar" (change)="onFileChange($event)" type="file" accept=".png, .jpg, .jpeg" class="custom-file-input" id="customFile" #avatar>
+                <label class="custom-file-label" #labelImport for="customFile">Choose file</label>
               </div>
             </div>
           </div>
+          <!-- Submit -->
+          <button type="submit" class="btn btn-primary" [disabled]="!formImport.valid">Submit</button>
+        </form>
+      </div>
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div> <!-- End modal content -->
+  </div> <!-- End modal dialog -->
+</div> <!-- End modal -->

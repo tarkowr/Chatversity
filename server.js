@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var util = require('util');
 var multer  = require('multer')
 var upload = multer({ dest: 'uploads/' })
+const mongoose = require('mongoose');
 
 
 var app = express();
@@ -53,12 +54,21 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
-app.post('/asdf', upload.single('avatar'), (req, res) => {
-  console.log(req.body);
+
+// Define file schema
+var fileSchema = new mongoose.Schema({
+  avatar: String
+});
+
+// Create object from schema
+var File = mongoose.model('files', fileSchema, 'files');
+
+app.post('/asdf', upload.none(), (req, res) => {
+  var base64Avatar = req.body.file;
+  // console.log(req.body.file);
   // res.status(201).send(req);
   // res.send(req);
   // console.log(util.inspect(req));
-  return;
   mongoose.connect('mongodb+srv://chatversity_admin:Te0PU0MZzEQOIvmB@primary-qvaqq.mongodb.net/live_db?retryWrites=true', {useNewUrlParser: true});
 
   var db = mongoose.connection;
@@ -66,19 +76,11 @@ app.post('/asdf', upload.single('avatar'), (req, res) => {
   db.once('open', function() {
     // we're connected!
     console.log('mongoose connected');
-
-    // Define file schema
-    var fileSchema = new mongoose.Schema({
-      avatar: String
-    });
   
-    // Create object from schema
-    var File = mongoose.model('files', fileSchema, 'files');
-  
-    var file = new File({avatar: req.body.file})
+    var file = new File({avatar: base64Avatar})
     file.save(function (err, file) {
       if (err) return console.error(err);
-      else { return console.log(file); }
+      else { res.status(200).json(file); }
     });
   
     // File.find(function (err, files) {
