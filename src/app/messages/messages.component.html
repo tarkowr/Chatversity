@@ -103,7 +103,7 @@
                     <div class="form-group" formGroupName="importFileGroup">
                       <div class="form-control-file">
                         <div class="custom-file">
-                          <input formControlName="importFile" (change)="onFileChange($event.target.files)" type="file" class="custom-file-input" id="customFile">
+                          <input formControlName="importFile" (change)="onFileChange($event)" type="file" class="custom-file-input" id="customFile">
                           <label class="custom-file-label" #labelImport for="customFile">Choose file</label>
                         </div>
                       </div>

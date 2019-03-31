@@ -68,11 +68,18 @@ export class MessagesComponent implements OnInit {
 
   constructor(private http: HttpClient, private msgService: MessagingService) {}
 
-  onFileChange(files: FileList) {
-    this.labelImport.nativeElement.innerText = Array.from(files)
-      .map(f => f.name)
-      .join(', ');
-    this.fileToUpload = files.item(0);
+  onFileChange(event) {
+    // this.labelImport.nativeElement.innerText = Array.from(files)
+    //   .map(f => f.name)
+    //   .join(', ');
+    // this.fileToUpload = files.item(0);
+
+    if (event.target.files.length > 0) {
+      console.log('have a file');
+      this.fileToUpload = event.target.files[0];
+      // console.log(file);
+      // this.formImport.get(['importFileGroup', 'importFile']).setValue(file);
+    }
   }
 
   // Send a message
@@ -162,6 +169,22 @@ export class MessagesComponent implements OnInit {
     console.log(this.formImport.value.importFileGroup.importFile);
 
     console.log(this.formImport.value);
+
+    const formData = new FormData();
+    formData.append('file', this.fileToUpload);
+
+  //   $http.post('yourUrl', formData, {
+  //     transformRequest: angular.identity,
+  //     headers: {'Content-Type': undefined}
+  //  }).then(function () {
+  //     // ...
+  //  });
+
+    // this.uploadService.upload(formData, this.userId).subscribe(
+    //   (res) => this.uploadResponse = res,
+    //   (err) => this.error = err
+    // );
+
     // let file = event.target.files[0];
     // let reader = new FileReader();
     // reader.readAsDataURL(file);
