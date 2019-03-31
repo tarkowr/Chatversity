@@ -37,16 +37,43 @@ export class SignupComponent implements OnInit {
     private auth: AuthService ) { }
 
   ngOnInit() {
+    //
+    // ToDo: Get list of universities via service
+    //
+    this.universities = [
+      {
+        id: 1,
+        name: 'NMC'
+      },
+      {
+        id: 2,
+        name: 'SVSU'
+      },
+      {
+        id: 3,
+        name: 'FSU'
+      },
+      {
+        id: 4,
+        name: 'UofM'
+      },
+      {
+        id: 5,
+        name: 'MSU'
+      },
+      {
+        id: 6,
+        name: 'CMU'
+      }
+    ];
+
     this.signupForm = this.formBuilder.group({
-      firstlastname: ['', Validators.required],
+      firstname: ['', Validators.required],
+      lastname: ['', Validators.required],
       university: ['', Validators.required],
       username: ['', Validators.compose([, Validators.required, Validators.email, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
       password: ['', Validators.compose([ Validators.required, Validators.minLength(6), Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$')])]
     });
-
-    //
-    // ToDo: Get list of universities via service
-    //
 
     this.returnUrl = '/';
   }
@@ -59,8 +86,13 @@ export class SignupComponent implements OnInit {
     return false;
   }
 
-  // convenience getter for easy access to form fields
+  // Convenience getter for easy access to form fields
   get f() { return this.signupForm.controls; }
+
+  // Check for valid university
+  checkUniversity(_id:number):boolean{
+    return (this.universities.find(x => x.id == _id)) ? true : false;
+  }
 
   onSubmit() {
     this.submitted = true;
@@ -70,17 +102,21 @@ export class SignupComponent implements OnInit {
       return;
     }
 
+    // Stop if invalid university
+    if(!(this.checkUniversity(this.signupForm.get('university').value))){
+      return;
+    }
+
     // Create obj to hold formdata
     const formData: FormData = new FormData();
 
     // Append input to form data
-    formData.append('firstlastname', this.signupForm.get('firstlastname').value);
+    formData.append('firstname', this.signupForm.get('firstname').value);
+    formData.append('lastname', this.signupForm.get('lastname').value);
     formData.append('university', this.signupForm.get('university').value);
     formData.append('username', this.signupForm.get('username').value);
     formData.append('password', this.signupForm.get('password').value);
 
-    //console.log(formData);
-
-    this.auth.signup(this.f.firstlastname.value, this.f.university.value, this.f.username.value, this.f.password.value);
+    this.auth.signup(this.f.firstname.value,this.f.lastname.value, this.f.university.value, this.f.username.value, this.f.password.value);
   }
 }
