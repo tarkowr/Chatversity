@@ -4,7 +4,7 @@
         <div class="d-flex align-items-center">
           <span class="text-uppercase">Rooms</span>
           <!-- Add Room -->
-          <button type="button" class="ml-auto btn btn-outline-primary" data-toggle="modal" data-target="#addRoomModal" (click)="roomCreated = false">
+          <button type="button" class="ml-auto btn btn-outline-primary" data-toggle="modal" data-target="#addRoomModal" (click)="roomCreated = false" placement="left" ngbTooltip="Create Room" triggers="hover" [autoClose]="true">
             <i class="fa fa-plus"></i>
           </button>
         </div>
@@ -13,7 +13,7 @@
       <div class="d-flex align-items-center">
           <span class="text-uppercase">(Room Name)</span>
           <!-- Add Room -->
-          <button type="button" class="ml-auto btn btn-outline-primary" data-toggle="modal" data-target="#addRoomModal">
+          <button type="button" class="ml-auto btn btn-outline-primary" data-toggle="modal" data-target="#addRoomModal" placement="left" ngbTooltip="Edit Room" triggers="hover" [autoClose]="true">
             <i class="fa fa-cog"></i>
           </button>
         </div>
