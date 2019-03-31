@@ -89,7 +89,7 @@
                       <small id="roomNameHelp" class="form-text text-muted">A room name must be no longer than 60 characters.</small>
                     </div>
                     <!-- Private? -->
-                    <div class="form-group" [formGroup]="privateRoomGroup">
+                    <div class="form-group" formGroupName="privateRoomGroup">
                       <div class="custom-control custom-switch">
                         <input type="checkbox" formControlName="privateRoom" class="custom-control-input" id="private_room">
                         <label class="custom-control-label" for="private_room">Private room?</label>

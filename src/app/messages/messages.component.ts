@@ -149,6 +149,7 @@ export class MessagesComponent implements OnInit {
   // Create room
   createRoom() {
     console.log(this.formImport.value);
+    console.log(this.formImport.value.privateRoomGroup.privateRoom);
     // this.msgService.chatkitUser.createRoom({
     //   name: 'general',
     //   private: true,
