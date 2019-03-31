@@ -160,16 +160,29 @@ export class MessagesComponent implements OnInit {
     console.log(this.formImport.value.roomNameGroup.roomName);
     console.log(this.formImport.value.privateRoomGroup.privateRoom);
     console.log(this.formImport.value.importFileGroup.importFile);
-    this.chatkitUser.createRoom({
-      name: roomName,
-      private: true,
-      customData: { roomAvatar: roomAvatar },
-    }).then(room => {
-      console.log(`Created room called ${room.name}`);
-    })
-    .catch(err => {
-      console.log(`Error creating room ${err}`);
-    });
+
+    console.log(this.formImport.value);
+    // let file = event.target.files[0];
+    // let reader = new FileReader();
+    // reader.readAsDataURL(file);
+    // reader.onload = function () {
+    //   //me.modelvalue = reader.result;
+    //   console.log(reader.result);
+    // };
+    // reader.onerror = function (error) {
+    //   console.log('Error: ', error);
+    // };
+
+    // this.chatkitUser.createRoom({
+    //   name: roomName,
+    //   private: true,
+    //   customData: { roomAvatar: roomAvatar },
+    // }).then(room => {
+    //   console.log(`Created room called ${room.name}`);
+    // })
+    // .catch(err => {
+    //   console.log(`Error creating room ${err}`);
+    // });
   }
 
 
@@ -178,9 +191,32 @@ export class MessagesComponent implements OnInit {
     // TODO: Add this to an addUser function - only call when necessary
     this.msgService.chatManager
     .connect()
-    .then(currentUser => {
-      console.log('Connected as user ', currentUser);
-      this.chatkitUser = currentUser;
+    .then(user => {
+      console.log('Connected as user ', user);
+      this.chatkitUser = user;
+      this.rooms = user.rooms;
+
+      // Iterate through rooms and subscribe to each
+      this.rooms.forEach(room => {
+        this.subscribeToRoom(room.id);
+      });
+
+      // Join first room in array
+      // TODO: refactor this implementation
+      this.chatkitUser.joinRoom({roomId: this.rooms[0].id}).then(room => {
+        this.current_room = room;
+
+        // Fetch all messages for joined room
+        this.chatkitUser.fetchMultipartMessages({
+          roomId: this.rooms[0].id,
+          limit: 10,
+        }).then(messages => {
+          messages.forEach(message => {
+            console.log(message.parts[0].payload.content);
+          });
+          this.room_messages = messages;
+        });
+      });
     })
     .catch(error => {
       console.error('error:', error);
@@ -188,38 +224,5 @@ export class MessagesComponent implements OnInit {
 
     // Get user id from local storage
     const user_id = JSON.parse(localStorage.getItem('currentUser'))._embedded.user.id;
-
-    // Get chatkit user
-    this.getUser(user_id).then(user => {
-      this.currentUser = user;
-      this.user_id = user.id;
-
-      // Get chatkit user rooms
-      this.getUserRooms(user.id).then(rooms => {
-        this.rooms = rooms;
-
-        // Join first room in array
-        // TODO: refactor this implementation
-        this.chatkitUser.joinRoom({roomId: this.rooms[0].id}).then(room => {
-          this.current_room = room;
-
-          // Fetch all messages for joined room
-          this.chatkitUser.fetchMultipartMessages({
-            roomId: this.rooms[0].id,
-            limit: 10,
-          }).then(messages => {
-            messages.forEach(message => {
-              console.log(message.parts[0].payload.content);
-            });
-            this.room_messages = messages;
-          });
-        });
-
-        // Iterate through rooms and subscribe to each
-        this.rooms.forEach(room => {
-          this.subscribeToRoom(room.id);
-        });
-      });
-    });
   }
 }
