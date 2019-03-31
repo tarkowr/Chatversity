@@ -8,6 +8,7 @@ import { DashboardComponent } from './Modules/home/dashboard/dashboard.component
 import { AuthGuard } from './_guards/auth.guard';
 import { SettingsComponent } from './Modules/home/settings/settings.component';
 import { MessagesComponent } from './messages/messages.component';
+import { ProfileComponent } from './Modules/home/profile/profile.component';
 
 export const routes: Routes = [
     {
@@ -23,6 +24,7 @@ export const routes: Routes = [
     { path: 'login',  component: LoginComponent },
     { path: 'settings',  component: SettingsComponent, canActivate: [AuthGuard] },
     { path: 'messages',  component: MessagesComponent, canActivate: [AuthGuard] },
+    { path: 'profile', component: ProfileComponent },
     { path: 'forgot',  component: ForgotComponent },
     { path: '404', component: PageNotFoundComponent },
     { path: '**', redirectTo: '/404' },

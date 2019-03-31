@@ -1,4 +1,5 @@
 import { University } from "./university";
+import { UserProfile } from "./profile";
 
 export class User {
     id: number;
@@ -7,4 +8,5 @@ export class User {
     firstName: string;
     lastName: string;
     university: University;
+    profile: UserProfile;
 }

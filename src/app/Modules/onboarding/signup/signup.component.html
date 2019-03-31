@@ -40,7 +40,7 @@
             <!--Name Textbox-->
             <div class="form-group mb-3">
                 <label for="firstlastname" class="text-secondary">Name <span class="text-danger">*</span></label>
-                <input type="text" required name="firstlastname" formControlName="firstlastname" placeholder="First and Last" class="form-control primary-border"
+                <input type="text" required name="firstlastname" formControlName="firstlastname" placeholder="John Doe" class="form-control primary-border"
                     [ngClass]="{ 'is-invalid': submitted && f.firstlastname.errors, 'danger-border': submitted && f.firstlastname.errors }" />
 
                 <div *ngIf="submitted && f.firstlastname.errors" class="invalid-feedback">
@@ -54,8 +54,8 @@
               <label for="university" class="text-secondary">University <span class="text-danger">*</span></label>
               <select name="university" formControlName="university" class="form-control primary-border" required
                   [ngClass]="{ 'is-invalid': submitted && f.university.errors, 'danger-border': submitted && f.university.errors }">
-                  <option value="demo" selected>&mdash; Please select a university &mdash;</option>
-                  <!--<option *ngFor="let u of universities" [value]="u.id">{{ u.name }}</option>-->
+                  <option value="" selected>&mdash; Please select a university &mdash;</option>
+                  <!--<option *ngFor="let uni of universities" [value]="uni.id">{{ uni.name }}</option>-->
               </select>
 
               <div *ngIf="submitted && f.university.errors" class="invalid-feedback">
