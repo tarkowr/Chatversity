@@ -29,6 +29,7 @@ export class MessagesComponent implements OnInit {
   _message = '';
   chatkitUser: any;
   roomCreated: boolean;
+  roomNotifications: Array<any> = [];
   get message(): string {
     return this._message;
   }
@@ -81,18 +82,6 @@ export class MessagesComponent implements OnInit {
       console.log(reader.result); // log base64 string
       this.imagePath = reader.result;
     };
-    // this.fileToUpload = reader.result;
-    // this.labelImport.nativeElement.innerText = Array.from(files)
-    //   .map(f => f.name)
-    //   .join(', ');
-    // this.fileToUpload = files.item(0);
-
-    // if (event.target.files.length > 0) {
-    //   console.log('have a file');
-    //   this.fileToUpload = event.target.files[0];
-    //   console.log(this.fileToUpload);
-    //   // this.formImport.get(['importFileGroup', 'importFile']).setValue(file);
-    // }
   }
 
   // Send a message
@@ -107,20 +96,69 @@ export class MessagesComponent implements OnInit {
     this.message = '';
   }
 
+
   // Join a room
   joinRoom(roomID) {
     this.chatkitUser.joinRoom({roomId: roomID}).then(room => {
       this.current_room = room;
       console.log(room);
-    });
 
-    this.chatkitUser.fetchMultipartMessages({roomId: roomID}).then(messages => {
-      messages.forEach(message => {
-        // console.log(message.parts[0].payload.content);
+      // After joining room, fetch messages
+      this.chatkitUser.fetchMultipartMessages({roomId: roomID}).then(messages => {
+
+        // Check if messages
+        if (messages === undefined || messages.length === 0) { return; }
+
+        // Set read cursor
+        this.chatkitUser.setReadCursor({
+          roomId: this.current_room.id,
+          position: messages[messages.length - 1].id
+        });
+        // .then(() => {
+        //     console.log('Set cursor');
+        //   })
+        //   .catch(err => {
+        //     console.log(`Error setting cursor: ${err}`);
+        //   });
+        messages.forEach(message => {
+          // console.log(message.parts[0].payload.content);
+        });
+        this.room_messages = messages;
       });
-      this.room_messages = messages;
     });
   }
+  // end Join room
+
+
+  // Function => check if user has unread messages in a room
+  hasUnread(roomID) {
+
+    let hasUnread = false; // Track return status
+
+    // First, check if cursor exists
+    const cursor = this.chatkitUser.readCursor({
+      roomId: roomID
+    });
+
+      // if read cursor ID !== latest message ID...
+      this.chatkitUser.fetchMultipartMessages({ // Get latest message
+        roomId: roomID,
+        limit: 1,
+      })
+      .then(messages => {
+        if (cursor) { // Has cursor so check cursor pos vs latest message id
+          hasUnread = (cursor.position !== messages[0].initialId) ? true : false;
+        } else {
+          // No cursor => set
+        }
+      })
+      .catch(err => {
+        console.log(`Error fetching messages: ${err}`);
+      });
+
+    return hasUnread;
+  }
+
 
   // Get Chatkit user
   getUser(user_id) {
@@ -150,6 +188,14 @@ export class MessagesComponent implements OnInit {
       roomId: roomID,
       hooks: {
         onMessage: message => { // When a message is received...
+          const cursor = this.chatkitUser.readCursor({ // Get the users last cursor position from the room
+            roomId: message.roomId
+          });
+          console.log(cursor);
+          if (cursor.position !== message.id) {
+            console.log(`New message in ${message.room.name}`);
+            this.roomNotifications[message.room.id] = true;
+          } else { console.log('up to date'); }
           if (message.roomId === this.current_room.id) { // Was the message sent in the current room?
             // Yes -> push to chat window
             console.log('Message received in current room.');
@@ -157,7 +203,7 @@ export class MessagesComponent implements OnInit {
             // No -> Add notification marker to respective room card
             console.log('Message received in different room.');
           }
-          console.log('received message', message);
+          // console.log('received message', message);
           console.log(`Room ID: ${message.roomId}`);
           console.log(`Current Room ID: ${this.current_room.id}`);
           // Display message in chat window when message received
@@ -168,7 +214,7 @@ export class MessagesComponent implements OnInit {
           console.log(`Added to room ${room.name}`);
         }
       },
-      messageLimit: 10
+      messageLimit: 1
     });
   }
 
@@ -228,7 +274,11 @@ export class MessagesComponent implements OnInit {
 
     // TODO: Add this to an addUser function - only call when necessary
     this.msgService.chatManager
-    .connect()
+    .connect({
+      onNewReadCursor: room => {
+        console.log(`Cursor added to room ${room.roomId}`);
+      }
+    })
     .then(user => {
       console.log('Connected as user ', user);
       this.chatkitUser = user;
@@ -237,12 +287,14 @@ export class MessagesComponent implements OnInit {
       // Iterate through rooms and subscribe to each
       this.rooms.forEach(room => {
         this.subscribeToRoom(room.id);
+        // TODO: Check if room has read cursor and add `new` badge if not
       });
 
       // Join first room in array
       // TODO: refactor this implementation
       this.chatkitUser.joinRoom({roomId: this.rooms[0].id}).then(room => {
         this.current_room = room;
+
 
         // Fetch all messages for joined room
         this.chatkitUser.fetchMultipartMessages({
