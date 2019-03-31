@@ -1,25 +1,20 @@
+const cors = require('cors');
 const express = require('express');
 const router = express.Router();
 const Chatkit = require('@pusher/chatkit-server');
-// const mongoose = require('mongoose');
-// const url = 'mongodb://localhost/blogDb'; // TODO: Place in env
+const mongoose = require('mongoose');
+const multer  = require('multer');
+const upload = multer({ dest: 'upload/'});
+const bodyParser = require('body-parser');
+const axios = require('axios');
 
 
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(cors());
 
-
-
-
-// TODO: Place this in messaging service?
-// TODO: Dynamically pull config vars from env
-const chatkit = new Chatkit.default({
-    instanceLocator: 'v1:us1:a54bdf12-93d6-46f9-be3b-bfa837917fb5',
-    key: '9d72d14f-ca75-4f3e-b7ff-553ca6cc929a:LQKR0oU5u56yMIFtEBqLECL0vhNRXllLNvgtXTLOeh0=',
-  });
 
 require('dotenv').config();
-
-// declare axios for making http requests
-const axios = require('axios');
 
 // Specify test token endpoing
 // ! TESTING ONLY - Update for prod
@@ -29,6 +24,18 @@ router.get('/', (req, res) => {
     res.send('Chatkit server route works');
 });
 
+// TODO: Place this in messaging service?
+// TODO: Dynamically pull config vars from env
+const chatkit = new Chatkit.default({
+  instanceLocator: 'v1:us1:a54bdf12-93d6-46f9-be3b-bfa837917fb5',
+  key: '9d72d14f-ca75-4f3e-b7ff-553ca6cc929a:LQKR0oU5u56yMIFtEBqLECL0vhNRXllLNvgtXTLOeh0=',
+});
+
+router.post('/testing', (req, res) => {
+  axios.post('https://webhook.site/68f42878-3fc6-4974-8fbe-0e434e858be6', req.body).then(res => {
+    console.log(res);
+  });
+});
 
 // Get a User
 router.post('/getuser', (req, res) => {
@@ -40,6 +47,41 @@ router.post('/getuser', (req, res) => {
     .catch(err => res.status(500).send(err));
 });
 
+var type = upload.single('file');
+// Upload room or user avatar to Mongo
+router.post('/upload/avatar', type, (req, res) => {
+
+  console.log(req.body);
+  return;
+  mongoose.connect('mongodb+srv://chatversity_admin:Te0PU0MZzEQOIvmB@primary-qvaqq.mongodb.net/live_db?retryWrites=true', {useNewUrlParser: true});
+
+  var db = mongoose.connection;
+  db.on('error', console.error.bind(console, 'connection error:'));
+  db.once('open', function() {
+    // we're connected!
+    console.log('mongoose connected');
+    console.log(req.body);
+  
+    // var ObjectId = mongoose.SchemaTypes.ObjectId;
+  
+    // var fileSchema = new mongoose.Schema({
+    //   id: String
+    // });
+  
+    // var File = mongoose.model('files', fileSchema, 'files');
+  
+    // var fluffy = new File({ id: 'Silence' });
+    // fluffy.save(function (err, fluffy) {
+    //   if (err) return console.error(err);
+    // });
+  
+    // File.find(function (err, files) {
+    //   if (err) return console.error(err);
+    //   console.log(files);
+    // })
+  });
+
+})
 
 
 

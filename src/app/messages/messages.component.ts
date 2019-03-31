@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { MessagingService } from '../_services/messaging.service';
 import bsCustomFileInput from 'bs-custom-file-input';
@@ -12,10 +12,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./messages.component.scss']
 })
 export class MessagesComponent implements OnInit {
+  @ViewChild('avatar') avatar: ElementRef;
+  fileToUpload: File;
 
-  @ViewChild('labelImport')
-  labelImport: ElementRef;
-  fileToUpload: File = null;
+  imagePath: any;
 
   rooms: any;
   currentUser: any;
@@ -68,18 +68,28 @@ export class MessagesComponent implements OnInit {
 
   constructor(private http: HttpClient, private msgService: MessagingService) {}
 
+  url: string;
   onFileChange(event) {
+    if (!(event.target.files && event.target.files[0])) { return; }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]); // read file as data url
+    reader.onload = (_event) => {
+      console.log(reader.result); // log base64 string
+      this.imagePath = reader.result;
+    };
+    // this.fileToUpload = reader.result;
     // this.labelImport.nativeElement.innerText = Array.from(files)
     //   .map(f => f.name)
     //   .join(', ');
     // this.fileToUpload = files.item(0);
 
-    if (event.target.files.length > 0) {
-      console.log('have a file');
-      this.fileToUpload = event.target.files[0];
-      // console.log(file);
-      // this.formImport.get(['importFileGroup', 'importFile']).setValue(file);
-    }
+    // if (event.target.files.length > 0) {
+    //   console.log('have a file');
+    //   this.fileToUpload = event.target.files[0];
+    //   console.log(this.fileToUpload);
+    //   // this.formImport.get(['importFileGroup', 'importFile']).setValue(file);
+    // }
   }
 
   // Send a message
@@ -168,10 +178,21 @@ export class MessagesComponent implements OnInit {
     console.log(this.formImport.value.privateRoomGroup.privateRoom);
     console.log(this.formImport.value.importFileGroup.importFile);
 
+      console.log(this.fileToUpload);
     console.log(this.formImport.value);
 
     const formData = new FormData();
-    formData.append('file', this.fileToUpload);
+    formData.append('file', this.avatar.nativeElement.files[0] , this.avatar.nativeElement.files[0].name);
+
+  console.log(formData);
+
+  const headers = new HttpHeaders();
+        headers.append('Content-Type', 'multipart/form-data');
+        headers.append('Accept', 'application/json');
+
+    this.http.post(`${environment.apiUrl}/chatkit/testing`, formData, {headers: headers}).subscribe(res => {
+      console.log(res);
+    });
 
   //   $http.post('yourUrl', formData, {
   //     transformRequest: angular.identity,

@@ -103,7 +103,8 @@
                     <div class="form-group" formGroupName="importFileGroup">
                       <div class="form-control-file">
                         <div class="custom-file">
-                          <input formControlName="importFile" (change)="onFileChange($event)" type="file" class="custom-file-input" id="customFile">
+                          <img src={{imagePath}} width="150" alt="Thumb preview...">
+                          <input formControlName="importFile" name="avatar" (change)="onFileChange($event)" type="file" accept=".png, .jpg, .jpeg" class="custom-file-input" id="customFile" #avatar>
                           <label class="custom-file-label" #labelImport for="customFile">Choose file</label>
                         </div>
                       </div>

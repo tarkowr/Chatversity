@@ -4,48 +4,9 @@ const express = require('express');
 const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
-const MongoClient = require('mongodb').MongoClient;
-
-
-var mongoose = require('mongoose');
-
-mongoose.connect('mongodb+srv://chatversity_admin:Te0PU0MZzEQOIvmB@primary-qvaqq.mongodb.net/live_db?retryWrites=true', {useNewUrlParser: true});
-
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  // we're connected!
-  console.log('mongoose connected');
-
-  // var ObjectId = mongoose.SchemaTypes.ObjectId;
-
-  // var fileSchema = new mongoose.Schema({
-  //   id: String
-  // });
-
-  // var File = mongoose.model('files', fileSchema, 'files');
-
-  // var fluffy = new File({ id: 'Silence' });
-  // fluffy.save(function (err, fluffy) {
-  //   if (err) return console.error(err);
-  // });
-
-  // File.find(function (err, files) {
-  //   if (err) return console.error(err);
-  //   console.log(files);
-  // })
-});
-
-
-// Get our API routes
-const api = require('./server/routes/api');
-
-// Get authentication routes
-const okta = require('./server/routes/okta');
-
-// Get Chatkit routes for Pusher
-const chatkit = require('./server/routes/chatkit');
-
+var multer  = require('multer');
+var upload = multer({ dest: 'upload/'});
+var type = upload.single('recfile');
 
 
 const app = express();
@@ -60,6 +21,17 @@ app.use(express.static(path.join(__dirname, 'dist')));
 // User CORS for local testing
 // ! TESTING ONLY - REMOVE FOR PROD
 app.use(cors());
+
+
+
+// Get our API routes
+const api = require('./server/routes/api');
+
+// Get authentication routes
+const okta = require('./server/routes/okta');
+
+// Get Chatkit routes for Pusher
+const chatkit = require('./server/routes/chatkit');
 
 
 
