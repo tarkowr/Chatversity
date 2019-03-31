@@ -1,9 +1,10 @@
-
-<div [class.app-mount]="this.router.url != '/login'">
-    <div id="primary_navigation">
-        <app-navbar *ngIf="this.router.url != '/login'" class="h-100 d-flex align-items-center"></app-navbar>
+<div [class.app-mount]="currentUser">
+    <div *ngIf="currentUser" id="primary_navigation">
+        <app-navbar *ngIf="currentUser" class="h-100 d-flex align-items-center flex-column"></app-navbar>
     </div>
-    <router-outlet></router-outlet>
+    <section id="app-main">
+        <router-outlet></router-outlet> 
+    </section>
 </div>
 
 <!-- Router Outlet -->

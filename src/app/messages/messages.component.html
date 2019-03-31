@@ -1,234 +1,136 @@
-<div class="container">
+<div class="container-fluid">
+  <div class="row shadow-sm align-items-center py-2" id="messages_header">
+    <div class="col-4">
+        <div class="d-flex align-items-center">
+          <span class="text-uppercase">Rooms</span>
+          <!-- Add Room -->
+          <button type="button" class="ml-auto btn btn-outline-primary" data-toggle="modal" data-target="#addRoomModal" (click)="roomCreated = false" placement="left" ngbTooltip="Create Room" triggers="hover" [autoClose]="true">
+            <i class="fa fa-plus"></i>
+          </button>
+        </div>
+    </div>
+    <div class="col-8">
+      <div class="d-flex align-items-center">
+          <span class="text-uppercase">(Room Name)</span>
+          <!-- Add Room -->
+          <button type="button" class="ml-auto btn btn-outline-primary" data-toggle="modal" data-target="#addRoomModal" placement="left" ngbTooltip="Edit Room" triggers="hover" [autoClose]="true">
+            <i class="fa fa-cog"></i>
+          </button>
+        </div>
+    </div>
+  </div>
+  <div class="row" style="height: calc(100vh - 54px);">
+    <div class="col-4 h-100 overflow-auto">
+        
+          <!-- Begin Messages outlet -->
+          <div id="messages" class="row">
+            <div class="col-12">
+              <div class="message-wrap">
+                  <!-- Font Awesome Profile Silouhette(?) -->
+                  <i class="fas fa-user fa-lg mr-3" style="color: #C3D3DC;"></i>
+                  <!-- Load users profile picture here -->
+                  <img src="/assets/images/dummy_profile_pic.png" height="36" width="36" class="rounded-circle border border-success">
+                  <!-- Load users name here -->
+                  <span class="ml-3 mr-5" style="font-weight: bold; color: #115073;">User 5</span>
+                  <!-- Disable or change the text to something relevant -->
+                  <span class="badge ml-5 pl-2 pr-2" style="background-color: #FF247F; color: #FFF;">new</span>
+                  <div class="text-uppercase pl-5" style="font-weight: bold; color: #94B0C0" id="status">online</div>
+              </div>
+            </div>
+            <ng-container *ngFor="let room of rooms">
+              <div class="col-12" (click)="joinRoom(room.id)">
+                  <div class="message-wrap room">
+                    <ng-container *ngIf="room?.custom_data !== undefined">
+                        <!-- <img src="{{ room.custom_data.roomAvatar }}" alt=""> -->
+                    </ng-container>
+                    <span>{{ room.name }}</span>
+                  </div>
+              </div>
+            </ng-container>
+            <div *ngIf="(currentUser)" class="col-12">
+                <div class="message-wrap">
+                  <img src="{{currentUser.avatarURL}}" alt="">
+                  <span>{{ currentUser.name }}</span>
+                </div>
+            </div>
+          </div>
+    </div>
+    <div class="col-8 h-100 overflow-auto" style="background:#FAFDFF;">
+      <div class="chat-window h-100 overflow-auto">
+        <ng-container *ngIf="room_messages">
+          <div *ngFor="let message of room_messages">{{ message.parts[0].payload.content }}</div>
+        </ng-container>
+      </div>
+      <div class="chat-footer" style="position: absolute; bottom: 0; left: 0; width: 100%;">
+        <form (ngSubmit)='sendMessage()'>
+          <input placeholder="Type a message. Hit Enter to send" type="text" name="message" [(ngModel)]="message">
+        </form>
+      </div>
+    </div>
+  </div>
   <!-- Messages Header -->
-  <div id="messages_header" class="row position-fixed py-3">
-    <div class="col-12">
-        <div><span class="text-uppercase">Messages</span><a routerlink="" id="messages-add"><img src="/assets/images/Messages_Plus.png" height="36" width="36"></a></div>
-    </div>
-  </div>
-  <!-- Begin Messages outlet -->
-  <div id="messages" class="row">
-    <div class="col-12">
-      <div class="message-wrap">
-          <!-- Font Awesome Profile Silouhette(?) -->
-          <i class="fas fa-user fa-lg mr-3" style="color: #C3D3DC;"></i>
-          <!-- Load users profile picture here -->
-          <img src="/assets/images/dummy_profile_pic.png" height="36" width="36" class="rounded-circle border border-success">
-          <!-- Load users name here -->
-          <span class="ml-3 mr-5" style="font-weight: bold; color: #115073;">User 5</span>
-          <!-- Disable or change the text to something relevant -->
-          <span class="badge ml-5 pl-2 pr-2" style="background-color: #FF247F; color: #FFF;">new</span>
-          <div class="text-uppercase pl-5" style="font-weight: bold; color: #94B0C0" id="status">online</div>
-      </div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <ng-container *ngIf="rooms">
-      <div *ngFor="let room of rooms" class="col-12">
-          <div>{{ room.name }}</div>
-      </div>
-    </ng-container>
-
-    <div *ngIf="(currentUser)" class="col-12">
-        <div class="message-wrap"><span>{{ currentUser.name }}</span></div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-    <div class="col-12">
-      <div class="message-wrap">Messages works!</div>
-    </div>
-  </div>
 </div>
+
+<!-- Create room modal -->
+<div class="modal fade" id="addRoomModal" tabindex="-1" role="dialog" aria-labelledby="addRoomModal" aria-hidden="true">
+
+  <!-- Show success alert on room created -->
+  <div *ngIf="roomCreated" class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> Created room
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>  <!-- End success modal dialog -->
+
+  <div *ngIf="!roomCreated" class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <!-- Modal Title -->
+        <h5 class="modal-title" id="exampleModalLabel">Create Room</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Add room form -->
+        <form (ngSubmit)='createRoom()' [formGroup]="formImport" enctype="multipart/form-data">
+          <!-- Room Name -->
+          <div class="form-group" formGroupName="roomNameGroup">
+            <label for="room_name">Room name</label>
+            <input id="room_name" formControlName="roomName" placeholder="Enter a room name" type="text" class="form-control" required>
+            <small id="roomNameHelp" class="form-text text-muted">A room name must be no longer than 60 characters.</small>
+          </div>
+          <!-- Private? -->
+          <div class="form-group" formGroupName="privateRoomGroup">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" formControlName="privateRoom" class="custom-control-input" id="private_room">
+              <label class="custom-control-label" for="private_room">Private room?</label>
+            </div>
+          </div>
+          <!-- Room Avatar -->
+          <div class="form-group" formGroupName="importFileGroup">
+            <div class="form-control-file">
+              <div class="custom-file">
+                <img src={{imagePath}} width="150" alt="Thumb preview...">
+                <input formControlName="importFile" name="avatar" (change)="onFileChange($event)" type="file" accept=".png, .jpg, .jpeg" class="custom-file-input" id="customFile" #avatar>
+                <label class="custom-file-label" #labelImport for="customFile">Choose file</label>
+              </div>
+            </div>
+          </div>
+          <!-- Submit -->
+          <button type="submit" class="btn btn-primary" [disabled]="!formImport.valid">Submit</button>
+        </form>
+      </div>
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div> <!-- End modal content -->
+  </div> <!-- End modal dialog -->
+</div> <!-- End modal -->

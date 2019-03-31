@@ -22,6 +22,7 @@ import { ScssTestComponent } from './scss-test/scss-test.component';
 import { TestComponent } from './test/test.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MessagesComponent } from './messages/messages.component';
+import { SettingsProfileComponent } from './settings-profile/settings-profile.component';
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -52,6 +53,7 @@ import { MessagesComponent } from './messages/messages.component';
     TestComponent,
     NavbarComponent,
     MessagesComponent,
+    SettingsProfileComponent,
   ],
   imports: [
     NativeScriptModule,
