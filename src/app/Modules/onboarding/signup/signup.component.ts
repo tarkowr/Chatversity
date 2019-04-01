@@ -30,7 +30,7 @@ export class SignupComponent implements OnInit {
   returnUrl: string;
   universities: University[];
 
-  constructor(    
+  constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
@@ -71,7 +71,9 @@ export class SignupComponent implements OnInit {
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
       university: ['', Validators.required],
+      // tslint:disable-next-line:max-line-length
       username: ['', Validators.compose([, Validators.required, Validators.email, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
+      // tslint:disable-next-line:max-line-length
       password: ['', Validators.compose([ Validators.required, Validators.minLength(6), Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$')])]
     });
 
@@ -79,8 +81,8 @@ export class SignupComponent implements OnInit {
   }
 
   // Check for username or password errors
-  checkForFormErrors(){
-    if(this.f.username.errors || this. f.password.errors){
+  checkForFormErrors() {
+    if (this.f.username.errors || this. f.password.errors) {
       return true;
     }
     return false;
@@ -90,8 +92,9 @@ export class SignupComponent implements OnInit {
   get f() { return this.signupForm.controls; }
 
   // Check for valid university
-  checkUniversity(_id:number):boolean{
-    return (this.universities.find(x => x.id == _id)) ? true : false;
+  checkUniversity(_id: number): boolean {
+    // Added an extra = to the comparisson as it should be the exact same and TSLint was bitching
+    return (this.universities.find(x => x.id === _id)) ? true : false;
   }
 
   onSubmit() {
@@ -103,7 +106,7 @@ export class SignupComponent implements OnInit {
     }
 
     // Stop if invalid university
-    if(!(this.checkUniversity(this.signupForm.get('university').value))){
+    if (!(this.checkUniversity(this.signupForm.get('university').value))) {
       return;
     }
 
@@ -117,6 +120,6 @@ export class SignupComponent implements OnInit {
     formData.append('username', this.signupForm.get('username').value);
     formData.append('password', this.signupForm.get('password').value);
 
-    this.auth.signup(this.f.firstname.value,this.f.lastname.value, this.f.university.value, this.f.username.value, this.f.password.value);
+    this.auth.signup(this.f.firstname.value, this.f.lastname.value, this.f.university.value, this.f.username.value, this.f.password.value);
   }
 }
