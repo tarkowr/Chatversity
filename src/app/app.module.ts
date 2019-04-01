@@ -40,6 +40,7 @@ import { FooterComponent } from './Shared/footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MessagesComponent } from './messages/messages.component';
 import { SettingsProfileComponent } from './settings-profile/settings-profile.component';
+import { NewUserComponent } from './Modules/onboarding/new-user/new-user.component';
 
 const config = {
   issuer: 'https://dev-117825.okta.com',
@@ -67,6 +68,7 @@ const config = {
     NavbarComponent,
     MessagesComponent,
     SettingsProfileComponent,
+    NewUserComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
