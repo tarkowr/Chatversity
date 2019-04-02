@@ -1,5 +1,12 @@
 # Contributing to Chatversity's Static Site
 
+## Installation
+
+1. Clone this repository.
+2. Run `npm install` in the root directory.
+3. Run `node server.js` in the root directory.
+4. Open a new terminal and run `ng s --open` in the root directory.
+
 ## Branching Strategy
 
 1. Pull from Master ```git pull```

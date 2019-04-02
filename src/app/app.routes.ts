@@ -26,7 +26,7 @@ export const routes: Routes = [
     { path: 'settings',  component: SettingsComponent, canActivate: [AuthGuard] },
     { path: 'messages',  component: MessagesComponent, canActivate: [AuthGuard] },
     { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-    { path: 'newuser', component: NewUserComponent },
+    { path: 'newuser', component: NewUserComponent, canActivate: [AuthGuard] },
     { path: 'forgot',  component: ForgotComponent },
     { path: '404', component: PageNotFoundComponent },
     { path: '**', redirectTo: '/404' },
