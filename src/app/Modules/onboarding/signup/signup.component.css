@@ -3,6 +3,8 @@
   background-size: cover;
   height: 100vh;
   background-repeat: no-repeat;
+  position: sticky;
+  top: 0;
 }
 .col-override{
   padding: 0;
@@ -43,7 +45,7 @@
 }
 
 ::placeholder { 
-  color: #bfbfbf;
+  color: #96B7C9;
   opacity: 1; 
 }
 

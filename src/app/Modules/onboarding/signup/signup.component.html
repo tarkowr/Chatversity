@@ -9,24 +9,24 @@
   <div class="container-fluid">
     <div class="row">
       <!--Sign Up Picture-->
-      <div class="col col-12 col-md col-lg col-override">
+      <div class="col col-12 col-md col-lg col-override" style="min-height: 100vh;">
         <div class="signup-pic">
           <div class="signup-text">
             <h4 class="text-white text-strong pb-2 pic-title">Chatversity</h4>
             <h5 class="text-secondary text-strong pic-msg-mobile">Simplifying Communication</h5>
             <h1 class="text-secondary text-strong pic-msg">Simplifying <br/> Communication.</h1>
 
-            <div class="mt-5">
-                <button id="signup-button" class="btn btn-secondary mt-5 px-4 py-3 signup-btn"
+            <div class="mt-5 signup-btn">
+                <button id="signup-button" class="btn btn-secondary mt-5 px-4 py-3"
                 onclick="document.getElementById('signup-top').scrollIntoView();">Sign Up Today!</button>
             </div>
           </div>
-        </div>  
+        </div>
       </div> 
 
       <!--Sign Up Form-->
       <div class="col col-12 col-md col-lg offset-override" style="min-height: 100vh;">
-        <div class="w-100 mx-auto text-center my-5">
+        <div class="w-100 mx-auto text-center mb-5 mt-4">
           <img src="../../../../assets/images/Logo-Name.png" class="img-fluid img-responsive mx-auto w-75" id="signup-top"/>
         </div>
         <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
@@ -34,7 +34,7 @@
             <!--Summary Error Alert-->
           <div *ngIf="submitted && checkForFormErrors()">
               <!--<div *ngIf="f.username.errors.invalid" class="alert alert-danger" role="alert">The username {{ f.username.value }} is invalid.</div>
-              <div *ngIf="f.password.errors.invalid" class="alert alert-danger" role="alert">Incorrect password.</div>-->
+              <div *ngIf="f.password.errors.invalid" class="alert alert-danger" role="alert">Your password is too weak.</div>-->
           </div>
 
           <div class="row">
@@ -74,19 +74,21 @@
               <label for="university" class="text-secondary">University <span class="text-danger">*</span></label>
               <select name="university" required formControlName="university" class="form-control primary-border"
                   [ngClass]="{ 'is-invalid': submitted && f.university.errors, 'danger-border': submitted && f.university.errors }">
-                  <option [value]="" [disabled]="true" [selected]="true">&mdash; Please select a university &mdash;</option>
-                  <option *ngFor="let uni of universities" [value]="uni.id" [selected]="uni.name == 'NMC'">{{ uni.name }}</option>
+                  <option [value]="" [disabled]="true" [selected]="true">&mdash; Please Select a University &mdash;</option>
+                  <option *ngFor="let uni of universities" [value]="uni.id">{{ uni.name }}</option>
               </select>
 
               <div *ngIf="submitted && f.university.errors" class="invalid-feedback">
                   <div *ngIf="f.university.errors.required">Please select your university.</div>
+                  <div *ngIf="f.university.errors.invalid">Invalid university.</div>
               </div>
           </div>
 
             <!--Username (Email) Textbox-->
             <div class="form-group mb-3">
                 <label for="username" class="text-secondary">Email <span class="text-danger">*</span></label>
-                <input type="email" required name="username" formControlName="username" placeholder="you@university.edu" class="form-control primary-border"
+                <input type="email" required name="username" formControlName="username" placeholder="you@university.edu" 
+                    class="form-control primary-border"
                     [ngClass]="{ 'is-invalid': submitted && f.username.errors, 'danger-border': submitted && f.username.errors }" />
                   <div class="text-primary" *ngIf="!submitted || !f.username.errors">
                     <small><span class="text-danger">*</span> PLEASE ENTER YOUR SCHOOL EMAIL</small>
@@ -112,8 +114,10 @@
                 </div>
 
                 <button [disabled]="loading" class="btn btn-login btn-primary btn-block mt-4 py-3">SIGN UP FOR CHATVERSITY</button>
-                <img *ngIf="loading"
-                    src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                <div class="text-center mt-2">
+                  <img *ngIf="loading"
+                  src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                </div>
             </div>
 
             <div class="text-secondary text-center my-4">
