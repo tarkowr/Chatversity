@@ -14,7 +14,8 @@
     "android": "tns run android --bundle",
     "ios": "tns run ios --bundle",
     "mobile": "tns run --bundle",
-    "preview": "tns preview --bundle"
+    "preview": "tns preview --bundle",
+    "compodoc": "./node_modules/.bin/compodoc -p tsconfig.json -s"
   },
   "private": true,
   "dependencies": {
@@ -26,7 +27,9 @@
     "@angular/http": "~7.2.0",
     "@angular/platform-browser": "~7.2.0",
     "@angular/platform-browser-dynamic": "~7.2.0",
+    "@angular/pwa": "^0.12.4",
     "@angular/router": "~7.2.0",
+    "@angular/service-worker": "~7.2.0",
     "@compodoc/compodoc": "^1.1.9",
     "@fortawesome/angular-fontawesome": "^0.3.0",
     "@ng-bootstrap/ng-bootstrap": "^4.1.0",

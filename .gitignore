@@ -1,4 +1,6 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
+# To generate docs using compodoc do:  ./node_modules/.bin/compodoc -p src/tsconfig.spec.json --theme readthedocs -s
+
 
 # Noahs Shit
 noahs_codes.md
