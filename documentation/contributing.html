@@ -28,74 +28,46 @@
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
-               <div class="content coverage">
+               <div class="content getting-started">
                    <div class="content-data">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<ol class="breadcrumb">
-    <li>Documentation coverage</li>
+<h1 id="contributing-to-chatversitys-static-site">Contributing to Chatversity&#39;s Static Site</h1>
+<h2 id="branching-strategy">Branching Strategy</h2>
+<ol>
+<li>Pull from Master <code>git pull</code></li>
+<li>Create a Feature Branch off of Master <code>git checkout -b Feature/FeatureName</code>  </li>
 </ol>
+<p><em>Example:</em> <code>git checkout -b Feature/Navbar</code>
+3. <em>Change the code at this stage.</em>
+4. Add and commit the changes<br><code>git add *</code><br><code>git commit -m &quot;Commit Message&quot;</code>
+5. Push the changes to GitHub <code>git push -u origin Feature/Navbar</code>
+6. Go to GitHub.
+    1. Navigate to your Branch.
+    2. Click Create New Pull Request.
+    3. Submit the Pull Request.
+    4. Wait for Approval.
+    5. Merge the Pull Request into Master.
+    6. Delete your Branch on GitHub.
+7. Checkout to Master <code>git checkout master</code>
+8. Delete your Branch locally <code>git branch -d Feature/Navbar</code>
+9. Pull the latest changes to your machine <code>git pull</code></p>
 
-<div>
-    <img src="./images/coverage-badge-documentation.svg">
-</div>
 
-<table class="table table-bordered coverage" id="coverage-table">
-    <thead class="coverage-header">
-        <tr>
-            <th>File</th>
-            <th>Type</th>
-            <th>Identifier</th>
-            <th style="text-align:right" class="statements" data-sort-default>Statements</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr class="low">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#context">src/test.ts</a>
-            </td>
-            <td>variable</td>
-            <td>context</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/1)</span>
-            </td>
-        </tr>
-        <tr class="low">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./miscellaneous/variables.html#require">src/test.ts</a>
-            </td>
-            <td>variable</td>
-            <td>require</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/1)</span>
-            </td>
-        </tr>
-    </tbody>
-</table>
 
-<script src="js/libs/tablesort.min.js"></script>
-<script src="js/libs/tablesort.number.min.js"></script>
-<script>
-    new Tablesort(document.getElementById('coverage-table'));
-</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                    </div><div class="search-results">
     <div class="has-results">
@@ -113,8 +85,8 @@
 
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 0;
-            var COMPODOC_CURRENT_PAGE_CONTEXT = 'coverage';
-            var COMPODOC_CURRENT_PAGE_URL = 'coverage.html';
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'getting-started';
+            var COMPODOC_CURRENT_PAGE_URL = 'contributing.html';
        </script>
 
        <script src="./js/libs/custom-elements.min.js"></script>
