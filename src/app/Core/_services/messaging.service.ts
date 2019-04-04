@@ -14,7 +14,6 @@ export class MessagingService {
   chatkitUser: any;
   messages = [];
 
-
   _message = '';
   get message(): string {
     return this._message;

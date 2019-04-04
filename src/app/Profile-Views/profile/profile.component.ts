@@ -5,8 +5,8 @@ import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { NgForm, FormGroup, FormBuilder, Validators, FormControl, MaxLengthValidator } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { User } from '../../../_models/user';
-import { UserProfile } from '../../../_models/profile';
+import { User } from '../../Core/_models/user';
+import { UserProfile } from '../../Core/_models/profile';
 
 @Component({
   selector: 'app-profile',

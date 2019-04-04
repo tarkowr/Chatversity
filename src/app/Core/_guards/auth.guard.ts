@@ -11,12 +11,13 @@ export class AuthGuard implements CanActivate {
     private router: Router,
     private authService: AuthService
 ) {}
+
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       const currentUser = this.authService.currentUserValue;
         if (currentUser) {
-            // authorized so return true
+            // User authorized so return true
             return true;
         }
 
