@@ -43,6 +43,9 @@ import { SettingsProfileComponent } from './settings-profile/settings-profile.co
 import { NewUserComponent } from './Modules/onboarding/new-user/new-user.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { ViewLatestNewsComponent } from './Modules/home/view-latest-news/view-latest-news.component';
+import { ViewNavigationHomeComponent } from './Modules/home/view-navigation-home/view-navigation-home.component';
+import { ViewFriendsHomeComponent } from './Modules/home/view-friends-home/view-friends-home.component';
 
 const config = {
   issuer: 'https://dev-117825.okta.com',
@@ -70,7 +73,10 @@ const config = {
     NavbarComponent,
     MessagesComponent,
     SettingsProfileComponent,
-    NewUserComponent
+    NewUserComponent,
+    ViewLatestNewsComponent,
+    ViewNavigationHomeComponent,
+    ViewFriendsHomeComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
