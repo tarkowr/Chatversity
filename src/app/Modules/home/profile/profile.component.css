@@ -1,7 +1,0 @@
-input[disabled], textarea[disabled] {
-    background-color: #f7f7f7;
-    border: none;
-    border-radius: 0px;
-    border-bottom: 1px solid #26B1FF;
-    resize: none;
-}

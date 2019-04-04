@@ -17,26 +17,19 @@ import { ViewLatestNewsComponent } from './Modules/home/view-latest-news/view-la
 import { ViewNavigationHomeComponent } from './Modules/home/view-navigation-home/view-navigation-home.component';
 
 export const routes: Routes = [
-    {
-        path: '',
-        component: DashboardComponent
-    },
-    {
-        path: 'dashboard',
-        component: DashboardComponent,
-        canActivate: [AuthGuard]
-    },
+    { path: '', component: DashboardComponent },
+    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
     { path: 'signup', component: SignupComponent },
     { path: 'login',  component: LoginComponent },
     { path: 'settings',  component: SettingsComponent, canActivate: [AuthGuard] },
     { path: 'messages',  component: MessagesComponent, canActivate: [AuthGuard] },
-    { path: 'profile', component: ProfileComponent },
-    { path: 'small', component: SmallComponent },
-    { path: 'settings-profile', component: SettingsProfileComponent },
-    { path: 'view-friends-home', component: ViewFriendsHomeComponent },
-    { path: 'view-latest-news', component: ViewLatestNewsComponent },
-    { path: 'view-navigation-home', component: ViewNavigationHomeComponent },
-    { path: 'newuser', component: NewUserComponent, canActivate: [AuthGuard] },
+    { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+    { path: 'profile-small', component: SmallComponent, canActivate: [AuthGuard] },
+    { path: 'settings-profile', component: SettingsProfileComponent, canActivate: [AuthGuard] },
+    { path: 'view-friends-home', component: ViewFriendsHomeComponent, canActivate: [AuthGuard] },
+    { path: 'view-latest-news', component: ViewLatestNewsComponent, canActivate: [AuthGuard] },
+    { path: 'view-navigation-home', component: ViewNavigationHomeComponent, canActivate: [AuthGuard] },
+    { path: 'new-user', component: NewUserComponent, canActivate: [AuthGuard] },
     { path: 'forgot',  component: ForgotComponent },
     { path: '404', component: PageNotFoundComponent },
     { path: '**', redirectTo: '/404' },
