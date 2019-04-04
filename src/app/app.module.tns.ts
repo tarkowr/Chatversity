@@ -23,6 +23,9 @@ import { TestComponent } from './test/test.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MessagesComponent } from './messages/messages.component';
 import { SettingsProfileComponent } from './settings-profile/settings-profile.component';
+import { ViewLatestNewsComponent } from './Modules/home/view-latest-news/view-latest-news.component';
+import { ViewNavigationHomeComponent } from './Modules/home/view-navigation-home/view-navigation-home.component';
+import { ViewFriendsHomeComponent } from './Modules/home/view-friends-home/view-friends-home.component';
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -54,6 +57,9 @@ import { SettingsProfileComponent } from './settings-profile/settings-profile.co
     NavbarComponent,
     MessagesComponent,
     SettingsProfileComponent,
+    ViewLatestNewsComponent,
+    ViewNavigationHomeComponent,
+    ViewFriendsHomeComponent,
   ],
   imports: [
     NativeScriptModule,
