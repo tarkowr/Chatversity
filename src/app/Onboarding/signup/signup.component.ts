@@ -6,9 +6,9 @@ import { Observable } from 'rxjs';
 import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OktaAuthService } from '@okta/okta-angular';
-import { AuthService } from '../../../_services/auth.service';
+import { AuthService } from '../../Core/_services/auth.service';
 import { first } from 'rxjs/operators';
-import { University } from '../../../_models/university';
+import { University } from '../../Core/_models/university';
 
 const httpOptions = {
   headers: new HttpHeaders({

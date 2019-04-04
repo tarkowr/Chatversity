@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { MessagingService } from '../_services/messaging.service';
+import { MessagingService } from '../Core/_services/messaging.service';
 import bsCustomFileInput from 'bs-custom-file-input';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';

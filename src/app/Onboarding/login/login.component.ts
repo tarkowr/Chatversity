@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OktaAuthService } from '@okta/okta-angular';
-import {AuthService} from '../../../_services/auth.service';
+import {AuthService} from '../../Core/_services/auth.service';
 import { first } from 'rxjs/operators';
 
 const httpOptions = {
@@ -42,47 +42,47 @@ export class LoginComponent implements OnInit {
       username: ['', Validators.compose([ Validators.required, Validators.email, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
       password: ['', Validators.required]
   });
-    this.returnUrl = '/';
+    this.returnUrl = '/dashboard';
   }
 
   // convenience getter for easy access to form fields
   get f() { return this.loginForm.controls; }
 
-      onSubmit() {
-        this.submitted = true;
-        this.loading = true;
+  onSubmit() {
+    this.submitted = true;
+    this.loading = true;
 
-        // stop here if form is invalid
-        if (this.loginForm.invalid) {
-          this.loading = false;
-          return;
-        }
-
-        // Create obj to hold formdata
-        const formData: FormData = new FormData();
-        // Append username and password to form data
-        formData.append('username', this.loginForm.get('username').value);
-        formData.append('password', this.loginForm.get('password').value);
-
-        console.log(formData);
-
-        // Send the obj to our user auth function
-        // this.auth.login(this.f.username.value, this.f.password.value).pipe()
-        // .subscribe(
-        //     data => {
-        //         this.router.navigate([this.returnUrl]);
-        //     },
-        //     error => {
-        //         // this.alertService.error(error);
-        //         this.loading = false;
-        //         this.f.username.setErrors({invalid: true});
-        //     });
-        this.auth.login(this.f.username.value, this.f.password.value).pipe(first()).subscribe(data => {
-          this.router.navigate([this.returnUrl]);
-        },
-        error => {
-          this.loading = false;
-          this.f.username.setErrors({invalid: true});
-        });
+    // stop here if form is invalid
+    if (this.loginForm.invalid) {
+      this.loading = false;
+      return;
     }
+
+    // Create obj to hold formdata
+    const formData: FormData = new FormData();
+    // Append username and password to form data
+    formData.append('username', this.loginForm.get('username').value);
+    formData.append('password', this.loginForm.get('password').value);
+
+    console.log(formData);
+
+    // Send the obj to our user auth function
+    // this.auth.login(this.f.username.value, this.f.password.value).pipe()
+    // .subscribe(
+    //     data => {
+    //         this.router.navigate([this.returnUrl]);
+    //     },
+    //     error => {
+    //         // this.alertService.error(error);
+    //         this.loading = false;
+    //         this.f.username.setErrors({invalid: true});
+    //     });
+    this.auth.login(this.f.username.value, this.f.password.value).pipe(first()).subscribe(data => {
+      this.router.navigate([this.returnUrl]);
+    },
+    error => {
+      this.loading = false;
+      this.f.username.setErrors({invalid: true});
+    });
+  }
 }

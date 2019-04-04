@@ -3,29 +3,24 @@ import { NativeScriptModule } from 'nativescript-angular/nativescript.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { DashboardComponent } from './Component/dashboard/dashboard.component';
-import { ErrorComponent } from './Component/error/error.component';
-import { LoginComponent } from './Component/login/login.component';
-import { SignupComponent } from './Component/signup/signup.component';
-import { ProfileComponent } from './Component/profile/profile.component';
-import { SettingsComponent } from './Component/settings/settings.component';
-import { ForgotComponent } from './Component/login/forgot/forgot.component';
-import { SmallComponent } from './Component/profile/small/small.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
-import { App } from './app.guard/app.guard.component';
-import { PageNotFoundComponent } from './Component/page-not-found/page-not-found.component';
-import { CallbackComponent } from './callback/callback.component';
-import { ProtectedComponent } from './protected/protected.component';
-import { ScssTestComponent } from './scss-test/scss-test.component';
-import { TestComponent } from './test/test.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { MessagesComponent } from './messages/messages.component';
-import { SettingsProfileComponent } from './settings-profile/settings-profile.component';
-import { ViewLatestNewsComponent } from './Modules/home/view-latest-news/view-latest-news.component';
-import { ViewNavigationHomeComponent } from './Modules/home/view-navigation-home/view-navigation-home.component';
-import { ViewFriendsHomeComponent } from './Modules/home/view-friends-home/view-friends-home.component';
+import { DashboardComponent } from './Dashboard/dashboard.component';
+import { ErrorComponent } from './Errors/error/error.component';
+import { LoginComponent } from './Onboarding/login/login.component';
+import { SignupComponent } from './Onboarding/signup/signup.component';
+import { ProfileComponent } from '~/app/Profile/profile/profile.component';
+import { SettingsComponent } from './Settings/settings/settings.component';
+import { ForgotComponent } from './Onboarding/forgot/forgot.component';
+import { SmallComponent } from '~/app/Profile/small/small.component';
+import { FooterComponent } from './Shared/footer/footer.component';
+import { PageNotFoundComponent } from './Errors/page-not-found/page-not-found.component';
+import { CallbackComponent } from './Core/callback/callback.component';
+import { ProtectedComponent } from './Core/protected/protected.component';
+import { NavbarComponent } from './Shared/navbar/navbar.component';
+import { MessagesComponent } from './Messages/messages.component';
+import { SettingsProfileComponent } from '~/app/Profile/settings-profile/settings-profile.component';
+import { ViewLatestNewsComponent } from './Home/view-latest-news/view-latest-news.component';
+import { ViewNavigationHomeComponent } from './Home/view-navigation-home/view-navigation-home.component';
+import { ViewFriendsHomeComponent } from './Home/view-friends-home/view-friends-home.component';
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -37,7 +32,6 @@ import { ViewFriendsHomeComponent } from './Modules/home/view-friends-home/view-
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     DashboardComponent,
     ErrorComponent,
     LoginComponent,
@@ -46,14 +40,10 @@ import { ViewFriendsHomeComponent } from './Modules/home/view-friends-home/view-
     SettingsComponent,
     ForgotComponent,
     SmallComponent,
-    HeaderComponent,
     FooterComponent,
-    App.GuardComponent,
     PageNotFoundComponent,
     CallbackComponent,
     ProtectedComponent,
-    ScssTestComponent,
-    TestComponent,
     NavbarComponent,
     MessagesComponent,
     SettingsProfileComponent,
@@ -69,4 +59,5 @@ import { ViewFriendsHomeComponent } from './Modules/home/view-friends-home/view-
   bootstrap: [AppComponent],
   schemas: [NO_ERRORS_SCHEMA]
 })
+
 export class AppModule { }
