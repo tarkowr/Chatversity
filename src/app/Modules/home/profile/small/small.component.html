@@ -1,3 +1,32 @@
-<p>
-  small works!
-</p>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#profileModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade col-10 offset-1 col-md-6 offset-md-3 col-lg-6 offset-lg-3" id="profileModal" tabindex="-1"
+  role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content text-center">
+      <!-- Profile Image -->
+      <img src="..." onerror="this.src='../../assets/images/DefaultProfile.png'"
+        class="col-6 offset-3 col-md-4 offset-md-4 rounded img-fluid mx-auto mt-5 mb-1 d-block">
+      <!-- User's Name -->
+      <h3 class="col-8 offset-2 col-md-6 offset-md-3 mt-2 text-primary">{{this.user.firstName}} {{this.user.lastName}}
+      </h3>
+      <!-- User's Info -->
+      <p class="col-4 offset-4 col-md-2 offset-md-5 text-secondary">{{this.user.profile.graduationYear}}</p>
+      <p class="col-8 offset-2 col-md-6 offset-md-3 text-secondary mt-2">{{this.user.profile.bio}}</p>
+      <!-- Footer -->
+      <div class="modal-footer">
+        <button [disabled]="loading" type="button" class="btn btn-link mx-auto my-4">ADD CONNECTION</button>
+        <img *ngIf="loading"
+          src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+
+
+        <button type="button" class="btn btn-link mx-auto my-4" data-dismiss="modal">close</button>
+
+      </div>
+    </div>
+  </div>
+</div>
