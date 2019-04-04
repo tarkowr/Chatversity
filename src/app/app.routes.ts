@@ -9,6 +9,7 @@ import { AuthGuard } from './_guards/auth.guard';
 import { SettingsComponent } from './Modules/home/settings/settings.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ProfileComponent } from './Modules/home/profile/profile.component';
+import { SmallComponent } from './Modules/home/profile/small/small.component';
 import { NewUserComponent } from './Modules/onboarding/new-user/new-user.component';
 
 export const routes: Routes = [
@@ -25,7 +26,8 @@ export const routes: Routes = [
     { path: 'login',  component: LoginComponent },
     { path: 'settings',  component: SettingsComponent, canActivate: [AuthGuard] },
     { path: 'messages',  component: MessagesComponent, canActivate: [AuthGuard] },
-    { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+    { path: 'profile', component: ProfileComponent },
+    { path: 'small', component: SmallComponent },
     { path: 'newuser', component: NewUserComponent, canActivate: [AuthGuard] },
     { path: 'forgot',  component: ForgotComponent },
     { path: '404', component: PageNotFoundComponent },
