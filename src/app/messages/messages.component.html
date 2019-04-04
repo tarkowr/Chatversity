@@ -39,11 +39,12 @@
             </div>
             <ng-container *ngFor="let room of rooms">
               <div class="col-12" (click)="joinRoom(room.id)">
-                  <div class="message-wrap room">
+                  <div class="message-wrap room d-flex align-items-center justify-content-between">
                     <ng-container *ngIf="room?.custom_data !== undefined">
                         <!-- <img src="{{ room.custom_data.roomAvatar }}" alt=""> -->
                     </ng-container>
-                    <span>{{ room.name }}</span>
+                    <span class="text-secondary">{{ room.name }}</span>
+                    <span *ngIf="roomNotifications[room.id]" class="badge badge-secondary">New</span>
                   </div>
               </div>
             </ng-container>

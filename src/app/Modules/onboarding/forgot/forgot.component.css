@@ -2,6 +2,7 @@
     font-family: 'Poppins', sans-serif;
 }
 
-input [type=email] {
-    border: 2px solid #24B6FF;
-}
+::placeholder { 
+    color: #96B7C9;
+    opacity: 1; 
+  }

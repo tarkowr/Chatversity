@@ -71,9 +71,11 @@ export class ProfileComponent implements OnInit {
   // Validation and other actions upon form submission
   onSubmit() { 
     this.submitted = true;
+    this.loading = true;
 
     // stop here if form is invalid
     if (this.profileForm.invalid) {
+      this.loading = false;
       return;
     }
 
@@ -116,6 +118,8 @@ export class ProfileComponent implements OnInit {
     //
     // ToDo: Send FormData to service to update Pusher/MongoDB
     //
+
+    this.loading = false;
    }
 
 }

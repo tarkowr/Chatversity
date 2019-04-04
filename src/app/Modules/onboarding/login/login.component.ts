@@ -38,9 +38,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     // TODO: Check if already logged in, redirect
-    // console.log(this.submitted);
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.required],
+      username: ['', Validators.compose([ Validators.required, Validators.email, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
       password: ['', Validators.required]
   });
     this.returnUrl = '/';
@@ -51,10 +50,12 @@ export class LoginComponent implements OnInit {
 
       onSubmit() {
         this.submitted = true;
+        this.loading = true;
 
         // stop here if form is invalid
         if (this.loginForm.invalid) {
-            return;
+          this.loading = false;
+          return;
         }
 
         // Create obj to hold formdata

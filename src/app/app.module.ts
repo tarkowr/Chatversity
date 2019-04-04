@@ -40,6 +40,9 @@ import { FooterComponent } from './Shared/footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MessagesComponent } from './messages/messages.component';
 import { SettingsProfileComponent } from './settings-profile/settings-profile.component';
+import { NewUserComponent } from './Modules/onboarding/new-user/new-user.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 const config = {
   issuer: 'https://dev-117825.okta.com',
@@ -67,6 +70,7 @@ const config = {
     NavbarComponent,
     MessagesComponent,
     SettingsProfileComponent,
+    NewUserComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -77,7 +81,8 @@ const config = {
     RouterModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     OktaAuthGuard,
