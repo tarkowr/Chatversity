@@ -19,12 +19,12 @@ import { ViewNavigationHomeComponent } from './Home/view-navigation-home/view-na
 
 export const routes: Routes = [
     /* Must be logged out to access these components */
-    { path: '', component: LoginComponent/*, canActivate: [RouteGuard]*/ },
     { path: 'forgot',  component: ForgotComponent/*, canActivate: [RouteGuard]*/ },     
     { path: 'signup', component: SignupComponent/*, canActivate: [RouteGuard]*/ },      
     { path: 'login',  component: LoginComponent/*, canActivate: [RouteGuard]*/ },   
 
     /* Must be logged in to access these components */
+    { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
     { path: 'settings',  component: SettingsComponent, canActivate: [AuthGuard] },
     { path: 'messages',  component: MessagesComponent, canActivate: [AuthGuard] },
