@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { MessagingService } from '../../Core/_services/messaging.service';
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  notificationCount: number;
+
+  constructor(private msgService: MessagingService) { }
 
   ngOnInit() {
+    this.msgService.notificationCount.subscribe(notification => this.notificationCount = notification);
   }
 
 }

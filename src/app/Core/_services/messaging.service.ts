@@ -2,12 +2,16 @@ import { Injectable, OnInit } from '@angular/core';
 import {AuthService} from './auth.service';
 import { ChatManager, TokenProvider } from '@pusher/chatkit-client';
 import { User } from '../_models/user';
+import { BehaviorSubject } from 'rxjs';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessagingService {
+
+  private notifications = new BehaviorSubject(0);
+  notificationCount = this.notifications.asObservable();
 
   currentUser: any;
   chatManager: any;
@@ -48,6 +52,13 @@ export class MessagingService {
     // .catch(error => {
     //   console.error('error:', error);
     // });
+  }
+
+  setRoomsWithNotifications(count) {
+    // Get current notification count
+    const currNotificationCount = this.notifications.value;
+    // Update the globabl total
+    this.notifications.next(count);
   }
 
 

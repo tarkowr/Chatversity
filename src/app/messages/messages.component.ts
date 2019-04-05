@@ -18,6 +18,9 @@ export class MessagesComponent implements OnInit {
 
   imagePath: any;
 
+  notificationCount: any;
+
+
   rooms: any;
   currentUser: any;
   user_id: any;
@@ -100,10 +103,8 @@ export class MessagesComponent implements OnInit {
 
   // Join a room
   joinRoom(roomID) {
-    console.log(this.roomNotifications);
     this.chatkitUser.joinRoom({roomId: roomID}).then(room => {
       this.current_room = room;
-      console.log(room);
 
       // After joining room, fetch messages
       this.chatkitUser.fetchMultipartMessages({roomId: roomID}).then(messages => {
@@ -215,6 +216,14 @@ export class MessagesComponent implements OnInit {
               position: message.id,
             });
           }
+
+          // Count rooms with unread notifucations
+          let roomsWithNotifications = 0;
+          this.roomNotifications.forEach(room => {
+            roomsWithNotifications += room === true ? 1 : 0;
+          });
+          // Add to global notification counter
+          this.msgService.setRoomsWithNotifications(roomsWithNotifications);
         },
         onAddedToRoom: room => {
           console.log(`Added to room ${room.name}`);
@@ -277,14 +286,13 @@ export class MessagesComponent implements OnInit {
 
 
   ngOnInit() {
+    // Subscribe to new notifications
+    this.msgService.notificationCount
+    .subscribe(notification => this.notificationCount = notification);
 
     // TODO: Add this to an addUser function - only call when necessary
     this.msgService.chatManager
-    .connect({
-      onNewReadCursor: room => {
-        console.log(`Cursor added to room ${room.roomId}`);
-      }
-    })
+    .connect()
     .then(user => {
       console.log('Connected as user ', user);
       this.chatkitUser = user;
