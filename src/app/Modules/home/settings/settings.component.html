@@ -1,45 +1,36 @@
 <div class="container-fluid">
-  
-  <!-- Navigation header -->
-  <div class="row align-items-center shadow-sm py-3" id="settings-body">
-    <div class="col-12" id="settings-left">
-      <span class="text-uppercase">Settings</span>
-    </div>  
+  <div class="row shadow-sm align-items-center py-2" id="settings_header">
+    <div class="col-4" id="settings-left">
+        <div class="d-flex align-items-center">
+          <span class="text-uppercase">Settings</span>
+        </div>
+    </div>
   </div>
-
-  <div class="row">
-    <!-- Settings Nav -->
-    <div class="col-4">
-        <span style="color: #115073;">This is the col 4</span>
-        <!-- Nav tabs -->
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item">
-      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="false">Messages</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
-    </li>
-  </ul>
-  
-
-    </div>
-
-    <!-- Settings window -->
-    <div class="col-8">
-        <span style="color: #115073;">This is the col 8</span>
+<div class="row" style="height: calc(100vh - 54px);">
+  <div class="col-4 h-100 overflow-auto">
+    <span style="color: #115073;">User Settings</span>
+      <!-- Nav tabs -->
+          <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" id="v-pills-MyProfile-tab" data-toggle="pill" href="#v-pills-MyProfile" role="tab" aria-controls="v-pills-MyProfile" aria-selected="true">My Profile</a>
+            <a class="nav-link" id="v-pills-Privacy-tab" data-toggle="pill" href="#v-pills-Privacy" role="tab" aria-controls="v-pills-Privacy" aria-selected="false">Privacy</a>
+            <a class="nav-link" id="v-pills-security-tab" data-toggle="pill" href="#v-pills-security" role="tab" aria-controls="v-pills-security" aria-selected="false">Security</a>
+            <a class="nav-link" id="v-pills-Connections-tab" data-toggle="pill" href="#v-pills-Connections" role="tab" aria-controls="v-pills-Connections" aria-selected="false">Connections</a>
+          </div>
+  </div>
+<div class="col-8 h-100 overflow-auto" style="background:#FAFDFF;">
+  <div class="chat-window h-100 overflow-auto">
+    <div id="settings-right" class="row">
+      <div class="col-12">
+        <div class="message-wrap">
+          <div class="tab-content text-black" id="v-pills-tabContent">
           <!-- Tab panes -->
-  <div class="tab-content text-white">
-      <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">Home</div>
-      <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">Profile</div>
-      <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab">Messages</div>
-      <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">Settings</div>
-    </div>
+          <div class="tab-pane fade show active" id="v-pills-MyProfile" role="tabpanel" aria-labelledby="v-pills-MyProfile-tab">My Profile</div>
+          <div class="tab-pane fade" id="v-pills-Privacy" role="tabpanel" aria-labelledby="v-pills-Privacy-tab">Privacy</div>
+          <div class="tab-pane fade" id="v-pills-security" role="tabpanel" aria-labelledby="v-pills-security-tab">Security</div>
+          <div class="tab-pane fade" id="v-pills-Connections" role="tabpanel" aria-labelledby="v-pills-Connections-tab">Connections</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+      

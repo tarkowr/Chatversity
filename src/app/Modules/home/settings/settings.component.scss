@@ -1,16 +1,16 @@
-#settings-body {
-    background-color: #fff;
+#settings_header {
+    background-color:rgb(255, 255, 255);
+    z-index: 2;
     font-family: 'Poppins', sans-serif;
     font-weight: bold;
-
+    color: #94B0C0;
+    top:0;
+    position: sticky;
 }
 
-#settings-left {
-    background-color: #fff;
-    color: #94b0c0;
-}
-
-#settings-right {
-    background-color: #fff;
-    color: #94b0c0;
+#settings-nav {
+    float:right;
+    background: #DAE6ED;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;   
 }
