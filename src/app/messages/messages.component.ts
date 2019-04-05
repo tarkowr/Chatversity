@@ -84,6 +84,7 @@ export class MessagesComponent implements OnInit {
     };
   }
 
+
   // Send a message
   sendMessage() {
     const { message, currentUser } = this;
@@ -99,6 +100,7 @@ export class MessagesComponent implements OnInit {
 
   // Join a room
   joinRoom(roomID) {
+    console.log(this.roomNotifications);
     this.chatkitUser.joinRoom({roomId: roomID}).then(room => {
       this.current_room = room;
       console.log(room);
@@ -113,7 +115,10 @@ export class MessagesComponent implements OnInit {
         this.chatkitUser.setReadCursor({
           roomId: this.current_room.id,
           position: messages[messages.length - 1].id
-        });
+        })
+        .then(() => {
+          this.roomNotifications[room.id] = false;
+        }); // Remove marker from notifications array
         // .then(() => {
         //     console.log('Set cursor');
         //   })
@@ -187,28 +192,29 @@ export class MessagesComponent implements OnInit {
     this.chatkitUser.subscribeToRoomMultipart({
       roomId: roomID,
       hooks: {
-        onMessage: message => { // When a message is received...
-          const cursor = this.chatkitUser.readCursor({ // Get the users last cursor position from the room
+        onMessage: message => {
+          // When a message is received...
+
+          // Push to messages array and update view
+          this.room_messages.push(message);
+
+          // Get the users last cursor position from the room
+          const cursor = this.chatkitUser.readCursor({
             roomId: message.roomId
           });
-          console.log(cursor);
-          if (cursor.position !== message.id) {
-            console.log(`New message in ${message.room.name}`);
+
+          if ((cursor.position !== message.id) && (message.roomId !== this.current_room.id)) {
+            // If the current user has not seen the message, AND the message was received in a different room,
+            // add marker to notification array
             this.roomNotifications[message.room.id] = true;
-          } else { console.log('up to date'); }
-          if (message.roomId === this.current_room.id) { // Was the message sent in the current room?
-            // Yes -> push to chat window
-            console.log('Message received in current room.');
           } else {
-            // No -> Add notification marker to respective room card
-            console.log('Message received in different room.');
+            // Otherwise, message was sent in current room, so all we must do is update the
+            // read cursor for the current user's room
+            this.chatkitUser.setReadCursor({
+              roomId: message.roomId,
+              position: message.id,
+            });
           }
-          // console.log('received message', message);
-          console.log(`Room ID: ${message.roomId}`);
-          console.log(`Current Room ID: ${this.current_room.id}`);
-          // Display message in chat window when message received
-          this.room_messages.push(message);
-          // this.room_messages.message;
         },
         onAddedToRoom: room => {
           console.log(`Added to room ${room.name}`);
