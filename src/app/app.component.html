@@ -4,11 +4,11 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-<div [class.app-mount]="currentUser">
-    <div *ngIf="currentUser" id="primary_navigation">
-        <app-navbar *ngIf="currentUser" class="h-100 d-flex align-items-center flex-column shadow-sm"></app-navbar>
+<div [class.app-mount]="(currentUser && RemoveNavbarForTesting())">
+    <div *ngIf="(currentUser && RemoveNavbarForTesting())" id="primary_navigation">
+        <app-navbar *ngIf="(currentUser && RemoveNavbarForTesting())" class="h-100 d-flex align-items-center flex-column shadow-sm"></app-navbar>
     </div>
-    <section [class.app-main]="currentUser">
+    <section [class.app-main]="(currentUser && RemoveNavbarForTesting())">
         <router-outlet></router-outlet> 
     </section>
 </div>

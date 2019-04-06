@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Nunito|Poppins|Roboto" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <!--Sign Up Picture-->
+      <div class="col col-12 col-md col-lg col-override" style="min-height: 100vh;">
+        <div class="signup-pic">
+          <div class="signup-text">
+            <h4 class="text-white text-strong pb-2 pic-title">Chatversity</h4>
+            <h5 class="text-secondary text-strong pic-msg-mobile">Simplifying Communication</h5>
+            <h1 class="text-secondary text-strong pic-msg">Simplifying <br/> Communication.</h1>
+
+            <div class="mt-5 signup-btn">
+                <button id="signup-button" class="btn btn-secondary mt-5 px-4 py-3"
+                onclick="document.getElementById('signup-top').scrollIntoView();">Sign Up Today!</button>
+            </div>
+          </div>
+        </div>
+      </div> 
+
+      <!--Sign Up Form-->
+      <div class="col col-12 col-md col-lg offset-override" style="min-height: 100vh;">
+        <div class="w-100 mx-auto text-center mb-5 mt-4">
+          <img src="../../../../assets/images/Logo-Name.png" class="img-fluid img-responsive mx-auto w-75" id="signup-top"/>
+        </div>
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+
+            <!--Summary Error Alert-->
+          <div *ngIf="submitted && checkForFormErrors()">
+              <!--<div *ngIf="f.username.errors.invalid" class="alert alert-danger" role="alert">The username {{ f.username.value }} is invalid.</div>
+              <div *ngIf="f.password.errors.invalid" class="alert alert-danger" role="alert">Your password is too weak.</div>-->
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-sm-6 col-md-6">
+  
+              <!--First Name-->
+              <div class="form-group mb-3">
+                <label for="firstname" class="text-secondary">First Name <span class="text-danger">*</span></label>
+                <input type="text" required class="form-control primary-border" id="firstname" name="firstname" placeholder="John" 
+                formControlName="firstname"
+                [ngClass]="{ 'is-invalid': submitted && f.firstname.errors, 'danger-border': submitted && f.firstname.errors }">
+
+                <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
+                  <div *ngIf="f.firstname.errors.required">Please provide your first name.</div>
+                </div>
+                </div>
+              </div>
+  
+              <!--Last Name-->
+              <div class="col-12 col-sm-6 col-md-6">
+                <div class="form-group mb-3">
+                  <label for="lastname" class="text-secondary">Last Name <span class="text-danger">*</span></label>
+                  <input type="text" required class="form-control primary-border" id="lastname" name="lastname" placeholder="Doe" 
+                  formControlName="lastname"
+                  [ngClass]="{ 'is-invalid': submitted && f.lastname.errors, 'danger-border': submitted && f.lastname.errors }">
+
+                <div *ngIf="submitted && f.lastname.errors" class="invalid-feedback">
+                  <div *ngIf="f.lastname.errors.required">Please provide your last name.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+            <!--University Select-->
+            <!--ToDo: Loop through list of universities-->
+            <div class="form-group mb-3">
+              <label for="university" class="text-secondary">University <span class="text-danger">*</span></label>
+              <select name="university" required formControlName="university" class="form-control primary-border"
+                  [ngClass]="{ 'is-invalid': submitted && f.university.errors, 'danger-border': submitted && f.university.errors }">
+                  <option [value]="" [disabled]="true" [selected]="true">&mdash; Please Select a University &mdash;</option>
+                  <option *ngFor="let uni of universities" [value]="uni.id">{{ uni.name }}</option>
+              </select>
+
+              <div *ngIf="submitted && f.university.errors" class="invalid-feedback">
+                  <div *ngIf="f.university.errors.required">Please select your university.</div>
+                  <div *ngIf="f.university.errors.invalid">Invalid university.</div>
+              </div>
+          </div>
+
+            <!--Username (Email) Textbox-->
+            <div class="form-group mb-3">
+                <label for="username" class="text-secondary">Email <span class="text-danger">*</span></label>
+                <input type="email" required name="username" formControlName="username" placeholder="you@university.edu" 
+                    class="form-control primary-border"
+                    [ngClass]="{ 'is-invalid': submitted && f.username.errors, 'danger-border': submitted && f.username.errors }" />
+                  <div class="text-primary" *ngIf="!submitted || !f.username.errors">
+                    <small><span class="text-danger">*</span> PLEASE ENTER YOUR SCHOOL EMAIL</small>
+                  </div>
+                  
+                <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                    <div *ngIf="f.username.errors.required">Please provide your school email.</div>
+                    <div *ngIf="f.username.errors.email || f.username.errors.pattern">The username {{ f.username.value }} is invalid.</div>
+                </div>
+            </div>
+
+            <!--Password-->
+            <div class="form-group">
+                <label for="password" class="text-secondary">Password <span class="text-danger">*</span></label>
+                <input type="password" required formControlName="password" placeholder="Create a password"
+                    class="form-control primary-border" [ngClass]="{ 'is-invalid': submitted && f.password.errors, 'danger-border': submitted && f.password.errors }" />
+                
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                    <div *ngIf="f.password.errors.required">Please choose a password.</div>
+                    <div *ngIf="f.password.errors.minlength || f.password.errors.pattern">Your password must have atleast: <br>
+                      <div style="padding-left:20px">▶&nbsp; 6 characters <br> ▶&nbsp; 1 uppercase letter <br> ▶&nbsp; 1 number</div>
+                    </div>
+                </div>
+
+                <button [disabled]="loading" class="btn btn-login btn-primary btn-block mt-4 py-3"><span *ngIf="!loading">SIGN UP FOR CHATVERSITY</span>
+                  <img *ngIf="loading"
+                    src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                </button>
+
+            </div>
+
+            <div class="text-secondary text-center my-4">
+                Already have an account? &nbsp; <a [routerLink]="['/login']" class="text-primary">Login</a>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -40,4 +40,27 @@ router.post('/login', (req, res) => {
 });
 
 
+
+// Get user by ID
+router.get('/users/:id', (req, res) => {
+
+  var userId = req.params.id;
+
+  axios.get(`https://dev-117825.okta.com/api/v1/users/${userId}`, {
+    headers: {
+      "Authorization": 'SSWS 00nd9KMXXDL4G_0hDjDdGtMs7IUTa8K6Ddds3oOI_F',
+    }
+  })
+  .then(user => {
+    if (user) { 
+      res.status(200).send(user.data);
+    }
+    console.log('test');
+  })
+  .catch(error => {
+    res.status(500).json('<p>'+ error +'</p>');
+  });
+ });
+
+
 module.exports = router;

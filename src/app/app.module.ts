@@ -3,44 +3,56 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import {AuthService} from './_services/auth.service';
-
-// Component Import
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { ErrorComponent } from './Component/error/error.component';
-
-// Home Module Import
-import { DashboardComponent } from './Modules/home/dashboard/dashboard.component';
-import { ProfileComponent } from './Modules/home/profile/profile.component';
-import { SmallComponent } from './Modules/home/profile/small/small.component';
-import { SettingsComponent } from './Modules/home/settings/settings.component';
+import { AuthService } from './Core/_services/auth.service';
 
 // Angular Bootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-// Onboarding Module Import
-import { LoginComponent } from './Modules/onboarding/login/login.component';
-import { SignupComponent } from './Modules/onboarding/signup/signup.component';
-import { ForgotComponent } from './Modules/onboarding/forgot/forgot.component';
+// Component Import
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+
+// Dashboard Component Imports
+import { DashboardComponent } from './dashboard/dashboard.component';
+
+// Error Component Imports
+import { ErrorComponent } from './Error-Views/error/error.component';
+import { PageNotFoundComponent } from './Error-Views/page-not-found/page-not-found.component';
+
+// Home Component Imports
+import { ViewLatestNewsComponent } from './Home/view-latest-news/view-latest-news.component';
+import { ViewNavigationHomeComponent } from './Home/view-navigation-home/view-navigation-home.component';
+import { ViewFriendsHomeComponent } from './Home/view-friends-home/view-friends-home.component';
+
+// Messages Component Imports
+import { MessagesComponent } from './messages/messages.component';
+
+// Onboarding Component Imports
+import { LoginComponent } from './Onboarding/login/login.component';
+import { SignupComponent } from './Onboarding/signup/signup.component';
+import { ForgotComponent } from './Onboarding/forgot/forgot.component';
+import { NewUserComponent } from './Onboarding/new-user/new-user.component';
+
+// Profile Component Imports
+import { ProfileComponent } from './Profile-Views/profile/profile.component';
+import { SmallComponent } from './Profile-Views/small/small.component';
+import { SettingsProfileComponent } from './Profile-Views/settings-profile/settings-profile.component';
+
+// Settings Component Imports
+import { SettingsComponent } from './Settings-Views/settings/settings.component';
+
+// Shared Component Imports
+import { FooterComponent } from './Shared/footer/footer.component';
+import { NavbarComponent } from './Shared/navbar/navbar.component';
 
 // Okta Guard and Service
 import { OktaCallbackComponent, OktaAuthGuard } from '@okta/okta-angular';
 import { OktaAuthService } from './app.service';
-import { PageNotFoundComponent } from './Component/page-not-found/page-not-found.component';
-import { CallbackComponent } from './callback/callback.component';
-import { ProtectedComponent } from './protected/protected.component';
-
-import {
-  OktaAuthModule,
-} from '@okta/okta-angular';
+import { CallbackComponent } from './Core/callback/callback.component';
+import { ProtectedComponent } from './Core/protected/protected.component';
+import { OktaAuthModule } from '@okta/okta-angular';
 import { routes } from './app.routes';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FooterComponent } from './Shared/footer/footer.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { MessagesComponent } from './messages/messages.component';
-import { SettingsProfileComponent } from './settings-profile/settings-profile.component';
-import { NewUserComponent } from './Modules/onboarding/new-user/new-user.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
@@ -70,7 +82,10 @@ const config = {
     NavbarComponent,
     MessagesComponent,
     SettingsProfileComponent,
-    NewUserComponent
+    NewUserComponent,
+    ViewLatestNewsComponent,
+    ViewNavigationHomeComponent,
+    ViewFriendsHomeComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

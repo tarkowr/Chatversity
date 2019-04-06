@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { MessagingService } from '../_services/messaging.service';
+import { MessagingService } from '../Core/_services/messaging.service';
 import bsCustomFileInput from 'bs-custom-file-input';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -17,6 +17,9 @@ export class MessagesComponent implements OnInit {
   fileToUpload: File;
 
   imagePath: any;
+
+  notificationCount: any;
+
 
   rooms: any;
   currentUser: any;
@@ -84,6 +87,7 @@ export class MessagesComponent implements OnInit {
     };
   }
 
+
   // Send a message
   sendMessage() {
     const { message, currentUser } = this;
@@ -101,7 +105,6 @@ export class MessagesComponent implements OnInit {
   joinRoom(roomID) {
     this.chatkitUser.joinRoom({roomId: roomID}).then(room => {
       this.current_room = room;
-      console.log(room);
 
       // After joining room, fetch messages
       this.chatkitUser.fetchMultipartMessages({roomId: roomID}).then(messages => {
@@ -113,7 +116,10 @@ export class MessagesComponent implements OnInit {
         this.chatkitUser.setReadCursor({
           roomId: this.current_room.id,
           position: messages[messages.length - 1].id
-        });
+        })
+        .then(() => {
+          this.roomNotifications[room.id] = false;
+        }); // Remove marker from notifications array
         // .then(() => {
         //     console.log('Set cursor');
         //   })
@@ -187,28 +193,37 @@ export class MessagesComponent implements OnInit {
     this.chatkitUser.subscribeToRoomMultipart({
       roomId: roomID,
       hooks: {
-        onMessage: message => { // When a message is received...
-          const cursor = this.chatkitUser.readCursor({ // Get the users last cursor position from the room
+        onMessage: message => {
+          // When a message is received...
+
+          // Push to messages array and update view
+          this.room_messages.push(message);
+
+          // Get the users last cursor position from the room
+          const cursor = this.chatkitUser.readCursor({
             roomId: message.roomId
           });
-          console.log(cursor);
-          if (cursor.position !== message.id) {
-            console.log(`New message in ${message.room.name}`);
+
+          if ((cursor.position !== message.id) && (message.roomId !== this.current_room.id)) {
+            // If the current user has not seen the message, AND the message was received in a different room,
+            // add marker to notification array
             this.roomNotifications[message.room.id] = true;
-          } else { console.log('up to date'); }
-          if (message.roomId === this.current_room.id) { // Was the message sent in the current room?
-            // Yes -> push to chat window
-            console.log('Message received in current room.');
           } else {
-            // No -> Add notification marker to respective room card
-            console.log('Message received in different room.');
+            // Otherwise, message was sent in current room, so all we must do is update the
+            // read cursor for the current user's room
+            this.chatkitUser.setReadCursor({
+              roomId: message.roomId,
+              position: message.id,
+            });
           }
-          // console.log('received message', message);
-          console.log(`Room ID: ${message.roomId}`);
-          console.log(`Current Room ID: ${this.current_room.id}`);
-          // Display message in chat window when message received
-          this.room_messages.push(message);
-          // this.room_messages.message;
+
+          // Count rooms with unread notifucations
+          let roomsWithNotifications = 0;
+          this.roomNotifications.forEach(room => {
+            roomsWithNotifications += room === true ? 1 : 0;
+          });
+          // Add to global notification counter
+          this.msgService.setRoomsWithNotifications(roomsWithNotifications);
         },
         onAddedToRoom: room => {
           console.log(`Added to room ${room.name}`);
@@ -271,14 +286,13 @@ export class MessagesComponent implements OnInit {
 
 
   ngOnInit() {
+    // Subscribe to new notifications
+    this.msgService.notificationCount
+    .subscribe(notification => this.notificationCount = notification);
 
     // TODO: Add this to an addUser function - only call when necessary
     this.msgService.chatManager
-    .connect({
-      onNewReadCursor: room => {
-        console.log(`Cursor added to room ${room.roomId}`);
-      }
-    })
+    .connect()
     .then(user => {
       console.log('Connected as user ', user);
       this.chatkitUser = user;

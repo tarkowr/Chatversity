@@ -1,0 +1,19 @@
+<img src="/assets/images/logo-mark-64.png" height="32" width="32" class="m-3">
+<ul class="nav nav-pills nav-justified flex-column align-self-center m-auto">
+  <li class="nav-item">
+    <a class="nav-link mt-1 mb-1 pt-3 pb-3" routerLinkActive="active" routerLink="dashboard"><i class="fa fa-home fa-lg"></i></a>
+  </li>
+  <li class="nav-item">
+    <!-- From Noah: I tried to get a similar red dot from the figma design to be placed near the messages icon when the user has new messages.  To get rid of it we can do some JS or TS (like disable it) 
+    when there is no messages.  To get rid of it just remove the span class and everything in between -->
+    <a class="nav-link mt-1 mb-1 pt-3 pb-3" routerLinkActive="active" routerLink="messages"><i class="far fa-envelope fa-lg"></i></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link mt-1 mb-1 pt-3 pb-3" routerLinkActive="active" routerLink="settings"><i class="fa fa-cogs fa-lg"></i></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link mt-1 mb-1 pt-3 pb-3" routerLinkActive="active" routerLink="messages">
+      <span>{{ notificationCount }}</span>
+    </a>
+  </li>
+</ul>
