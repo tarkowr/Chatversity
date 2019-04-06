@@ -7,6 +7,7 @@ import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { OktaAuthService } from '@okta/okta-angular';
 import { AuthService } from '../../Core/_services/auth.service';
+import { CustomFormValidation } from '../../Core/_models/form-validation';
 
 @Component({
   selector: 'app-forgot',
@@ -19,6 +20,7 @@ export class ForgotComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   appTitle = 'Forgot Password';
+  formValidation: CustomFormValidation = new CustomFormValidation();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -27,7 +29,7 @@ export class ForgotComponent implements OnInit {
 
   ngOnInit() {
     this.forgotForm = this.formBuilder.group({
-      email: ['', Validators.compose([ Validators.required, Validators.email, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])]
+      email: ['', Validators.compose([ Validators.required, Validators.email, Validators.pattern(this.formValidation.regularEmailValidation)])]
     });
 
     this.returnUrl = '/';

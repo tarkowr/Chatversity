@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OktaAuthService } from '@okta/okta-angular';
 import {AuthService} from '../../Core/_services/auth.service';
 import { first } from 'rxjs/operators';
+import { CustomFormValidation } from '../../Core/_models/form-validation';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -27,6 +28,7 @@ export class LoginComponent implements OnInit {
   loading = false;
   submitted = false;
   returnUrl: string;
+  formValidation: CustomFormValidation = new CustomFormValidation();
 
   // username = new FormControl('');
 
@@ -39,10 +41,10 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     // TODO: Check if already logged in, redirect
     this.loginForm = this.formBuilder.group({
-      username: ['', Validators.compose([ Validators.required, Validators.email, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
+      username: ['', Validators.compose([ Validators.required, Validators.email, Validators.pattern(this.formValidation.regularEmailValidation)])],
       password: ['', Validators.required]
   });
-    this.returnUrl = '/dashboard';
+    this.returnUrl = '/';
   }
 
   // convenience getter for easy access to form fields

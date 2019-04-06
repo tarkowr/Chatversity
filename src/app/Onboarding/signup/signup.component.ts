@@ -9,6 +9,7 @@ import { OktaAuthService } from '@okta/okta-angular';
 import { AuthService } from '../../Core/_services/auth.service';
 import { first } from 'rxjs/operators';
 import { University } from '../../Core/_models/university';
+import { CustomFormValidation } from '../../Core/_models/form-validation';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -29,6 +30,7 @@ export class SignupComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   universities: University[];
+  formValidation: CustomFormValidation = new CustomFormValidation();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -71,8 +73,8 @@ export class SignupComponent implements OnInit {
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
       university: ['', Validators.required],
-      username: ['', Validators.compose([ Validators.required, Validators.email, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
-      password: ['', Validators.compose([ Validators.required, Validators.minLength(6), Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$')])]
+      username: ['', Validators.compose([ Validators.required, Validators.email, Validators.pattern(this.formValidation.eduEmailValidation)])],
+      password: ['', Validators.compose([ Validators.required, Validators.minLength(6), Validators.pattern(this.formValidation.passwordValidation)])]
     });
 
     this.returnUrl = '/';

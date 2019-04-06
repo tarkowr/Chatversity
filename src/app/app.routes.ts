@@ -24,7 +24,7 @@ export const routes: Routes = [
     { path: 'login',  component: LoginComponent/*, canActivate: [RouteGuard]*/ },   
 
     /* Must be logged in to access these components */
-    { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
+    { path: '', component: DashboardComponent /*canActivate: [AuthGuard]*/ },
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
     { path: 'settings',  component: SettingsComponent, canActivate: [AuthGuard] },
     { path: 'messages',  component: MessagesComponent, canActivate: [AuthGuard] },
