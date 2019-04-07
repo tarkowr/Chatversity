@@ -21,6 +21,7 @@ import { SettingsProfileComponent } from '~/app/Profile/settings-profile/setting
 import { ViewLatestNewsComponent } from './Home/view-latest-news/view-latest-news.component';
 import { ViewNavigationHomeComponent } from './Home/view-navigation-home/view-navigation-home.component';
 import { ViewFriendsHomeComponent } from './Home/view-friends-home/view-friends-home.component';
+import { RoomsComponent } from './rooms/rooms.component';
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -50,6 +51,7 @@ import { ViewFriendsHomeComponent } from './Home/view-friends-home/view-friends-
     ViewLatestNewsComponent,
     ViewNavigationHomeComponent,
     ViewFriendsHomeComponent,
+    RoomsComponent,
   ],
   imports: [
     NativeScriptModule,

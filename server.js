@@ -1,117 +1,109 @@
 // Get dependencies
-const cors = require('cors');
-var express = require('express');
-const path = require('path');
-const http = require('http');
-var bodyParser = require('body-parser');
-var util = require('util');
+const cors = require('cors')
+var express = require('express')
+const path = require('path')
+const http = require('http')
+var bodyParser = require('body-parser')
+var util = require('util')
 var multer  = require('multer')
-var upload = multer({ dest: 'uploads/' })
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
+// const fileUpload = require('express-fileupload')
+var app = express()
 
+// app.use(fileUpload())
 
-var app = express();
+// Setting up the root route
+app.get('/', (req, res) => {
+  res.send('Welcome to the express server')
+})
 
 // Parsers for POST data
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 
 // Point static path to dist
-// app.use(express.static(path.join(__dirname, 'dist')));
+// app.use(express.static(path.join(__dirname, 'dist')))
 
 // User CORS for local testing
 // ! TESTING ONLY - REMOVE FOR PROD
-app.use(cors());
-
+app.use(cors())
 
 
 // Get our API routes
-const api = require('./server/routes/api');
+const api = require('./server/routes/api')
 
 // Get authentication routes
-const okta = require('./server/routes/okta');
+const okta = require('./server/routes/okta')
 
 // Get Chatkit routes for Pusher
-const chatkit = require('./server/routes/chatkit');
+const chatkit = require('./server/routes/chatkit')
 
 
 
 // API route
-app.use('/api', api);
+app.use('/api', api)
 
 // Okta route for user auth
-app.use('/okta', okta);
+app.use('/okta', okta)
 
 // Chatkit route for messaging
-app.use('/chatkit', chatkit);
+app.use('/chatkit', chatkit)
+
+
+   // Create multer instance
+   var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads/') // Set upload location
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    }
+  })
+
+  var upload = multer({
+    storage: storage
+  })
 
 
 
-
-// Catch all other routes and return the index file
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/index.html'));
+//
+// Upload user avatar
+//
+app.post('/users/:id/avatar', upload.single("avatar"), (req, res) => {
+  res.status(200).json(req.file);
 });
 
 
-// Define file schema
-var fileSchema = new mongoose.Schema({
-  avatar: String
+//
+// Fetch user avatar
+//
+app.get("/users/:id/avatar", (req, res) => {
+  res.sendFile(path.join(__dirname, `./uploads/${req.params.id}-avatar`));
 });
 
-// Create object from schema
-var File = mongoose.model('files', fileSchema, 'files');
-
-app.post('/asdf', upload.none(), (req, res) => {
-  var base64Avatar = req.body.file;
-  // console.log(req.body.file);
-  // res.status(201).send(req);
-  // res.send(req);
-  // console.log(util.inspect(req));
-  mongoose.connect('mongodb+srv://chatversity_admin:Te0PU0MZzEQOIvmB@primary-qvaqq.mongodb.net/live_db?retryWrites=true', {useNewUrlParser: true});
-
-  var db = mongoose.connection;
-  db.on('error', console.error.bind(console, 'connection error:'));
-  db.once('open', function() {
-    // we're connected!
-    console.log('mongoose connected');
-  
-    var file = new File({avatar: base64Avatar})
-    file.save(function (err, file) {
-      if (err) return console.error(err);
-      else { res.status(200).json(file); }
-    });
-  
-    // File.find(function (err, files) {
-    //   if (err) return console.error(err);
-    //   console.log(files);
-    // })
-
-  // axios.post('https://webhook.site/68f42878-3fc6-4974-8fbe-0e434e858be6', req)
-  // .then(function (response) {
-  //   // console.log(response);
-  //   res.status(200).json(response.data);
-  // })
-  // .catch(function (error) {
-  //   console.log('error');
-  // });
-  });
-});
 
 
 /**
  * Get port from environment and store in Express.
  */
-const port = process.env.PORT || '3000';
-app.set('port', port);
+const port = process.env.PORT || 3200
+app.set('port', port)
 
 /**
  * Create HTTP server.
  */
-const server = http.createServer(app);
+// const server = http.createServer(app)
+const router = express.Router()
+
+// Catch all other routes and return the index file
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'src/index.html'))
+})
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 /**
  * Listen on provided port, on all network interfaces.
  */
-server.listen(port, () => console.log(`API running on localhost:${port}`));
+// server.listen(port, () => console.log(`API running on localhost:${port}`))
