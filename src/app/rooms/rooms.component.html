@@ -24,7 +24,7 @@
   <div class="row" style="height: calc(100vh - 54px);">
     <div class="col-4 h-100 overflow-auto">
         
-          <!-- Begin Messages outlet -->
+          <!-- Begin rooms list -->
           <div id="messages" class="row">
             <div class="col-12">
               <div class="message-wrap">
@@ -42,8 +42,9 @@
             <ng-container *ngFor="let room of rooms">
               <div class="col-12" (click)="joinRoom(room.id)">
                   <div class="message-wrap room d-flex align-items-center justify-content-between">
-                    <ng-container *ngIf="room?.custom_data !== undefined">
-                        <!-- <img src="{{ room.custom_data.roomAvatar }}" alt=""> -->
+                    <ng-container *ngIf="room?.customData !== undefined">
+                      <div class="" [ngStyle]="{ 'background-image': 'url(assets/avatars/' + room.customData.roomAvatar + ')', 'height':'50px', 'width':'50px', 'background-size':'cover', 'background-position':'center, center' }">
+                      </div>
                     </ng-container>
                     <span class="text-secondary">{{ room.name }}</span>
                     <span *ngIf="roomNotifications[room.id]" class="badge badge-secondary">New</span>

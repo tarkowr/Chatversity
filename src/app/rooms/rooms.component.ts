@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import {path} from 'multer';
 import { MessagingService } from '../Core/_services/messaging.service';
 import bsCustomFileInput from 'bs-custom-file-input';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -23,7 +24,7 @@ export class RoomsComponent implements OnInit {
   fd = new FormData();
 
 
-  rooms: any;
+  rooms: Array<any> = [];
   currentUser: any;
   user_id: any;
   room_messages: Array<any> = [];
@@ -238,60 +239,40 @@ export class RoomsComponent implements OnInit {
     });
   }
 
-  // Create room
-  createRoom() {
+
+//
+// ─── CREATE ROOM ────────────────────────────────────────────────────────────────
+//
+
+  createRoom() { // TODO: Add to message service
+
+    const roomName = this.formImport.value.roomNameGroup.roomName;
+    let roomAvatar = '';
+
     // TODO: Add this to upload service
-    this.http.post(`${environment.apiUrl}/users/${this.chatkitUser.id}/avatar`, this.fd)
-    .subscribe( result => {
-      console.log(result);
+    // Upload image
+    this.http.post(`${environment.apiUrl}/rooms/avatar`, this.fd)
+    .toPromise()
+    .then( avatar => {
+      roomAvatar = avatar['filename']; // Store path
+      console.log(roomAvatar);
+      // Create the room
+      this.chatkitUser.createRoom({ // Create the room
+        name: roomName,
+        private: false,
+        customData: { roomAvatar: roomAvatar }, // Add room avatar to custom room data
+      }).then( room => { // Succes
+          this.rooms.push(room); // Add the new room to the list
+          this.roomCreated = true;
+          console.log(room);
+          console.log(`Created room called ${room.name}`);
+        })
+        .catch(err => { // Failed room creation
+          console.log(`Error creating room ${err}`);
+        });
     });
-    // this.roomCreated = true; return;
-    // this.isLoading = true; // Display loading icon
-    // const roomName = this.formImport.value.roomNameGroup.roomName;
-    // const privateRoom = this.formImport.value.privateRoomGroup.privateRoom;
-    // const roomAvatar = this.formImport.value.importFileGroup.importFile;
-    // console.log(this.formImport.value.roomNameGroup.roomName);
-    // console.log(this.formImport.value.privateRoomGroup.privateRoom);
-    // console.log(this.formImport.value.importFileGroup.importFile);
 
-    // console.log(this.fileToUpload);
-    // console.log(this.formImport.value);
 
-    // const formData = new FormData();
-    // const b64string = JSON.stringify(this.imagePath);
-
-    // formData.append('file', b64string);
-    // formData.append('testvar', 'my test var value');
-
-    // console.log(formData);
-
-    // const headers = new HttpHeaders();
-    // headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    // headers.append('Accept', 'application/json');
-
-    // Create room and insert room avatar into database
-    // this.http.post(`${environment.apiUrl}/upload`, formData)
-    // .toPromise()
-    // .then(res => { // Image uploaded
-    //   console.log(res);
-
-    //   console.log('Image uploaded');
-    //   // this.chatkitUser.createRoom({ // Create the room
-    //   //   name: roomName,
-    //   //   private: true,
-    //   //   customData: { roomAvatar: res['_id'] },
-    //   // }).then(room => { // Success
-    //   //   // this.isLoading = false;
-    //   //   this.roomCreated = true;
-    //   //   console.log(`Created room called ${room.name}`);
-    //   // })
-    //   // .catch(err => { // Failed room creation
-    //   //   console.log(`Error creating room ${err}`);
-    //   // });
-    // })
-    // .catch(err => { // Failed image upload
-    //   console.log('Error uploading room image');
-    // });
   }
 
 

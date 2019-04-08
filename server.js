@@ -4,13 +4,8 @@ var express = require('express')
 const path = require('path')
 const http = require('http')
 var bodyParser = require('body-parser')
-var util = require('util')
 var multer  = require('multer')
-const mongoose = require('mongoose')
-// const fileUpload = require('express-fileupload')
 var app = express()
-
-// app.use(fileUpload())
 
 // Setting up the root route
 app.get('/', (req, res) => {
@@ -21,9 +16,6 @@ app.get('/', (req, res) => {
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-
-// Point static path to dist
-// app.use(express.static(path.join(__dirname, 'dist')))
 
 // User CORS for local testing
 // ! TESTING ONLY - REMOVE FOR PROD
@@ -51,36 +43,60 @@ app.use('/okta', okta)
 app.use('/chatkit', chatkit)
 
 
-   // Create multer instance
-   var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads/') // Set upload location
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-    }
-  })
 
-  var upload = multer({
-    storage: storage
-  })
+
+// Point static path to dist
+// app.use("/avatars", express.static(__dirname + "/app/assets/avatars"));
+// app.use("/uploads", express.static(__dirname + "/app/assets/uploads"));
+// app.use("/uploads", express.static(__dirname + "/uploads/adsf"));
 
 
 
 //
-// Upload user avatar
+// ─── CREATE MULTER INSTANCE ─────────────────────────────────────────────────────
+//  
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './src/assets/avatars') // Set upload location
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+  }
+})
+
+var upload = multer({
+  storage: storage
+})
+
+// ────────────────────────────────────────────────────────────────────────────────
+
+
+
+
 //
-app.post('/users/:id/avatar', upload.single("avatar"), (req, res) => {
+// ──────────────────────────────────────────────────── I ──────────
+//   :::::: R O U T E S : :  :   :    :     :        :          :
+// ──────────────────────────────────────────────────────────────
+//
+
+//
+// ─── UPLOAD ROOM AVATAR ─────────────────────────────────────────────────────────
+//
+app.post('/rooms/avatar', upload.single("avatar"), (req, res) => {
+  console.log(req.file);
   res.status(200).json(req.file);
 });
 
-
 //
-// Fetch user avatar
+// FETCH ROOM AVATAR
 //
-app.get("/users/:id/avatar", (req, res) => {
+app.get("/rooms/:id/avatar", (req, res) => {
   res.sendFile(path.join(__dirname, `./uploads/${req.params.id}-avatar`));
+  // ? path.resolve
 });
+
+// ────────────────────────────────────────────────────────────────────────────────
 
 
 
