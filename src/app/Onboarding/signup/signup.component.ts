@@ -10,6 +10,7 @@ import { AuthService } from '../../Core/_services/auth.service';
 import { first } from 'rxjs/operators';
 import { University } from '../../Core/_models/university';
 import { CustomFormValidation } from '../../Core/_models/form-validation';
+import { environment } from '../../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -17,6 +18,8 @@ const httpOptions = {
     'Authorization': 'my-auth-token'
   })
 };
+
+
 
 @Component({
   selector: 'app-signup',
@@ -30,13 +33,15 @@ export class SignupComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   universities: University[];
+  searchingForSchool = false;
   formValidation: CustomFormValidation = new CustomFormValidation();
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private auth: AuthService ) { }
+    private auth: AuthService,
+    private http: HttpClient) { }
 
   ngOnInit() {
     //
@@ -80,7 +85,9 @@ export class SignupComponent implements OnInit {
     this.returnUrl = '/';
   }
 
-  // Check for username or password errors
+  //
+  // ─── CHECK FOR USERNAME OR PASSWORD ERRORS ──────────────────────────────────────
+  //
   checkForFormErrors() {
     if (this.f.username.errors || this.f.password.errors) {
       return true;
@@ -88,15 +95,39 @@ export class SignupComponent implements OnInit {
     return false;
   }
 
-  // Convenience getter for easy access to form fields
+  //
+  // ─── CONVENIENCE GETTER FOR EASY ACCESS TO FORM FIELDS ──────────────────────────
+  //
   get f() { return this.signupForm.controls; }
 
-  // Check for valid university
+  //
+  // ─── CHECK FOR VALID UNIVERSITY ─────────────────────────────────────────────────
+  //
   checkUniversity(_id: number): boolean {
     console.log('University Id:' + _id);
     return (this.universities.find(x => x.id.toString() === _id.toString())) ? true : false;
   }
 
+  //
+  // ─── SEARCH FOR UNIVERSITY FROM JSON STORE ──────────────────────────────────────
+  //
+  findUniversity(query: string) {
+    this.searchingForSchool = true;
+    console.log(query);
+
+    this.http.get(`${environment.apiUrl}/university/${query}`)
+    .toPromise()
+    .then(university => {
+      console.log(university);
+    })
+    .catch(error => {
+      this.searchingForSchool = false;
+    });
+  }
+
+  //
+  // ─── HANDLE SIGN UP ─────────────────────────────────────────────────────────────
+  //
   onSubmit() {
     this.submitted = true;
     this.loading = true;
@@ -109,7 +140,7 @@ export class SignupComponent implements OnInit {
 
     // Stop if invalid university
     if (!(this.checkUniversity(this.signupForm.get('university').value))) {
-      console.log('Invalid University.')
+      console.log('Invalid University.');
       this.f.university.setErrors({'invalid': true});
       this.loading = false;
       return;
@@ -126,7 +157,7 @@ export class SignupComponent implements OnInit {
     formData.append('password', this.signupForm.get('password').value);
 
     this.auth.signup(this.f.firstname.value, this.f.lastname.value, this.f.university.value, this.f.username.value, this.f.password.value);
-    
+
     this.loading = false;
   }
 }

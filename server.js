@@ -6,6 +6,7 @@ const http = require('http')
 var bodyParser = require('body-parser')
 var multer  = require('multer')
 var app = express()
+const universities = require('./universities')
 
 // Setting up the root route
 app.get('/', (req, res) => {
@@ -83,17 +84,36 @@ var upload = multer({
 //
 // ─── UPLOAD ROOM AVATAR ─────────────────────────────────────────────────────────
 //
+
 app.post('/rooms/avatar', upload.single("avatar"), (req, res) => {
   console.log(req.file);
   res.status(200).json(req.file);
 });
 
+
 //
-// FETCH ROOM AVATAR
+// ─── GET ROOM AVATAR ────────────────────────────────────────────────────────────
 //
+
 app.get("/rooms/:id/avatar", (req, res) => {
   res.sendFile(path.join(__dirname, `./uploads/${req.params.id}-avatar`));
   // ? path.resolve
+});
+
+
+//
+// ─── FIND UNIVERSITY ────────────────────────────────────────────────────────────
+//
+
+app.get("/university/:query", (req,res) => {
+  
+  // res.status(200).json(req.params.query);
+  res.status(200).json({
+    universities: universities
+ });
+  // TODO: Search JSON file and return university if query matched
+
+  console.log(req.params.query);
 });
 
 // ────────────────────────────────────────────────────────────────────────────────
