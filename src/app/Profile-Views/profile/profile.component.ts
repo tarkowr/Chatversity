@@ -16,12 +16,25 @@ import { UserProfile } from '../../Core/_models/profile';
 
 export class ProfileComponent implements OnInit {
 
-  constructor(    
+  user: User;
+  profile: UserProfile;
+
+  constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router) { }
 
   ngOnInit() {
+    this.user = {
+      id: 2,
+      firstName: 'Scott',
+      lastName: 'Peterson',
+      username: 'peter610@mail.nmc.edu',
+      password: undefined,
+      university: { id: 3, name: 'NMC' },
+      profile: { bio: "Hello world!", major: "CIS", graduationYear: 2021, interests: "Shooting, Riding, and the Outdoors", clubs: "Phi Theta Kappa" },
+    }
 
+    this.profile = this.user.profile;
   }
 }
