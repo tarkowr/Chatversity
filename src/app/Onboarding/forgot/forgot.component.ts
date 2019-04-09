@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
@@ -41,6 +41,8 @@ export class ForgotComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     this.loading = true;
+
+    // http.post(`${environment.apiUrl}/recovery/forgot`);
 
     // stop here if form is invalid
     if (this.forgotForm.invalid) {
