@@ -35,7 +35,7 @@ export const routes: Routes = [
     { path: 'settings-profile', component: SettingsProfileComponent, canActivate: [AuthGuard] },
     { path: 'friends-home', component: ViewFriendsHomeComponent, canActivate: [AuthGuard] },
     { path: 'latest-news', component: ViewLatestNewsComponent, canActivate: [AuthGuard] },
-    { path: 'home-nav', component: ViewNavigationHomeComponent, canActivate: [AuthGuard] },
+    { path: 'home', component: ViewNavigationHomeComponent, canActivate: [AuthGuard] },
     { path: 'new-user', component: NewUserComponent, canActivate: [AuthGuard] },
 
     /* Can be logged in or logged out to access these components */

@@ -1,3 +1,21 @@
-<p>
-  view-navigation-home works!
-</p>
+<div class="container-fluid" style="width:100%; min-height: 100vh; background-color: white;">
+  <div class="row">
+    <div class="col-12 col-lg-3">
+      Hello World! This is the navbar <br> <br>
+      <button (click)="showHomeView()">Home</button>
+      <button (click)="showFriendsView()">Friends</button>
+      <button (click)="showProfileView()">Profile</button>
+    </div>
+    <div class="col-12 col-lg-9">
+      <div *ngIf="FriendsView.current">
+        <app-view-friends-home></app-view-friends-home>
+      </div>
+      <div *ngIf="HomeView.current">
+        <app-view-latest-news></app-view-latest-news>
+      </div>
+      <div *ngIf="ProfileView.current">
+        <app-profile></app-profile>
+      </div>
+    </div>
+  </div>
+</div>
