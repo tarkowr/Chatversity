@@ -106,11 +106,25 @@ app.get("/rooms/:id/avatar", (req, res) => {
 //
 
 app.get("/university/:query", (req,res) => {
-  
+
+  // Get the user query from request body
+  var query = req.params.query;
+
+  // Get the web domain from the user query (username / email)
+  var domainToFind = query.replace(/.*@/, "")
+
+  // Filter for university in JSON list
+  var found = universities.find(university => {
+    return university.domains.some((domain) => {
+      return (domain === domainToFind)
+    });
+  });
+// http.post(`${environment.apiUrl}/okta/forgot`)
+  res.status(200).json(found);
   // res.status(200).json(req.params.query);
-  res.status(200).json({
-    universities: universities
- });
+//   res.status(200).json({
+//     universities: universities
+//  });
   // TODO: Search JSON file and return university if query matched
 
   console.log(req.params.query);
