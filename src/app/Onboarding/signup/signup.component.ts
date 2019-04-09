@@ -78,8 +78,12 @@ export class SignupComponent implements OnInit {
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
       university: ['', Validators.required],
-      username: ['', Validators.compose([ Validators.required, Validators.email, Validators.pattern(this.formValidation.eduEmailValidation)])],
-      password: ['', Validators.compose([ Validators.required, Validators.minLength(6), Validators.pattern(this.formValidation.passwordValidation)])]
+      username: ['', Validators.compose([
+        Validators.required, Validators.email, Validators.pattern(this.formValidation.eduEmailValidation)
+      ])],
+      password: ['', Validators.compose([
+        Validators.required, Validators.minLength(6), Validators.pattern(this.formValidation.passwordValidation)
+      ])]
     });
 
     this.returnUrl = '/';
