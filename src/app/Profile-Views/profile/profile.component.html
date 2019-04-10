@@ -1,30 +1,38 @@
 <div class="container-fluid py-3">
     <div class="text-center">
-        <!-- Profile Image -->
-        <img src="..." onerror="this.src='../../assets/images/DefaultProfile.png'"
-            class="col-10 offset-1 col-md-4 offset-md-4 rounded img-fluid mx-auto mt-5 mb-1 d-block" >
+        <div class="row mt-5 mb-3">
+            <div class="col-12 col-lg-4" id="profile-picture-container">
+                <!-- Profile Image -->
+                <img src="..." onerror="this.src='../../assets/images/DefaultProfile.png'" id="user-image"
+                class="rounded img-fluid mb-1 d-block" >
+            </div>
 
-        <!-- User's Name -->
-        <h1 class="col-12 mt-2 text-primary">{{this.user.firstName}} {{this.user.lastName}} </h1>
+            <div class="col-12 col-lg-6 text-left" id="profile-content">
+                <!-- User Name -->
+                <div class="h2 text-secondary text-light-weight">{{ this.user.firstName }} {{ this.user.lastName }} </div>
 
-        <!-- User's Info -->
-        <div class="row">
-            <div class="col text-right"><h3>{{this.user.profile.major}}</h3></div>
-            <div class="col-auto"><h3>|</h3></div>
-            <div class="col text-left"><h3>{{this.user.profile.graduationYear}}</h3></div>
-        </div>
+                <!-- User Major and Graduation Year -->
+                <div class="text-primary">
+                    <span style="font-weight:100;">{{ this.user.profile.major }}</span>
+                    <span style="font-weight:100;"> &nbsp; | &nbsp; </span>
+                    <span style="font-weight:100;">{{ this.user.profile.graduationYear }}</span>
+                </div>
 
-        <!-- <h3 class="col-12 text-secondary">{{this.user.profile.major}} | {{this.user.profile.graduationYear}}</h3> -->
-        <hr />
-        
-        <div class="col-12 col-md-8 offset-md-2 row">
-            <p class="col-6 col-md-3 offset-md-3 text-left">Clubs:</p>
-            <p class="col-6 col-md-3 text-left">{{this.user.profile.clubs}}</p>
+                <!--User Bio-->
+                <div class="text-left mt-3">
+                    <p>{{this.user.profile.bio}}</p>
+                </div>
+
+                <!--User Clubs-->
+                <div class="text-left">
+                    <p><span class="text-secondary">Clubs: &nbsp;</span> {{this.user.profile.clubs}}</p>
+                </div>
+
+                <!--User Interests-->
+                <div class="text-left">
+                    <p><span class="text-secondary">Interests: &nbsp;</span> {{this.user.profile.interests}}</p>
+                </div>
+            </div>
         </div>
-        <div class="col-12 col-md-8 offset-md-2 row">
-            <p class="col-6 col-md-3 offset-md-3 text-left">Interests:</p>
-            <p class="col-6 col-md-3 text-left">{{this.user.profile.interests}}</p>
-        </div>
-        <p class="col-8 offset-2 col-md-6 offset-md-3 text-secondary mt-2">{{this.user.profile.bio}}</p>
     </div>
 </div>
