@@ -6,7 +6,8 @@
 noahs_codes.md
 
 # compiled output
-/dist
+#/dist
+#Removing dist/ folder as travis-ci needs to see it for auto builds and deploys
 /tmp
 /out-tsc
 
