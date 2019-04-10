@@ -9,6 +9,7 @@ $theme-colors: (
   "secondary":#0E425F,
   "light":#96B7C9,
   "lighter":#F1F8FC,
+  "light-gray": #DAE6ED,
   "danger": #ff4136
 );
 
@@ -17,10 +18,14 @@ $theme-colors: (
 html, body {
     font-size: 16px; // Base font size
     font-family: "Poppins", "Nunito", "Proxima Nova", sans-serif;
-    min-height: 100%;    // Cover Full Screen
+    height: 100%;    // Cover Full Screen
     width: 100%;     // Cover Full Screen
     scroll-behavior: smooth;
-  }
+}
+
+body{
+  overflow-x: hidden;
+}
 
 app-messages, app-rooms {
     width: calc(100vw - 88px);
@@ -40,5 +45,6 @@ app-messages, app-rooms {
 .app-main {
   display: flex;
   width: calc(100vw - 88px);
+  /*width: 100%;*/
   flex-direction: column;
 }

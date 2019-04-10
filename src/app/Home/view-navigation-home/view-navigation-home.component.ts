@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { View } from '../../Core/_models/view';
+import {Router, ActivatedRoute, Params} from '@angular/router';
 
 @Component({
   selector: 'app-view-navigation-home',
@@ -13,10 +14,21 @@ export class ViewNavigationHomeComponent implements OnInit {
 
   views:View[] = [this.HomeView, this.FriendsView, this.ProfileView];
 
-  constructor() { }
+  headerText:string;
+
+  constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.HomeView.current = true;
+    this.headerText = "Latest News";
+
+    // [routerLink]="['/home']" [queryParams]="{view:'param'}"
+    this.activatedRoute.queryParams.subscribe(params => {
+      let view = params['view'];
+      console.log(view);
+  
+      this.handleViewParam(view);
+    });
   }
 
   // Display home view
@@ -39,13 +51,16 @@ export class ViewNavigationHomeComponent implements OnInit {
     this.hideAllViews();
     switch(_id){
       case 2:
-        this.ProfileView.current = true;
+        this.FriendsView.current = true;
+        this.headerText = "Friends";
         break;
       case 3:
-        this.FriendsView.current = true;
+        this.ProfileView.current = true;
+        this.headerText = "Profile";
         break;
       default:
         this.HomeView.current = true;
+        this.headerText = "Latest News";
         break;
     }  
   }
@@ -55,5 +70,20 @@ export class ViewNavigationHomeComponent implements OnInit {
     this.views.forEach(function(view){
       view.current = false;
     })
+  }
+
+  // Display views based on url param
+  handleViewParam(param:string){
+    switch(param){
+      case "profile":
+        this.showProfileView();
+        break;
+      case "friends":
+        this.showFriendsView();
+        break;
+      default:
+        this.showHomeView();
+        break;
+    }
   }
 }
