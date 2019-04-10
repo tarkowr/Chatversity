@@ -1,14 +1,21 @@
 a {
-    color: #24B6FF;
+    color: #96B7C9 !important;
+    border-radius: 0px;
+    border: 1px solid white;
 }
 
 .active {
     color: #24B6FF !important;
-    // From Noah:  I added the darken to differentiate between the .active and the hover.  Also I got rid of the blue to fit more with the Figma design
-    background-color: darken($color: #F3F6F8, $amount: 3) !important;
+    background-color: #F3F6F8 !important;
+    border: 1px solid #dce8ef;
 }
 
 a:hover {
     background-color: #F3F6F8;
+    border: 1px solid #F3F6F8;
+}
+
+#top-logo{
+    all: initial;
 }
 

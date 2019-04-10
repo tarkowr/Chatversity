@@ -19,8 +19,6 @@ const httpOptions = {
   })
 };
 
-
-
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -44,35 +42,6 @@ export class SignupComponent implements OnInit {
     private http: HttpClient) { }
 
   ngOnInit() {
-    //
-    // ToDo: Get list of universities via service
-    //
-    this.universities = [
-      {
-        id: 1,
-        name: 'NMC'
-      },
-      {
-        id: 2,
-        name: 'SVSU'
-      },
-      {
-        id: 3,
-        name: 'FSU'
-      },
-      {
-        id: 4,
-        name: 'UofM'
-      },
-      {
-        id: 5,
-        name: 'MSU'
-      },
-      {
-        id: 6,
-        name: 'CMU'
-      }
-    ];
 
     this.signupForm = this.formBuilder.group({
       firstname: ['', Validators.required],
@@ -86,7 +55,7 @@ export class SignupComponent implements OnInit {
       ])]
     });
 
-    this.returnUrl = '/';
+    this.returnUrl = '/new-user';
   }
 
   //

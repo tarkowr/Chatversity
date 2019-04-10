@@ -16,36 +16,42 @@ export class ViewNavigationHomeComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.HomeView.current = true;
   }
 
+  // Display home view
   showHomeView(){
-    this.showPage("home");
+    this.showPage(this.HomeView.id);
   }
 
+  // Display friends view
   showFriendsView(){
-    this.showPage("friends");
+    this.showPage(this.FriendsView.id);
   }
 
+  // Display profile view
   showProfileView(){
-    this.showPage("profile");
+    this.showPage(this.ProfileView.id);
   }
 
-  showPage(page:string){
-    this.hideAllPages();
-    switch(page){
-      case "home":
-        this.HomeView.current = true;
+  // Display view by id
+  showPage(_id:number){
+    this.hideAllViews();
+    switch(_id){
+      case 2:
+        this.ProfileView.current = true;
         break;
-      case "friends":
+      case 3:
         this.FriendsView.current = true;
         break;
       default:
-        this.ProfileView.current = true;
+        this.HomeView.current = true;
         break;
     }  
   }
 
-  hideAllPages(){
+  // Hide all home views
+  hideAllViews(){
     this.views.forEach(function(view){
       view.current = false;
     })
