@@ -13,6 +13,19 @@
     },
     {
       "web_pages": [
+        "http://www.nmc.edu"
+      ],
+      "name": "Northwestern Michigan College",
+      "alpha_two_code": "US",
+      "state-province": "MI",
+      "domains": [
+        "mail.nmc.edu",
+        "nmc.edu"
+      ],
+      "country": "US"
+    },
+    {
+      "web_pages": [
         "https://www.cstj.qc.ca",
         "https://ccmt.cstj.qc.ca",
         "https://ccml.cstj.qc.ca"

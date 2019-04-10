@@ -1,10 +1,12 @@
 a {
-    font-weight: bold;
-    color: #115073 !important;
+    color: #0E425F !important;
     font-size: 1rem;
+    font-weight: 500;
+}
+a:hover{
+    text-decoration: underline;
 }
 
-p {
-    font-weight: bold;
+span{
     font-size: 1rem;
 }

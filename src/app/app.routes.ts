@@ -9,12 +9,9 @@ import { AuthGuard } from './Core/_guards/auth.guard';
 import { RouteGuard } from './Core/_guards/route.guard';
 import { SettingsComponent } from './Settings-Views/settings/settings.component';
 import { MessagesComponent } from './messages/messages.component';
-import { ProfileComponent } from './Profile-Views/profile/profile.component';
 import { SettingsProfileComponent } from './Profile-Views/settings-profile/settings-profile.component';
 import { SmallComponent } from './Profile-Views/small/small.component';
 import { NewUserComponent } from './Onboarding/new-user/new-user.component';
-import { ViewFriendsHomeComponent } from './Home/view-friends-home/view-friends-home.component';
-import { ViewLatestNewsComponent } from './Home/view-latest-news/view-latest-news.component';
 import { ViewNavigationHomeComponent } from './Home/view-navigation-home/view-navigation-home.component';
 import { RoomsComponent } from './rooms/rooms.component';
 
@@ -25,16 +22,12 @@ export const routes: Routes = [
     { path: 'login',  component: LoginComponent/*, canActivate: [RouteGuard]*/ },
 
     /* Must be logged in to access these components */
-    { path: '', component: DashboardComponent /*canActivate: [AuthGuard]*/ },
-    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+    { path: '', component: ViewNavigationHomeComponent, canActivate: [AuthGuard] },
     { path: 'settings',  component: SettingsComponent, canActivate: [AuthGuard] },
     { path: 'rooms',  component: RoomsComponent, canActivate: [AuthGuard] },
     { path: 'messages',  component: MessagesComponent, canActivate: [AuthGuard] },
-    { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
     { path: 'user-profile', component: SmallComponent, canActivate: [AuthGuard] },
     { path: 'settings-profile', component: SettingsProfileComponent, canActivate: [AuthGuard] },
-    { path: 'friends-home', component: ViewFriendsHomeComponent, canActivate: [AuthGuard] },
-    { path: 'latest-news', component: ViewLatestNewsComponent, canActivate: [AuthGuard] },
     { path: 'home', component: ViewNavigationHomeComponent, canActivate: [AuthGuard] },
     { path: 'new-user', component: NewUserComponent, canActivate: [AuthGuard] },
 

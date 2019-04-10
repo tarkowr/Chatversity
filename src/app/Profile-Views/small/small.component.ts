@@ -22,7 +22,7 @@ export class SmallComponent implements OnInit {
       lastName: 'Peterson',
       username: 'peter610@mail.nmc.edu',
       password: undefined,
-      university: { id: 3, name: 'NMC' },
+      university: { id: 3, name: 'NMC', state:'MI', domains:null },
       profile: { bio: "Hello world!", major: "CIS", graduationYear:2021, interests:"Shooting, Riding, and The Outdoors", clubs:""},
     }
 
