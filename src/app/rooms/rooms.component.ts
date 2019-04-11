@@ -234,7 +234,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
             // Push to messages array and update view
             this.room_messages.push(message);
             // Scroll chat window to reveal latest message
-            document.getElementById('chatReel').scrollTop = 0;
+            // document.getElementById('chatReel').scrollTop = 0;
             // alert(document.getElementById('chatReel'));
 
             // Get the users last cursor position from the room
@@ -322,21 +322,15 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       this.chatkitUser = user;
       this.rooms = user.rooms;
 
-      // Iterate through rooms and subscribe to each
-      this.rooms.forEach(room => {
-        this.subscribeToRoom(room.id);
-        // TODO: Check if room has read cursor and add `new` badge if not
-      });
-
       // Join first room in array
       // TODO: refactor this implementation
-      this.chatkitUser.joinRoom({roomId: this.rooms[0].id}).then(room => {
+      this.chatkitUser.joinRoom({roomId: user.rooms[0].id}).then(room => {
         this.current_room = room;
 
 
         // Fetch all messages for joined room
         this.chatkitUser.fetchMultipartMessages({
-          roomId: this.rooms[0].id,
+          roomId: room.id,
           limit: 10,
         }).then(messages => {
           messages.forEach(message => {
@@ -345,6 +339,17 @@ export class RoomsComponent implements OnInit, AfterViewInit {
           this.room_messages = messages;
         });
       });
+
+      // Iterate through rooms and subscribe to each
+      this.rooms.forEach(room => {
+        if (room.id === user.rooms[0].id) {
+          return;
+        }
+        this.subscribeToRoom(room.id);
+        // TODO: Check if room has read cursor and add `new` badge if not
+      });
+
+
     })
     .catch(error => {
       console.error('error:', error);

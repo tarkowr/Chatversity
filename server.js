@@ -59,7 +59,7 @@ app.use('/chatkit', chatkit)
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './src/assets/avatars') // Set upload location
+    cb(null, `./src/assets/${req.file.fieldname}`) // Set upload location
   },
   filename: function (req, file, cb) {
     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
@@ -89,6 +89,8 @@ app.post('/rooms/avatar', upload.single("avatar"), (req, res) => {
   console.log(req.file);
   res.status(200).json(req.file);
 });
+// ────────────────────────────────────────────────────────────────────────────────
+
 
 
 //
