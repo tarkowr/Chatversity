@@ -22,6 +22,9 @@ import { ViewLatestNewsComponent } from './Home/view-latest-news/view-latest-new
 import { ViewNavigationHomeComponent } from './Home/view-navigation-home/view-navigation-home.component';
 import { ViewFriendsHomeComponent } from './Home/view-friends-home/view-friends-home.component';
 import { RoomsComponent } from './rooms/rooms.component';
+import { PrivacySettingsComponent } from './Settings-Views/privacy-settings/privacy-settings.component';
+import { SecuritySettingsComponent } from './Settings-Views/security-settings/security-settings.component';
+import { ConnectionSettingsComponent } from './Settings-Views/connection-settings/connection-settings.component';
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -52,6 +55,9 @@ import { RoomsComponent } from './rooms/rooms.component';
     ViewNavigationHomeComponent,
     ViewFriendsHomeComponent,
     RoomsComponent,
+    PrivacySettingsComponent,
+    SecuritySettingsComponent,
+    ConnectionSettingsComponent,
   ],
   imports: [
     NativeScriptModule,
