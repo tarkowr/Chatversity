@@ -135,6 +135,7 @@ export class ViewFriendsHomeComponent implements OnInit {
   // ────────────────────────────────────────────────────────────────────────────────
 
 
+
   //
   // ─── ADD CONNECTION ─────────────────────────────────────────────────────────────
   //
@@ -174,6 +175,7 @@ export class ViewFriendsHomeComponent implements OnInit {
       return this.connections.find(c => c.id === _id);
     }
   // ────────────────────────────────────────────────────────────────────────────────
+
 
 
   //
@@ -218,6 +220,7 @@ export class ViewFriendsHomeComponent implements OnInit {
   // ─────────────────────────────────────────────────────────────────
 
 
+
   //
   // ─── HANDLE SIGN UP ─────────────────────────────────────────────────────────────
   //
@@ -235,4 +238,6 @@ export class ViewFriendsHomeComponent implements OnInit {
 
     this.loading = false;
   }
+  // ────────────────────────────────────────────────────────────────────────────────
+
 }

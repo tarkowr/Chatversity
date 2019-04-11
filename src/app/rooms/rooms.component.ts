@@ -94,23 +94,30 @@ export class RoomsComponent implements OnInit {
   }
 
 
-  // Send a message
-  sendMessage() {
-    const { message, currentUser } = this;
-    this.chatkitUser.sendMessage({
-      text: message,
-      roomId: this.current_room.id,
-    }).then(res => {
-      console.log(res);
-    });
-    this.message = '';
-  }
+  //
+  // ─── SEND A MESSAGE ─────────────────────────────────────────────────────────────
+  //
+
+    sendMessage() {
+      const { message, currentUser } = this;
+      this.chatkitUser.sendMessage({
+        text: message,
+        roomId: this.current_room.id,
+      }).then(res => {
+        console.log(res);
+      });
+      this.message = '';
+    }
+  // ─────────────────────────────────────────────────────────────────
+
 
 
   // Join a room
   joinRoom(roomID) {
     this.chatkitUser.joinRoom({roomId: roomID}).then(room => {
       this.current_room = room;
+      console.log(this.current_room);
+
 
       // After joining room, fetch messages
       this.chatkitUser.fetchMultipartMessages({roomId: roomID}).then(messages => {
@@ -134,6 +141,7 @@ export class RoomsComponent implements OnInit {
         //   });
         messages.forEach(message => {
           // console.log(message.parts[0].payload.content);
+          // console.log(message);
         });
         this.room_messages = messages;
       });
@@ -172,28 +180,41 @@ export class RoomsComponent implements OnInit {
   }
 
 
-  // Get Chatkit user
-  getUser(user_id) {
-    return this.http.post<any>(`${environment.apiUrl}/chatkit/getuser`, {user_id})
-    .toPromise()
-    .then(res => {
-      return res;
-      console.log(res);
-    })
-    .catch(error => console.log(error));
-  }
 
-  // Get Chatkit user's rooms
-  getUserRooms(user_id) {
-    return this.http.post<any>(`${environment.apiUrl}/chatkit/getuserrooms`, {user_id})
-    .toPromise()
-    .then(res => {
-      // this.rooms = res;
-      console.log(res);
-      return res;
-    })
-    .catch(error => console.log(error));
-  }
+  //
+  // ─── GET CHATKIT USER ───────────────────────────────────────────────────────────
+  //
+
+    getUser(user_id) {
+      return this.http.post<any>(`${environment.apiUrl}/chatkit/getuser`, {user_id})
+      .toPromise()
+      .then(res => {
+        return res;
+        console.log(res);
+      })
+      .catch(error => console.log(error));
+    }
+  // ─────────────────────────────────────────────────────────────────
+
+
+
+  //
+  // ─── GET CHATKIT USERS ROOMS ────────────────────────────────────────────────────
+  //
+
+    getUserRooms(user_id) {
+      return this.http.post<any>(`${environment.apiUrl}/chatkit/getuserrooms`, {user_id})
+      .toPromise()
+      .then(res => {
+        // this.rooms = res;
+        console.log(res);
+        return res;
+      })
+      .catch(error => console.log(error));
+    }
+  // ─────────────────────────────────────────────────────────────────
+
+
 
   subscribeToRoom(roomID) {
     this.chatkitUser.subscribeToRoomMultipart({
@@ -240,40 +261,40 @@ export class RoomsComponent implements OnInit {
   }
 
 
-//
-// ─── CREATE ROOM ────────────────────────────────────────────────────────────────
-//
+  //
+  // ─── CREATE ROOM ────────────────────────────────────────────────────────────────
+  //
 
-  createRoom() { // TODO: Add to message service
+    createRoom() { // TODO: Add to message service
 
-    const roomName = this.formImport.value.roomNameGroup.roomName;
-    let roomAvatar = '';
+      const roomName = this.formImport.value.roomNameGroup.roomName;
+      let roomAvatar = '';
 
-    // TODO: Add this to upload service
-    // Upload image
-    this.http.post(`${environment.apiUrl}/rooms/avatar`, this.fd)
-    .toPromise()
-    .then( avatar => {
-      roomAvatar = avatar['filename']; // Store path
-      console.log(roomAvatar);
-      // Create the room
-      this.chatkitUser.createRoom({ // Create the room
-        name: roomName,
-        private: false,
-        customData: { roomAvatar: roomAvatar }, // Add room avatar to custom room data
-      }).then( room => { // Succes
-          this.rooms.push(room); // Add the new room to the list
-          this.roomCreated = true;
-          console.log(room);
-          console.log(`Created room called ${room.name}`);
-        })
-        .catch(err => { // Failed room creation
-          console.log(`Error creating room ${err}`);
-        });
-    });
+      // TODO: Add this to upload service
+      // Upload image
+      this.http.post(`${environment.apiUrl}/rooms/avatar`, this.fd)
+      .toPromise()
+      .then( avatar => {
+        roomAvatar = avatar['filename']; // Store path
+        console.log(roomAvatar);
+        // Create the room
+        this.chatkitUser.createRoom({ // Create the room
+          name: roomName,
+          private: false,
+          customData: { roomAvatar: roomAvatar }, // Add room avatar to custom room data
+        }).then( room => { // Succes
+            this.rooms.push(room); // Add the new room to the list
+            this.roomCreated = true;
+            console.log(room);
+            console.log(`Created room called ${room.name}`);
+          })
+          .catch(err => { // Failed room creation
+            console.log(`Error creating room ${err}`);
+          });
+      });
+    }
+  // ────────────────────────────────────────────────────────────────────────────────
 
-
-  }
 
 
   ngOnInit() {

@@ -49,3 +49,14 @@ app-messages, app-rooms {
   /*width: 100%;*/
   flex-direction: column;
 }
+
+.custom-btn{
+  border-radius: 5px;
+  color: #96B7C9;
+  background-color: #F1F8FC;
+}
+.custom-btn:hover{
+  background-color: white;
+  color: #0E425F;
+  border: 1px solid #bddef1;
+}
