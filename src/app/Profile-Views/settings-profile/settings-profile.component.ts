@@ -42,6 +42,7 @@ export class SettingsProfileComponent implements OnInit {
       password: undefined,
       university: { id: 3, name: 'NMC', state:'MI', domains:null },
       profile: { bio: "Hello world!", major: "CIS", graduationYear:2021, interests:"Running, NBA, and CS", clubs:"bball"},
+      active: false
     }
 
     this.profile = this.user.profile;
