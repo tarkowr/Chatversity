@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { User } from '../../Core/_models/user';
 
 @Component({
@@ -7,13 +8,22 @@ import { User } from '../../Core/_models/user';
   styleUrls: ['./view-friends-home.component.css']
 })
 export class ViewFriendsHomeComponent implements OnInit {
+  searchForm: FormGroup;
+  loading = false;
+  submitted = false;
   connections: User[];
   connection: User;
+  results: User[];
   isConnection: boolean = false;
 
-  constructor() { }
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+
+    // Setup search box
+    this.searchForm = this.formBuilder.group({
+      search: ['', Validators.required]
+    });
 
     // DELETE THIS TEST DATA WHEN USER SERVICE IS AVAILABLE
     this.connections = [
@@ -72,9 +82,20 @@ export class ViewFriendsHomeComponent implements OnInit {
     this.connection = this.connections[0];
   }
 
+  //
+  // ─── CONVENIENCE GETTER FOR EASY ACCESS TO FORM FIELDS ──────────────────────────
+  //
+  get f() { return this.searchForm.controls; }
+
   // Return user from friend list
   getUser(_id:number):User{
     return this.connections.find(c => c.id == _id);
+  }
+
+  // Filter list of users by name
+  getUsersByName(_name:string){
+    _name = _name.toLowerCase();
+    this.results = this.connections.filter(c => (c.firstName.toLowerCase() + " " + c.lastName.toLowerCase()).includes(_name));
   }
 
   // Check if users are friends
@@ -94,5 +115,23 @@ export class ViewFriendsHomeComponent implements OnInit {
   setUser(_id:number){
     this.connection = this.getUser(_id);
     this.isConnected(_id);
+  }
+
+  //
+  // ─── HANDLE SIGN UP ─────────────────────────────────────────────────────────────
+  //
+  onSearch() {
+    this.submitted = true;
+    this.loading = true;
+
+    if (this.searchForm.invalid) {
+      this.loading = false;
+      this.submitted = false;
+      return;
+    }
+
+    this.getUsersByName(this.searchForm.get('search').value);
+
+    this.loading = false;
   }
 }
