@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { User } from '../../Core/_models/user';
 import { UserProfile } from '../../Core/_models/profile';
 
@@ -8,25 +8,18 @@ import { UserProfile } from '../../Core/_models/profile';
   styleUrls: ['./small.component.css']
 })
 export class SmallComponent implements OnInit {
-
-  user: User;
-  profile: UserProfile;
+  
+  @Input() user: User;
+  @Input() isConnection: boolean = false;
 
   constructor() { }
 
   ngOnInit() {
 
-    this.user = {
-      id: 2,
-      firstName: 'Scott',
-      lastName: 'Peterson',
-      username: 'peter610@mail.nmc.edu',
-      password: undefined,
-      university: { id: 3, name: 'NMC', state:'MI', domains:null },
-      profile: { bio: "Hello world!", major: "CIS", graduationYear:2021, interests:"Shooting, Riding, and The Outdoors", clubs:""},
-    }
+  }
 
-    this.profile = this.user.profile;
+  addConnection(){
+    this.isConnection = true;
   }
 
 }

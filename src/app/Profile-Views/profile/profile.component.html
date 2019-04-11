@@ -1,21 +1,20 @@
 <div class="container-fluid py-3">
     <div class="text-center">
         <div class="row mt-5 mb-3">
-            <div class="col-12 col-lg-4" id="profile-picture-container">
+            <div class="col-12 col-lg-4 mt-1 pr-2" id="profile-picture-container">
                 <!-- Profile Image -->
                 <img src="..." onerror="this.src='../../assets/images/DefaultProfile.png'" id="user-image"
                 class="rounded img-fluid mb-1 d-block" >
             </div>
 
-            <div class="col-12 col-lg-6 text-left" id="profile-content">
+            <div class="col-12 col-lg-7 text-left" id="profile-content">
                 <!-- User Name -->
                 <div class="h2 text-secondary text-light-weight">{{ this.user.firstName }} {{ this.user.lastName }} </div>
 
                 <!-- User Major and Graduation Year -->
-                <div class="text-primary">
-                    <span style="font-weight:100;">{{ this.user.profile.major }}</span>
-                    <span style="font-weight:100;"> &nbsp; | &nbsp; </span>
-                    <span style="font-weight:100;">{{ this.user.profile.graduationYear }}</span>
+                <div>
+                    <span class="text-light" style="font-weight:100;">Class of {{ this.user.profile.graduationYear }}</span><br>
+                    <span class="text-primary" style="font-weight:100;">{{ this.user.profile.major }}</span>
                 </div>
 
                 <!--User Bio-->
@@ -25,12 +24,12 @@
 
                 <!--User Clubs-->
                 <div class="text-left">
-                    <p><span class="text-secondary">Clubs: &nbsp;</span> {{this.user.profile.clubs}}</p>
+                    <p><span class="text-secondary-light">Clubs: &nbsp;</span> {{this.user.profile.clubs}}</p>
                 </div>
 
                 <!--User Interests-->
                 <div class="text-left">
-                    <p><span class="text-secondary">Interests: &nbsp;</span> {{this.user.profile.interests}}</p>
+                    <p><span class="text-secondary-light">Interests: &nbsp;</span> {{this.user.profile.interests}}</p>
                 </div>
             </div>
         </div>

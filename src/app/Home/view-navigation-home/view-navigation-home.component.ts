@@ -8,8 +8,8 @@ import {Router, ActivatedRoute, Params} from '@angular/router';
   styleUrls: ['./view-navigation-home.component.css']
 })
 export class ViewNavigationHomeComponent implements OnInit {
-  HomeView:View = { id: 1, name: 'Home', current: false }
-  FriendsView:View = { id: 2, name: 'Friends', current: false }
+  HomeView:View = { id: 1, name: 'Latest News', current: false }
+  FriendsView:View = { id: 2, name: 'Connections', current: false }
   ProfileView:View = { id: 3, name: 'Profile', current: false }
 
   views:View[] = [this.HomeView, this.FriendsView, this.ProfileView];
@@ -52,15 +52,15 @@ export class ViewNavigationHomeComponent implements OnInit {
     switch(_id){
       case 2:
         this.FriendsView.current = true;
-        this.headerText = "Friends";
+        this.headerText = this.FriendsView.name;
         break;
       case 3:
         this.ProfileView.current = true;
-        this.headerText = "Profile";
+        this.headerText = this.ProfileView.name;
         break;
       default:
         this.HomeView.current = true;
-        this.headerText = "Latest News";
+        this.headerText = this.HomeView.name;
         break;
     }  
   }
@@ -78,7 +78,7 @@ export class ViewNavigationHomeComponent implements OnInit {
       case "profile":
         this.showProfileView();
         break;
-      case "friends":
+      case "connections":
         this.showFriendsView();
         break;
       default:

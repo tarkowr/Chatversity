@@ -1,3 +1,34 @@
-<p>
-  view-friends-home works!
-</p>
+<div class="container-fluid mt-4">
+
+  <app-small [user]="connection" [isConnection]="isConnection"></app-small>
+
+  <!--Search connections-->
+  <div>
+
+  </div>
+
+  <!--Connection search results-->
+  <div>
+
+  </div>
+
+  <!--Online connections-->
+  <div>
+    <div class="text-light">Online Connections</div>
+    <hr>
+
+    <div *ngFor="let c of connections" class="my-2 user-card">
+        <button class="btn btn-block text-left px-3 py-2" data-toggle="modal" data-target="#profileModal" (click)="setUser(c.id)">
+            <img src="..." onerror="this.src='../../assets/images/DefaultProfile.png'"
+            class="circle img-fluid rounded-circle card-img" [ngClass]="{ 'border-online':true }"/> 
+
+            <span class="text-secondary ml-3">{{ c.firstName }} {{ c.lastName }}</span>
+        </button>
+    </div>
+  </div>
+
+  <!--All connections-->
+  <div>
+
+  </div>
+</div>
