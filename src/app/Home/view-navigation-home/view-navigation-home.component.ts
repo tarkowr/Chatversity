@@ -8,48 +8,48 @@ import {Router, ActivatedRoute, Params} from '@angular/router';
   styleUrls: ['./view-navigation-home.component.css']
 })
 export class ViewNavigationHomeComponent implements OnInit {
-  HomeView:View = { id: 1, name: 'Latest News', current: false }
-  FriendsView:View = { id: 2, name: 'Connections', current: false }
-  ProfileView:View = { id: 3, name: 'Profile', current: false }
+  HomeView: View = { id: 1, name: 'Latest News', current: false };
+  FriendsView: View = { id: 2, name: 'Connections', current: false };
+  ProfileView: View = { id: 3, name: 'Profile', current: false };
 
-  views:View[] = [this.HomeView, this.FriendsView, this.ProfileView];
+  views: View[] = [this.HomeView, this.FriendsView, this.ProfileView];
 
-  headerText:string;
+  headerText: string;
 
   constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.HomeView.current = true;
-    this.headerText = "Latest News";
+    this.headerText = 'Latest News';
 
     // [routerLink]="['/home']" [queryParams]="{view:'param'}"
     this.activatedRoute.queryParams.subscribe(params => {
-      let view = params['view'];
+      const view = params['view'];
       console.log(view);
-  
+
       this.handleViewParam(view);
     });
   }
 
   // Display home view
-  showHomeView(){
+  showHomeView() {
     this.showPage(this.HomeView.id);
   }
 
   // Display friends view
-  showFriendsView(){
+  showFriendsView() {
     this.showPage(this.FriendsView.id);
   }
 
   // Display profile view
-  showProfileView(){
+  showProfileView() {
     this.showPage(this.ProfileView.id);
   }
 
   // Display view by id
-  showPage(_id:number){
+  showPage(_id: number) {
     this.hideAllViews();
-    switch(_id){
+    switch (_id) {
       case 2:
         this.FriendsView.current = true;
         this.headerText = this.FriendsView.name;
@@ -62,23 +62,23 @@ export class ViewNavigationHomeComponent implements OnInit {
         this.HomeView.current = true;
         this.headerText = this.HomeView.name;
         break;
-    }  
+    }
   }
 
   // Hide all home views
-  hideAllViews(){
-    this.views.forEach(function(view){
+  hideAllViews() {
+    this.views.forEach(function(view) {
       view.current = false;
-    })
+    });
   }
 
   // Display views based on url param
-  handleViewParam(param:string){
-    switch(param){
-      case "profile":
+  handleViewParam(param: string) {
+    switch (param) {
+      case 'profile':
         this.showProfileView();
         break;
-      case "connections":
+      case 'connections':
         this.showFriendsView();
         break;
       default:
