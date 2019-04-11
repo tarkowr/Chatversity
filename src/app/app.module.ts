@@ -56,6 +56,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { RoomsComponent } from './rooms/rooms.component';
+import { TopBarComponent } from './Shared/top-bar/top-bar.component';
 
 const config = {
   issuer: 'https://dev-117825.okta.com',
@@ -87,7 +88,8 @@ const config = {
     ViewLatestNewsComponent,
     ViewNavigationHomeComponent,
     ViewFriendsHomeComponent,
-    RoomsComponent
+    RoomsComponent,
+    TopBarComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

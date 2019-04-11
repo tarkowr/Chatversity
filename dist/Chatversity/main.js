@@ -568,7 +568,7 @@ module.exports = ".user-card{\r\n    background-color: white;\r\n    border: 1px
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid mt-4\">\r\n\r\n  <app-small [user]=\"connection\" [isConnection]=\"isConnection\"></app-small>\r\n\r\n  <!--Search connections-->\r\n  <div>\r\n      <form [formGroup]=\"searchForm\">\r\n\r\n          <!--Search Bar-->\r\n          <div class=\"form-group mb-3\">\r\n              <input type=\"search\" required class=\"form-control primary-border\" id=\"search\" name=\"search\" placeholder=\"Search\" \r\n              formControlName=\"search\" (input)=\"onSearch()\">\r\n          </div>\r\n      </form>\r\n  </div>\r\n\r\n  <!--Connection search results-->\r\n  <div class=\"my-3 search-results\" *ngIf=\"(submitted && !searchForm.invalid)\">\r\n    <div *ngIf=\"(results.length > 0)\">\r\n        <div *ngFor=\"let result of results\">\r\n            <button class=\"btn btn-block text-left px-3 py-2 my-2 user-card\" data-toggle=\"modal\" data-target=\"#profileModal\"\r\n             (click)=\"setUser(result.id)\">\r\n                <img src=\"...\" onerror=\"this.src='../../assets/images/DefaultProfile.png'\"\r\n                class=\"circle img-fluid rounded-circle card-img\" [ngClass]=\"{ 'border-online': result.active }\"/> \r\n    \r\n                <span class=\"text-secondary ml-3\">{{ result.firstName }} {{ result.lastName }}</span>\r\n            </button>\r\n        </div>\r\n    </div>\r\n\r\n    <img *ngIf=\"loading\" class=\"ml-2\"\r\n      src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\r\n\r\n    <div *ngIf=\"(results.length == 0)\">\r\n      <span class=\"text-light\">Sorry, we could not find any results.</span>\r\n    </div>\r\n\r\n    <hr *ngIf=\"(results.length > 0)\">\r\n  </div>\r\n\r\n  <!--Online connections-->\r\n  <div class=\"mt-4 mb-5\">\r\n    <div class=\"text-light\">Online Connections</div>\r\n    <hr>\r\n\r\n    <div *ngFor=\"let c of connections\">\r\n        <button class=\"btn btn-block text-left px-3 py-2 my-2 user-card\" data-toggle=\"modal\" data-target=\"#profileModal\"\r\n         (click)=\"setUser(c.id)\" *ngIf=\"c.active\">\r\n            <img src=\"...\" onerror=\"this.src='../../assets/images/DefaultProfile.png'\"\r\n            class=\"circle img-fluid rounded-circle card-img\" [ngClass]=\"{ 'border-online': c.active }\"/> \r\n\r\n            <span class=\"text-secondary ml-3\">{{ c.firstName }} {{ c.lastName }}</span>\r\n        </button>\r\n    </div>\r\n  </div>\r\n\r\n  <!--All connections-->\r\n  <div class=\"my-5\">\r\n      <div class=\"text-light\">All Connections</div>\r\n      <hr>\r\n  \r\n      <div *ngFor=\"let c of connections\" class=\"my-2 user-card\">\r\n          <button class=\"btn btn-block text-left px-3 py-2\" data-toggle=\"modal\" data-target=\"#profileModal\"\r\n           (click)=\"setUser(c.id)\">\r\n              <img src=\"...\" onerror=\"this.src='../../assets/images/DefaultProfile.png'\"\r\n              class=\"circle img-fluid rounded-circle card-img\" [ngClass]=\"{ 'border-online': c.active }\"/> \r\n  \r\n              <span class=\"text-secondary ml-3\">{{ c.firstName }} {{ c.lastName }}</span>\r\n          </button>\r\n      </div>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div class=\"container-fluid mt-4\">\r\n\r\n  <app-small [user]=\"connection\" [isConnection]=\"isConnection\"></app-small>\r\n\r\n  <!-- Add connection -->\r\n  <button type=\"button\" class=\"btn btn-outline-primary\" data-toggle=\"modal\" data-target=\"#addConnectionModal\">\r\n    Add Connection\r\n  </button>\r\n\r\n  <!-- Add conecction modal -->\r\n  <div class=\"modal fade\" id=\"addConnectionModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"addConnectionModalLabel\" aria-hidden=\"true\">\r\n    <div class=\"modal-dialog\" role=\"document\">\r\n      <div class=\"modal-content\">\r\n        <div class=\"modal-header\">\r\n          <h5 class=\"modal-title\" id=\"addConnectionModalLabel\">Add connection</h5>\r\n          <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n            <span aria-hidden=\"true\">&times;</span>\r\n          </button>\r\n        </div>\r\n        <div class=\"modal-body\">\r\n          <form (ngSubmit)=\"addConnection()\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" class=\"form-control\" [formControl]=\"connectionToAdd\" id=\"name\" required aria-describedby=\"addConnectionHelpBlock\">\r\n                <small id=\"addConnectionHelpBlock\" class=\"form-text text-muted\">\r\n                    Enter the email of the connection you wish to add:\r\n                </small>\r\n            </div>\r\n          <button type=\"submit\" class=\"btn btn-primary\">Send</button>\r\n          </form>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <!--Search connections-->\r\n  <div>\r\n      <form [formGroup]=\"searchForm\">\r\n\r\n          <!--Search Bar-->\r\n          <div class=\"form-group mb-3\">\r\n              <input type=\"search\" required class=\"form-control primary-border\" id=\"search\" name=\"search\" placeholder=\"Search\" \r\n              formControlName=\"search\" (input)=\"onSearch()\">\r\n          </div>\r\n      </form>\r\n  </div>\r\n\r\n  <!--Connection search results-->\r\n  <div class=\"my-3 search-results\" *ngIf=\"(submitted && !searchForm.invalid)\">\r\n    <div *ngIf=\"(results.length > 0)\">\r\n        <div *ngFor=\"let result of results\">\r\n            <button class=\"btn btn-block text-left px-3 py-2 my-2 user-card\" data-toggle=\"modal\" data-target=\"#profileModal\"\r\n             (click)=\"setUser(result.id)\">\r\n                <img src=\"...\" onerror=\"this.src='../../assets/images/DefaultProfile.png'\"\r\n                class=\"circle img-fluid rounded-circle card-img\" [ngClass]=\"{ 'border-online': result.active }\"/> \r\n    \r\n                <span class=\"text-secondary ml-3\">{{ result.firstName }} {{ result.lastName }}</span>\r\n            </button>\r\n        </div>\r\n    </div>\r\n\r\n    <img *ngIf=\"loading\" class=\"ml-2\"\r\n      src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\r\n\r\n    <div *ngIf=\"(results.length == 0)\">\r\n      <span class=\"text-light\">Sorry, we could not find any results.</span>\r\n    </div>\r\n\r\n    <hr *ngIf=\"(results.length > 0)\">\r\n  </div>\r\n\r\n  <!--Online connections-->\r\n  <div class=\"mt-4 mb-5\">\r\n    <div class=\"text-light\">Online Connections</div>\r\n    <hr>\r\n\r\n    <div *ngFor=\"let c of connections\">\r\n        <button class=\"btn btn-block text-left px-3 py-2 my-2 user-card\" data-toggle=\"modal\" data-target=\"#profileModal\"\r\n         (click)=\"setUser(c.id)\" *ngIf=\"c.active\">\r\n            <img src=\"...\" onerror=\"this.src='../../assets/images/DefaultProfile.png'\"\r\n            class=\"circle img-fluid rounded-circle card-img\" [ngClass]=\"{ 'border-online': c.active }\"/> \r\n\r\n            <span class=\"text-secondary ml-3\">{{ c.firstName }} {{ c.lastName }}</span>\r\n        </button>\r\n    </div>\r\n  </div>\r\n\r\n  <!--All connections-->\r\n  <div class=\"my-5\">\r\n      <div class=\"text-light\">All Connections</div>\r\n      <hr>\r\n  \r\n      <div *ngFor=\"let c of connections\" class=\"my-2 user-card\">\r\n          <button class=\"btn btn-block text-left px-3 py-2\" data-toggle=\"modal\" data-target=\"#profileModal\"\r\n           (click)=\"setUser(c.id)\">\r\n              <img src=\"...\" onerror=\"this.src='../../assets/images/DefaultProfile.png'\"\r\n              class=\"circle img-fluid rounded-circle card-img\" [ngClass]=\"{ 'border-online': c.active }\"/> \r\n  \r\n              <span class=\"text-secondary ml-3\">{{ c.firstName }} {{ c.lastName }}</span>\r\n          </button>\r\n      </div>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -584,6 +584,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ViewFriendsHomeComponent", function() { return ViewFriendsHomeComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _environments_environment_prod__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../environments/environment.prod */ "./src/environments/environment.prod.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -595,12 +597,20 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
+
 var ViewFriendsHomeComponent = /** @class */ (function () {
-    function ViewFriendsHomeComponent(formBuilder) {
+    //
+    // ─── CONSTRUCTOR ────────────────────────────────────────────────────────────────
+    //
+    function ViewFriendsHomeComponent(http, formBuilder) {
+        this.http = http;
         this.formBuilder = formBuilder;
         this.loading = false;
         this.submitted = false;
         this.isConnection = false;
+        // Field for connection
+        this.connectionToAdd = new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"]('');
     }
     ViewFriendsHomeComponent.prototype.ngOnInit = function () {
         // Setup search box
@@ -613,50 +623,80 @@ var ViewFriendsHomeComponent = /** @class */ (function () {
                 id: 1,
                 firstName: 'Richie',
                 lastName: 'Tarkowski',
-                username: "",
-                password: "",
+                username: '',
+                password: '',
                 university: null,
-                profile: { bio: "This is my bio!", major: "CIS", graduationYear: 2021, interests: "NA", clubs: "none" },
+                profile: {
+                    bio: 'This is my bio!',
+                    major: 'CIS',
+                    graduationYear: 2021,
+                    interests: 'NA',
+                    clubs: 'none'
+                },
                 active: true
             },
             {
                 id: 2,
                 firstName: 'Connor',
                 lastName: 'Hansen',
-                username: "",
-                password: "",
+                username: '',
+                password: '',
                 university: null,
-                profile: { bio: "Hello World!", major: "CS", graduationYear: 2020, interests: "Web Design", clubs: "Robotics" },
+                profile: {
+                    bio: 'Hello World!',
+                    major: 'CS',
+                    graduationYear: 2020,
+                    interests: 'Web Design',
+                    clubs: 'Robotics'
+                },
                 active: true
             },
             {
                 id: 3,
                 firstName: 'Scott',
                 lastName: 'Peterson',
-                username: "",
-                password: "",
+                username: '',
+                password: '',
                 university: null,
-                profile: { bio: "Hi, everyone!", major: "Engineering", graduationYear: 2019, interests: "Lacross", clubs: "Engineering Club" },
+                profile: {
+                    bio: 'Hi, everyone!',
+                    major: 'Engineering',
+                    graduationYear: 2019,
+                    interests: 'Lacross',
+                    clubs: 'Engineering Club'
+                },
                 active: false
             },
             {
                 id: 4,
                 firstName: 'Noah',
                 lastName: 'Osterhout',
-                username: "",
-                password: "",
+                username: '',
+                password: '',
                 university: null,
-                profile: { bio: "Progammer", major: "Computer Information Systems", graduationYear: 2021, interests: "Programming", clubs: "CIS Club" },
+                profile: {
+                    bio: 'Progammer',
+                    major: 'Computer Information Systems',
+                    graduationYear: 2021,
+                    interests: 'Programming',
+                    clubs: 'CIS Club'
+                },
                 active: false
             },
             {
                 id: 5,
                 firstName: 'Cati',
                 lastName: 'Kujawski',
-                username: "",
-                password: "",
+                username: '',
+                password: '',
                 university: null,
-                profile: { bio: "Hello World", major: "FSU", graduationYear: 2018, interests: "Soccer", clubs: "Soccer Club" },
+                profile: {
+                    bio: 'Hello World',
+                    major: 'FSU',
+                    graduationYear: 2018,
+                    interests: 'Soccer',
+                    clubs: 'Soccer Club'
+                },
                 active: true
             }
         ];
@@ -670,28 +710,68 @@ var ViewFriendsHomeComponent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    // Return user from friend list
-    ViewFriendsHomeComponent.prototype.getUser = function (_id) {
-        return this.connections.find(function (c) { return c.id == _id; });
+    // ────────────────────────────────────────────────────────────────────────────────
+    //
+    // ─── ADD CONNECTION ─────────────────────────────────────────────────────────────
+    //
+    ViewFriendsHomeComponent.prototype.addConnection = function () {
+        var _this = this;
+        console.log(this.connectionToAdd.value);
+        // Get okta user by login (email)
+        this.http.get(_environments_environment_prod__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl + "/okta/GetUserByLogin/" + this.connectionToAdd.value)
+            .toPromise()
+            .then(function (oktaUser) {
+            console.log(oktaUser);
+            // Get the user from Chatkit by matching the IDs
+            _this.http.get(_environments_environment_prod__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl + "/chatkit/GetUserById/" + oktaUser['id'])
+                .toPromise()
+                .then(function (chatkitUser) {
+                // Found user => add 'connection request marker' to custom data field
+                // TODO: Check if users are already connected
+            })
+                .catch(function (error) {
+                console.log('Chatkit user not found!');
+            });
+        })
+            .catch(function (error) {
+            console.log('Okta user not found!');
+        });
     };
-    // Filter list of users by name
+    // ─────────────────────────────────────────────────────────────────
+    //
+    // ─── RETURN USER FROM FRIEND LIST ───────────────────────────────────────────────
+    //
+    ViewFriendsHomeComponent.prototype.getUser = function (_id) {
+        return this.connections.find(function (c) { return c.id === _id; });
+    };
+    // ────────────────────────────────────────────────────────────────────────────────
+    //
+    // ─── FILTER LIST OF USERS BY NAME ───────────────────────────────────────────────
+    //
     ViewFriendsHomeComponent.prototype.getUsersByName = function (_name) {
         _name = _name.toLowerCase();
-        this.results = this.connections.filter(function (c) { return (c.firstName.toLowerCase() + " " + c.lastName.toLowerCase()).includes(_name); });
+        this.results = this.connections.filter(function (c) { return (c.firstName.toLowerCase() + ' ' + c.lastName.toLowerCase()).includes(_name); });
     };
-    // Check if users are friends
+    // ────────────────────────────────────────────────────────────────────────────────
+    //
+    // ─── CHECK IF USERS ARE FRIENDS ─────────────────────────────────────────────────
+    //
     ViewFriendsHomeComponent.prototype.isConnected = function (_id) {
-        this.isConnection = (_id % 2 == 1) ? true : false; // DELETE THIS LINE
+        this.isConnection = (_id % 2 === 1) ? true : false; // DELETE THIS LINE
         // Get current user data
         // Check if this user is on the other user's connections list
         // Toggle isConnection variable
         return;
     };
-    // Handle click user button
+    // ─────────────────────────────────────────────────────────────────
+    //
+    // ─── HANDLE CLICK USER BUTTON ───────────────────────────────────────────────────
+    //
     ViewFriendsHomeComponent.prototype.setUser = function (_id) {
         this.connection = this.getUser(_id);
         this.isConnected(_id);
     };
+    // ─────────────────────────────────────────────────────────────────
     //
     // ─── HANDLE SIGN UP ─────────────────────────────────────────────────────────────
     //
@@ -712,7 +792,7 @@ var ViewFriendsHomeComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./view-friends-home.component.html */ "./src/app/Home/view-friends-home/view-friends-home.component.html"),
             styles: [__webpack_require__(/*! ./view-friends-home.component.css */ "./src/app/Home/view-friends-home/view-friends-home.component.css")]
         }),
-        __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"]])
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"]])
     ], ViewFriendsHomeComponent);
     return ViewFriendsHomeComponent;
 }());
@@ -791,7 +871,7 @@ var ViewLatestNewsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "#messages_header {\r\n    background-color:#FFF;\r\n    z-index: 2;\r\n    font-family: 'Poppins', sans-serif;\r\n    font-weight: bold;\r\n    color: #94B0C0;\r\n    top:0;\r\n    position: -webkit-sticky;\r\n    position: sticky;\r\n}\r\n\r\n.custom-btn{\r\n    border-radius: 5px;\r\n    color: #96B7C9;\r\n    background-color: #F1F8FC;\r\n}\r\n\r\n.custom-btn:hover{\r\n    background-color: white;\r\n    color: #0E425F;\r\n    border: 1px solid #bddef1;\r\n}\r\n\r\n.active{\r\n    background-color: white !important;\r\n    color: #0E425F;\r\n    border: 1px solid #bddef1;\r\n}\r\n\r\n#home-content{\r\n    height: calc(100% - 57px);\r\n}\r\n\r\n#header-text{\r\n    display: none;\r\n}\r\n\r\n#mobile-header-text{\r\n    display: inline-block;\r\n}\r\n\r\n@media (min-width: 576px){ /*Small*/\r\n    #header-text{\r\n        display: inline-block;\r\n    }\r\n    #mobile-header-text{\r\n        display: none;\r\n    }\r\n}\r\n  \r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvSG9tZS92aWV3LW5hdmlnYXRpb24taG9tZS92aWV3LW5hdmlnYXRpb24taG9tZS5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0lBQ0kscUJBQXFCO0lBQ3JCLFVBQVU7SUFDVixrQ0FBa0M7SUFDbEMsaUJBQWlCO0lBQ2pCLGNBQWM7SUFDZCxLQUFLO0lBQ0wsd0JBQWdCO0lBQWhCLGdCQUFnQjtBQUNwQjs7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixjQUFjO0lBQ2QseUJBQXlCO0FBQzdCOztBQUNBO0lBQ0ksdUJBQXVCO0lBQ3ZCLGNBQWM7SUFDZCx5QkFBeUI7QUFDN0I7O0FBRUE7SUFDSSxrQ0FBa0M7SUFDbEMsY0FBYztJQUNkLHlCQUF5QjtBQUM3Qjs7QUFFQTtJQUNJLHlCQUF5QjtBQUM3Qjs7QUFFQTtJQUNJLGFBQWE7QUFDakI7O0FBQ0E7SUFDSSxxQkFBcUI7QUFDekI7O0FBRUEsMkJBQTJCLFFBQVE7SUFDL0I7UUFDSSxxQkFBcUI7SUFDekI7SUFDQTtRQUNJLGFBQWE7SUFDakI7QUFDSiIsImZpbGUiOiJzcmMvYXBwL0hvbWUvdmlldy1uYXZpZ2F0aW9uLWhvbWUvdmlldy1uYXZpZ2F0aW9uLWhvbWUuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIiNtZXNzYWdlc19oZWFkZXIge1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjojRkZGO1xyXG4gICAgei1pbmRleDogMjtcclxuICAgIGZvbnQtZmFtaWx5OiAnUG9wcGlucycsIHNhbnMtc2VyaWY7XHJcbiAgICBmb250LXdlaWdodDogYm9sZDtcclxuICAgIGNvbG9yOiAjOTRCMEMwO1xyXG4gICAgdG9wOjA7XHJcbiAgICBwb3NpdGlvbjogc3RpY2t5O1xyXG59XHJcblxyXG4uY3VzdG9tLWJ0bntcclxuICAgIGJvcmRlci1yYWRpdXM6IDVweDtcclxuICAgIGNvbG9yOiAjOTZCN0M5O1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogI0YxRjhGQztcclxufVxyXG4uY3VzdG9tLWJ0bjpob3ZlcntcclxuICAgIGJhY2tncm91bmQtY29sb3I6IHdoaXRlO1xyXG4gICAgY29sb3I6ICMwRTQyNUY7XHJcbiAgICBib3JkZXI6IDFweCBzb2xpZCAjYmRkZWYxO1xyXG59XHJcblxyXG4uYWN0aXZle1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogd2hpdGUgIWltcG9ydGFudDtcclxuICAgIGNvbG9yOiAjMEU0MjVGO1xyXG4gICAgYm9yZGVyOiAxcHggc29saWQgI2JkZGVmMTtcclxufVxyXG5cclxuI2hvbWUtY29udGVudHtcclxuICAgIGhlaWdodDogY2FsYygxMDAlIC0gNTdweCk7XHJcbn1cclxuXHJcbiNoZWFkZXItdGV4dHtcclxuICAgIGRpc3BsYXk6IG5vbmU7XHJcbn1cclxuI21vYmlsZS1oZWFkZXItdGV4dHtcclxuICAgIGRpc3BsYXk6IGlubGluZS1ibG9jaztcclxufVxyXG5cclxuQG1lZGlhIChtaW4td2lkdGg6IDU3NnB4KXsgLypTbWFsbCovXHJcbiAgICAjaGVhZGVyLXRleHR7XHJcbiAgICAgICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xyXG4gICAgfVxyXG4gICAgI21vYmlsZS1oZWFkZXItdGV4dHtcclxuICAgICAgICBkaXNwbGF5OiBub25lO1xyXG4gICAgfVxyXG59XHJcbiAgIl19 */"
+module.exports = ".custom-btn{\r\n    border-radius: 5px;\r\n    color: #96B7C9;\r\n    background-color: #F1F8FC;\r\n}\r\n.custom-btn:hover{\r\n    background-color: white;\r\n    color: #0E425F;\r\n    border: 1px solid #bddef1;\r\n}\r\n.active{\r\n    background-color: white !important;\r\n    color: #0E425F;\r\n    border: 1px solid #bddef1;\r\n}\r\n  \r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvSG9tZS92aWV3LW5hdmlnYXRpb24taG9tZS92aWV3LW5hdmlnYXRpb24taG9tZS5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0lBQ0ksa0JBQWtCO0lBQ2xCLGNBQWM7SUFDZCx5QkFBeUI7QUFDN0I7QUFDQTtJQUNJLHVCQUF1QjtJQUN2QixjQUFjO0lBQ2QseUJBQXlCO0FBQzdCO0FBRUE7SUFDSSxrQ0FBa0M7SUFDbEMsY0FBYztJQUNkLHlCQUF5QjtBQUM3QiIsImZpbGUiOiJzcmMvYXBwL0hvbWUvdmlldy1uYXZpZ2F0aW9uLWhvbWUvdmlldy1uYXZpZ2F0aW9uLWhvbWUuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5jdXN0b20tYnRue1xyXG4gICAgYm9yZGVyLXJhZGl1czogNXB4O1xyXG4gICAgY29sb3I6ICM5NkI3Qzk7XHJcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjRjFGOEZDO1xyXG59XHJcbi5jdXN0b20tYnRuOmhvdmVye1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7XHJcbiAgICBjb2xvcjogIzBFNDI1RjtcclxuICAgIGJvcmRlcjogMXB4IHNvbGlkICNiZGRlZjE7XHJcbn1cclxuXHJcbi5hY3RpdmV7XHJcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiB3aGl0ZSAhaW1wb3J0YW50O1xyXG4gICAgY29sb3I6ICMwRTQyNUY7XHJcbiAgICBib3JkZXI6IDFweCBzb2xpZCAjYmRkZWYxO1xyXG59XHJcbiAgIl19 */"
 
 /***/ }),
 
@@ -802,7 +882,7 @@ module.exports = "#messages_header {\r\n    background-color:#FFF;\r\n    z-inde
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\" style=\"height:100vh;\">\r\n  <div class=\"row shadow-sm\" id=\"messages_header\">\r\n    <div class=\"col 12 col-sm-3 py-3\">\r\n        <div class=\"d-flex align-items-center\">\r\n          <span class=\"text-uppercase text-secondary text-light-weight pl-3\">Home <span id=\"mobile-header-text\">&nbsp;|&nbsp; {{ headerText }}</span></span>\r\n        </div>\r\n    </div>\r\n    <div class=\"col-sm-9 py-3\" style=\"border-left:1px solid #DAE6ED;\" id=\"header-text\">\r\n      <div class=\"d-flex align-items-center\">\r\n          <span class=\"text-uppercase text-secondary text-light-weight pl-3\">{{ headerText }}</span>\r\n        </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\" id=\"home-content\">\r\n    <div class=\"col-12 col-lg-3\" style=\"background-color:#F1F8FC; border-bottom:1px solid #DAE6ED;\">\r\n      <div class=\"my-3 px-1\">\r\n        <button class=\"btn btn-block custom-btn text-left mr-4 my-2 p-3\" (click)=\"showHomeView()\"\r\n        [ngClass]=\"{ 'active': HomeView.current }\">Latest News</button>\r\n        <button class=\"btn btn-block custom-btn text-left my-2 p-3\" (click)=\"showFriendsView()\"\r\n        [ngClass]=\"{ 'active': FriendsView.current }\">Connections</button>\r\n        <button class=\"btn btn-block custom-btn text-left my-2 p-3\" (click)=\"showProfileView()\"\r\n        [ngClass]=\"{ 'active': ProfileView.current }\">My Profile</button>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"col-12 col-lg-9\" style=\"background-color: #fafdff; border-left:1px solid #DAE6ED;\">\r\n      <div *ngIf=\"HomeView.current\">\r\n        <app-view-latest-news></app-view-latest-news>\r\n      </div>\r\n      <div *ngIf=\"FriendsView.current\">\r\n        <app-view-friends-home></app-view-friends-home>\r\n      </div>\r\n      <div *ngIf=\"ProfileView.current\">\r\n        <app-profile></app-profile>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"container-fluid\" style=\"height:100vh;\">\r\n\r\n  <app-top-bar [viewName]=\"'Home'\" [headerText]=\"headerText\"></app-top-bar>\r\n\r\n  <div class=\"row page-content\">\r\n    <div class=\"col-12 col-lg-3\" style=\"background-color:#F1F8FC; border-bottom:1px solid #DAE6ED;\">\r\n      <div class=\"my-3 px-1\">\r\n        <button class=\"btn btn-block custom-btn text-left mr-4 my-2 p-3\" (click)=\"showHomeView()\"\r\n        [ngClass]=\"{ 'active': HomeView.current }\">Latest News</button>\r\n        <button class=\"btn btn-block custom-btn text-left my-2 p-3\" (click)=\"showFriendsView()\"\r\n        [ngClass]=\"{ 'active': FriendsView.current }\">Connections</button>\r\n        <button class=\"btn btn-block custom-btn text-left my-2 p-3\" (click)=\"showProfileView()\"\r\n        [ngClass]=\"{ 'active': ProfileView.current }\">My Profile</button>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"col-12 col-lg-9\" style=\"background-color: #fafdff; border-left:1px solid #DAE6ED;\">\r\n      <div *ngIf=\"HomeView.current\">\r\n        <app-view-latest-news></app-view-latest-news>\r\n      </div>\r\n      <div *ngIf=\"FriendsView.current\">\r\n        <app-view-friends-home></app-view-friends-home>\r\n      </div>\r\n      <div *ngIf=\"ProfileView.current\">\r\n        <app-profile></app-profile>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -844,7 +924,6 @@ var ViewNavigationHomeComponent = /** @class */ (function () {
         // [routerLink]="['/home']" [queryParams]="{view:'param'}"
         this.activatedRoute.queryParams.subscribe(function (params) {
             var view = params['view'];
-            console.log(view);
             _this.handleViewParam(view);
         });
     };
@@ -1714,7 +1793,7 @@ var SmallComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\">\r\n  <div class=\"row shadow-sm align-items-center py-2\" id=\"settings_header\">\r\n    <div class=\"col-4\" id=\"settings-left\">\r\n        <div class=\"d-flex align-items-center\">\r\n          <span class=\"text-uppercase\">Settings</span>\r\n        </div>\r\n    </div>\r\n  </div>\r\n<div class=\"row\" style=\"height: calc(100vh - 44px); background:#F1F8FC;\">\r\n  <div class=\"col-4 h-100 overflow-auto my-3\">\r\n      <!-- Nav tabs -->\r\n          <div class=\"nav flex-column nav-pills\" id=\"v-pills-tab\" role=\"tablist\" aria-orientation=\"vertical\">\r\n            <a class=\"nav-link active\" id=\"v-pills-MyProfile-tab\" data-toggle=\"pill\" href=\"#v-pills-MyProfile\" role=\"tab\" aria-controls=\"v-pills-MyProfile\" aria-selected=\"true\">My Profile</a>\r\n            <a class=\"nav-link\" id=\"v-pills-Privacy-tab\" data-toggle=\"pill\" href=\"#v-pills-Privacy\" role=\"tab\" aria-controls=\"v-pills-Privacy\" aria-selected=\"false\">Privacy</a>\r\n            <a class=\"nav-link\" id=\"v-pills-security-tab\" data-toggle=\"pill\" href=\"#v-pills-security\" role=\"tab\" aria-controls=\"v-pills-security\" aria-selected=\"false\">Security</a>\r\n            <a class=\"nav-link\" id=\"v-pills-Connections-tab\" data-toggle=\"pill\" href=\"#v-pills-Connections\" role=\"tab\" aria-controls=\"v-pills-Connections\" aria-selected=\"false\">Connections</a>\r\n          </div>\r\n  </div>\r\n<div class=\"col-8 h-100 overflow-auto\" style=\"background:#FAFDFF;\">\r\n  <div class=\"chat-window h-100 overflow-auto\">\r\n    <div id=\"settings-right\">\r\n      <div class=\"col-12\">\r\n          <div class=\"tab-content text-black\" id=\"v-pills-tabContent\">\r\n          <!-- Tab panes -->\r\n          <div class=\"tab-pane fade show active\" id=\"v-pills-MyProfile\" role=\"tabpanel\" aria-labelledby=\"v-pills-MyProfile-tab\">My Profile</div>\r\n          <div class=\"tab-pane fade\" id=\"v-pills-Privacy\" role=\"tabpanel\" aria-labelledby=\"v-pills-Privacy-tab\">Privacy</div>\r\n          <div class=\"tab-pane fade\" id=\"v-pills-security\" role=\"tabpanel\" aria-labelledby=\"v-pills-security-tab\">Security</div>\r\n          <div class=\"tab-pane fade\" id=\"v-pills-Connections\" role=\"tabpanel\" aria-labelledby=\"v-pills-Connections-tab\">Connections</div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n      "
+module.exports = "<div class=\"container-fluid\" style=\"height:100vh;\">\r\n\r\n  <app-top-bar [viewName]=\"'Settings'\" [headerText]=\"headerText\"></app-top-bar>\r\n\r\n  <div class=\"row page-content\" style=\"background:#F1F8FC;\">\r\n    <div class=\"col-4 overflow-auto\">\r\n      <!-- Nav tabs -->\r\n      <div class=\"nav flex-column nav-pills\" id=\"v-pills-tab\" role=\"tablist\" aria-orientation=\"vertical\">\r\n        <a class=\"nav-link active\" id=\"v-pills-MyProfile-tab\" data-toggle=\"pill\" href=\"#v-pills-MyProfile\" role=\"tab\" aria-controls=\"v-pills-MyProfile\" aria-selected=\"true\">My Profile</a>\r\n        <a class=\"nav-link\" id=\"v-pills-Privacy-tab\" data-toggle=\"pill\" href=\"#v-pills-Privacy\" role=\"tab\" aria-controls=\"v-pills-Privacy\" aria-selected=\"false\">Privacy</a>\r\n        <a class=\"nav-link\" id=\"v-pills-security-tab\" data-toggle=\"pill\" href=\"#v-pills-security\" role=\"tab\" aria-controls=\"v-pills-security\" aria-selected=\"false\">Security</a>\r\n        <a class=\"nav-link\" id=\"v-pills-Connections-tab\" data-toggle=\"pill\" href=\"#v-pills-Connections\" role=\"tab\" aria-controls=\"v-pills-Connections\" aria-selected=\"false\">Connections</a>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"col-8 h-100 overflow-auto\" style=\"background:#FAFDFF;\">\r\n      <div class=\"chat-window overflow-auto\">\r\n        <div id=\"settings-right\">\r\n          <div class=\"col-12\">\r\n            <div class=\"tab-content text-black\" id=\"v-pills-tabContent\">\r\n              <!-- Tab panes -->\r\n              <div class=\"tab-pane fade show active\" id=\"v-pills-MyProfile\" role=\"tabpanel\" aria-labelledby=\"v-pills-MyProfile-tab\">My Profile</div>\r\n              <div class=\"tab-pane fade\" id=\"v-pills-Privacy\" role=\"tabpanel\" aria-labelledby=\"v-pills-Privacy-tab\">Privacy</div>\r\n              <div class=\"tab-pane fade\" id=\"v-pills-security\" role=\"tabpanel\" aria-labelledby=\"v-pills-security-tab\">Security</div>\r\n              <div class=\"tab-pane fade\" id=\"v-pills-Connections\" role=\"tabpanel\" aria-labelledby=\"v-pills-Connections-tab\">Connections</div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n      "
 
 /***/ }),
 
@@ -1752,6 +1831,7 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 var SettingsComponent = /** @class */ (function () {
     function SettingsComponent() {
+        this.headerText = "Test";
     }
     SettingsComponent.prototype.ngOnInit = function () {
     };
@@ -1895,6 +1975,77 @@ var NavbarComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [_Core_services_messaging_service__WEBPACK_IMPORTED_MODULE_1__["MessagingService"]])
     ], NavbarComponent);
     return NavbarComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/Shared/top-bar/top-bar.component.css":
+/*!******************************************************!*\
+  !*** ./src/app/Shared/top-bar/top-bar.component.css ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "#messages_header {\r\n    background-color:#FFF;\r\n    z-index: 2;\r\n    font-family: 'Poppins', sans-serif;\r\n    font-weight: bold;\r\n    color: #94B0C0;\r\n    top:0;\r\n    position: -webkit-sticky;\r\n    position: sticky;\r\n}\r\n\r\n#header-text{\r\n    display: none;\r\n}\r\n\r\n#mobile-header-text{\r\n    display: inline-block;\r\n}\r\n\r\n@media (min-width: 768px){ /*Medium*/\r\n    #header-text{\r\n        display: inline-block;\r\n    }\r\n    #mobile-header-text{\r\n        display: none;\r\n    }\r\n}\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvU2hhcmVkL3RvcC1iYXIvdG9wLWJhci5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0lBQ0kscUJBQXFCO0lBQ3JCLFVBQVU7SUFDVixrQ0FBa0M7SUFDbEMsaUJBQWlCO0lBQ2pCLGNBQWM7SUFDZCxLQUFLO0lBQ0wsd0JBQWdCO0lBQWhCLGdCQUFnQjtBQUNwQjs7QUFFQTtJQUNJLGFBQWE7QUFDakI7O0FBQ0E7SUFDSSxxQkFBcUI7QUFDekI7O0FBRUEsMkJBQTJCLFNBQVM7SUFDaEM7UUFDSSxxQkFBcUI7SUFDekI7SUFDQTtRQUNJLGFBQWE7SUFDakI7QUFDSiIsImZpbGUiOiJzcmMvYXBwL1NoYXJlZC90b3AtYmFyL3RvcC1iYXIuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIiNtZXNzYWdlc19oZWFkZXIge1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjojRkZGO1xyXG4gICAgei1pbmRleDogMjtcclxuICAgIGZvbnQtZmFtaWx5OiAnUG9wcGlucycsIHNhbnMtc2VyaWY7XHJcbiAgICBmb250LXdlaWdodDogYm9sZDtcclxuICAgIGNvbG9yOiAjOTRCMEMwO1xyXG4gICAgdG9wOjA7XHJcbiAgICBwb3NpdGlvbjogc3RpY2t5O1xyXG59XHJcblxyXG4jaGVhZGVyLXRleHR7XHJcbiAgICBkaXNwbGF5OiBub25lO1xyXG59XHJcbiNtb2JpbGUtaGVhZGVyLXRleHR7XHJcbiAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XHJcbn1cclxuXHJcbkBtZWRpYSAobWluLXdpZHRoOiA3NjhweCl7IC8qTWVkaXVtKi9cclxuICAgICNoZWFkZXItdGV4dHtcclxuICAgICAgICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7XHJcbiAgICB9XHJcbiAgICAjbW9iaWxlLWhlYWRlci10ZXh0e1xyXG4gICAgICAgIGRpc3BsYXk6IG5vbmU7XHJcbiAgICB9XHJcbn0iXX0= */"
+
+/***/ }),
+
+/***/ "./src/app/Shared/top-bar/top-bar.component.html":
+/*!*******************************************************!*\
+  !*** ./src/app/Shared/top-bar/top-bar.component.html ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row shadow-sm\" id=\"messages_header\">\n  <div class=\"col 12 col-md-3 py-3\">\n      <div class=\"d-flex align-items-center\">\n        <span class=\"text-uppercase text-secondary text-light-weight pl-3\">{{ viewName }} <span id=\"mobile-header-text\">&nbsp;|&nbsp; {{ headerText }}</span></span>\n      </div>\n  </div>\n  <div class=\"col-md-9 py-3\" style=\"border-left:1px solid #DAE6ED;\" id=\"header-text\">\n    <div class=\"d-flex align-items-center\">\n        <span class=\"text-uppercase text-secondary text-light-weight pl-3\">{{ headerText }}</span>\n      </div>\n  </div>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/Shared/top-bar/top-bar.component.ts":
+/*!*****************************************************!*\
+  !*** ./src/app/Shared/top-bar/top-bar.component.ts ***!
+  \*****************************************************/
+/*! exports provided: TopBarComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TopBarComponent", function() { return TopBarComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var TopBarComponent = /** @class */ (function () {
+    function TopBarComponent() {
+    }
+    TopBarComponent.prototype.ngOnInit = function () {
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", String)
+    ], TopBarComponent.prototype, "viewName", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", String)
+    ], TopBarComponent.prototype, "headerText", void 0);
+    TopBarComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-top-bar',
+            template: __webpack_require__(/*! ./top-bar.component.html */ "./src/app/Shared/top-bar/top-bar.component.html"),
+            styles: [__webpack_require__(/*! ./top-bar.component.css */ "./src/app/Shared/top-bar/top-bar.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], TopBarComponent);
+    return TopBarComponent;
 }());
 
 
@@ -2078,6 +2229,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_service_worker__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! @angular/service-worker */ "./node_modules/@angular/service-worker/fesm5/service-worker.js");
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ../environments/environment */ "./src/environments/environment.ts");
 /* harmony import */ var _rooms_rooms_component__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./rooms/rooms.component */ "./src/app/rooms/rooms.component.ts");
+/* harmony import */ var _Shared_top_bar_top_bar_component__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./Shared/top-bar/top-bar.component */ "./src/app/Shared/top-bar/top-bar.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2131,6 +2283,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 var config = {
     issuer: 'https://dev-117825.okta.com',
     redirectUri: 'http://localhost:4200/implicit/callback',
@@ -2163,7 +2316,8 @@ var AppModule = /** @class */ (function () {
                 _Home_view_latest_news_view_latest_news_component__WEBPACK_IMPORTED_MODULE_11__["ViewLatestNewsComponent"],
                 _Home_view_navigation_home_view_navigation_home_component__WEBPACK_IMPORTED_MODULE_12__["ViewNavigationHomeComponent"],
                 _Home_view_friends_home_view_friends_home_component__WEBPACK_IMPORTED_MODULE_13__["ViewFriendsHomeComponent"],
-                _rooms_rooms_component__WEBPACK_IMPORTED_MODULE_33__["RoomsComponent"]
+                _rooms_rooms_component__WEBPACK_IMPORTED_MODULE_33__["RoomsComponent"],
+                _Shared_top_bar_top_bar_component__WEBPACK_IMPORTED_MODULE_34__["TopBarComponent"]
             ],
             imports: [
                 _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forRoot(_app_routes__WEBPACK_IMPORTED_MODULE_29__["routes"]),
@@ -2212,11 +2366,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Settings_Views_settings_settings_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Settings-Views/settings/settings.component */ "./src/app/Settings-Views/settings/settings.component.ts");
 /* harmony import */ var _messages_messages_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./messages/messages.component */ "./src/app/messages/messages.component.ts");
 /* harmony import */ var _Profile_Views_settings_profile_settings_profile_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Profile-Views/settings-profile/settings-profile.component */ "./src/app/Profile-Views/settings-profile/settings-profile.component.ts");
-/* harmony import */ var _Profile_Views_small_small_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Profile-Views/small/small.component */ "./src/app/Profile-Views/small/small.component.ts");
-/* harmony import */ var _Onboarding_new_user_new_user_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Onboarding/new-user/new-user.component */ "./src/app/Onboarding/new-user/new-user.component.ts");
-/* harmony import */ var _Home_view_navigation_home_view_navigation_home_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Home/view-navigation-home/view-navigation-home.component */ "./src/app/Home/view-navigation-home/view-navigation-home.component.ts");
-/* harmony import */ var _rooms_rooms_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./rooms/rooms.component */ "./src/app/rooms/rooms.component.ts");
-
+/* harmony import */ var _Onboarding_new_user_new_user_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Onboarding/new-user/new-user.component */ "./src/app/Onboarding/new-user/new-user.component.ts");
+/* harmony import */ var _Home_view_navigation_home_view_navigation_home_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Home/view-navigation-home/view-navigation-home.component */ "./src/app/Home/view-navigation-home/view-navigation-home.component.ts");
+/* harmony import */ var _rooms_rooms_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./rooms/rooms.component */ "./src/app/rooms/rooms.component.ts");
 
 
 
@@ -2235,14 +2387,13 @@ var routes = [
     { path: 'signup', component: _Onboarding_signup_signup_component__WEBPACK_IMPORTED_MODULE_2__["SignupComponent"] /*, canActivate: [RouteGuard]*/ },
     { path: 'login', component: _Onboarding_login_login_component__WEBPACK_IMPORTED_MODULE_0__["LoginComponent"] /*, canActivate: [RouteGuard]*/ },
     /* Must be logged in to access these components */
-    { path: '', component: _Home_view_navigation_home_view_navigation_home_component__WEBPACK_IMPORTED_MODULE_11__["ViewNavigationHomeComponent"], canActivate: [_Core_guards_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
+    { path: '', component: _Home_view_navigation_home_view_navigation_home_component__WEBPACK_IMPORTED_MODULE_10__["ViewNavigationHomeComponent"], canActivate: [_Core_guards_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
     { path: 'settings', component: _Settings_Views_settings_settings_component__WEBPACK_IMPORTED_MODULE_6__["SettingsComponent"], canActivate: [_Core_guards_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
-    { path: 'rooms', component: _rooms_rooms_component__WEBPACK_IMPORTED_MODULE_12__["RoomsComponent"], canActivate: [_Core_guards_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
+    { path: 'rooms', component: _rooms_rooms_component__WEBPACK_IMPORTED_MODULE_11__["RoomsComponent"], canActivate: [_Core_guards_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
     { path: 'messages', component: _messages_messages_component__WEBPACK_IMPORTED_MODULE_7__["MessagesComponent"], canActivate: [_Core_guards_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
-    { path: 'user-profile', component: _Profile_Views_small_small_component__WEBPACK_IMPORTED_MODULE_9__["SmallComponent"], canActivate: [_Core_guards_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
     { path: 'settings-profile', component: _Profile_Views_settings_profile_settings_profile_component__WEBPACK_IMPORTED_MODULE_8__["SettingsProfileComponent"], canActivate: [_Core_guards_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
-    { path: 'home', component: _Home_view_navigation_home_view_navigation_home_component__WEBPACK_IMPORTED_MODULE_11__["ViewNavigationHomeComponent"], canActivate: [_Core_guards_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
-    { path: 'new-user', component: _Onboarding_new_user_new_user_component__WEBPACK_IMPORTED_MODULE_10__["NewUserComponent"], canActivate: [_Core_guards_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
+    { path: 'home', component: _Home_view_navigation_home_view_navigation_home_component__WEBPACK_IMPORTED_MODULE_10__["ViewNavigationHomeComponent"], canActivate: [_Core_guards_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
+    { path: 'new-user', component: _Onboarding_new_user_new_user_component__WEBPACK_IMPORTED_MODULE_9__["NewUserComponent"], canActivate: [_Core_guards_auth_guard__WEBPACK_IMPORTED_MODULE_5__["AuthGuard"]] },
     /* Can be logged in or logged out to access these components */
     { path: '404', component: _Error_Views_page_not_found_page_not_found_component__WEBPACK_IMPORTED_MODULE_3__["PageNotFoundComponent"] },
     { path: '**', redirectTo: '/404' },
@@ -2358,7 +2509,7 @@ var DashboardComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\">\r\n  <div class=\"row shadow-sm align-items-center py-2\" id=\"messages_header\">\r\n    <div class=\"col-4\">\r\n        <div class=\"d-flex align-items-center\">\r\n          <span class=\"text-uppercase\">Rooms</span>\r\n          <!-- Add Room -->\r\n          <button type=\"button\" class=\"ml-auto btn btn-outline-primary\" data-toggle=\"modal\" data-target=\"#addRoomModal\" (click)=\"roomCreated = false\" placement=\"left\" ngbTooltip=\"Create Room\" triggers=\"hover\" [autoClose]=\"true\">\r\n            <i class=\"fa fa-plus\"></i>\r\n          </button>\r\n        </div>\r\n    </div>\r\n    <div class=\"col-8\">\r\n      <div class=\"d-flex align-items-center\">\r\n          <span class=\"text-uppercase\">(Room Name)</span>\r\n          <!-- Add Room -->\r\n          <button type=\"button\" class=\"ml-auto btn btn-outline-primary\" data-toggle=\"modal\" data-target=\"#addRoomModal\" placement=\"left\" ngbTooltip=\"Edit Room\" triggers=\"hover\" [autoClose]=\"true\">\r\n            <i class=\"fa fa-cog\"></i>\r\n          </button>\r\n        </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"row\" style=\"height: calc(100vh - 54px);\">\r\n    <div class=\"col-4 h-100 overflow-auto\">\r\n        \r\n          <!-- Begin Messages outlet -->\r\n          <div id=\"messages\" class=\"row\">\r\n            <div class=\"col-12\">\r\n              <div class=\"message-wrap\">\r\n                  <!-- Font Awesome Profile Silouhette(?) -->\r\n                  <i class=\"fas fa-user fa-lg mr-3\" style=\"color: #C3D3DC;\"></i>\r\n                  <!-- Load users profile picture here -->\r\n                  <img src=\"/assets/images/dummy_profile_pic.pc\" height=\"36\" width=\"36\" class=\"rounded-circle border border-success\">\r\n                  <!-- Load users name here -->\r\n                  <span class=\"ml-3 mr-5\" style=\"font-weight: bold; color: #115073;\">User 5</span>\r\n                  <!-- Disable or change the text to something relevant -->\r\n                  <span class=\"badge ml-5 pl-2 pr-2\" style=\"background-color: #FF247F; color: #FFF;\">new</span>\r\n                  <div class=\"text-uppercase pl-5\" style=\"font-weight: bold; color: #94B0C0\" id=\"status\">online</div>\r\n              </div>\r\n            </div>\r\n            <ng-container *ngFor=\"let room of rooms\">\r\n              <div class=\"col-12\" (click)=\"joinRoom(room.id)\">\r\n                  <div class=\"message-wrap room d-flex align-items-center justify-content-between\">\r\n                    <ng-container *ngIf=\"room?.custom_data !== undefined\">\r\n                        <!-- <img src=\"{{ room.custom_data.roomAvatar }}\" alt=\"\"> -->\r\n                    </ng-container>\r\n                    <span class=\"text-secondary\">{{ room.name }}</span>\r\n                    <span *ngIf=\"roomNotifications[room.id]\" class=\"badge badge-secondary\">New</span>\r\n                  </div>\r\n              </div>\r\n            </ng-container>\r\n            <div *ngIf=\"(currentUser)\" class=\"col-12\">\r\n                <div class=\"message-wrap\">\r\n                  <img src=\"{{currentUser.avatarURL}}\" alt=\"\">\r\n                  <span>{{ currentUser.name }}</span>\r\n                </div>\r\n            </div>\r\n          </div>\r\n    </div>\r\n    <div class=\"col-8 h-100 overflow-auto\" style=\"background:#FAFDFF;\">\r\n      <div class=\"chat-window h-100 overflow-auto\">\r\n        <ng-container *ngIf=\"room_messages\">\r\n          <div *ngFor=\"let message of room_messages\">{{ message.parts[0].payload.content }}</div>\r\n        </ng-container>\r\n      </div>\r\n      <div class=\"chat-footer\" style=\"position: absolute; bottom: 0; left: 0; width: 100%;\">\r\n        <form (ngSubmit)='sendMessage()'>\r\n          <input placeholder=\"Type a message. Hit Enter to send\" type=\"text\" name=\"message\" [(ngModel)]=\"message\">\r\n        </form>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <!-- Messages Header -->\r\n</div>\r\n\r\n<!-- Create room modal -->\r\n<div class=\"modal fade\" id=\"addRoomModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"addRoomModal\" aria-hidden=\"true\">\r\n\r\n  <!-- Show success alert on room created -->\r\n  <div *ngIf=\"roomCreated\" class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\">\r\n        <strong>Success!</strong> Created room\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n            <span aria-hidden=\"true\">&times;</span>\r\n        </button>\r\n      </div>\r\n    </div>\r\n  </div>  <!-- End success modal dialog -->\r\n\r\n  <div *ngIf=\"!roomCreated\" class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <!-- Modal Header -->\r\n      <div class=\"modal-header\">\r\n        <!-- Modal Title -->\r\n        <h5 class=\"modal-title\" id=\"exampleModalLabel\">Create Room</h5>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">&times;</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body\">\r\n        <!-- Add room form -->\r\n        <form (ngSubmit)='createRoom()' [formGroup]=\"formImport\" enctype=\"multipart/form-data\">\r\n          <!-- Room Name -->\r\n          <div class=\"form-group\" formGroupName=\"roomNameGroup\">\r\n            <label for=\"room_name\">Room name</label>\r\n            <input id=\"room_name\" formControlName=\"roomName\" placeholder=\"Enter a room name\" type=\"text\" class=\"form-control\" required>\r\n            <small id=\"roomNameHelp\" class=\"form-text text-muted\">A room name must be no longer than 60 characters.</small>\r\n          </div>\r\n          <!-- Private? -->\r\n          <div class=\"form-group\" formGroupName=\"privateRoomGroup\">\r\n            <div class=\"custom-control custom-switch\">\r\n              <input type=\"checkbox\" formControlName=\"privateRoom\" class=\"custom-control-input\" id=\"private_room\">\r\n              <label class=\"custom-control-label\" for=\"private_room\">Private room?</label>\r\n            </div>\r\n          </div>\r\n          <!-- Room Avatar -->\r\n          <div class=\"form-group\" formGroupName=\"importFileGroup\">\r\n            <div class=\"form-control-file\">\r\n              <div class=\"custom-file\">\r\n                <img src={{imagePath}} width=\"150\" alt=\"Thumb preview...\">\r\n                <input formControlName=\"importFile\" name=\"avatar\" (change)=\"onFileChange($event)\" type=\"file\" accept=\".png, .jpg, .jpeg\" class=\"custom-file-input\" id=\"customFile\" #avatar>\r\n                <label class=\"custom-file-label\" #labelImport for=\"customFile\">Choose file</label>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <!-- Submit -->\r\n          <button type=\"submit\" class=\"btn btn-primary\" [disabled]=\"!formImport.valid\">Submit</button>\r\n        </form>\r\n      </div>\r\n      <!-- Modal Footer -->\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\r\n        <button type=\"button\" class=\"btn btn-primary\">Save changes</button>\r\n      </div>\r\n    </div> <!-- End modal content -->\r\n  </div> <!-- End modal dialog -->\r\n</div> <!-- End modal -->\r\n"
+module.exports = "<div class=\"container-fluid\" style=\"height:100vh;\">\r\n\r\n  <app-top-bar [viewName]=\"'Messages'\" [headerText]=\"'Name'\"></app-top-bar>\r\n\r\n  <!--<button type=\"button\" class=\"ml-auto btn btn-outline-primary\" data-toggle=\"modal\" data-target=\"#addRoomModal\" (click)=\"roomCreated = false\" placement=\"left\" ngbTooltip=\"Create Room\" triggers=\"hover\" [autoClose]=\"true\">\r\n    <i class=\"fa fa-plus\"></i>\r\n  </button>-->\r\n\r\n  <!--<button type=\"button\" class=\"ml-auto btn btn-outline-primary\" data-toggle=\"modal\" data-target=\"#addRoomModal\" placement=\"left\" ngbTooltip=\"Edit Room\" triggers=\"hover\" [autoClose]=\"true\">\r\n    <i class=\"fa fa-cog\"></i>\r\n  </button>-->\r\n\r\n  <div class=\"row page-content\">\r\n    <div class=\"col-4 h-100 overflow-auto\">\r\n        \r\n          <!-- Begin Messages outlet -->\r\n          <div id=\"messages\" class=\"row\">\r\n            <ng-container *ngFor=\"let room of rooms\">\r\n              <div class=\"col-12\">\r\n                <button class=\"btn btn-block custom-btn text-left mr-4 my-2 p-3\" (click)=\"joinRoom(room.id)\">\r\n                    <div class=\"room d-flex align-items-center justify-content-between\">\r\n                        <ng-container *ngIf=\"room?.custom_data !== undefined\">\r\n                            <!-- <img src=\"{{ room.custom_data.roomAvatar }}\" alt=\"\"> -->\r\n                        </ng-container>\r\n                        <span class=\"text-secondary\">{{ room.name }}</span>\r\n                        <span *ngIf=\"roomNotifications[room.id]\" class=\"badge badge-secondary\">New</span>\r\n                      </div>\r\n                  </button>\r\n              </div>\r\n            </ng-container>\r\n            <div *ngIf=\"(currentUser)\" class=\"col-12\">\r\n                <div class=\"message-wrap\">\r\n                  <img src=\"{{currentUser.avatarURL}}\" alt=\"\">\r\n                  <span>{{ currentUser.name }}</span>\r\n                </div>\r\n            </div>\r\n          </div>\r\n    </div>\r\n    <div class=\"col-8 h-100 overflow-auto\" style=\"background:#FAFDFF;\">\r\n      <div class=\"chat-window h-100 overflow-auto\">\r\n        <ng-container *ngIf=\"room_messages\">\r\n          <div class=\"row\">\r\n            <div *ngFor=\"let message of room_messages\">\r\n            {{ message.parts[0].payload.content }}\r\n            <!-- Messages -->\r\n              <div class=\"col-12\">\r\n                {{ message.user_id }}\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </ng-container>\r\n      </div>\r\n      <div class=\"chat-footer\" style=\"position: absolute; bottom: 0; left: 0; width: 100%;\">\r\n        <form (ngSubmit)='sendMessage()'>\r\n          <input placeholder=\"Type a message. Hit Enter to send\" type=\"text\" name=\"message\" [(ngModel)]=\"message\">\r\n        </form>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <!-- Messages Header -->\r\n</div>\r\n\r\n<!-- Create room modal -->\r\n<div class=\"modal fade\" id=\"addRoomModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"addRoomModal\" aria-hidden=\"true\">\r\n\r\n  <!-- Show success alert on room created -->\r\n  <div *ngIf=\"roomCreated\" class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\">\r\n        <strong>Success!</strong> Created room\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n            <span aria-hidden=\"true\">&times;</span>\r\n        </button>\r\n      </div>\r\n    </div>\r\n  </div>  <!-- End success modal dialog -->\r\n\r\n  <div *ngIf=\"!roomCreated\" class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <!-- Modal Header -->\r\n      <div class=\"modal-header\">\r\n        <!-- Modal Title -->\r\n        <h5 class=\"modal-title\" id=\"exampleModalLabel\">Create Room</h5>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">&times;</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body\">\r\n        <!-- Add room form -->\r\n        <form (ngSubmit)='createRoom()' [formGroup]=\"formImport\" enctype=\"multipart/form-data\">\r\n          <!-- Room Name -->\r\n          <div class=\"form-group\" formGroupName=\"roomNameGroup\">\r\n            <label for=\"room_name\">Room name</label>\r\n            <input id=\"room_name\" formControlName=\"roomName\" placeholder=\"Enter a room name\" type=\"text\" class=\"form-control\" required>\r\n            <small id=\"roomNameHelp\" class=\"form-text text-muted\">A room name must be no longer than 60 characters.</small>\r\n          </div>\r\n          <!-- Private? -->\r\n          <div class=\"form-group\" formGroupName=\"privateRoomGroup\">\r\n            <div class=\"custom-control custom-switch\">\r\n              <input type=\"checkbox\" formControlName=\"privateRoom\" class=\"custom-control-input\" id=\"private_room\">\r\n              <label class=\"custom-control-label\" for=\"private_room\">Private room?</label>\r\n            </div>\r\n          </div>\r\n          <!-- Room Avatar -->\r\n          <div class=\"form-group\" formGroupName=\"importFileGroup\">\r\n            <div class=\"form-control-file\">\r\n              <div class=\"custom-file\">\r\n                <img src={{imagePath}} width=\"150\" alt=\"Thumb preview...\">\r\n                <input formControlName=\"importFile\" name=\"avatar\" (change)=\"onFileChange($event)\" type=\"file\" accept=\".png, .jpg, .jpeg\" class=\"custom-file-input\" id=\"customFile\" #avatar>\r\n                <label class=\"custom-file-label\" #labelImport for=\"customFile\">Choose file</label>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <!-- Submit -->\r\n          <button type=\"submit\" class=\"btn btn-primary\" [disabled]=\"!formImport.valid\">Submit</button>\r\n        </form>\r\n      </div>\r\n      <!-- Modal Footer -->\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\r\n        <button type=\"button\" class=\"btn btn-primary\">Save changes</button>\r\n      </div>\r\n    </div> <!-- End modal content -->\r\n  </div> <!-- End modal dialog -->\r\n</div> <!-- End modal -->\r\n"
 
 /***/ }),
 
@@ -2708,7 +2859,7 @@ var MessagesComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\">\r\n  <div class=\"row shadow-sm align-items-center py-2\" id=\"messages_header\">\r\n    <div class=\"col-4\">\r\n        <div class=\"d-flex align-items-center\">\r\n          <span class=\"text-uppercase\">Rooms</span>\r\n          <!-- Add Room -->\r\n          <button type=\"button\" class=\"ml-auto btn btn-outline-primary\" data-toggle=\"modal\" data-target=\"#addRoomModal\" (click)=\"roomCreated = false\" placement=\"left\" ngbTooltip=\"Create Room\" triggers=\"hover\" [autoClose]=\"true\">\r\n            <i class=\"fa fa-plus\"></i>\r\n          </button>\r\n        </div>\r\n    </div>\r\n    <div class=\"col-8\">\r\n      <div class=\"d-flex align-items-center\">\r\n        <ng-container *ngIf=\"current_room\">\r\n            <span class=\"text-uppercase\">{{ current_room.name }}</span>\r\n        </ng-container>\r\n          <!-- Add Room -->\r\n          <button type=\"button\" class=\"ml-auto btn btn-outline-primary\" data-toggle=\"modal\" data-target=\"#addRoomModal\" placement=\"left\" ngbTooltip=\"Edit Room\" triggers=\"hover\" [autoClose]=\"true\">\r\n            <i class=\"fa fa-cog\"></i>\r\n          </button>\r\n        </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"row\" style=\"height: calc(100vh - 54px);\">\r\n    <div class=\"col-4 h-100 overflow-auto\">\r\n        \r\n          <!-- Begin rooms list -->\r\n          <div id=\"messages\" class=\"row\">\r\n            <div class=\"col-12\">\r\n              <div class=\"message-wrap\">\r\n                  <!-- Font Awesome Profile Silouhette(?) -->\r\n                  <i class=\"fas fa-user fa-lg mr-3\" style=\"color: #C3D3DC;\"></i>\r\n                  <!-- Load users profile picture here -->\r\n                  <img src=\"/assets/images/dummy_profile_pic.pc\" height=\"36\" width=\"36\" class=\"rounded-circle border border-success\">\r\n                  <!-- Load users name here -->\r\n                  <span class=\"ml-3 mr-5\" style=\"font-weight: bold; color: #115073;\">User 5</span>\r\n                  <!-- Disable or change the text to something relevant -->\r\n                  <span class=\"badge ml-5 pl-2 pr-2\" style=\"background-color: #FF247F; color: #FFF;\">new</span>\r\n                  <div class=\"text-uppercase pl-5\" style=\"font-weight: bold; color: #94B0C0\" id=\"status\">online</div>\r\n              </div>\r\n            </div>\r\n            <ng-container *ngFor=\"let room of rooms\">\r\n              <div class=\"col-12\" (click)=\"joinRoom(room.id)\">\r\n                  <div class=\"message-wrap room d-flex align-items-center justify-content-between\">\r\n                    <ng-container *ngIf=\"room?.customData !== undefined\">\r\n                      <div class=\"\" [ngStyle]=\"{ 'background-image': 'url(assets/avatars/' + room.customData.roomAvatar + ')', 'height':'50px', 'width':'50px', 'background-size':'cover', 'background-position':'center, center' }\">\r\n                      </div>\r\n                    </ng-container>\r\n                    <span class=\"text-secondary\">{{ room.name }}</span>\r\n                    <span *ngIf=\"roomNotifications[room.id]\" class=\"badge badge-secondary\">New</span>\r\n                  </div>\r\n              </div>\r\n            </ng-container>\r\n            <div *ngIf=\"(currentUser)\" class=\"col-12\">\r\n                <div class=\"message-wrap\">\r\n                  <img src=\"{{currentUser.avatarURL}}\" alt=\"\">\r\n                  <span>{{ currentUser.name }}</span>\r\n                </div>\r\n            </div>\r\n          </div>\r\n    </div>\r\n    <div class=\"col-8 h-100 overflow-auto\" style=\"background:#FAFDFF;\">\r\n      <div class=\"chat-window h-100 overflow-auto\">\r\n        <ng-container *ngIf=\"room_messages\">\r\n          <div *ngFor=\"let message of room_messages\">{{ message.parts[0].payload.content }}</div>\r\n        </ng-container>\r\n      </div>\r\n      <div class=\"chat-footer\" style=\"position: absolute; bottom: 0; left: 0; width: 100%;\">\r\n        <form (ngSubmit)='sendMessage()'>\r\n          <input placeholder=\"Type a message. Hit Enter to send\" type=\"text\" name=\"message\" [(ngModel)]=\"message\">\r\n        </form>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <!-- Messages Header -->\r\n</div>\r\n\r\n<!-- Create room modal -->\r\n<div class=\"modal fade\" id=\"addRoomModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"addRoomModal\" aria-hidden=\"true\">\r\n\r\n  <!-- Show success alert on room created -->\r\n  <div *ngIf=\"roomCreated\" class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\">\r\n        <strong>Success!</strong> Created room\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n            <span aria-hidden=\"true\">&times;</span>\r\n        </button>\r\n      </div>\r\n    </div>\r\n  </div>  <!-- End success modal dialog -->\r\n\r\n  <div *ngIf=\"!roomCreated\" class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <!-- Modal Header -->\r\n      <div class=\"modal-header\">\r\n        <!-- Modal Title -->\r\n        <h5 class=\"modal-title\" id=\"exampleModalLabel\">Create Room</h5>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">&times;</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body\">\r\n        <!-- Add room form -->\r\n        <form (ngSubmit)='createRoom()' [formGroup]=\"formImport\" enctype=\"multipart/form-data\">\r\n          <!-- Room Name -->\r\n          <div class=\"form-group\" formGroupName=\"roomNameGroup\">\r\n            <label for=\"room_name\">Room name</label>\r\n            <input id=\"room_name\" formControlName=\"roomName\" placeholder=\"Enter a room name\" type=\"text\" class=\"form-control\" required>\r\n            <small id=\"roomNameHelp\" class=\"form-text text-muted\">A room name must be no longer than 60 characters.</small>\r\n          </div>\r\n          <!-- Private? -->\r\n          <div class=\"form-group\" formGroupName=\"privateRoomGroup\">\r\n            <div class=\"custom-control custom-switch\">\r\n              <input type=\"checkbox\" formControlName=\"privateRoom\" class=\"custom-control-input\" id=\"private_room\">\r\n              <label class=\"custom-control-label\" for=\"private_room\">Private room?</label>\r\n            </div>\r\n          </div>\r\n          <!-- Room Avatar -->\r\n          <div class=\"form-group\" formGroupName=\"userAvatarFileGroup\">\r\n            <div class=\"form-control-file\">\r\n              <div class=\"custom-file\">\r\n                <img src={{imagePath}} width=\"150\" alt=\"Thumb preview...\">\r\n                <input formControlName=\"avatar\" (change)=\"onFileChange($event)\" type=\"file\" accept=\".png, .jpg, .jpeg\" class=\"custom-file-input\" id=\"avatar\" #avatar>\r\n                <label class=\"custom-file-label\" for=\"avatar\">Choose file</label>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <!-- Submit -->\r\n          <button type=\"submit\" class=\"btn btn-primary\" [disabled]=\"!formImport.valid\">Submit</button>\r\n        </form>\r\n      </div>\r\n      <!-- Modal Footer -->\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\r\n        <button type=\"button\" class=\"btn btn-primary\">Save changes</button>\r\n      </div>\r\n    </div> <!-- End modal content -->\r\n  </div> <!-- End modal dialog -->\r\n</div> <!-- End modal -->\r\n"
+module.exports = "<div class=\"container-fluid\" style=\"height:100vh;\">\r\n\r\n  <ng-container *ngIf=\"current_room\">\r\n    <app-top-bar [viewName]=\"'Rooms'\" [headerText]=\"current_room.name\"></app-top-bar>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"!current_room\">\r\n    <app-top-bar [viewName]=\"'Rooms'\"></app-top-bar>\r\n  </ng-container>\r\n\r\n\r\n  <!--<button type=\"button\" class=\"ml-auto btn btn-outline-primary\" data-toggle=\"modal\" data-target=\"#addRoomModal\" (click)=\"roomCreated = false\" placement=\"left\" ngbTooltip=\"Create Room\" triggers=\"hover\" [autoClose]=\"true\">\r\n    <i class=\"fa fa-plus\"></i>\r\n  </button>-->\r\n\r\n  <!--<button type=\"button\" class=\"ml-auto btn btn-outline-primary\" data-toggle=\"modal\" data-target=\"#addRoomModal\" placement=\"left\" ngbTooltip=\"Edit Room\" triggers=\"hover\" [autoClose]=\"true\">\r\n    <i class=\"fa fa-cog\"></i>\r\n  </button>-->\r\n\r\n  <div class=\"row page-content\">\r\n    <div class=\"col-4 h-100 overflow-auto\">\r\n        \r\n          <!-- Begin rooms list -->\r\n          <div id=\"messages\" class=\"row\">\r\n            <ng-container *ngFor=\"let room of rooms\">\r\n                <div class=\"col-12\">\r\n                    <button class=\"btn btn-block custom-btn text-left mr-4 my-2 p-3\" (click)=\"joinRoom(room.id)\">\r\n                        <div class=\"room d-flex align-items-center justify-content-between\">\r\n                            <ng-container *ngIf=\"room?.custom_data !== undefined\">\r\n                                <div class=\"\" [ngStyle]=\"{ 'background-image': 'url(assets/avatars/' + room.customData.roomAvatar + ')', 'height':'50px', 'width':'50px', 'background-size':'cover', 'background-position':'center, center' }\">\r\n                                </div>\r\n                            </ng-container>\r\n                            <span class=\"text-secondary\">{{ room.name }}</span>\r\n                            <span *ngIf=\"roomNotifications[room.id]\" class=\"badge badge-secondary\">New</span>\r\n                          </div>\r\n                      </button>\r\n                  </div>\r\n            </ng-container>\r\n            <div *ngIf=\"(currentUser)\" class=\"col-12\">\r\n                <div class=\"message-wrap\">\r\n                  <img src=\"{{currentUser.avatarURL}}\" alt=\"\">\r\n                  <span>{{ currentUser.name }}</span>\r\n                </div>\r\n            </div>\r\n          </div>\r\n    </div>\r\n    <div class=\"col-8 h-100 overflow-auto\" style=\"background:#FAFDFF;\">\r\n      <div class=\"chat-window overflow-auto\" style=\"height: calc(100vh - 157px);\">\r\n        <ng-container *ngIf=\"room_messages\">\r\n          <div class=\"container\">\r\n            <div *ngFor=\"let message of room_messages\">\r\n              <div class=\"row\">\r\n                <!-- Messages -->\r\n                <div class=\"col-12\">\r\n                  <span>{{ current_room.userStore.users[message.senderId].name }}</span>\r\n                  <p style=\"color:#626e7a; font-size:15px;\">{{ message.parts[0].payload.content }}</p>\r\n                  <hr>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </ng-container>\r\n      </div>\r\n      <div class=\"chat-footer\" style=\"position: absolute; bottom: 0; left: 0; width: 100%;\">\r\n        <form (ngSubmit)='sendMessage()'>\r\n          <input placeholder=\"Type a message. Hit Enter to send\" type=\"text\" name=\"message\" [(ngModel)]=\"message\">\r\n        </form>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <!-- Messages Header -->\r\n</div>\r\n\r\n<!-- Create room modal -->\r\n<div class=\"modal fade\" id=\"addRoomModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"addRoomModal\" aria-hidden=\"true\">\r\n\r\n  <!-- Show success alert on room created -->\r\n  <div *ngIf=\"roomCreated\" class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\">\r\n        <strong>Success!</strong> Created room\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n            <span aria-hidden=\"true\">&times;</span>\r\n        </button>\r\n      </div>\r\n    </div>\r\n  </div>  <!-- End success modal dialog -->\r\n\r\n  <div *ngIf=\"!roomCreated\" class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <!-- Modal Header -->\r\n      <div class=\"modal-header\">\r\n        <!-- Modal Title -->\r\n        <h5 class=\"modal-title\" id=\"exampleModalLabel\">Create Room</h5>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">&times;</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body\">\r\n        <!-- Add room form -->\r\n        <form (ngSubmit)='createRoom()' [formGroup]=\"formImport\" enctype=\"multipart/form-data\">\r\n          <!-- Room Name -->\r\n          <div class=\"form-group\" formGroupName=\"roomNameGroup\">\r\n            <label for=\"room_name\">Room name</label>\r\n            <input id=\"room_name\" formControlName=\"roomName\" placeholder=\"Enter a room name\" type=\"text\" class=\"form-control\" required>\r\n            <small id=\"roomNameHelp\" class=\"form-text text-muted\">A room name must be no longer than 60 characters.</small>\r\n          </div>\r\n          <!-- Private? -->\r\n          <div class=\"form-group\" formGroupName=\"privateRoomGroup\">\r\n            <div class=\"custom-control custom-switch\">\r\n              <input type=\"checkbox\" formControlName=\"privateRoom\" class=\"custom-control-input\" id=\"private_room\">\r\n              <label class=\"custom-control-label\" for=\"private_room\">Private room?</label>\r\n            </div>\r\n          </div>\r\n          <!-- Room Avatar -->\r\n          <div class=\"form-group\" formGroupName=\"userAvatarFileGroup\">\r\n            <div class=\"form-control-file\">\r\n              <div class=\"custom-file\">\r\n                <img src={{imagePath}} width=\"150\" alt=\"Thumb preview...\">\r\n                <input formControlName=\"avatar\" (change)=\"onFileChange($event)\" type=\"file\" accept=\".png, .jpg, .jpeg\" class=\"custom-file-input\" id=\"avatar\" #avatar>\r\n                <label class=\"custom-file-label\" for=\"avatar\">Choose file</label>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <!-- Submit -->\r\n          <button type=\"submit\" class=\"btn btn-primary\" [disabled]=\"!formImport.valid\">Submit</button>\r\n        </form>\r\n      </div>\r\n      <!-- Modal Footer -->\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\r\n        <button type=\"button\" class=\"btn btn-primary\">Save changes</button>\r\n      </div>\r\n    </div> <!-- End modal content -->\r\n  </div> <!-- End modal dialog -->\r\n</div> <!-- End modal -->\r\n"
 
 /***/ }),
 
@@ -2820,7 +2971,9 @@ var RoomsComponent = /** @class */ (function () {
         //   this.imagePath = reader.result;
         // };
     };
-    // Send a message
+    //
+    // ─── SEND A MESSAGE ─────────────────────────────────────────────────────────────
+    //
     RoomsComponent.prototype.sendMessage = function () {
         var _a = this, message = _a.message, currentUser = _a.currentUser;
         this.chatkitUser.sendMessage({
@@ -2831,11 +2984,13 @@ var RoomsComponent = /** @class */ (function () {
         });
         this.message = '';
     };
+    // ─────────────────────────────────────────────────────────────────
     // Join a room
     RoomsComponent.prototype.joinRoom = function (roomID) {
         var _this = this;
         this.chatkitUser.joinRoom({ roomId: roomID }).then(function (room) {
             _this.current_room = room;
+            console.log(_this.current_room);
             // After joining room, fetch messages
             _this.chatkitUser.fetchMultipartMessages({ roomId: roomID }).then(function (messages) {
                 // Check if messages
@@ -2858,6 +3013,7 @@ var RoomsComponent = /** @class */ (function () {
                 //   });
                 messages.forEach(function (message) {
                     // console.log(message.parts[0].payload.content);
+                    // console.log(message);
                 });
                 _this.room_messages = messages;
             });
@@ -2889,7 +3045,9 @@ var RoomsComponent = /** @class */ (function () {
         });
         return hasUnread;
     };
-    // Get Chatkit user
+    //
+    // ─── GET CHATKIT USER ───────────────────────────────────────────────────────────
+    //
     RoomsComponent.prototype.getUser = function (user_id) {
         return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + "/chatkit/getuser", { user_id: user_id })
             .toPromise()
@@ -2899,7 +3057,10 @@ var RoomsComponent = /** @class */ (function () {
         })
             .catch(function (error) { return console.log(error); });
     };
-    // Get Chatkit user's rooms
+    // ─────────────────────────────────────────────────────────────────
+    //
+    // ─── GET CHATKIT USERS ROOMS ────────────────────────────────────────────────────
+    //
     RoomsComponent.prototype.getUserRooms = function (user_id) {
         return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl + "/chatkit/getuserrooms", { user_id: user_id })
             .toPromise()
@@ -2910,6 +3071,7 @@ var RoomsComponent = /** @class */ (function () {
         })
             .catch(function (error) { return console.log(error); });
     };
+    // ─────────────────────────────────────────────────────────────────
     RoomsComponent.prototype.subscribeToRoom = function (roomID) {
         var _this = this;
         this.chatkitUser.subscribeToRoomMultipart({
@@ -2981,6 +3143,7 @@ var RoomsComponent = /** @class */ (function () {
             });
         });
     };
+    // ────────────────────────────────────────────────────────────────────────────────
     RoomsComponent.prototype.ngOnInit = function () {
         var _this = this;
         // Subscribe to new notifications
@@ -3031,6 +3194,35 @@ var RoomsComponent = /** @class */ (function () {
     return RoomsComponent;
 }());
 
+
+
+/***/ }),
+
+/***/ "./src/environments/environment.prod.ts":
+/*!**********************************************!*\
+  !*** ./src/environments/environment.prod.ts ***!
+  \**********************************************/
+/*! exports provided: environment */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "environment", function() { return environment; });
+// This file can be replaced during build by using the `fileReplacements` array.
+// `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
+// The list of file replacements can be found in `angular.json`.
+var environment = {
+    production: false,
+    apiUrl: 'http://localhost:3200',
+    chatkitTestTokenEndpoint: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/a54bdf12-93d6-46f9-be3b-bfa837917fb5',
+};
+/*
+ * In development mode, to ignore zone related error stack frames such as
+ * `zone.run`, `zoneDelegate.invokeTask` for easier debugging, you can
+ * import the following file, but please comment it out in production mode
+ * because it will have performance impact when throw error
+ */
+// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
 
 
 /***/ }),

@@ -1,12 +1,8 @@
-<div class="container-fluid">
-  <div class="row shadow-sm align-items-center py-2" id="settings_header">
-    <div class="col-4" id="settings-left">
-        <div class="d-flex align-items-center">
-          <span class="text-uppercase">Settings</span>
-        </div>
-    </div>
-  </div>
-  <div class="row" id="settings-content">
+<div class="container-fluid" style="height:100vh;">
+
+  <app-top-bar [viewName]="'Settings'" [headerText]="headerText"></app-top-bar>
+  
+  <div class="row page-content" id="settings-content">
     <div class="col-12 col-lg-3" style="background-color:#F1F8FC; border-bottom:1px solid #DAE6ED;">
       <div class="my-3 px-1">
         <button class="btn btn-block custom-btn text-left my-2 p-3" (click)="showProfileView()"
@@ -21,10 +17,10 @@
     </div>
   
   <div class="col-12 col-lg-9" style="background-color: #fafdff; border-left:1px solid #DAE6ED;" id="settings-right">
-          <div *ngIf="ProfileView.current">
-            <app-settings-profile></app-settings-profile>
-          </div>
-        </div>
+    <div *ngIf="ProfileView.current">
+      <app-settings-profile></app-settings-profile>
+    </div>
+   </div>
   </div>
 </div>
       

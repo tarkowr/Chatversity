@@ -25,7 +25,6 @@ export class ViewNavigationHomeComponent implements OnInit {
     // [routerLink]="['/home']" [queryParams]="{view:'param'}"
     this.activatedRoute.queryParams.subscribe(params => {
       let view = params['view'];
-      console.log(view);
   
       this.handleViewParam(view);
     });

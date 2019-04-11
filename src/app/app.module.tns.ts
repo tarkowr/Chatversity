@@ -22,6 +22,7 @@ import { ViewLatestNewsComponent } from './Home/view-latest-news/view-latest-new
 import { ViewNavigationHomeComponent } from './Home/view-navigation-home/view-navigation-home.component';
 import { ViewFriendsHomeComponent } from './Home/view-friends-home/view-friends-home.component';
 import { RoomsComponent } from './rooms/rooms.component';
+import { TopBarComponent } from './Shared/top-bar/top-bar.component';
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -52,6 +53,7 @@ import { RoomsComponent } from './rooms/rooms.component';
     ViewNavigationHomeComponent,
     ViewFriendsHomeComponent,
     RoomsComponent,
+    TopBarComponent,
   ],
   imports: [
     NativeScriptModule,
