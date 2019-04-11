@@ -7,6 +7,8 @@ import { NgForm, FormGroup, FormBuilder, Validators, FormControl, MaxLengthValid
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../Core/_models/user';
 import { UserProfile } from '../../Core/_models/profile';
+import { AuthService } from '../../Core/_services/auth.service';
+import { MessagingService } from '../../Core/_services/messaging.service';
 
 @Component({
   selector: 'app-profile',
@@ -16,26 +18,28 @@ import { UserProfile } from '../../Core/_models/profile';
 
 export class ProfileComponent implements OnInit {
 
-  user: User;
+  user: any;
   profile: UserProfile;
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router) { }
-
+    private router: Router,
+    private authService: AuthService,
+    private msgService: MessagingService) { }
+  
   ngOnInit() {
-    this.user = {
-      id: 2,
-      firstName: 'Scott',
-      lastName: 'Peterson',
-      username: 'peter610@mail.nmc.edu',
-      password: undefined,
-      university: { id: 3, name: 'NMC', state:"MI", domains:null },
-      profile: { bio: "Hello world! This is my bio.", major: "Computer Information Systems", graduationYear: 2021, interests: "Shooting, Riding, and the Outdoors", clubs: "Phi Theta Kappa" },
-      active: false
-    }
 
-    this.profile = this.user.profile;
+    //
+    // ─── CONNECT TO CHAKIT ───────────────────────────────────────────
+    //
+
+    this.msgService.chatManager
+    .connect()
+    .then(user => {
+      this.user = user;
+      console.log(user); // ! TESTING ONLY
+    });
+    // ─────────────────────────────────────────────────────────────────
   }
 }

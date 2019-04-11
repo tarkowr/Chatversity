@@ -19,11 +19,18 @@ export class AuthService {
         return this.currentUserSubject.value;
     }
 
-    // Send sign up request to server // TODO: Implement user sign up
-    signup(fname: string, lname: string, universityId: number, username: string, password: string) {
-        console.log(fname, lname, universityId, username, password);
-        return;
-    }
+
+    //
+    // ─── SEND SIGN UP REQUEST TO SERVER ─────────────────────────────────────────────
+    //
+
+        signup(fname: string, lname: string, universityId: number, username: string, password: string) {
+            console.log(fname, lname, universityId, username, password);
+            return;
+        }
+    // ─────────────────────────────────────────────────────────────────
+
+
 
     login(username: string, password: string) {
         return this.http.post<any>(`${environment.apiUrl}/okta/login`, { username, password })

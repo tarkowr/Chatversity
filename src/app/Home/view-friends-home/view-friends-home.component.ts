@@ -125,8 +125,6 @@ export class ViewFriendsHomeComponent implements OnInit {
     this.connection = this.connections[0];
   }
 
-
-
   //
   // ─── CONVENIENCE GETTER FOR EASY ACCESS TO FORM FIELDS ──────────────────────────
   //
@@ -184,7 +182,8 @@ export class ViewFriendsHomeComponent implements OnInit {
 
     getUsersByName(_name: string) {
       _name = _name.toLowerCase();
-      this.results = this.connections.filter(c => (c.firstName.toLowerCase() + ' ' + c.lastName.toLowerCase()).includes(_name));
+      this.results = this.connections.filter(c => 
+        (c.firstName.toLowerCase() + ' ' + c.lastName.toLowerCase()).includes(_name)).slice(0,5);
     }
   // ────────────────────────────────────────────────────────────────────────────────
 
@@ -229,12 +228,14 @@ export class ViewFriendsHomeComponent implements OnInit {
     this.loading = true;
 
     if (this.searchForm.invalid) {
-      this.loading = false;
       this.submitted = false;
+      this.loading = false;
       return;
     }
 
-    this.getUsersByName(this.searchForm.get('search').value);
+    let query:string = this.searchForm.get('search').value;
+
+    this.getUsersByName(query);
 
     this.loading = false;
   }

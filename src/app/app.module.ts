@@ -56,6 +56,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { RoomsComponent } from './rooms/rooms.component';
+import { ScrollToTopDirective } from './scroll-to-top.directive';
 import { PrivacySettingsComponent } from './Settings-Views/privacy-settings/privacy-settings.component';
 import { SecuritySettingsComponent } from './Settings-Views/security-settings/security-settings.component';
 import { ConnectionSettingsComponent } from './Settings-Views/connection-settings/connection-settings.component';
@@ -92,6 +93,7 @@ const config = {
     ViewNavigationHomeComponent,
     ViewFriendsHomeComponent,
     RoomsComponent,
+    ScrollToTopDirective,
     PrivacySettingsComponent,
     SecuritySettingsComponent,
     ConnectionSettingsComponent,
