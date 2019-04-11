@@ -557,7 +557,7 @@ var PageNotFoundComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".user-card{\r\n    background-color: white;\r\n    border: 1px solid #DAE6ED;\r\n    border-radius: 5px;\r\n}\r\n.card-img{\r\n    max-width: 40px;\r\n    border-width: 2px !important;\r\n    border: 2px solid #96B7C9;\r\n}\r\n.border-online{\r\n    border: 2px solid #00e600;\r\n}\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvSG9tZS92aWV3LWZyaWVuZHMtaG9tZS92aWV3LWZyaWVuZHMtaG9tZS5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0lBQ0ksdUJBQXVCO0lBQ3ZCLHlCQUF5QjtJQUN6QixrQkFBa0I7QUFDdEI7QUFDQTtJQUNJLGVBQWU7SUFDZiw0QkFBNEI7SUFDNUIseUJBQXlCO0FBQzdCO0FBQ0E7SUFDSSx5QkFBeUI7QUFDN0IiLCJmaWxlIjoic3JjL2FwcC9Ib21lL3ZpZXctZnJpZW5kcy1ob21lL3ZpZXctZnJpZW5kcy1ob21lLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIudXNlci1jYXJke1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7XHJcbiAgICBib3JkZXI6IDFweCBzb2xpZCAjREFFNkVEO1xyXG4gICAgYm9yZGVyLXJhZGl1czogNXB4O1xyXG59XHJcbi5jYXJkLWltZ3tcclxuICAgIG1heC13aWR0aDogNDBweDtcclxuICAgIGJvcmRlci13aWR0aDogMnB4ICFpbXBvcnRhbnQ7XHJcbiAgICBib3JkZXI6IDJweCBzb2xpZCAjOTZCN0M5O1xyXG59XHJcbi5ib3JkZXItb25saW5le1xyXG4gICAgYm9yZGVyOiAycHggc29saWQgIzAwZTYwMDtcclxufSJdfQ== */"
+module.exports = ".user-card{\r\n    background-color: white;\r\n    border: 1px solid #DAE6ED;\r\n    border-radius: 5px;\r\n}\r\n.user-card:hover{\r\n    background-color: transparent;\r\n}\r\n.card-img{\r\n    max-width: 40px;\r\n    border-width: 2px !important;\r\n    border: 2px solid #96B7C9;\r\n}\r\n.border-online{\r\n    border: 2px solid #00e600;\r\n}\r\n#search{\r\n    border-radius: 20px;\r\n}\r\n\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvSG9tZS92aWV3LWZyaWVuZHMtaG9tZS92aWV3LWZyaWVuZHMtaG9tZS5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0lBQ0ksdUJBQXVCO0lBQ3ZCLHlCQUF5QjtJQUN6QixrQkFBa0I7QUFDdEI7QUFDQTtJQUNJLDZCQUE2QjtBQUNqQztBQUNBO0lBQ0ksZUFBZTtJQUNmLDRCQUE0QjtJQUM1Qix5QkFBeUI7QUFDN0I7QUFDQTtJQUNJLHlCQUF5QjtBQUM3QjtBQUNBO0lBQ0ksbUJBQW1CO0FBQ3ZCIiwiZmlsZSI6InNyYy9hcHAvSG9tZS92aWV3LWZyaWVuZHMtaG9tZS92aWV3LWZyaWVuZHMtaG9tZS5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLnVzZXItY2FyZHtcclxuICAgIGJhY2tncm91bmQtY29sb3I6IHdoaXRlO1xyXG4gICAgYm9yZGVyOiAxcHggc29saWQgI0RBRTZFRDtcclxuICAgIGJvcmRlci1yYWRpdXM6IDVweDtcclxufVxyXG4udXNlci1jYXJkOmhvdmVye1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogdHJhbnNwYXJlbnQ7XHJcbn1cclxuLmNhcmQtaW1ne1xyXG4gICAgbWF4LXdpZHRoOiA0MHB4O1xyXG4gICAgYm9yZGVyLXdpZHRoOiAycHggIWltcG9ydGFudDtcclxuICAgIGJvcmRlcjogMnB4IHNvbGlkICM5NkI3Qzk7XHJcbn1cclxuLmJvcmRlci1vbmxpbmV7XHJcbiAgICBib3JkZXI6IDJweCBzb2xpZCAjMDBlNjAwO1xyXG59XHJcbiNzZWFyY2h7XHJcbiAgICBib3JkZXItcmFkaXVzOiAyMHB4O1xyXG59XHJcbiJdfQ== */"
 
 /***/ }),
 
@@ -568,7 +568,7 @@ module.exports = ".user-card{\r\n    background-color: white;\r\n    border: 1px
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid mt-4\">\r\n\r\n  <app-small [user]=\"connection\" [isConnection]=\"isConnection\"></app-small>\r\n\r\n  <!--Search connections-->\r\n  <div>\r\n\r\n  </div>\r\n\r\n  <!--Connection search results-->\r\n  <div>\r\n\r\n  </div>\r\n\r\n  <!--Online connections-->\r\n  <div>\r\n    <div class=\"text-light\">Online Connections</div>\r\n    <hr>\r\n\r\n    <div *ngFor=\"let c of connections\" class=\"my-2 user-card\">\r\n        <button class=\"btn btn-block text-left px-3 py-2\" data-toggle=\"modal\" data-target=\"#profileModal\" (click)=\"setUser(c.id)\">\r\n            <img src=\"...\" onerror=\"this.src='../../assets/images/DefaultProfile.png'\"\r\n            class=\"circle img-fluid rounded-circle card-img\" [ngClass]=\"{ 'border-online':true }\"/> \r\n\r\n            <span class=\"text-secondary ml-3\">{{ c.firstName }} {{ c.lastName }}</span>\r\n        </button>\r\n    </div>\r\n  </div>\r\n\r\n  <!--All connections-->\r\n  <div>\r\n\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"container-fluid mt-4\">\r\n\r\n  <app-small [user]=\"connection\" [isConnection]=\"isConnection\"></app-small>\r\n\r\n  <!--Search connections-->\r\n  <div>\r\n      <form [formGroup]=\"searchForm\">\r\n\r\n          <!--Search Bar-->\r\n          <div class=\"form-group mb-3\">\r\n              <input type=\"search\" required class=\"form-control primary-border\" id=\"search\" name=\"search\" placeholder=\"Search\" \r\n              formControlName=\"search\" (input)=\"onSearch()\">\r\n          </div>\r\n      </form>\r\n  </div>\r\n\r\n  <!--Connection search results-->\r\n  <div class=\"my-3 search-results\" *ngIf=\"(submitted && !searchForm.invalid)\">\r\n    <div *ngIf=\"(results.length > 0)\">\r\n        <div *ngFor=\"let result of results\">\r\n            <button class=\"btn btn-block text-left px-3 py-2 my-2 user-card\" data-toggle=\"modal\" data-target=\"#profileModal\"\r\n             (click)=\"setUser(result.id)\">\r\n                <img src=\"...\" onerror=\"this.src='../../assets/images/DefaultProfile.png'\"\r\n                class=\"circle img-fluid rounded-circle card-img\" [ngClass]=\"{ 'border-online': result.active }\"/> \r\n    \r\n                <span class=\"text-secondary ml-3\">{{ result.firstName }} {{ result.lastName }}</span>\r\n            </button>\r\n        </div>\r\n    </div>\r\n\r\n    <img *ngIf=\"loading\" class=\"ml-2\"\r\n      src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\r\n\r\n    <div *ngIf=\"(results.length == 0)\">\r\n      <span class=\"text-light\">Sorry, we could not find any results.</span>\r\n    </div>\r\n\r\n    <hr *ngIf=\"(results.length > 0)\">\r\n  </div>\r\n\r\n  <!--Online connections-->\r\n  <div class=\"mt-4 mb-5\">\r\n    <div class=\"text-light\">Online Connections</div>\r\n    <hr>\r\n\r\n    <div *ngFor=\"let c of connections\">\r\n        <button class=\"btn btn-block text-left px-3 py-2 my-2 user-card\" data-toggle=\"modal\" data-target=\"#profileModal\"\r\n         (click)=\"setUser(c.id)\" *ngIf=\"c.active\">\r\n            <img src=\"...\" onerror=\"this.src='../../assets/images/DefaultProfile.png'\"\r\n            class=\"circle img-fluid rounded-circle card-img\" [ngClass]=\"{ 'border-online': c.active }\"/> \r\n\r\n            <span class=\"text-secondary ml-3\">{{ c.firstName }} {{ c.lastName }}</span>\r\n        </button>\r\n    </div>\r\n  </div>\r\n\r\n  <!--All connections-->\r\n  <div class=\"my-5\">\r\n      <div class=\"text-light\">All Connections</div>\r\n      <hr>\r\n  \r\n      <div *ngFor=\"let c of connections\" class=\"my-2 user-card\">\r\n          <button class=\"btn btn-block text-left px-3 py-2\" data-toggle=\"modal\" data-target=\"#profileModal\"\r\n           (click)=\"setUser(c.id)\">\r\n              <img src=\"...\" onerror=\"this.src='../../assets/images/DefaultProfile.png'\"\r\n              class=\"circle img-fluid rounded-circle card-img\" [ngClass]=\"{ 'border-online': c.active }\"/> \r\n  \r\n              <span class=\"text-secondary ml-3\">{{ c.firstName }} {{ c.lastName }}</span>\r\n          </button>\r\n      </div>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -583,6 +583,7 @@ module.exports = "<div class=\"container-fluid mt-4\">\r\n\r\n  <app-small [user
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ViewFriendsHomeComponent", function() { return ViewFriendsHomeComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -593,11 +594,19 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var ViewFriendsHomeComponent = /** @class */ (function () {
-    function ViewFriendsHomeComponent() {
+    function ViewFriendsHomeComponent(formBuilder) {
+        this.formBuilder = formBuilder;
+        this.loading = false;
+        this.submitted = false;
         this.isConnection = false;
     }
     ViewFriendsHomeComponent.prototype.ngOnInit = function () {
+        // Setup search box
+        this.searchForm = this.formBuilder.group({
+            search: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]
+        });
         // DELETE THIS TEST DATA WHEN USER SERVICE IS AVAILABLE
         this.connections = [
             {
@@ -608,7 +617,7 @@ var ViewFriendsHomeComponent = /** @class */ (function () {
                 password: "",
                 university: null,
                 profile: { bio: "This is my bio!", major: "CIS", graduationYear: 2021, interests: "NA", clubs: "none" },
-                active: false
+                active: true
             },
             {
                 id: 2,
@@ -618,7 +627,7 @@ var ViewFriendsHomeComponent = /** @class */ (function () {
                 password: "",
                 university: null,
                 profile: { bio: "Hello World!", major: "CS", graduationYear: 2020, interests: "Web Design", clubs: "Robotics" },
-                active: false
+                active: true
             },
             {
                 id: 3,
@@ -648,14 +657,27 @@ var ViewFriendsHomeComponent = /** @class */ (function () {
                 password: "",
                 university: null,
                 profile: { bio: "Hello World", major: "FSU", graduationYear: 2018, interests: "Soccer", clubs: "Soccer Club" },
-                active: false
+                active: true
             }
         ];
         this.connection = this.connections[0];
     };
+    Object.defineProperty(ViewFriendsHomeComponent.prototype, "f", {
+        //
+        // ─── CONVENIENCE GETTER FOR EASY ACCESS TO FORM FIELDS ──────────────────────────
+        //
+        get: function () { return this.searchForm.controls; },
+        enumerable: true,
+        configurable: true
+    });
     // Return user from friend list
     ViewFriendsHomeComponent.prototype.getUser = function (_id) {
         return this.connections.find(function (c) { return c.id == _id; });
+    };
+    // Filter list of users by name
+    ViewFriendsHomeComponent.prototype.getUsersByName = function (_name) {
+        _name = _name.toLowerCase();
+        this.results = this.connections.filter(function (c) { return (c.firstName.toLowerCase() + " " + c.lastName.toLowerCase()).includes(_name); });
     };
     // Check if users are friends
     ViewFriendsHomeComponent.prototype.isConnected = function (_id) {
@@ -670,13 +692,27 @@ var ViewFriendsHomeComponent = /** @class */ (function () {
         this.connection = this.getUser(_id);
         this.isConnected(_id);
     };
+    //
+    // ─── HANDLE SIGN UP ─────────────────────────────────────────────────────────────
+    //
+    ViewFriendsHomeComponent.prototype.onSearch = function () {
+        this.submitted = true;
+        this.loading = true;
+        if (this.searchForm.invalid) {
+            this.loading = false;
+            this.submitted = false;
+            return;
+        }
+        this.getUsersByName(this.searchForm.get('search').value);
+        this.loading = false;
+    };
     ViewFriendsHomeComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-view-friends-home',
             template: __webpack_require__(/*! ./view-friends-home.component.html */ "./src/app/Home/view-friends-home/view-friends-home.component.html"),
             styles: [__webpack_require__(/*! ./view-friends-home.component.css */ "./src/app/Home/view-friends-home/view-friends-home.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"]])
     ], ViewFriendsHomeComponent);
     return ViewFriendsHomeComponent;
 }());
@@ -1678,7 +1714,7 @@ var SmallComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\">\r\n  <div class=\"row shadow-sm align-items-center py-2\" id=\"settings_header\">\r\n    <div class=\"col-4\" id=\"settings-left\">\r\n        <div class=\"d-flex align-items-center\">\r\n          <span class=\"text-uppercase\">Settings</span>\r\n        </div>\r\n    </div>\r\n  </div>\r\n<div class=\"row\" style=\"height: calc(100vh - 44px); background:#C3D3DC;\">\r\n  <div class=\"col-4 h-100 overflow-auto\">\r\n    <span style=\"color: #115073;\" id=\"user_settings\">User Settings</span>\r\n      <!-- Nav tabs -->\r\n          <div class=\"nav flex-column nav-pills\" id=\"v-pills-tab\" role=\"tablist\" aria-orientation=\"vertical\">\r\n            <a class=\"nav-link active\" id=\"v-pills-MyProfile-tab\" data-toggle=\"pill\" href=\"#v-pills-MyProfile\" role=\"tab\" aria-controls=\"v-pills-MyProfile\" aria-selected=\"true\">My Profile</a>\r\n            <a class=\"nav-link\" id=\"v-pills-Privacy-tab\" data-toggle=\"pill\" href=\"#v-pills-Privacy\" role=\"tab\" aria-controls=\"v-pills-Privacy\" aria-selected=\"false\">Privacy</a>\r\n            <a class=\"nav-link\" id=\"v-pills-security-tab\" data-toggle=\"pill\" href=\"#v-pills-security\" role=\"tab\" aria-controls=\"v-pills-security\" aria-selected=\"false\">Security</a>\r\n            <a class=\"nav-link\" id=\"v-pills-Connections-tab\" data-toggle=\"pill\" href=\"#v-pills-Connections\" role=\"tab\" aria-controls=\"v-pills-Connections\" aria-selected=\"false\">Connections</a>\r\n          </div>\r\n  </div>\r\n<div class=\"col-8 h-100 overflow-auto\" style=\"background:#FAFDFF;\">\r\n  <div class=\"chat-window h-100 overflow-auto\">\r\n    <div id=\"settings-right\">\r\n      <div class=\"col-12\">\r\n          <div class=\"tab-content text-black\" id=\"v-pills-tabContent\">\r\n          <!-- Tab panes -->\r\n          <div class=\"tab-pane fade show active\" id=\"v-pills-MyProfile\" role=\"tabpanel\" aria-labelledby=\"v-pills-MyProfile-tab\">My Profile</div>\r\n          <div class=\"tab-pane fade\" id=\"v-pills-Privacy\" role=\"tabpanel\" aria-labelledby=\"v-pills-Privacy-tab\">Privacy</div>\r\n          <div class=\"tab-pane fade\" id=\"v-pills-security\" role=\"tabpanel\" aria-labelledby=\"v-pills-security-tab\">Security</div>\r\n          <div class=\"tab-pane fade\" id=\"v-pills-Connections\" role=\"tabpanel\" aria-labelledby=\"v-pills-Connections-tab\">Connections</div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n      "
+module.exports = "<div class=\"container-fluid\">\r\n  <div class=\"row shadow-sm align-items-center py-2\" id=\"settings_header\">\r\n    <div class=\"col-4\" id=\"settings-left\">\r\n        <div class=\"d-flex align-items-center\">\r\n          <span class=\"text-uppercase\">Settings</span>\r\n        </div>\r\n    </div>\r\n  </div>\r\n<div class=\"row\" style=\"height: calc(100vh - 44px); background:#F1F8FC;\">\r\n  <div class=\"col-4 h-100 overflow-auto my-3\">\r\n      <!-- Nav tabs -->\r\n          <div class=\"nav flex-column nav-pills\" id=\"v-pills-tab\" role=\"tablist\" aria-orientation=\"vertical\">\r\n            <a class=\"nav-link active\" id=\"v-pills-MyProfile-tab\" data-toggle=\"pill\" href=\"#v-pills-MyProfile\" role=\"tab\" aria-controls=\"v-pills-MyProfile\" aria-selected=\"true\">My Profile</a>\r\n            <a class=\"nav-link\" id=\"v-pills-Privacy-tab\" data-toggle=\"pill\" href=\"#v-pills-Privacy\" role=\"tab\" aria-controls=\"v-pills-Privacy\" aria-selected=\"false\">Privacy</a>\r\n            <a class=\"nav-link\" id=\"v-pills-security-tab\" data-toggle=\"pill\" href=\"#v-pills-security\" role=\"tab\" aria-controls=\"v-pills-security\" aria-selected=\"false\">Security</a>\r\n            <a class=\"nav-link\" id=\"v-pills-Connections-tab\" data-toggle=\"pill\" href=\"#v-pills-Connections\" role=\"tab\" aria-controls=\"v-pills-Connections\" aria-selected=\"false\">Connections</a>\r\n          </div>\r\n  </div>\r\n<div class=\"col-8 h-100 overflow-auto\" style=\"background:#FAFDFF;\">\r\n  <div class=\"chat-window h-100 overflow-auto\">\r\n    <div id=\"settings-right\">\r\n      <div class=\"col-12\">\r\n          <div class=\"tab-content text-black\" id=\"v-pills-tabContent\">\r\n          <!-- Tab panes -->\r\n          <div class=\"tab-pane fade show active\" id=\"v-pills-MyProfile\" role=\"tabpanel\" aria-labelledby=\"v-pills-MyProfile-tab\">My Profile</div>\r\n          <div class=\"tab-pane fade\" id=\"v-pills-Privacy\" role=\"tabpanel\" aria-labelledby=\"v-pills-Privacy-tab\">Privacy</div>\r\n          <div class=\"tab-pane fade\" id=\"v-pills-security\" role=\"tabpanel\" aria-labelledby=\"v-pills-security-tab\">Security</div>\r\n          <div class=\"tab-pane fade\" id=\"v-pills-Connections\" role=\"tabpanel\" aria-labelledby=\"v-pills-Connections-tab\">Connections</div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n      "
 
 /***/ }),
 
@@ -1689,7 +1725,7 @@ module.exports = "<div class=\"container-fluid\">\r\n  <div class=\"row shadow-s
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "#settings_header {\n  background-color: white;\n  z-index: 2;\n  font-family: 'Poppins', sans-serif;\n  font-weight: bold;\n  color: #C3D3DC;\n  top: 0;\n  position: -webkit-sticky;\n  position: sticky; }\n\n#settings-nav {\n  float: right;\n  background: #DAE6ED;\n  font-family: 'Poppins', sans-serif;\n  font-weight: bold; }\n\n#user_settings {\n  padding: 25px 25px;\n  margin-top: 3px;\n  border-radius: 3px;\n  font-family: 'Poppins', sans-serif;\n  font-weight: bold;\n  font-size: 15px; }\n\n#v-pills-tabContent {\n  padding: 16px 16px;\n  font-family: 'Poppins', sans-serif;\n  font-weight: bold; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvU2V0dGluZ3MtVmlld3Mvc2V0dGluZ3MvQzpcXHJ0YXJrb3dza2lcXE5NQ1xcWWVhciAyXFxTcHJpbmcgMjAxOVxcQ0lUIDI4MFxcQ2hhdHZlcnNpdHlcXENoYXR2ZXJzaXR5X0FwcC9zcmNcXGFwcFxcU2V0dGluZ3MtVmlld3NcXHNldHRpbmdzXFxzZXR0aW5ncy5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLHVCQUFtQztFQUNuQyxVQUFVO0VBQ1Ysa0NBQWtDO0VBQ2xDLGlCQUFpQjtFQUNqQixjQUFjO0VBQ2QsTUFBSztFQUNMLHdCQUFnQjtFQUFoQixnQkFBZ0IsRUFBQTs7QUFHcEI7RUFDSSxZQUFXO0VBQ1gsbUJBQW1CO0VBQ25CLGtDQUFrQztFQUNsQyxpQkFBaUIsRUFBQTs7QUFHckI7RUFDSSxrQkFBa0I7RUFDbEIsZUFBZTtFQUNmLGtCQUFrQjtFQUNsQixrQ0FBa0M7RUFDbEMsaUJBQWlCO0VBQ2pCLGVBQWUsRUFBQTs7QUFHbkI7RUFDSSxrQkFBa0I7RUFDbEIsa0NBQWtDO0VBQ2xDLGlCQUFpQixFQUFBIiwiZmlsZSI6InNyYy9hcHAvU2V0dGluZ3MtVmlld3Mvc2V0dGluZ3Mvc2V0dGluZ3MuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIjc2V0dGluZ3NfaGVhZGVyIHtcclxuICAgIGJhY2tncm91bmQtY29sb3I6cmdiKDI1NSwgMjU1LCAyNTUpO1xyXG4gICAgei1pbmRleDogMjtcclxuICAgIGZvbnQtZmFtaWx5OiAnUG9wcGlucycsIHNhbnMtc2VyaWY7XHJcbiAgICBmb250LXdlaWdodDogYm9sZDtcclxuICAgIGNvbG9yOiAjQzNEM0RDO1xyXG4gICAgdG9wOjA7XHJcbiAgICBwb3NpdGlvbjogc3RpY2t5O1xyXG59XHJcblxyXG4jc2V0dGluZ3MtbmF2IHtcclxuICAgIGZsb2F0OnJpZ2h0O1xyXG4gICAgYmFja2dyb3VuZDogI0RBRTZFRDtcclxuICAgIGZvbnQtZmFtaWx5OiAnUG9wcGlucycsIHNhbnMtc2VyaWY7XHJcbiAgICBmb250LXdlaWdodDogYm9sZDsgICBcclxufVxyXG5cclxuI3VzZXJfc2V0dGluZ3N7XHJcbiAgICBwYWRkaW5nOiAyNXB4IDI1cHg7XHJcbiAgICBtYXJnaW4tdG9wOiAzcHg7XHJcbiAgICBib3JkZXItcmFkaXVzOiAzcHg7XHJcbiAgICBmb250LWZhbWlseTogJ1BvcHBpbnMnLCBzYW5zLXNlcmlmO1xyXG4gICAgZm9udC13ZWlnaHQ6IGJvbGQ7XHJcbiAgICBmb250LXNpemU6IDE1cHg7XHJcbn1cclxuXHJcbiN2LXBpbGxzLXRhYkNvbnRlbnQge1xyXG4gICAgcGFkZGluZzogMTZweCAxNnB4O1xyXG4gICAgZm9udC1mYW1pbHk6ICdQb3BwaW5zJywgc2Fucy1zZXJpZjtcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkOyBcclxufVxyXG5cclxuIl19 */"
+module.exports = "#settings_header {\n  background-color: white;\n  z-index: 2;\n  font-family: 'Poppins', sans-serif;\n  font-weight: bold;\n  color: #C3D3DC;\n  top: 0;\n  position: -webkit-sticky;\n  position: sticky; }\n\n#settings-nav {\n  float: right;\n  background: #F1F8FC;\n  font-family: 'Poppins', sans-serif;\n  font-weight: bold; }\n\n#user_settings {\n  padding: 25px 25px;\n  margin-top: 3px;\n  border-radius: 3px;\n  font-family: 'Poppins', sans-serif;\n  font-weight: bold;\n  font-size: 15px; }\n\n#v-pills-tabContent {\n  padding: 16px 16px;\n  font-family: 'Poppins', sans-serif;\n  font-weight: bold; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvU2V0dGluZ3MtVmlld3Mvc2V0dGluZ3MvQzpcXHJ0YXJrb3dza2lcXE5NQ1xcWWVhciAyXFxTcHJpbmcgMjAxOVxcQ0lUIDI4MFxcQ2hhdHZlcnNpdHlcXENoYXR2ZXJzaXR5X0FwcC9zcmNcXGFwcFxcU2V0dGluZ3MtVmlld3NcXHNldHRpbmdzXFxzZXR0aW5ncy5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLHVCQUFtQztFQUNuQyxVQUFVO0VBQ1Ysa0NBQWtDO0VBQ2xDLGlCQUFpQjtFQUNqQixjQUFjO0VBQ2QsTUFBSztFQUNMLHdCQUFnQjtFQUFoQixnQkFBZ0IsRUFBQTs7QUFHcEI7RUFDSSxZQUFXO0VBQ1gsbUJBQW1CO0VBQ25CLGtDQUFrQztFQUNsQyxpQkFBaUIsRUFBQTs7QUFHckI7RUFDSSxrQkFBa0I7RUFDbEIsZUFBZTtFQUNmLGtCQUFrQjtFQUNsQixrQ0FBa0M7RUFDbEMsaUJBQWlCO0VBQ2pCLGVBQWUsRUFBQTs7QUFHbkI7RUFDSSxrQkFBa0I7RUFDbEIsa0NBQWtDO0VBQ2xDLGlCQUFpQixFQUFBIiwiZmlsZSI6InNyYy9hcHAvU2V0dGluZ3MtVmlld3Mvc2V0dGluZ3Mvc2V0dGluZ3MuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIjc2V0dGluZ3NfaGVhZGVyIHtcclxuICAgIGJhY2tncm91bmQtY29sb3I6cmdiKDI1NSwgMjU1LCAyNTUpO1xyXG4gICAgei1pbmRleDogMjtcclxuICAgIGZvbnQtZmFtaWx5OiAnUG9wcGlucycsIHNhbnMtc2VyaWY7XHJcbiAgICBmb250LXdlaWdodDogYm9sZDtcclxuICAgIGNvbG9yOiAjQzNEM0RDO1xyXG4gICAgdG9wOjA7XHJcbiAgICBwb3NpdGlvbjogc3RpY2t5O1xyXG59XHJcblxyXG4jc2V0dGluZ3MtbmF2IHtcclxuICAgIGZsb2F0OnJpZ2h0O1xyXG4gICAgYmFja2dyb3VuZDogI0YxRjhGQztcclxuICAgIGZvbnQtZmFtaWx5OiAnUG9wcGlucycsIHNhbnMtc2VyaWY7XHJcbiAgICBmb250LXdlaWdodDogYm9sZDsgICBcclxufVxyXG5cclxuI3VzZXJfc2V0dGluZ3N7XHJcbiAgICBwYWRkaW5nOiAyNXB4IDI1cHg7XHJcbiAgICBtYXJnaW4tdG9wOiAzcHg7XHJcbiAgICBib3JkZXItcmFkaXVzOiAzcHg7XHJcbiAgICBmb250LWZhbWlseTogJ1BvcHBpbnMnLCBzYW5zLXNlcmlmO1xyXG4gICAgZm9udC13ZWlnaHQ6IGJvbGQ7XHJcbiAgICBmb250LXNpemU6IDE1cHg7XHJcbn1cclxuXHJcbiN2LXBpbGxzLXRhYkNvbnRlbnQge1xyXG4gICAgcGFkZGluZzogMTZweCAxNnB4O1xyXG4gICAgZm9udC1mYW1pbHk6ICdQb3BwaW5zJywgc2Fucy1zZXJpZjtcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkOyBcclxufVxyXG5cclxuIl19 */"
 
 /***/ }),
 
