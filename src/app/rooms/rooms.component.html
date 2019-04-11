@@ -45,11 +45,11 @@
           </div>
     </div>
     <div class="col-8 h-100 overflow-auto" style="background:#FAFDFF;">
-      <div class="chat-window overflow-auto" style="height: calc(100vh - 157px);">
+      <div class="chat-window overflow-auto" style="height: calc(100vh - 157px); position:relative;">
         <ng-container *ngIf="room_messages">
-          <div class="container" appScrollToTop>
+          <div class="container" #chatReel>
             <div *ngFor="let message of room_messages">
-              <div class="row">
+              <div class="row" id="chatReel">
                 <!-- Messages -->
                 <div class="col-12">
                   <span>{{ current_room.userStore.users[message.senderId].name }}</span>

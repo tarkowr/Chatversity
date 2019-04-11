@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef} from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, ViewChildren, QueryList, ViewContainerRef} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { MessagingService } from '../Core/_services/messaging.service';
@@ -10,13 +10,14 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   templateUrl: './rooms.component.html',
   styleUrls: ['./rooms.component.scss']
 })
-export class RoomsComponent implements OnInit {
-
+export class RoomsComponent implements OnInit, AfterViewInit {
+  // @ViewChild('chatReel') chatReel: ElementRef;
+  @ViewChildren('chatReel') chatReel: QueryList<ViewContainerRef>;
   //
   // ─── CONSTRUCTOR ────────────────────────────────────────────────────────────────
   //
 
-    constructor(private http: HttpClient, private msgService: MessagingService) {}
+    constructor(private http: HttpClient, private msgService: MessagingService, elem: ElementRef) {}
   // ────────────────────────────────────────────────────────────────────────────────
 
 
@@ -233,6 +234,8 @@ export class RoomsComponent implements OnInit {
             // Push to messages array and update view
             this.room_messages.push(message);
             // Scroll chat window to reveal latest message
+            document.getElementById('chatReel').scrollTop = 0;
+            // alert(document.getElementById('chatReel'));
 
             // Get the users last cursor position from the room
             const cursor = this.chatkitUser.readCursor({
@@ -349,5 +352,31 @@ export class RoomsComponent implements OnInit {
 
     // Get user id from local storage
     const user_id = JSON.parse(localStorage.getItem('currentUser'))._embedded.user.id;
+  }
+
+  // logtheheight() {
+  //   if (this.chatReel.nativeElement) {
+  //     console.log(this.chatReel.nativeElement.offsetHeight);
+  //   }
+  // }
+
+  ngAfterViewInit() {
+    // setInterval(this.logtheheight, 3000);
+    // console.log(this.chatReel);
+    this.chatReel.changes.subscribe(c => { c.toArray().forEach(item => {
+      console.log(item);
+      console.log(item.nativeElement);
+      console.log(item.nativeElement.scrollHeight);
+
+      console.log('Scroll Height: ' + item.nativeElement.offsetParent.scrollHeight);
+      console.log('Scroll Top: ' + item.nativeElement.offsetParent.scrollTop);
+
+      item.nativeElement.offsetParent.scrollTop = item.nativeElement.offsetParent.scrollHeight;
+      // item.nativeElement.scrollTop = item.nativeElement.offsetTop;
+      // item.nativeElement.animate({ scrollTop: 0 }, 'fast');
+      // item.nativeElement.scrollTop = 0;
+    });
+  });
+    // console.log(elem.nativeElement);
   }
 }
