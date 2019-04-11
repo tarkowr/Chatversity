@@ -13,14 +13,15 @@
   </div>
 
   <!--Online connections-->
-  <div>
+  <div class="my-5">
     <div class="text-light">Online Connections</div>
     <hr>
 
-    <div *ngFor="let c of connections" class="my-2 user-card">
-        <button class="btn btn-block text-left px-3 py-2" data-toggle="modal" data-target="#profileModal" (click)="setUser(c.id)">
+    <div *ngFor="let c of connections">
+        <button class="btn btn-block text-left px-3 py-2 my-2 user-card" data-toggle="modal" data-target="#profileModal"
+         (click)="setUser(c.id)" *ngIf="c.active">
             <img src="..." onerror="this.src='../../assets/images/DefaultProfile.png'"
-            class="circle img-fluid rounded-circle card-img" [ngClass]="{ 'border-online':true }"/> 
+            class="circle img-fluid rounded-circle card-img" [ngClass]="{ 'border-online': c.active }"/> 
 
             <span class="text-secondary ml-3">{{ c.firstName }} {{ c.lastName }}</span>
         </button>
@@ -28,7 +29,18 @@
   </div>
 
   <!--All connections-->
-  <div>
-
-  </div>
+  <div class="my-5">
+      <div class="text-light">All Connections</div>
+      <hr>
+  
+      <div *ngFor="let c of connections" class="my-2 user-card">
+          <button class="btn btn-block text-left px-3 py-2" data-toggle="modal" data-target="#profileModal"
+           (click)="setUser(c.id)">
+              <img src="..." onerror="this.src='../../assets/images/DefaultProfile.png'"
+              class="circle img-fluid rounded-circle card-img" [ngClass]="{ 'border-online': c.active }"/> 
+  
+              <span class="text-secondary ml-3">{{ c.firstName }} {{ c.lastName }}</span>
+          </button>
+      </div>
+    </div>
 </div>

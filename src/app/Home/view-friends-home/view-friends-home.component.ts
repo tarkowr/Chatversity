@@ -24,7 +24,8 @@ export class ViewFriendsHomeComponent implements OnInit {
         username: "",
         password: "",
         university: null,
-        profile: {bio:"This is my bio!", major:"CIS", graduationYear:2021, interests:"NA",clubs:"none"}
+        profile: {bio:"This is my bio!", major:"CIS", graduationYear:2021, interests:"NA",clubs:"none"},
+        active: true
       },
       { 
         id:2,
@@ -33,7 +34,8 @@ export class ViewFriendsHomeComponent implements OnInit {
         username: "",
         password: "",
         university: null,
-        profile: {bio:"Hello World!", major:"CS", graduationYear:2020, interests:"Web Design",clubs:"Robotics"}
+        profile: {bio:"Hello World!", major:"CS", graduationYear:2020, interests:"Web Design",clubs:"Robotics"},
+        active: true
       },
       { 
         id:3,
@@ -42,7 +44,8 @@ export class ViewFriendsHomeComponent implements OnInit {
         username: "",
         password: "",
         university: null,
-        profile: {bio:"Hi, everyone!", major:"Engineering", graduationYear:2019, interests:"Lacross",clubs:"Engineering Club"}
+        profile: {bio:"Hi, everyone!", major:"Engineering", graduationYear:2019, interests:"Lacross",clubs:"Engineering Club"},
+        active: false
       },
       { 
         id:4,
@@ -51,7 +54,8 @@ export class ViewFriendsHomeComponent implements OnInit {
         username: "",
         password: "",
         university: null,
-        profile: {bio:"Progammer", major:"Computer Information Systems", graduationYear:2021, interests:"Programming",clubs:"CIS Club"}
+        profile: {bio:"Progammer", major:"Computer Information Systems", graduationYear:2021, interests:"Programming",clubs:"CIS Club"},
+        active: false
       },
       { 
         id:5,
@@ -60,7 +64,8 @@ export class ViewFriendsHomeComponent implements OnInit {
         username: "",
         password: "",
         university: null,
-        profile: {bio:"Hello World", major:"FSU", graduationYear:2018, interests:"Soccer",clubs:"Soccer Club"}
+        profile: {bio:"Hello World", major:"FSU", graduationYear:2018, interests:"Soccer",clubs:"Soccer Club"},
+        active: true
       }
     ]
 

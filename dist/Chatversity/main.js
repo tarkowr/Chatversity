@@ -101,6 +101,26 @@ var CustomFormValidation = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/Core/_models/user.ts":
+/*!**************************************!*\
+  !*** ./src/app/Core/_models/user.ts ***!
+  \**************************************/
+/*! exports provided: User */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "User", function() { return User; });
+var User = /** @class */ (function () {
+    function User() {
+    }
+    return User;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/Core/_services/auth.service.ts":
 /*!************************************************!*\
   !*** ./src/app/Core/_services/auth.service.ts ***!
@@ -537,7 +557,7 @@ var PageNotFoundComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL0hvbWUvdmlldy1mcmllbmRzLWhvbWUvdmlldy1mcmllbmRzLWhvbWUuY29tcG9uZW50LmNzcyJ9 */"
+module.exports = ".user-card{\r\n    background-color: white;\r\n    border: 1px solid #DAE6ED;\r\n    border-radius: 5px;\r\n}\r\n.card-img{\r\n    max-width: 40px;\r\n    border-width: 2px !important;\r\n    border: 2px solid #96B7C9;\r\n}\r\n.border-online{\r\n    border: 2px solid #00e600;\r\n}\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvSG9tZS92aWV3LWZyaWVuZHMtaG9tZS92aWV3LWZyaWVuZHMtaG9tZS5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0lBQ0ksdUJBQXVCO0lBQ3ZCLHlCQUF5QjtJQUN6QixrQkFBa0I7QUFDdEI7QUFDQTtJQUNJLGVBQWU7SUFDZiw0QkFBNEI7SUFDNUIseUJBQXlCO0FBQzdCO0FBQ0E7SUFDSSx5QkFBeUI7QUFDN0IiLCJmaWxlIjoic3JjL2FwcC9Ib21lL3ZpZXctZnJpZW5kcy1ob21lL3ZpZXctZnJpZW5kcy1ob21lLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIudXNlci1jYXJke1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogd2hpdGU7XHJcbiAgICBib3JkZXI6IDFweCBzb2xpZCAjREFFNkVEO1xyXG4gICAgYm9yZGVyLXJhZGl1czogNXB4O1xyXG59XHJcbi5jYXJkLWltZ3tcclxuICAgIG1heC13aWR0aDogNDBweDtcclxuICAgIGJvcmRlci13aWR0aDogMnB4ICFpbXBvcnRhbnQ7XHJcbiAgICBib3JkZXI6IDJweCBzb2xpZCAjOTZCN0M5O1xyXG59XHJcbi5ib3JkZXItb25saW5le1xyXG4gICAgYm9yZGVyOiAycHggc29saWQgIzAwZTYwMDtcclxufSJdfQ== */"
 
 /***/ }),
 
@@ -548,7 +568,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\r\n  view-friends-home works!\r\n</p>\r\n"
+module.exports = "<div class=\"container-fluid mt-4\">\r\n\r\n  <app-small [user]=\"connection\" [isConnection]=\"isConnection\"></app-small>\r\n\r\n  <!--Search connections-->\r\n  <div>\r\n\r\n  </div>\r\n\r\n  <!--Connection search results-->\r\n  <div>\r\n\r\n  </div>\r\n\r\n  <!--Online connections-->\r\n  <div>\r\n    <div class=\"text-light\">Online Connections</div>\r\n    <hr>\r\n\r\n    <div *ngFor=\"let c of connections\" class=\"my-2 user-card\">\r\n        <button class=\"btn btn-block text-left px-3 py-2\" data-toggle=\"modal\" data-target=\"#profileModal\" (click)=\"setUser(c.id)\">\r\n            <img src=\"...\" onerror=\"this.src='../../assets/images/DefaultProfile.png'\"\r\n            class=\"circle img-fluid rounded-circle card-img\" [ngClass]=\"{ 'border-online':true }\"/> \r\n\r\n            <span class=\"text-secondary ml-3\">{{ c.firstName }} {{ c.lastName }}</span>\r\n        </button>\r\n    </div>\r\n  </div>\r\n\r\n  <!--All connections-->\r\n  <div>\r\n\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -575,8 +595,80 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 var ViewFriendsHomeComponent = /** @class */ (function () {
     function ViewFriendsHomeComponent() {
+        this.isConnection = false;
     }
     ViewFriendsHomeComponent.prototype.ngOnInit = function () {
+        // DELETE THIS TEST DATA WHEN USER SERVICE IS AVAILABLE
+        this.connections = [
+            {
+                id: 1,
+                firstName: 'Richie',
+                lastName: 'Tarkowski',
+                username: "",
+                password: "",
+                university: null,
+                profile: { bio: "This is my bio!", major: "CIS", graduationYear: 2021, interests: "NA", clubs: "none" },
+                active: false
+            },
+            {
+                id: 2,
+                firstName: 'Connor',
+                lastName: 'Hansen',
+                username: "",
+                password: "",
+                university: null,
+                profile: { bio: "Hello World!", major: "CS", graduationYear: 2020, interests: "Web Design", clubs: "Robotics" },
+                active: false
+            },
+            {
+                id: 3,
+                firstName: 'Scott',
+                lastName: 'Peterson',
+                username: "",
+                password: "",
+                university: null,
+                profile: { bio: "Hi, everyone!", major: "Engineering", graduationYear: 2019, interests: "Lacross", clubs: "Engineering Club" },
+                active: false
+            },
+            {
+                id: 4,
+                firstName: 'Noah',
+                lastName: 'Osterhout',
+                username: "",
+                password: "",
+                university: null,
+                profile: { bio: "Progammer", major: "Computer Information Systems", graduationYear: 2021, interests: "Programming", clubs: "CIS Club" },
+                active: false
+            },
+            {
+                id: 5,
+                firstName: 'Cati',
+                lastName: 'Kujawski',
+                username: "",
+                password: "",
+                university: null,
+                profile: { bio: "Hello World", major: "FSU", graduationYear: 2018, interests: "Soccer", clubs: "Soccer Club" },
+                active: false
+            }
+        ];
+        this.connection = this.connections[0];
+    };
+    // Return user from friend list
+    ViewFriendsHomeComponent.prototype.getUser = function (_id) {
+        return this.connections.find(function (c) { return c.id == _id; });
+    };
+    // Check if users are friends
+    ViewFriendsHomeComponent.prototype.isConnected = function (_id) {
+        this.isConnection = (_id % 2 == 1) ? true : false; // DELETE THIS LINE
+        // Get current user data
+        // Check if this user is on the other user's connections list
+        // Toggle isConnection variable
+        return;
+    };
+    // Handle click user button
+    ViewFriendsHomeComponent.prototype.setUser = function (_id) {
+        this.connection = this.getUser(_id);
+        this.isConnected(_id);
     };
     ViewFriendsHomeComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -663,7 +755,7 @@ var ViewLatestNewsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "#messages_header {\r\n    background-color:#FFF;\r\n    z-index: 2;\r\n    font-family: 'Poppins', sans-serif;\r\n    font-weight: bold;\r\n    color: #94B0C0;\r\n    top:0;\r\n    position: -webkit-sticky;\r\n    position: sticky;\r\n}\r\n\r\n.custom-btn{\r\n    border-radius: 5px;\r\n    color: #96B7C9;\r\n    background-color: #F1F8FC;\r\n}\r\n\r\n.custom-btn:hover{\r\n    background-color: white;\r\n    color: #0E425F;\r\n    border: 1px solid #bddef1;\r\n}\r\n\r\n.active{\r\n    background-color: white !important;\r\n    color: #0E425F;\r\n    border: 1px solid #bddef1;\r\n}\r\n\r\n#home-content{\r\n    height: calc(100% - 56px);\r\n}\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvSG9tZS92aWV3LW5hdmlnYXRpb24taG9tZS92aWV3LW5hdmlnYXRpb24taG9tZS5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0lBQ0kscUJBQXFCO0lBQ3JCLFVBQVU7SUFDVixrQ0FBa0M7SUFDbEMsaUJBQWlCO0lBQ2pCLGNBQWM7SUFDZCxLQUFLO0lBQ0wsd0JBQWdCO0lBQWhCLGdCQUFnQjtBQUNwQjs7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixjQUFjO0lBQ2QseUJBQXlCO0FBQzdCOztBQUNBO0lBQ0ksdUJBQXVCO0lBQ3ZCLGNBQWM7SUFDZCx5QkFBeUI7QUFDN0I7O0FBRUE7SUFDSSxrQ0FBa0M7SUFDbEMsY0FBYztJQUNkLHlCQUF5QjtBQUM3Qjs7QUFFQTtJQUNJLHlCQUF5QjtBQUM3QiIsImZpbGUiOiJzcmMvYXBwL0hvbWUvdmlldy1uYXZpZ2F0aW9uLWhvbWUvdmlldy1uYXZpZ2F0aW9uLWhvbWUuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIiNtZXNzYWdlc19oZWFkZXIge1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjojRkZGO1xyXG4gICAgei1pbmRleDogMjtcclxuICAgIGZvbnQtZmFtaWx5OiAnUG9wcGlucycsIHNhbnMtc2VyaWY7XHJcbiAgICBmb250LXdlaWdodDogYm9sZDtcclxuICAgIGNvbG9yOiAjOTRCMEMwO1xyXG4gICAgdG9wOjA7XHJcbiAgICBwb3NpdGlvbjogc3RpY2t5O1xyXG59XHJcblxyXG4uY3VzdG9tLWJ0bntcclxuICAgIGJvcmRlci1yYWRpdXM6IDVweDtcclxuICAgIGNvbG9yOiAjOTZCN0M5O1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogI0YxRjhGQztcclxufVxyXG4uY3VzdG9tLWJ0bjpob3ZlcntcclxuICAgIGJhY2tncm91bmQtY29sb3I6IHdoaXRlO1xyXG4gICAgY29sb3I6ICMwRTQyNUY7XHJcbiAgICBib3JkZXI6IDFweCBzb2xpZCAjYmRkZWYxO1xyXG59XHJcblxyXG4uYWN0aXZle1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogd2hpdGUgIWltcG9ydGFudDtcclxuICAgIGNvbG9yOiAjMEU0MjVGO1xyXG4gICAgYm9yZGVyOiAxcHggc29saWQgI2JkZGVmMTtcclxufVxyXG5cclxuI2hvbWUtY29udGVudHtcclxuICAgIGhlaWdodDogY2FsYygxMDAlIC0gNTZweCk7XHJcbn0iXX0= */"
+module.exports = "#messages_header {\r\n    background-color:#FFF;\r\n    z-index: 2;\r\n    font-family: 'Poppins', sans-serif;\r\n    font-weight: bold;\r\n    color: #94B0C0;\r\n    top:0;\r\n    position: -webkit-sticky;\r\n    position: sticky;\r\n}\r\n\r\n.custom-btn{\r\n    border-radius: 5px;\r\n    color: #96B7C9;\r\n    background-color: #F1F8FC;\r\n}\r\n\r\n.custom-btn:hover{\r\n    background-color: white;\r\n    color: #0E425F;\r\n    border: 1px solid #bddef1;\r\n}\r\n\r\n.active{\r\n    background-color: white !important;\r\n    color: #0E425F;\r\n    border: 1px solid #bddef1;\r\n}\r\n\r\n#home-content{\r\n    height: calc(100% - 57px);\r\n}\r\n\r\n#header-text{\r\n    display: none;\r\n}\r\n\r\n#mobile-header-text{\r\n    display: inline-block;\r\n}\r\n\r\n@media (min-width: 576px){ /*Small*/\r\n    #header-text{\r\n        display: inline-block;\r\n    }\r\n    #mobile-header-text{\r\n        display: none;\r\n    }\r\n}\r\n  \r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvSG9tZS92aWV3LW5hdmlnYXRpb24taG9tZS92aWV3LW5hdmlnYXRpb24taG9tZS5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0lBQ0kscUJBQXFCO0lBQ3JCLFVBQVU7SUFDVixrQ0FBa0M7SUFDbEMsaUJBQWlCO0lBQ2pCLGNBQWM7SUFDZCxLQUFLO0lBQ0wsd0JBQWdCO0lBQWhCLGdCQUFnQjtBQUNwQjs7QUFFQTtJQUNJLGtCQUFrQjtJQUNsQixjQUFjO0lBQ2QseUJBQXlCO0FBQzdCOztBQUNBO0lBQ0ksdUJBQXVCO0lBQ3ZCLGNBQWM7SUFDZCx5QkFBeUI7QUFDN0I7O0FBRUE7SUFDSSxrQ0FBa0M7SUFDbEMsY0FBYztJQUNkLHlCQUF5QjtBQUM3Qjs7QUFFQTtJQUNJLHlCQUF5QjtBQUM3Qjs7QUFFQTtJQUNJLGFBQWE7QUFDakI7O0FBQ0E7SUFDSSxxQkFBcUI7QUFDekI7O0FBRUEsMkJBQTJCLFFBQVE7SUFDL0I7UUFDSSxxQkFBcUI7SUFDekI7SUFDQTtRQUNJLGFBQWE7SUFDakI7QUFDSiIsImZpbGUiOiJzcmMvYXBwL0hvbWUvdmlldy1uYXZpZ2F0aW9uLWhvbWUvdmlldy1uYXZpZ2F0aW9uLWhvbWUuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIiNtZXNzYWdlc19oZWFkZXIge1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjojRkZGO1xyXG4gICAgei1pbmRleDogMjtcclxuICAgIGZvbnQtZmFtaWx5OiAnUG9wcGlucycsIHNhbnMtc2VyaWY7XHJcbiAgICBmb250LXdlaWdodDogYm9sZDtcclxuICAgIGNvbG9yOiAjOTRCMEMwO1xyXG4gICAgdG9wOjA7XHJcbiAgICBwb3NpdGlvbjogc3RpY2t5O1xyXG59XHJcblxyXG4uY3VzdG9tLWJ0bntcclxuICAgIGJvcmRlci1yYWRpdXM6IDVweDtcclxuICAgIGNvbG9yOiAjOTZCN0M5O1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogI0YxRjhGQztcclxufVxyXG4uY3VzdG9tLWJ0bjpob3ZlcntcclxuICAgIGJhY2tncm91bmQtY29sb3I6IHdoaXRlO1xyXG4gICAgY29sb3I6ICMwRTQyNUY7XHJcbiAgICBib3JkZXI6IDFweCBzb2xpZCAjYmRkZWYxO1xyXG59XHJcblxyXG4uYWN0aXZle1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogd2hpdGUgIWltcG9ydGFudDtcclxuICAgIGNvbG9yOiAjMEU0MjVGO1xyXG4gICAgYm9yZGVyOiAxcHggc29saWQgI2JkZGVmMTtcclxufVxyXG5cclxuI2hvbWUtY29udGVudHtcclxuICAgIGhlaWdodDogY2FsYygxMDAlIC0gNTdweCk7XHJcbn1cclxuXHJcbiNoZWFkZXItdGV4dHtcclxuICAgIGRpc3BsYXk6IG5vbmU7XHJcbn1cclxuI21vYmlsZS1oZWFkZXItdGV4dHtcclxuICAgIGRpc3BsYXk6IGlubGluZS1ibG9jaztcclxufVxyXG5cclxuQG1lZGlhIChtaW4td2lkdGg6IDU3NnB4KXsgLypTbWFsbCovXHJcbiAgICAjaGVhZGVyLXRleHR7XHJcbiAgICAgICAgZGlzcGxheTogaW5saW5lLWJsb2NrO1xyXG4gICAgfVxyXG4gICAgI21vYmlsZS1oZWFkZXItdGV4dHtcclxuICAgICAgICBkaXNwbGF5OiBub25lO1xyXG4gICAgfVxyXG59XHJcbiAgIl19 */"
 
 /***/ }),
 
@@ -674,7 +766,7 @@ module.exports = "#messages_header {\r\n    background-color:#FFF;\r\n    z-inde
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\" style=\"height:100vh;\">\r\n  <div class=\"row shadow-sm\" id=\"messages_header\">\r\n    <div class=\"col-3 py-3\">\r\n        <div class=\"d-flex align-items-center\">\r\n          <span class=\"text-uppercase text-secondary text-light-weight pl-3\">Home</span>\r\n        </div>\r\n    </div>\r\n    <div class=\"col-9 py-3\" style=\"border-left:1px solid #DAE6ED\">\r\n      <div class=\"d-flex align-items-center\">\r\n          <span class=\"text-uppercase text-secondary text-light-weight pl-3\">{{ headerText }}</span>\r\n        </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\" id=\"home-content\">\r\n    <div class=\"col-12 col-lg-3\" style=\"background-color:#F1F8FC;\">\r\n      <div class=\"my-3\">\r\n        <button class=\"btn btn-block custom-btn text-left my-2 p-3\" (click)=\"showHomeView()\"\r\n        [ngClass]=\"{ 'active': HomeView.current }\">Latest News</button>\r\n        <button class=\"btn btn-block custom-btn text-left my-2 p-3\" (click)=\"showFriendsView()\"\r\n        [ngClass]=\"{ 'active': FriendsView.current }\">Friends</button>\r\n        <button class=\"btn btn-block custom-btn text-left my-2 p-3\" (click)=\"showProfileView()\"\r\n        [ngClass]=\"{ 'active': ProfileView.current }\">Profile</button>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"col-12 col-lg-9\" style=\"background-color: #fafdff; border-left:1px solid #DAE6ED;\">\r\n      <div *ngIf=\"HomeView.current\">\r\n        <app-view-latest-news></app-view-latest-news>\r\n      </div>\r\n      <div *ngIf=\"FriendsView.current\">\r\n        <app-view-friends-home></app-view-friends-home>\r\n      </div>\r\n      <div *ngIf=\"ProfileView.current\">\r\n        <app-profile></app-profile>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"container-fluid\" style=\"height:100vh;\">\r\n  <div class=\"row shadow-sm\" id=\"messages_header\">\r\n    <div class=\"col 12 col-sm-3 py-3\">\r\n        <div class=\"d-flex align-items-center\">\r\n          <span class=\"text-uppercase text-secondary text-light-weight pl-3\">Home <span id=\"mobile-header-text\">&nbsp;|&nbsp; {{ headerText }}</span></span>\r\n        </div>\r\n    </div>\r\n    <div class=\"col-sm-9 py-3\" style=\"border-left:1px solid #DAE6ED;\" id=\"header-text\">\r\n      <div class=\"d-flex align-items-center\">\r\n          <span class=\"text-uppercase text-secondary text-light-weight pl-3\">{{ headerText }}</span>\r\n        </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\" id=\"home-content\">\r\n    <div class=\"col-12 col-lg-3\" style=\"background-color:#F1F8FC; border-bottom:1px solid #DAE6ED;\">\r\n      <div class=\"my-3 px-1\">\r\n        <button class=\"btn btn-block custom-btn text-left mr-4 my-2 p-3\" (click)=\"showHomeView()\"\r\n        [ngClass]=\"{ 'active': HomeView.current }\">Latest News</button>\r\n        <button class=\"btn btn-block custom-btn text-left my-2 p-3\" (click)=\"showFriendsView()\"\r\n        [ngClass]=\"{ 'active': FriendsView.current }\">Connections</button>\r\n        <button class=\"btn btn-block custom-btn text-left my-2 p-3\" (click)=\"showProfileView()\"\r\n        [ngClass]=\"{ 'active': ProfileView.current }\">My Profile</button>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"col-12 col-lg-9\" style=\"background-color: #fafdff; border-left:1px solid #DAE6ED;\">\r\n      <div *ngIf=\"HomeView.current\">\r\n        <app-view-latest-news></app-view-latest-news>\r\n      </div>\r\n      <div *ngIf=\"FriendsView.current\">\r\n        <app-view-friends-home></app-view-friends-home>\r\n      </div>\r\n      <div *ngIf=\"ProfileView.current\">\r\n        <app-profile></app-profile>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -704,8 +796,8 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 var ViewNavigationHomeComponent = /** @class */ (function () {
     function ViewNavigationHomeComponent(activatedRoute) {
         this.activatedRoute = activatedRoute;
-        this.HomeView = { id: 1, name: 'Home', current: false };
-        this.FriendsView = { id: 2, name: 'Friends', current: false };
+        this.HomeView = { id: 1, name: 'Latest News', current: false };
+        this.FriendsView = { id: 2, name: 'Connections', current: false };
         this.ProfileView = { id: 3, name: 'Profile', current: false };
         this.views = [this.HomeView, this.FriendsView, this.ProfileView];
     }
@@ -738,15 +830,15 @@ var ViewNavigationHomeComponent = /** @class */ (function () {
         switch (_id) {
             case 2:
                 this.FriendsView.current = true;
-                this.headerText = "Friends";
+                this.headerText = this.FriendsView.name;
                 break;
             case 3:
                 this.ProfileView.current = true;
-                this.headerText = "Profile";
+                this.headerText = this.ProfileView.name;
                 break;
             default:
                 this.HomeView.current = true;
-                this.headerText = "Latest News";
+                this.headerText = this.HomeView.name;
                 break;
         }
     };
@@ -762,7 +854,7 @@ var ViewNavigationHomeComponent = /** @class */ (function () {
             case "profile":
                 this.showProfileView();
                 break;
-            case "friends":
+            case "connections":
                 this.showFriendsView();
                 break;
             default:
@@ -1271,7 +1363,7 @@ var SignupComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL1Byb2ZpbGUtVmlld3MvcHJvZmlsZS9wcm9maWxlLmNvbXBvbmVudC5jc3MifQ== */"
+module.exports = "#user-image{\r\n    max-width: 200px;\r\n    max-height: 200px;\r\n    border: 1px solid #0E425F;\r\n}\r\n#profile-picture-container > img{\r\n    margin: left;\r\n}\r\n#profile-content{\r\n    margin-top: 20px;\r\n}\r\n@media (min-width: 992px){ /*Large*/\r\n    #profile-content{\r\n        margin-top: 0px;\r\n    }\r\n    #profile-picture-container > img{\r\n        margin: 0 auto;\r\n    }\r\n}\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvUHJvZmlsZS1WaWV3cy9wcm9maWxlL3Byb2ZpbGUuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtJQUNJLGdCQUFnQjtJQUNoQixpQkFBaUI7SUFDakIseUJBQXlCO0FBQzdCO0FBQ0E7SUFDSSxZQUFZO0FBQ2hCO0FBQ0E7SUFDSSxnQkFBZ0I7QUFDcEI7QUFDQSwyQkFBMkIsUUFBUTtJQUMvQjtRQUNJLGVBQWU7SUFDbkI7SUFDQTtRQUNJLGNBQWM7SUFDbEI7QUFDSiIsImZpbGUiOiJzcmMvYXBwL1Byb2ZpbGUtVmlld3MvcHJvZmlsZS9wcm9maWxlLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIjdXNlci1pbWFnZXtcclxuICAgIG1heC13aWR0aDogMjAwcHg7XHJcbiAgICBtYXgtaGVpZ2h0OiAyMDBweDtcclxuICAgIGJvcmRlcjogMXB4IHNvbGlkICMwRTQyNUY7XHJcbn1cclxuI3Byb2ZpbGUtcGljdHVyZS1jb250YWluZXIgPiBpbWd7XHJcbiAgICBtYXJnaW46IGxlZnQ7XHJcbn1cclxuI3Byb2ZpbGUtY29udGVudHtcclxuICAgIG1hcmdpbi10b3A6IDIwcHg7XHJcbn1cclxuQG1lZGlhIChtaW4td2lkdGg6IDk5MnB4KXsgLypMYXJnZSovXHJcbiAgICAjcHJvZmlsZS1jb250ZW50e1xyXG4gICAgICAgIG1hcmdpbi10b3A6IDBweDtcclxuICAgIH1cclxuICAgICNwcm9maWxlLXBpY3R1cmUtY29udGFpbmVyID4gaW1ne1xyXG4gICAgICAgIG1hcmdpbjogMCBhdXRvO1xyXG4gICAgfVxyXG59Il19 */"
 
 /***/ }),
 
@@ -1282,7 +1374,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid py-3\">\r\n    <div class=\"text-center\">\r\n        <!-- Profile Image -->\r\n        <img src=\"...\" onerror=\"this.src='../../assets/images/DefaultProfile.png'\"\r\n            class=\"col-10 offset-1 col-md-4 offset-md-4 rounded img-fluid mx-auto mt-5 mb-1 d-block\" >\r\n\r\n        <!-- User's Name -->\r\n        <h1 class=\"col-12 mt-2 text-primary\">{{this.user.firstName}} {{this.user.lastName}} </h1>\r\n\r\n        <!-- User's Info -->\r\n        <div class=\"row\">\r\n            <div class=\"col text-right\"><h3>{{this.user.profile.major}}</h3></div>\r\n            <div class=\"col-auto\"><h3>|</h3></div>\r\n            <div class=\"col text-left\"><h3>{{this.user.profile.graduationYear}}</h3></div>\r\n        </div>\r\n\r\n        <!-- <h3 class=\"col-12 text-secondary\">{{this.user.profile.major}} | {{this.user.profile.graduationYear}}</h3> -->\r\n        <hr />\r\n        \r\n        <div class=\"col-12 col-md-8 offset-md-2 row\">\r\n            <p class=\"col-6 col-md-3 offset-md-3 text-left\">Clubs:</p>\r\n            <p class=\"col-6 col-md-3 text-left\">{{this.user.profile.clubs}}</p>\r\n        </div>\r\n        <div class=\"col-12 col-md-8 offset-md-2 row\">\r\n            <p class=\"col-6 col-md-3 offset-md-3 text-left\">Interests:</p>\r\n            <p class=\"col-6 col-md-3 text-left\">{{this.user.profile.interests}}</p>\r\n        </div>\r\n        <p class=\"col-8 offset-2 col-md-6 offset-md-3 text-secondary mt-2\">{{this.user.profile.bio}}</p>\r\n    </div>\r\n</div>"
+module.exports = "<div class=\"container-fluid py-3\">\r\n    <div class=\"text-center\">\r\n        <div class=\"row mt-5 mb-3\">\r\n            <div class=\"col-12 col-lg-4 mt-1 pr-2\" id=\"profile-picture-container\">\r\n                <!-- Profile Image -->\r\n                <img src=\"...\" onerror=\"this.src='../../assets/images/DefaultProfile.png'\" id=\"user-image\"\r\n                class=\"rounded img-fluid mb-1 d-block\" >\r\n            </div>\r\n\r\n            <div class=\"col-12 col-lg-7 text-left\" id=\"profile-content\">\r\n                <!-- User Name -->\r\n                <div class=\"h2 text-secondary text-light-weight\">{{ this.user.firstName }} {{ this.user.lastName }} </div>\r\n\r\n                <!-- User Major and Graduation Year -->\r\n                <div>\r\n                    <span class=\"text-light\" style=\"font-weight:100;\">Class of {{ this.user.profile.graduationYear }}</span><br>\r\n                    <span class=\"text-primary\" style=\"font-weight:100;\">{{ this.user.profile.major }}</span>\r\n                </div>\r\n\r\n                <!--User Bio-->\r\n                <div class=\"text-left mt-3\">\r\n                    <p>{{this.user.profile.bio}}</p>\r\n                </div>\r\n\r\n                <!--User Clubs-->\r\n                <div class=\"text-left\">\r\n                    <p><span class=\"text-secondary-light\">Clubs: &nbsp;</span> {{this.user.profile.clubs}}</p>\r\n                </div>\r\n\r\n                <!--User Interests-->\r\n                <div class=\"text-left\">\r\n                    <p><span class=\"text-secondary-light\">Interests: &nbsp;</span> {{this.user.profile.interests}}</p>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -1325,7 +1417,8 @@ var ProfileComponent = /** @class */ (function () {
             username: 'peter610@mail.nmc.edu',
             password: undefined,
             university: { id: 3, name: 'NMC', state: "MI", domains: null },
-            profile: { bio: "Hello world!", major: "CIS", graduationYear: 2021, interests: "Shooting, Riding, and the Outdoors", clubs: "Phi Theta Kappa" },
+            profile: { bio: "Hello world! This is my bio.", major: "Computer Information Systems", graduationYear: 2021, interests: "Shooting, Riding, and the Outdoors", clubs: "Phi Theta Kappa" },
+            active: false
         };
         this.profile = this.user.profile;
     };
@@ -1415,6 +1508,7 @@ var SettingsProfileComponent = /** @class */ (function () {
             password: undefined,
             university: { id: 3, name: 'NMC', state: 'MI', domains: null },
             profile: { bio: "Hello world!", major: "CIS", graduationYear: 2021, interests: "Running, NBA, and CS", clubs: "bball" },
+            active: false
         };
         this.profile = this.user.profile;
         // Build new form
@@ -1507,7 +1601,7 @@ var SettingsProfileComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL1Byb2ZpbGUtVmlld3Mvc21hbGwvc21hbGwuY29tcG9uZW50LmNzcyJ9 */"
+module.exports = "#user-image{\r\n    max-width: 100px;\r\n    max-height: 100px;\r\n    border: 1px solid #0E425F;\r\n}\r\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvUHJvZmlsZS1WaWV3cy9zbWFsbC9zbWFsbC5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0lBQ0ksZ0JBQWdCO0lBQ2hCLGlCQUFpQjtJQUNqQix5QkFBeUI7QUFDN0IiLCJmaWxlIjoic3JjL2FwcC9Qcm9maWxlLVZpZXdzL3NtYWxsL3NtYWxsLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIjdXNlci1pbWFnZXtcclxuICAgIG1heC13aWR0aDogMTAwcHg7XHJcbiAgICBtYXgtaGVpZ2h0OiAxMDBweDtcclxuICAgIGJvcmRlcjogMXB4IHNvbGlkICMwRTQyNUY7XHJcbn0iXX0= */"
 
 /***/ }),
 
@@ -1518,7 +1612,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- Button trigger modal -->\r\n<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#profileModal\">\r\n  Launch demo modal\r\n</button>\r\n\r\n<!-- Modal -->\r\n<div class=\"modal fade col-10 offset-1 col-md-6 offset-md-3 col-lg-6 offset-lg-3\" id=\"profileModal\" tabindex=\"-1\"\r\n  role=\"dialog\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\r\n    <div class=\"modal-content text-center\">\r\n      <!-- Profile Image -->\r\n      <img src=\"...\" onerror=\"this.src='../../assets/images/DefaultProfile.png'\"\r\n        class=\"col-6 offset-3 col-md-4 offset-md-4 rounded img-fluid mx-auto mt-5 mb-1 d-block\">\r\n      <!-- User's Name -->\r\n      <h3 class=\"col-8 offset-2 col-md-6 offset-md-3 mt-2 text-primary\">{{this.user.firstName}} {{this.user.lastName}}\r\n      </h3>\r\n      <!-- User's Info -->\r\n      <p class=\"col-4 offset-4 col-md-2 offset-md-5 text-secondary\">{{this.user.profile.graduationYear}}</p>\r\n      <p class=\"col-8 offset-2 col-md-6 offset-md-3 text-secondary mt-2\">{{this.user.profile.bio}}</p>\r\n      <!-- Footer -->\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-link mx-auto my-4\">ADD CONNECTION</button>\r\n        <button type=\"button\" class=\"btn btn-link mx-auto my-4\" data-dismiss=\"modal\">CLOSE</button>\r\n\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
+module.exports = "<!-- Modal -->\r\n<div class=\"modal hide fade col-10 offset-1 col-md-6 offset-md-3\" id=\"profileModal\" tabindex=\"-1\"\r\n  role=\"dialog\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\r\n    <div class=\"modal-content text-center\">\r\n\r\n      <!--Header-->\r\n      <div class=\"modal-header\" style=\"border:none;\">\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\" style=\"font-size:1.75rem;\">&times;</span>\r\n        </button>\r\n      </div>\r\n\r\n      <!--Body-->\r\n      <div class=\"modal-body\">\r\n        <!-- Profile Image -->\r\n        <img src=\"...\" onerror=\"this.src='../../assets/images/DefaultProfile.png'\" id=\"user-image\"\r\n        class=\"rounded img-fluid mx-auto mb-1 d-block\">\r\n\r\n        <!-- User's Name -->\r\n        <div class=\"h3 text-secondary text-light-weight mt-3\">{{ this.user.firstName }} {{ this.user.lastName }} </div>\r\n\r\n        <!-- User's Info -->\r\n        <p class=\"text-primary\">&mdash; Class of {{this.user.profile.graduationYear}} &mdash;</p>\r\n        <p class=\"text-secondary mt-2\">{{this.user.profile.bio}}</p>\r\n      </div>\r\n\r\n      <!-- Footer -->\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-primary mx-auto py-2 px-3 text-uppercase\" (click)=\"addConnection()\"\r\n        *ngIf=\"!isConnection\">Add Connection</button>\r\n        <span class=\"text-light mx-auto py-2\" *ngIf=\"isConnection\">You are connected with this user!</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -1533,6 +1627,7 @@ module.exports = "<!-- Button trigger modal -->\r\n<button type=\"button\" class
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SmallComponent", function() { return SmallComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _Core_models_user__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Core/_models/user */ "./src/app/Core/_models/user.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1543,21 +1638,24 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var SmallComponent = /** @class */ (function () {
     function SmallComponent() {
+        this.isConnection = false;
     }
     SmallComponent.prototype.ngOnInit = function () {
-        this.user = {
-            id: 2,
-            firstName: 'Scott',
-            lastName: 'Peterson',
-            username: 'peter610@mail.nmc.edu',
-            password: undefined,
-            university: { id: 3, name: 'NMC', state: 'MI', domains: null },
-            profile: { bio: "Hello world!", major: "CIS", graduationYear: 2021, interests: "Shooting, Riding, and The Outdoors", clubs: "" },
-        };
-        this.profile = this.user.profile;
     };
+    SmallComponent.prototype.addConnection = function () {
+        this.isConnection = true;
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", _Core_models_user__WEBPACK_IMPORTED_MODULE_1__["User"])
+    ], SmallComponent.prototype, "user", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Boolean)
+    ], SmallComponent.prototype, "isConnection", void 0);
     SmallComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-small',
@@ -1591,7 +1689,7 @@ module.exports = "<div class=\"container-fluid\">\r\n  <div class=\"row shadow-s
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "#settings_header {\n  background-color: white;\n  z-index: 2;\n  font-family: 'Poppins', sans-serif;\n  font-weight: bold;\n  color: #94B0C0;\n  top: 0;\n  position: -webkit-sticky;\n  position: sticky; }\n\n#settings-nav {\n  float: right;\n  background: #DAE6ED;\n  font-family: 'Poppins', sans-serif;\n  font-weight: bold; }\n\n#user_settings {\n  padding: 25px 25px;\n  margin-top: 3px;\n  border-radius: 3px;\n  font-family: 'Poppins', sans-serif;\n  font-weight: bold; }\n\n#v-pills-tabContent {\n  padding: 16px 16px;\n  font-family: 'Poppins', sans-serif;\n  font-weight: bold; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvU2V0dGluZ3MtVmlld3Mvc2V0dGluZ3MvQzpcXHJ0YXJrb3dza2lcXE5NQ1xcWWVhciAyXFxTcHJpbmcgMjAxOVxcQ0lUIDI4MFxcQ2hhdHZlcnNpdHlcXENoYXR2ZXJzaXR5X0FwcC9zcmNcXGFwcFxcU2V0dGluZ3MtVmlld3NcXHNldHRpbmdzXFxzZXR0aW5ncy5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLHVCQUFtQztFQUNuQyxVQUFVO0VBQ1Ysa0NBQWtDO0VBQ2xDLGlCQUFpQjtFQUNqQixjQUFjO0VBQ2QsTUFBSztFQUNMLHdCQUFnQjtFQUFoQixnQkFBZ0IsRUFBQTs7QUFHcEI7RUFDSSxZQUFXO0VBQ1gsbUJBQW1CO0VBQ25CLGtDQUFrQztFQUNsQyxpQkFBaUIsRUFBQTs7QUFHckI7RUFDSSxrQkFBa0I7RUFDbEIsZUFBZTtFQUNmLGtCQUFrQjtFQUNsQixrQ0FBa0M7RUFDbEMsaUJBQWlCLEVBQUE7O0FBR3JCO0VBQ0ksa0JBQWtCO0VBQ2xCLGtDQUFrQztFQUNsQyxpQkFBaUIsRUFBQSIsImZpbGUiOiJzcmMvYXBwL1NldHRpbmdzLVZpZXdzL3NldHRpbmdzL3NldHRpbmdzLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiI3NldHRpbmdzX2hlYWRlciB7XHJcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOnJnYigyNTUsIDI1NSwgMjU1KTtcclxuICAgIHotaW5kZXg6IDI7XHJcbiAgICBmb250LWZhbWlseTogJ1BvcHBpbnMnLCBzYW5zLXNlcmlmO1xyXG4gICAgZm9udC13ZWlnaHQ6IGJvbGQ7XHJcbiAgICBjb2xvcjogIzk0QjBDMDtcclxuICAgIHRvcDowO1xyXG4gICAgcG9zaXRpb246IHN0aWNreTtcclxufVxyXG5cclxuI3NldHRpbmdzLW5hdiB7XHJcbiAgICBmbG9hdDpyaWdodDtcclxuICAgIGJhY2tncm91bmQ6ICNEQUU2RUQ7XHJcbiAgICBmb250LWZhbWlseTogJ1BvcHBpbnMnLCBzYW5zLXNlcmlmO1xyXG4gICAgZm9udC13ZWlnaHQ6IGJvbGQ7ICAgXHJcbn1cclxuXHJcbiN1c2VyX3NldHRpbmdze1xyXG4gICAgcGFkZGluZzogMjVweCAyNXB4O1xyXG4gICAgbWFyZ2luLXRvcDogM3B4O1xyXG4gICAgYm9yZGVyLXJhZGl1czogM3B4O1xyXG4gICAgZm9udC1mYW1pbHk6ICdQb3BwaW5zJywgc2Fucy1zZXJpZjtcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkO1xyXG59XHJcblxyXG4jdi1waWxscy10YWJDb250ZW50IHtcclxuICAgIHBhZGRpbmc6IDE2cHggMTZweDtcclxuICAgIGZvbnQtZmFtaWx5OiAnUG9wcGlucycsIHNhbnMtc2VyaWY7XHJcbiAgICBmb250LXdlaWdodDogYm9sZDsgXHJcbn0iXX0= */"
+module.exports = "#settings_header {\n  background-color: white;\n  z-index: 2;\n  font-family: 'Poppins', sans-serif;\n  font-weight: bold;\n  color: #C3D3DC;\n  top: 0;\n  position: -webkit-sticky;\n  position: sticky; }\n\n#settings-nav {\n  float: right;\n  background: #DAE6ED;\n  font-family: 'Poppins', sans-serif;\n  font-weight: bold; }\n\n#user_settings {\n  padding: 25px 25px;\n  margin-top: 3px;\n  border-radius: 3px;\n  font-family: 'Poppins', sans-serif;\n  font-weight: bold;\n  font-size: 15px; }\n\n#v-pills-tabContent {\n  padding: 16px 16px;\n  font-family: 'Poppins', sans-serif;\n  font-weight: bold; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvU2V0dGluZ3MtVmlld3Mvc2V0dGluZ3MvQzpcXHJ0YXJrb3dza2lcXE5NQ1xcWWVhciAyXFxTcHJpbmcgMjAxOVxcQ0lUIDI4MFxcQ2hhdHZlcnNpdHlcXENoYXR2ZXJzaXR5X0FwcC9zcmNcXGFwcFxcU2V0dGluZ3MtVmlld3NcXHNldHRpbmdzXFxzZXR0aW5ncy5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLHVCQUFtQztFQUNuQyxVQUFVO0VBQ1Ysa0NBQWtDO0VBQ2xDLGlCQUFpQjtFQUNqQixjQUFjO0VBQ2QsTUFBSztFQUNMLHdCQUFnQjtFQUFoQixnQkFBZ0IsRUFBQTs7QUFHcEI7RUFDSSxZQUFXO0VBQ1gsbUJBQW1CO0VBQ25CLGtDQUFrQztFQUNsQyxpQkFBaUIsRUFBQTs7QUFHckI7RUFDSSxrQkFBa0I7RUFDbEIsZUFBZTtFQUNmLGtCQUFrQjtFQUNsQixrQ0FBa0M7RUFDbEMsaUJBQWlCO0VBQ2pCLGVBQWUsRUFBQTs7QUFHbkI7RUFDSSxrQkFBa0I7RUFDbEIsa0NBQWtDO0VBQ2xDLGlCQUFpQixFQUFBIiwiZmlsZSI6InNyYy9hcHAvU2V0dGluZ3MtVmlld3Mvc2V0dGluZ3Mvc2V0dGluZ3MuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIjc2V0dGluZ3NfaGVhZGVyIHtcclxuICAgIGJhY2tncm91bmQtY29sb3I6cmdiKDI1NSwgMjU1LCAyNTUpO1xyXG4gICAgei1pbmRleDogMjtcclxuICAgIGZvbnQtZmFtaWx5OiAnUG9wcGlucycsIHNhbnMtc2VyaWY7XHJcbiAgICBmb250LXdlaWdodDogYm9sZDtcclxuICAgIGNvbG9yOiAjQzNEM0RDO1xyXG4gICAgdG9wOjA7XHJcbiAgICBwb3NpdGlvbjogc3RpY2t5O1xyXG59XHJcblxyXG4jc2V0dGluZ3MtbmF2IHtcclxuICAgIGZsb2F0OnJpZ2h0O1xyXG4gICAgYmFja2dyb3VuZDogI0RBRTZFRDtcclxuICAgIGZvbnQtZmFtaWx5OiAnUG9wcGlucycsIHNhbnMtc2VyaWY7XHJcbiAgICBmb250LXdlaWdodDogYm9sZDsgICBcclxufVxyXG5cclxuI3VzZXJfc2V0dGluZ3N7XHJcbiAgICBwYWRkaW5nOiAyNXB4IDI1cHg7XHJcbiAgICBtYXJnaW4tdG9wOiAzcHg7XHJcbiAgICBib3JkZXItcmFkaXVzOiAzcHg7XHJcbiAgICBmb250LWZhbWlseTogJ1BvcHBpbnMnLCBzYW5zLXNlcmlmO1xyXG4gICAgZm9udC13ZWlnaHQ6IGJvbGQ7XHJcbiAgICBmb250LXNpemU6IDE1cHg7XHJcbn1cclxuXHJcbiN2LXBpbGxzLXRhYkNvbnRlbnQge1xyXG4gICAgcGFkZGluZzogMTZweCAxNnB4O1xyXG4gICAgZm9udC1mYW1pbHk6ICdQb3BwaW5zJywgc2Fucy1zZXJpZjtcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkOyBcclxufVxyXG5cclxuIl19 */"
 
 /***/ }),
 
