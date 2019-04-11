@@ -163,11 +163,14 @@ var AuthService = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    // Send sign up request to server // TODO: Implement user sign up
+    //
+    // ─── SEND SIGN UP REQUEST TO SERVER ─────────────────────────────────────────────
+    //
     AuthService.prototype.signup = function (fname, lname, universityId, username, password) {
         console.log(fname, lname, universityId, username, password);
         return;
     };
+    // ─────────────────────────────────────────────────────────────────
     AuthService.prototype.login = function (username, password) {
         var _this = this;
         return this.http.post(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl + "/okta/login", { username: username, password: password })
@@ -750,7 +753,9 @@ var ViewFriendsHomeComponent = /** @class */ (function () {
     //
     ViewFriendsHomeComponent.prototype.getUsersByName = function (_name) {
         _name = _name.toLowerCase();
-        this.results = this.connections.filter(function (c) { return (c.firstName.toLowerCase() + ' ' + c.lastName.toLowerCase()).includes(_name); });
+        this.results = this.connections.filter(function (c) {
+            return (c.firstName.toLowerCase() + ' ' + c.lastName.toLowerCase()).includes(_name);
+        }).slice(0, 5);
     };
     // ────────────────────────────────────────────────────────────────────────────────
     //
@@ -779,11 +784,12 @@ var ViewFriendsHomeComponent = /** @class */ (function () {
         this.submitted = true;
         this.loading = true;
         if (this.searchForm.invalid) {
-            this.loading = false;
             this.submitted = false;
+            this.loading = false;
             return;
         }
-        this.getUsersByName(this.searchForm.get('search').value);
+        var query = this.searchForm.get('search').value;
+        this.getUsersByName(query);
         this.loading = false;
     };
     ViewFriendsHomeComponent = __decorate([
@@ -920,7 +926,7 @@ var ViewNavigationHomeComponent = /** @class */ (function () {
     ViewNavigationHomeComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.HomeView.current = true;
-        this.headerText = "Latest News";
+        this.headerText = this.HomeView.name;
         // [routerLink]="['/home']" [queryParams]="{view:'param'}"
         this.activatedRoute.queryParams.subscribe(function (params) {
             var view = params['view'];
@@ -966,10 +972,10 @@ var ViewNavigationHomeComponent = /** @class */ (function () {
     // Display views based on url param
     ViewNavigationHomeComponent.prototype.handleViewParam = function (param) {
         switch (param) {
-            case "profile":
+            case 'profile':
                 this.showProfileView();
                 break;
-            case "connections":
+            case 'connections':
                 this.showFriendsView();
                 break;
             default:
@@ -1489,7 +1495,7 @@ module.exports = "#user-image{\r\n    max-width: 200px;\r\n    max-height: 200px
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid py-3\">\r\n    <div class=\"text-center\">\r\n        <div class=\"row mt-5 mb-3\">\r\n            <div class=\"col-12 col-lg-4 mt-1 pr-2\" id=\"profile-picture-container\">\r\n                <!-- Profile Image -->\r\n                <img src=\"...\" onerror=\"this.src='../../assets/images/DefaultProfile.png'\" id=\"user-image\"\r\n                class=\"rounded img-fluid mb-1 d-block\" >\r\n            </div>\r\n\r\n            <div class=\"col-12 col-lg-7 text-left\" id=\"profile-content\">\r\n                <!-- User Name -->\r\n                <div class=\"h2 text-secondary text-light-weight\">{{ this.user.firstName }} {{ this.user.lastName }} </div>\r\n\r\n                <!-- User Major and Graduation Year -->\r\n                <div>\r\n                    <span class=\"text-light\" style=\"font-weight:100;\">Class of {{ this.user.profile.graduationYear }}</span><br>\r\n                    <span class=\"text-primary\" style=\"font-weight:100;\">{{ this.user.profile.major }}</span>\r\n                </div>\r\n\r\n                <!--User Bio-->\r\n                <div class=\"text-left mt-3\">\r\n                    <p>{{this.user.profile.bio}}</p>\r\n                </div>\r\n\r\n                <!--User Clubs-->\r\n                <div class=\"text-left\">\r\n                    <p><span class=\"text-secondary-light\">Clubs: &nbsp;</span> {{this.user.profile.clubs}}</p>\r\n                </div>\r\n\r\n                <!--User Interests-->\r\n                <div class=\"text-left\">\r\n                    <p><span class=\"text-secondary-light\">Interests: &nbsp;</span> {{this.user.profile.interests}}</p>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
+module.exports = "<div class=\"container-fluid py-3\">\r\n    <div class=\"text-center\">\r\n        <div class=\"row mt-5 mb-3\">\r\n            <div class=\"col-12 col-lg-4 mt-1 pr-2\" id=\"profile-picture-container\">\r\n                <!-- Profile Image -->\r\n                <img src=\"...\" onerror=\"this.src='../../assets/images/DefaultProfile.png'\" id=\"user-image\"\r\n                class=\"rounded img-fluid mb-1 d-block\" >\r\n            </div>\r\n\r\n            <div class=\"col-12 col-lg-7 text-left\" id=\"profile-content\">\r\n                <ng-container *ngIf=\"this.user\">\r\n                    <!-- User Name -->\r\n                    <div class=\"h2 text-secondary text-light-weight\">{{ this.user.name }}</div>\r\n                    <!-- {{ this.user.avatarURL }} -->\r\n                    <!-- <ng-container *ngIf=\"this.user.presence.state\">\r\n                        User is online!\r\n                    </ng-container> -->\r\n                </ng-container>\r\n\r\n                <!-- User Major and Graduation Year -->\r\n                <div>\r\n                    <!-- <span class=\"text-light\" style=\"font-weight:100;\">Class of {{ this.user.profile.graduationYear }}</span><br> -->\r\n                    <!-- <span class=\"text-primary\" style=\"font-weight:100;\">{{ this.user.profile.major }}</span> -->\r\n                </div>\r\n\r\n                <!--User Bio-->\r\n                <div class=\"text-left mt-3\">\r\n                    <!-- <p>{{this.user.profile.bio}}</p> -->\r\n                </div>\r\n\r\n                <!--User Clubs-->\r\n                <div class=\"text-left\">\r\n                    <!-- <p><span class=\"text-secondary-light\">Clubs: &nbsp;</span> {{this.user.profile.clubs}}</p> -->\r\n                </div>\r\n\r\n                <!--User Interests-->\r\n                <div class=\"text-left\">\r\n                    <!-- <p><span class=\"text-secondary-light\">Interests: &nbsp;</span> {{this.user.profile.interests}}</p> -->\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -1506,6 +1512,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _Core_services_auth_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Core/_services/auth.service */ "./src/app/Core/_services/auth.service.ts");
+/* harmony import */ var _Core_services_messaging_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Core/_services/messaging.service */ "./src/app/Core/_services/messaging.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1518,24 +1526,28 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
 var ProfileComponent = /** @class */ (function () {
-    function ProfileComponent(formBuilder, route, router) {
+    function ProfileComponent(formBuilder, route, router, authService, msgService) {
         this.formBuilder = formBuilder;
         this.route = route;
         this.router = router;
+        this.authService = authService;
+        this.msgService = msgService;
     }
     ProfileComponent.prototype.ngOnInit = function () {
-        this.user = {
-            id: 2,
-            firstName: 'Scott',
-            lastName: 'Peterson',
-            username: 'peter610@mail.nmc.edu',
-            password: undefined,
-            university: { id: 3, name: 'NMC', state: "MI", domains: null },
-            profile: { bio: "Hello world! This is my bio.", major: "Computer Information Systems", graduationYear: 2021, interests: "Shooting, Riding, and the Outdoors", clubs: "Phi Theta Kappa" },
-            active: false
-        };
-        this.profile = this.user.profile;
+        //
+        // ─── CONNECT TO CHAKIT ───────────────────────────────────────────
+        //
+        var _this = this;
+        this.msgService.chatManager
+            .connect()
+            .then(function (user) {
+            _this.user = user;
+            console.log(user); // ! TESTING ONLY
+        });
+        // ─────────────────────────────────────────────────────────────────
     };
     ProfileComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1545,7 +1557,9 @@ var ProfileComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"],
             _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
+            _Core_services_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"],
+            _Core_services_messaging_service__WEBPACK_IMPORTED_MODULE_4__["MessagingService"]])
     ], ProfileComponent);
     return ProfileComponent;
 }());
@@ -1786,6 +1800,195 @@ var SmallComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/Settings-Views/connection-settings/connection-settings.component.css":
+/*!**************************************************************************************!*\
+  !*** ./src/app/Settings-Views/connection-settings/connection-settings.component.css ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL1NldHRpbmdzLVZpZXdzL2Nvbm5lY3Rpb24tc2V0dGluZ3MvY29ubmVjdGlvbi1zZXR0aW5ncy5jb21wb25lbnQuY3NzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/Settings-Views/connection-settings/connection-settings.component.html":
+/*!***************************************************************************************!*\
+  !*** ./src/app/Settings-Views/connection-settings/connection-settings.component.html ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>\r\n  connection-settings works!\r\n</p>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/Settings-Views/connection-settings/connection-settings.component.ts":
+/*!*************************************************************************************!*\
+  !*** ./src/app/Settings-Views/connection-settings/connection-settings.component.ts ***!
+  \*************************************************************************************/
+/*! exports provided: ConnectionSettingsComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConnectionSettingsComponent", function() { return ConnectionSettingsComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var ConnectionSettingsComponent = /** @class */ (function () {
+    function ConnectionSettingsComponent() {
+    }
+    ConnectionSettingsComponent.prototype.ngOnInit = function () {
+    };
+    ConnectionSettingsComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-connection-settings',
+            template: __webpack_require__(/*! ./connection-settings.component.html */ "./src/app/Settings-Views/connection-settings/connection-settings.component.html"),
+            styles: [__webpack_require__(/*! ./connection-settings.component.css */ "./src/app/Settings-Views/connection-settings/connection-settings.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], ConnectionSettingsComponent);
+    return ConnectionSettingsComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/Settings-Views/privacy-settings/privacy-settings.component.css":
+/*!********************************************************************************!*\
+  !*** ./src/app/Settings-Views/privacy-settings/privacy-settings.component.css ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL1NldHRpbmdzLVZpZXdzL3ByaXZhY3ktc2V0dGluZ3MvcHJpdmFjeS1zZXR0aW5ncy5jb21wb25lbnQuY3NzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/Settings-Views/privacy-settings/privacy-settings.component.html":
+/*!*********************************************************************************!*\
+  !*** ./src/app/Settings-Views/privacy-settings/privacy-settings.component.html ***!
+  \*********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>\r\n  privacy-settings works!\r\n</p>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/Settings-Views/privacy-settings/privacy-settings.component.ts":
+/*!*******************************************************************************!*\
+  !*** ./src/app/Settings-Views/privacy-settings/privacy-settings.component.ts ***!
+  \*******************************************************************************/
+/*! exports provided: PrivacySettingsComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PrivacySettingsComponent", function() { return PrivacySettingsComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var PrivacySettingsComponent = /** @class */ (function () {
+    function PrivacySettingsComponent() {
+    }
+    PrivacySettingsComponent.prototype.ngOnInit = function () {
+    };
+    PrivacySettingsComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-privacy-settings',
+            template: __webpack_require__(/*! ./privacy-settings.component.html */ "./src/app/Settings-Views/privacy-settings/privacy-settings.component.html"),
+            styles: [__webpack_require__(/*! ./privacy-settings.component.css */ "./src/app/Settings-Views/privacy-settings/privacy-settings.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], PrivacySettingsComponent);
+    return PrivacySettingsComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/Settings-Views/security-settings/security-settings.component.css":
+/*!**********************************************************************************!*\
+  !*** ./src/app/Settings-Views/security-settings/security-settings.component.css ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL1NldHRpbmdzLVZpZXdzL3NlY3VyaXR5LXNldHRpbmdzL3NlY3VyaXR5LXNldHRpbmdzLmNvbXBvbmVudC5jc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/Settings-Views/security-settings/security-settings.component.html":
+/*!***********************************************************************************!*\
+  !*** ./src/app/Settings-Views/security-settings/security-settings.component.html ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>\r\n  security-settings works!\r\n</p>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/Settings-Views/security-settings/security-settings.component.ts":
+/*!*********************************************************************************!*\
+  !*** ./src/app/Settings-Views/security-settings/security-settings.component.ts ***!
+  \*********************************************************************************/
+/*! exports provided: SecuritySettingsComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SecuritySettingsComponent", function() { return SecuritySettingsComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var SecuritySettingsComponent = /** @class */ (function () {
+    function SecuritySettingsComponent() {
+    }
+    SecuritySettingsComponent.prototype.ngOnInit = function () {
+    };
+    SecuritySettingsComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-security-settings',
+            template: __webpack_require__(/*! ./security-settings.component.html */ "./src/app/Settings-Views/security-settings/security-settings.component.html"),
+            styles: [__webpack_require__(/*! ./security-settings.component.css */ "./src/app/Settings-Views/security-settings/security-settings.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], SecuritySettingsComponent);
+    return SecuritySettingsComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/Settings-Views/settings/settings.component.html":
 /*!*****************************************************************!*\
   !*** ./src/app/Settings-Views/settings/settings.component.html ***!
@@ -1793,7 +1996,7 @@ var SmallComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\" style=\"height:100vh;\">\r\n\r\n  <app-top-bar [viewName]=\"'Settings'\" [headerText]=\"headerText\"></app-top-bar>\r\n\r\n  <div class=\"row page-content\" style=\"background:#F1F8FC;\">\r\n    <div class=\"col-4 overflow-auto\">\r\n      <!-- Nav tabs -->\r\n      <div class=\"nav flex-column nav-pills\" id=\"v-pills-tab\" role=\"tablist\" aria-orientation=\"vertical\">\r\n        <a class=\"nav-link active\" id=\"v-pills-MyProfile-tab\" data-toggle=\"pill\" href=\"#v-pills-MyProfile\" role=\"tab\" aria-controls=\"v-pills-MyProfile\" aria-selected=\"true\">My Profile</a>\r\n        <a class=\"nav-link\" id=\"v-pills-Privacy-tab\" data-toggle=\"pill\" href=\"#v-pills-Privacy\" role=\"tab\" aria-controls=\"v-pills-Privacy\" aria-selected=\"false\">Privacy</a>\r\n        <a class=\"nav-link\" id=\"v-pills-security-tab\" data-toggle=\"pill\" href=\"#v-pills-security\" role=\"tab\" aria-controls=\"v-pills-security\" aria-selected=\"false\">Security</a>\r\n        <a class=\"nav-link\" id=\"v-pills-Connections-tab\" data-toggle=\"pill\" href=\"#v-pills-Connections\" role=\"tab\" aria-controls=\"v-pills-Connections\" aria-selected=\"false\">Connections</a>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"col-8 h-100 overflow-auto\" style=\"background:#FAFDFF;\">\r\n      <div class=\"chat-window overflow-auto\">\r\n        <div id=\"settings-right\">\r\n          <div class=\"col-12\">\r\n            <div class=\"tab-content text-black\" id=\"v-pills-tabContent\">\r\n              <!-- Tab panes -->\r\n              <div class=\"tab-pane fade show active\" id=\"v-pills-MyProfile\" role=\"tabpanel\" aria-labelledby=\"v-pills-MyProfile-tab\">My Profile</div>\r\n              <div class=\"tab-pane fade\" id=\"v-pills-Privacy\" role=\"tabpanel\" aria-labelledby=\"v-pills-Privacy-tab\">Privacy</div>\r\n              <div class=\"tab-pane fade\" id=\"v-pills-security\" role=\"tabpanel\" aria-labelledby=\"v-pills-security-tab\">Security</div>\r\n              <div class=\"tab-pane fade\" id=\"v-pills-Connections\" role=\"tabpanel\" aria-labelledby=\"v-pills-Connections-tab\">Connections</div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n      "
+module.exports = "<div class=\"container-fluid\" style=\"height:100vh;\">\r\n\r\n  <app-top-bar [viewName]=\"'Settings'\" [headerText]=\"headerText\"></app-top-bar>\r\n  \r\n  <div class=\"row page-content\" id=\"settings-content\">\r\n    <div class=\"col-12 col-lg-3\" style=\"background-color:#F1F8FC; border-bottom:1px solid #DAE6ED;\">\r\n      <div class=\"my-3 px-1\">\r\n        <button class=\"btn btn-block custom-btn text-left my-2 p-3\" (click)=\"showProfileView()\"\r\n        [ngClass]=\"{ 'active': ProfileView.current }\">My Profile</button>\r\n        <button class=\"btn btn-block custom-btn text-left my-2 p-3\" (click)=\"showPrivacyView()\"\r\n        [ngClass]=\"{ 'active': PrivacyView.current }\">Privacy</button>\r\n        <button class=\"btn btn-block custom-btn text-left my-2 p-3\" (click)=\"showSecurityView()\"\r\n        [ngClass]=\"{ 'active': SecurityView.current }\">Security</button>\r\n        <button class=\"btn btn-block custom-btn text-left my-2 p-3\" (click)=\"showConnectionsView()\"\r\n        [ngClass]=\"{ 'active': ConnectionsView.current }\">Connections</button>\r\n      </div>\r\n    </div>\r\n  \r\n  <div class=\"col-12 col-lg-9\" style=\"background-color: #fafdff; border-left:1px solid #DAE6ED;\" id=\"settings-right\">\r\n    <div *ngIf=\"ProfileView.current\">\r\n      <app-settings-profile></app-settings-profile>\r\n    </div>\r\n  </div>\r\n\r\n  </div>\r\n</div>\r\n      "
 
 /***/ }),
 
@@ -1804,7 +2007,7 @@ module.exports = "<div class=\"container-fluid\" style=\"height:100vh;\">\r\n\r\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "#settings_header {\n  background-color: white;\n  z-index: 2;\n  font-family: 'Poppins', sans-serif;\n  font-weight: bold;\n  color: #C3D3DC;\n  top: 0;\n  position: -webkit-sticky;\n  position: sticky; }\n\n#settings-nav {\n  float: right;\n  background: #F1F8FC;\n  font-family: 'Poppins', sans-serif;\n  font-weight: bold; }\n\n#user_settings {\n  padding: 25px 25px;\n  margin-top: 3px;\n  border-radius: 3px;\n  font-family: 'Poppins', sans-serif;\n  font-weight: bold;\n  font-size: 15px; }\n\n#v-pills-tabContent {\n  padding: 16px 16px;\n  font-family: 'Poppins', sans-serif;\n  font-weight: bold; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvU2V0dGluZ3MtVmlld3Mvc2V0dGluZ3MvQzpcXHJ0YXJrb3dza2lcXE5NQ1xcWWVhciAyXFxTcHJpbmcgMjAxOVxcQ0lUIDI4MFxcQ2hhdHZlcnNpdHlcXENoYXR2ZXJzaXR5X0FwcC9zcmNcXGFwcFxcU2V0dGluZ3MtVmlld3NcXHNldHRpbmdzXFxzZXR0aW5ncy5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLHVCQUFtQztFQUNuQyxVQUFVO0VBQ1Ysa0NBQWtDO0VBQ2xDLGlCQUFpQjtFQUNqQixjQUFjO0VBQ2QsTUFBSztFQUNMLHdCQUFnQjtFQUFoQixnQkFBZ0IsRUFBQTs7QUFHcEI7RUFDSSxZQUFXO0VBQ1gsbUJBQW1CO0VBQ25CLGtDQUFrQztFQUNsQyxpQkFBaUIsRUFBQTs7QUFHckI7RUFDSSxrQkFBa0I7RUFDbEIsZUFBZTtFQUNmLGtCQUFrQjtFQUNsQixrQ0FBa0M7RUFDbEMsaUJBQWlCO0VBQ2pCLGVBQWUsRUFBQTs7QUFHbkI7RUFDSSxrQkFBa0I7RUFDbEIsa0NBQWtDO0VBQ2xDLGlCQUFpQixFQUFBIiwiZmlsZSI6InNyYy9hcHAvU2V0dGluZ3MtVmlld3Mvc2V0dGluZ3Mvc2V0dGluZ3MuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIjc2V0dGluZ3NfaGVhZGVyIHtcclxuICAgIGJhY2tncm91bmQtY29sb3I6cmdiKDI1NSwgMjU1LCAyNTUpO1xyXG4gICAgei1pbmRleDogMjtcclxuICAgIGZvbnQtZmFtaWx5OiAnUG9wcGlucycsIHNhbnMtc2VyaWY7XHJcbiAgICBmb250LXdlaWdodDogYm9sZDtcclxuICAgIGNvbG9yOiAjQzNEM0RDO1xyXG4gICAgdG9wOjA7XHJcbiAgICBwb3NpdGlvbjogc3RpY2t5O1xyXG59XHJcblxyXG4jc2V0dGluZ3MtbmF2IHtcclxuICAgIGZsb2F0OnJpZ2h0O1xyXG4gICAgYmFja2dyb3VuZDogI0YxRjhGQztcclxuICAgIGZvbnQtZmFtaWx5OiAnUG9wcGlucycsIHNhbnMtc2VyaWY7XHJcbiAgICBmb250LXdlaWdodDogYm9sZDsgICBcclxufVxyXG5cclxuI3VzZXJfc2V0dGluZ3N7XHJcbiAgICBwYWRkaW5nOiAyNXB4IDI1cHg7XHJcbiAgICBtYXJnaW4tdG9wOiAzcHg7XHJcbiAgICBib3JkZXItcmFkaXVzOiAzcHg7XHJcbiAgICBmb250LWZhbWlseTogJ1BvcHBpbnMnLCBzYW5zLXNlcmlmO1xyXG4gICAgZm9udC13ZWlnaHQ6IGJvbGQ7XHJcbiAgICBmb250LXNpemU6IDE1cHg7XHJcbn1cclxuXHJcbiN2LXBpbGxzLXRhYkNvbnRlbnQge1xyXG4gICAgcGFkZGluZzogMTZweCAxNnB4O1xyXG4gICAgZm9udC1mYW1pbHk6ICdQb3BwaW5zJywgc2Fucy1zZXJpZjtcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkOyBcclxufVxyXG5cclxuIl19 */"
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL1NldHRpbmdzLVZpZXdzL3NldHRpbmdzL3NldHRpbmdzLmNvbXBvbmVudC5zY3NzIn0= */"
 
 /***/ }),
 
@@ -1831,9 +2034,37 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 var SettingsComponent = /** @class */ (function () {
     function SettingsComponent() {
-        this.headerText = "Test";
+        this.ProfileView = { id: 1, name: 'Profile', current: false };
+        this.PrivacyView = { id: 2, name: 'Privacy', current: false };
+        this.SecurityView = { id: 3, name: 'Security', current: false };
+        this.ConnectionsView = { id: 3, name: 'Connections', current: false };
+        this.views = [this.ProfileView, this.PrivacyView, this.SecurityView, this.ConnectionsView];
     }
     SettingsComponent.prototype.ngOnInit = function () {
+        this.ProfileView.current = true;
+        this.headerText = this.ProfileView.name;
+    };
+    // Display profile view
+    SettingsComponent.prototype.showProfileView = function () {
+        this.hideAllViews();
+    };
+    // Display privacy view
+    SettingsComponent.prototype.showPrivacyView = function () {
+        this.hideAllViews();
+    };
+    // Display security view
+    SettingsComponent.prototype.showSecurityView = function () {
+        this.hideAllViews();
+    };
+    // Display connections view
+    SettingsComponent.prototype.showConnectionsView = function () {
+        this.hideAllViews();
+    };
+    // Hide all settings views
+    SettingsComponent.prototype.hideAllViews = function () {
+        this.views.forEach(function (view) {
+            view.current = false;
+        });
     };
     SettingsComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1999,7 +2230,7 @@ module.exports = "#messages_header {\r\n    background-color:#FFF;\r\n    z-inde
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row shadow-sm\" id=\"messages_header\">\n  <div class=\"col 12 col-md-3 py-3\">\n      <div class=\"d-flex align-items-center\">\n        <span class=\"text-uppercase text-secondary text-light-weight pl-3\">{{ viewName }} <span id=\"mobile-header-text\">&nbsp;|&nbsp; {{ headerText }}</span></span>\n      </div>\n  </div>\n  <div class=\"col-md-9 py-3\" style=\"border-left:1px solid #DAE6ED;\" id=\"header-text\">\n    <div class=\"d-flex align-items-center\">\n        <span class=\"text-uppercase text-secondary text-light-weight pl-3\">{{ headerText }}</span>\n      </div>\n  </div>\n</div>"
+module.exports = "<div class=\"row shadow-sm\" id=\"messages_header\">\r\n  <div class=\"col 12 col-md-3 py-3\">\r\n      <div class=\"d-flex align-items-center\">\r\n        <span class=\"text-uppercase text-secondary text-light-weight pl-3\">{{ viewName }} <span id=\"mobile-header-text\">&nbsp;|&nbsp; {{ headerText }}</span></span>\r\n      </div>\r\n  </div>\r\n  <div class=\"col-md-9 py-3\" style=\"border-left:1px solid #DAE6ED;\" id=\"header-text\">\r\n    <div class=\"d-flex align-items-center\">\r\n        <span class=\"text-uppercase text-secondary text-light-weight pl-3\">{{ headerText }}</span>\r\n      </div>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -2229,7 +2460,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_service_worker__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! @angular/service-worker */ "./node_modules/@angular/service-worker/fesm5/service-worker.js");
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ../environments/environment */ "./src/environments/environment.ts");
 /* harmony import */ var _rooms_rooms_component__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./rooms/rooms.component */ "./src/app/rooms/rooms.component.ts");
-/* harmony import */ var _Shared_top_bar_top_bar_component__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./Shared/top-bar/top-bar.component */ "./src/app/Shared/top-bar/top-bar.component.ts");
+/* harmony import */ var _scroll_to_top_directive__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./scroll-to-top.directive */ "./src/app/scroll-to-top.directive.ts");
+/* harmony import */ var _Settings_Views_privacy_settings_privacy_settings_component__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./Settings-Views/privacy-settings/privacy-settings.component */ "./src/app/Settings-Views/privacy-settings/privacy-settings.component.ts");
+/* harmony import */ var _Settings_Views_security_settings_security_settings_component__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./Settings-Views/security-settings/security-settings.component */ "./src/app/Settings-Views/security-settings/security-settings.component.ts");
+/* harmony import */ var _Settings_Views_connection_settings_connection_settings_component__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./Settings-Views/connection-settings/connection-settings.component */ "./src/app/Settings-Views/connection-settings/connection-settings.component.ts");
+/* harmony import */ var _Shared_top_bar_top_bar_component__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! ./Shared/top-bar/top-bar.component */ "./src/app/Shared/top-bar/top-bar.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2284,6 +2519,10 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
+
+
+
 var config = {
     issuer: 'https://dev-117825.okta.com',
     redirectUri: 'http://localhost:4200/implicit/callback',
@@ -2317,7 +2556,11 @@ var AppModule = /** @class */ (function () {
                 _Home_view_navigation_home_view_navigation_home_component__WEBPACK_IMPORTED_MODULE_12__["ViewNavigationHomeComponent"],
                 _Home_view_friends_home_view_friends_home_component__WEBPACK_IMPORTED_MODULE_13__["ViewFriendsHomeComponent"],
                 _rooms_rooms_component__WEBPACK_IMPORTED_MODULE_33__["RoomsComponent"],
-                _Shared_top_bar_top_bar_component__WEBPACK_IMPORTED_MODULE_34__["TopBarComponent"]
+                _scroll_to_top_directive__WEBPACK_IMPORTED_MODULE_34__["ScrollToTopDirective"],
+                _Settings_Views_privacy_settings_privacy_settings_component__WEBPACK_IMPORTED_MODULE_35__["PrivacySettingsComponent"],
+                _Settings_Views_security_settings_security_settings_component__WEBPACK_IMPORTED_MODULE_36__["SecuritySettingsComponent"],
+                _Settings_Views_connection_settings_connection_settings_component__WEBPACK_IMPORTED_MODULE_37__["ConnectionSettingsComponent"],
+                _Shared_top_bar_top_bar_component__WEBPACK_IMPORTED_MODULE_38__["TopBarComponent"]
             ],
             imports: [
                 _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forRoot(_app_routes__WEBPACK_IMPORTED_MODULE_29__["routes"]),
@@ -2859,7 +3102,7 @@ var MessagesComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-fluid\" style=\"height:100vh;\">\r\n\r\n  <ng-container *ngIf=\"current_room\">\r\n    <app-top-bar [viewName]=\"'Rooms'\" [headerText]=\"current_room.name\"></app-top-bar>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"!current_room\">\r\n    <app-top-bar [viewName]=\"'Rooms'\"></app-top-bar>\r\n  </ng-container>\r\n\r\n\r\n  <!--<button type=\"button\" class=\"ml-auto btn btn-outline-primary\" data-toggle=\"modal\" data-target=\"#addRoomModal\" (click)=\"roomCreated = false\" placement=\"left\" ngbTooltip=\"Create Room\" triggers=\"hover\" [autoClose]=\"true\">\r\n    <i class=\"fa fa-plus\"></i>\r\n  </button>-->\r\n\r\n  <!--<button type=\"button\" class=\"ml-auto btn btn-outline-primary\" data-toggle=\"modal\" data-target=\"#addRoomModal\" placement=\"left\" ngbTooltip=\"Edit Room\" triggers=\"hover\" [autoClose]=\"true\">\r\n    <i class=\"fa fa-cog\"></i>\r\n  </button>-->\r\n\r\n  <div class=\"row page-content\">\r\n    <div class=\"col-4 h-100 overflow-auto\">\r\n        \r\n          <!-- Begin rooms list -->\r\n          <div id=\"messages\" class=\"row\">\r\n            <ng-container *ngFor=\"let room of rooms\">\r\n                <div class=\"col-12\">\r\n                    <button class=\"btn btn-block custom-btn text-left mr-4 my-2 p-3\" (click)=\"joinRoom(room.id)\">\r\n                        <div class=\"room d-flex align-items-center justify-content-between\">\r\n                            <ng-container *ngIf=\"room?.custom_data !== undefined\">\r\n                                <div class=\"\" [ngStyle]=\"{ 'background-image': 'url(assets/avatars/' + room.customData.roomAvatar + ')', 'height':'50px', 'width':'50px', 'background-size':'cover', 'background-position':'center, center' }\">\r\n                                </div>\r\n                            </ng-container>\r\n                            <span class=\"text-secondary\">{{ room.name }}</span>\r\n                            <span *ngIf=\"roomNotifications[room.id]\" class=\"badge badge-secondary\">New</span>\r\n                          </div>\r\n                      </button>\r\n                  </div>\r\n            </ng-container>\r\n            <div *ngIf=\"(currentUser)\" class=\"col-12\">\r\n                <div class=\"message-wrap\">\r\n                  <img src=\"{{currentUser.avatarURL}}\" alt=\"\">\r\n                  <span>{{ currentUser.name }}</span>\r\n                </div>\r\n            </div>\r\n          </div>\r\n    </div>\r\n    <div class=\"col-8 h-100 overflow-auto\" style=\"background:#FAFDFF;\">\r\n      <div class=\"chat-window overflow-auto\" style=\"height: calc(100vh - 157px);\">\r\n        <ng-container *ngIf=\"room_messages\">\r\n          <div class=\"container\">\r\n            <div *ngFor=\"let message of room_messages\">\r\n              <div class=\"row\">\r\n                <!-- Messages -->\r\n                <div class=\"col-12\">\r\n                  <span>{{ current_room.userStore.users[message.senderId].name }}</span>\r\n                  <p style=\"color:#626e7a; font-size:15px;\">{{ message.parts[0].payload.content }}</p>\r\n                  <hr>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </ng-container>\r\n      </div>\r\n      <div class=\"chat-footer\" style=\"position: absolute; bottom: 0; left: 0; width: 100%;\">\r\n        <form (ngSubmit)='sendMessage()'>\r\n          <input placeholder=\"Type a message. Hit Enter to send\" type=\"text\" name=\"message\" [(ngModel)]=\"message\">\r\n        </form>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <!-- Messages Header -->\r\n</div>\r\n\r\n<!-- Create room modal -->\r\n<div class=\"modal fade\" id=\"addRoomModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"addRoomModal\" aria-hidden=\"true\">\r\n\r\n  <!-- Show success alert on room created -->\r\n  <div *ngIf=\"roomCreated\" class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\">\r\n        <strong>Success!</strong> Created room\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n            <span aria-hidden=\"true\">&times;</span>\r\n        </button>\r\n      </div>\r\n    </div>\r\n  </div>  <!-- End success modal dialog -->\r\n\r\n  <div *ngIf=\"!roomCreated\" class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <!-- Modal Header -->\r\n      <div class=\"modal-header\">\r\n        <!-- Modal Title -->\r\n        <h5 class=\"modal-title\" id=\"exampleModalLabel\">Create Room</h5>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">&times;</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body\">\r\n        <!-- Add room form -->\r\n        <form (ngSubmit)='createRoom()' [formGroup]=\"formImport\" enctype=\"multipart/form-data\">\r\n          <!-- Room Name -->\r\n          <div class=\"form-group\" formGroupName=\"roomNameGroup\">\r\n            <label for=\"room_name\">Room name</label>\r\n            <input id=\"room_name\" formControlName=\"roomName\" placeholder=\"Enter a room name\" type=\"text\" class=\"form-control\" required>\r\n            <small id=\"roomNameHelp\" class=\"form-text text-muted\">A room name must be no longer than 60 characters.</small>\r\n          </div>\r\n          <!-- Private? -->\r\n          <div class=\"form-group\" formGroupName=\"privateRoomGroup\">\r\n            <div class=\"custom-control custom-switch\">\r\n              <input type=\"checkbox\" formControlName=\"privateRoom\" class=\"custom-control-input\" id=\"private_room\">\r\n              <label class=\"custom-control-label\" for=\"private_room\">Private room?</label>\r\n            </div>\r\n          </div>\r\n          <!-- Room Avatar -->\r\n          <div class=\"form-group\" formGroupName=\"userAvatarFileGroup\">\r\n            <div class=\"form-control-file\">\r\n              <div class=\"custom-file\">\r\n                <img src={{imagePath}} width=\"150\" alt=\"Thumb preview...\">\r\n                <input formControlName=\"avatar\" (change)=\"onFileChange($event)\" type=\"file\" accept=\".png, .jpg, .jpeg\" class=\"custom-file-input\" id=\"avatar\" #avatar>\r\n                <label class=\"custom-file-label\" for=\"avatar\">Choose file</label>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <!-- Submit -->\r\n          <button type=\"submit\" class=\"btn btn-primary\" [disabled]=\"!formImport.valid\">Submit</button>\r\n        </form>\r\n      </div>\r\n      <!-- Modal Footer -->\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\r\n        <button type=\"button\" class=\"btn btn-primary\">Save changes</button>\r\n      </div>\r\n    </div> <!-- End modal content -->\r\n  </div> <!-- End modal dialog -->\r\n</div> <!-- End modal -->\r\n"
+module.exports = "<div class=\"container-fluid\" style=\"height:100vh;\">\r\n\r\n  <ng-container *ngIf=\"current_room\">\r\n    <app-top-bar [viewName]=\"'Rooms'\" [headerText]=\"current_room.name\"></app-top-bar>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"!current_room\">\r\n    <app-top-bar [viewName]=\"'Rooms'\"></app-top-bar>\r\n  </ng-container>\r\n\r\n\r\n  <!--<button type=\"button\" class=\"ml-auto btn btn-outline-primary\" data-toggle=\"modal\" data-target=\"#addRoomModal\" (click)=\"roomCreated = false\" placement=\"left\" ngbTooltip=\"Create Room\" triggers=\"hover\" [autoClose]=\"true\">\r\n    <i class=\"fa fa-plus\"></i>\r\n  </button>-->\r\n\r\n  <!--<button type=\"button\" class=\"ml-auto btn btn-outline-primary\" data-toggle=\"modal\" data-target=\"#addRoomModal\" placement=\"left\" ngbTooltip=\"Edit Room\" triggers=\"hover\" [autoClose]=\"true\">\r\n    <i class=\"fa fa-cog\"></i>\r\n  </button>-->\r\n\r\n  <div class=\"row page-content\">\r\n    <div class=\"col-4 h-100 overflow-auto\">\r\n        \r\n          <!-- Begin rooms list -->\r\n          <div id=\"messages\" class=\"row\">\r\n            <ng-container *ngFor=\"let room of rooms\">\r\n                <div class=\"col-12\">\r\n                    <button class=\"btn btn-block custom-btn text-left mr-4 my-2 p-3\" (click)=\"joinRoom(room.id)\">\r\n                        <div class=\"room d-flex align-items-center justify-content-between\">\r\n                            <ng-container *ngIf=\"room?.custom_data !== undefined\">\r\n                                <div class=\"\" [ngStyle]=\"{ 'background-image': 'url(assets/avatars/' + room.customData.roomAvatar + ')', 'height':'50px', 'width':'50px', 'background-size':'cover', 'background-position':'center, center' }\">\r\n                                </div>\r\n                            </ng-container>\r\n                            <span class=\"text-secondary\">{{ room.name }}</span>\r\n                            <span *ngIf=\"roomNotifications[room.id]\" class=\"badge badge-secondary\">New</span>\r\n                          </div>\r\n                      </button>\r\n                  </div>\r\n            </ng-container>\r\n            <div *ngIf=\"(currentUser)\" class=\"col-12\">\r\n                <div class=\"message-wrap\">\r\n                  <img src=\"{{currentUser.avatarURL}}\" alt=\"\">\r\n                  <span>{{ currentUser.name }}</span>\r\n                </div>\r\n            </div>\r\n          </div>\r\n    </div>\r\n    <div class=\"col-8 h-100 overflow-auto\" style=\"background:#FAFDFF;\">\r\n      <div class=\"chat-window overflow-auto\" style=\"height: calc(100vh - 157px);\">\r\n        <ng-container *ngIf=\"room_messages\">\r\n          <div class=\"container\" appScrollToTop>\r\n            <div *ngFor=\"let message of room_messages\">\r\n              <div class=\"row\">\r\n                <!-- Messages -->\r\n                <div class=\"col-12\">\r\n                  <span>{{ current_room.userStore.users[message.senderId].name }}</span>\r\n                  <p style=\"color:#626e7a; font-size:15px;\">{{ message.parts[0].payload.content }}</p>\r\n                  <hr>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </ng-container>\r\n      </div>\r\n      <div class=\"chat-footer\" style=\"position: absolute; bottom: 0; left: 0; width: 100%;\">\r\n        <form (ngSubmit)='sendMessage()'>\r\n          <input placeholder=\"Type a message. Hit Enter to send\" type=\"text\" name=\"message\" [(ngModel)]=\"message\">\r\n        </form>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <!-- Messages Header -->\r\n</div>\r\n\r\n<!-- Create room modal -->\r\n<div class=\"modal fade\" id=\"addRoomModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"addRoomModal\" aria-hidden=\"true\">\r\n\r\n  <!-- Show success alert on room created -->\r\n  <div *ngIf=\"roomCreated\" class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\">\r\n        <strong>Success!</strong> Created room\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n            <span aria-hidden=\"true\">&times;</span>\r\n        </button>\r\n      </div>\r\n    </div>\r\n  </div>  <!-- End success modal dialog -->\r\n\r\n  <div *ngIf=\"!roomCreated\" class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <!-- Modal Header -->\r\n      <div class=\"modal-header\">\r\n        <!-- Modal Title -->\r\n        <h5 class=\"modal-title\" id=\"exampleModalLabel\">Create Room</h5>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">&times;</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body\">\r\n        <!-- Add room form -->\r\n        <form (ngSubmit)='createRoom()' [formGroup]=\"formImport\" enctype=\"multipart/form-data\">\r\n          <!-- Room Name -->\r\n          <div class=\"form-group\" formGroupName=\"roomNameGroup\">\r\n            <label for=\"room_name\">Room name</label>\r\n            <input id=\"room_name\" formControlName=\"roomName\" placeholder=\"Enter a room name\" type=\"text\" class=\"form-control\" required>\r\n            <small id=\"roomNameHelp\" class=\"form-text text-muted\">A room name must be no longer than 60 characters.</small>\r\n          </div>\r\n          <!-- Private? -->\r\n          <div class=\"form-group\" formGroupName=\"privateRoomGroup\">\r\n            <div class=\"custom-control custom-switch\">\r\n              <input type=\"checkbox\" formControlName=\"privateRoom\" class=\"custom-control-input\" id=\"private_room\">\r\n              <label class=\"custom-control-label\" for=\"private_room\">Private room?</label>\r\n            </div>\r\n          </div>\r\n          <!-- Room Avatar -->\r\n          <div class=\"form-group\" formGroupName=\"userAvatarFileGroup\">\r\n            <div class=\"form-control-file\">\r\n              <div class=\"custom-file\">\r\n                <img src={{imagePath}} width=\"150\" alt=\"Thumb preview...\">\r\n                <input formControlName=\"avatar\" (change)=\"onFileChange($event)\" type=\"file\" accept=\".png, .jpg, .jpeg\" class=\"custom-file-input\" id=\"avatar\" #avatar>\r\n                <label class=\"custom-file-label\" for=\"avatar\">Choose file</label>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <!-- Submit -->\r\n          <button type=\"submit\" class=\"btn btn-primary\" [disabled]=\"!formImport.valid\">Submit</button>\r\n        </form>\r\n      </div>\r\n      <!-- Modal Footer -->\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\r\n        <button type=\"button\" class=\"btn btn-primary\">Save changes</button>\r\n      </div>\r\n    </div> <!-- End modal content -->\r\n  </div> <!-- End modal dialog -->\r\n</div> <!-- End modal -->\r\n"
 
 /***/ }),
 
@@ -2904,6 +3147,9 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var RoomsComponent = /** @class */ (function () {
+    //
+    // ─── CONSTRUCTOR ────────────────────────────────────────────────────────────────
+    //
     function RoomsComponent(http, msgService) {
         this.http = http;
         this.msgService = msgService;
@@ -3072,6 +3318,9 @@ var RoomsComponent = /** @class */ (function () {
             .catch(function (error) { return console.log(error); });
     };
     // ─────────────────────────────────────────────────────────────────
+    //
+    // ─── SUBSCRIBE TO ROOM ──────────────────────────────────────────────────────────
+    //
     RoomsComponent.prototype.subscribeToRoom = function (roomID) {
         var _this = this;
         this.chatkitUser.subscribeToRoomMultipart({
@@ -3081,6 +3330,7 @@ var RoomsComponent = /** @class */ (function () {
                     // When a message is received...
                     // Push to messages array and update view
                     _this.room_messages.push(message);
+                    // Scroll chat window to reveal latest message
                     // Get the users last cursor position from the room
                     var cursor = _this.chatkitUser.readCursor({
                         roomId: message.roomId
@@ -3113,6 +3363,7 @@ var RoomsComponent = /** @class */ (function () {
             messageLimit: 1
         });
     };
+    // ─────────────────────────────────────────────────────────────────
     //
     // ─── CREATE ROOM ────────────────────────────────────────────────────────────────
     //
@@ -3192,6 +3443,45 @@ var RoomsComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"], _Core_services_messaging_service__WEBPACK_IMPORTED_MODULE_3__["MessagingService"]])
     ], RoomsComponent);
     return RoomsComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/scroll-to-top.directive.ts":
+/*!********************************************!*\
+  !*** ./src/app/scroll-to-top.directive.ts ***!
+  \********************************************/
+/*! exports provided: ScrollToTopDirective */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ScrollToTopDirective", function() { return ScrollToTopDirective; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var ScrollToTopDirective = /** @class */ (function () {
+    function ScrollToTopDirective(el) {
+        el.nativeElement.style.backgroundColor = 'yellow';
+        console.log(el.nativeElement.offsetHeight);
+    }
+    ScrollToTopDirective = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Directive"])({
+            selector: '[appScrollToTop]'
+        }),
+        __metadata("design:paramtypes", [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"]])
+    ], ScrollToTopDirective);
+    return ScrollToTopDirective;
 }());
 
 
