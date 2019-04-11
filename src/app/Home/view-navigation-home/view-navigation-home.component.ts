@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { View } from '../../Core/_models/view';
+import {Router, ActivatedRoute, Params} from '@angular/router';
 
 @Component({
   selector: 'app-view-navigation-home',
@@ -7,16 +8,27 @@ import { View } from '../../Core/_models/view';
   styleUrls: ['./view-navigation-home.component.css']
 })
 export class ViewNavigationHomeComponent implements OnInit {
-  HomeView:View = { id: 1, name: 'Home', current: false }
-  FriendsView:View = { id: 2, name: 'Friends', current: false }
+  HomeView:View = { id: 1, name: 'Latest News', current: false }
+  FriendsView:View = { id: 2, name: 'Connections', current: false }
   ProfileView:View = { id: 3, name: 'Profile', current: false }
 
   views:View[] = [this.HomeView, this.FriendsView, this.ProfileView];
 
-  constructor() { }
+  headerText:string;
+
+  constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.HomeView.current = true;
+    this.headerText = "Latest News";
+
+    // [routerLink]="['/home']" [queryParams]="{view:'param'}"
+    this.activatedRoute.queryParams.subscribe(params => {
+      let view = params['view'];
+      console.log(view);
+  
+      this.handleViewParam(view);
+    });
   }
 
   // Display home view
@@ -39,13 +51,16 @@ export class ViewNavigationHomeComponent implements OnInit {
     this.hideAllViews();
     switch(_id){
       case 2:
-        this.ProfileView.current = true;
+        this.FriendsView.current = true;
+        this.headerText = this.FriendsView.name;
         break;
       case 3:
-        this.FriendsView.current = true;
+        this.ProfileView.current = true;
+        this.headerText = this.ProfileView.name;
         break;
       default:
         this.HomeView.current = true;
+        this.headerText = this.HomeView.name;
         break;
     }  
   }
@@ -55,5 +70,20 @@ export class ViewNavigationHomeComponent implements OnInit {
     this.views.forEach(function(view){
       view.current = false;
     })
+  }
+
+  // Display views based on url param
+  handleViewParam(param:string){
+    switch(param){
+      case "profile":
+        this.showProfileView();
+        break;
+      case "connections":
+        this.showFriendsView();
+        break;
+      default:
+        this.showHomeView();
+        break;
+    }
   }
 }

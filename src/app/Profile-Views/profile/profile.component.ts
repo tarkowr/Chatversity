@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
       username: 'peter610@mail.nmc.edu',
       password: undefined,
       university: { id: 3, name: 'NMC', state:"MI", domains:null },
-      profile: { bio: "Hello world!", major: "CIS", graduationYear: 2021, interests: "Shooting, Riding, and the Outdoors", clubs: "Phi Theta Kappa" },
+      profile: { bio: "Hello world! This is my bio.", major: "Computer Information Systems", graduationYear: 2021, interests: "Shooting, Riding, and the Outdoors", clubs: "Phi Theta Kappa" },
     }
 
     this.profile = this.user.profile;
