@@ -20,6 +20,7 @@ export class ViewNavigationHomeComponent implements OnInit {
 
   ngOnInit() {
     this.HomeView.current = true;
+<<<<<<< HEAD
     this.headerText = 'Latest News';
 
     // [routerLink]="['/home']" [queryParams]="{view:'param'}"
@@ -27,6 +28,14 @@ export class ViewNavigationHomeComponent implements OnInit {
       const view = params['view'];
       console.log(view);
 
+=======
+    this.headerText = this.HomeView.name;
+
+    // [routerLink]="['/home']" [queryParams]="{view:'param'}"
+    this.activatedRoute.queryParams.subscribe(params => {
+      let view = params['view'];
+  
+>>>>>>> 2f13387edcb2178a9a1b73a02096e66c00655599
       this.handleViewParam(view);
     });
   }

@@ -60,3 +60,7 @@ app-messages, app-rooms {
   color: #0E425F;
   border: 1px solid #bddef1;
 }
+
+.page-content{
+  height: calc(100% - 57px);
+}

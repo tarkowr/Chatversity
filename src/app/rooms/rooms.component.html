@@ -1,27 +1,23 @@
-<div class="container-fluid">
-  <div class="row shadow-sm align-items-center py-2" id="messages_header">
-    <div class="col-4">
-        <div class="d-flex align-items-center">
-          <span class="text-uppercase">Rooms</span>
-          <!-- Add Room -->
-          <button type="button" class="ml-auto btn btn-outline-primary" data-toggle="modal" data-target="#addRoomModal" (click)="roomCreated = false" placement="left" ngbTooltip="Create Room" triggers="hover" [autoClose]="true">
-            <i class="fa fa-plus"></i>
-          </button>
-        </div>
-    </div>
-    <div class="col-8">
-      <div class="d-flex align-items-center">
-        <ng-container *ngIf="current_room">
-            <span class="text-uppercase">{{ current_room.name }}</span>
-        </ng-container>
-          <!-- Add Room -->
-          <button type="button" class="ml-auto btn btn-outline-primary" data-toggle="modal" data-target="#addRoomModal" placement="left" ngbTooltip="Edit Room" triggers="hover" [autoClose]="true">
-            <i class="fa fa-cog"></i>
-          </button>
-        </div>
-    </div>
-  </div>
-  <div class="row" style="height: calc(100vh - 54px);">
+<div class="container-fluid" style="height:100vh;">
+
+  <ng-container *ngIf="current_room">
+    <app-top-bar [viewName]="'Rooms'" [headerText]="current_room.name"></app-top-bar>
+  </ng-container>
+
+  <ng-container *ngIf="!current_room">
+    <app-top-bar [viewName]="'Rooms'"></app-top-bar>
+  </ng-container>
+
+
+  <!--<button type="button" class="ml-auto btn btn-outline-primary" data-toggle="modal" data-target="#addRoomModal" (click)="roomCreated = false" placement="left" ngbTooltip="Create Room" triggers="hover" [autoClose]="true">
+    <i class="fa fa-plus"></i>
+  </button>-->
+
+  <!--<button type="button" class="ml-auto btn btn-outline-primary" data-toggle="modal" data-target="#addRoomModal" placement="left" ngbTooltip="Edit Room" triggers="hover" [autoClose]="true">
+    <i class="fa fa-cog"></i>
+  </button>-->
+
+  <div class="row page-content">
     <div class="col-4 h-100 overflow-auto">
         
           <!-- Begin rooms list -->

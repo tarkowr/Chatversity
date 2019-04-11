@@ -56,7 +56,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { RoomsComponent } from './rooms/rooms.component';
+<<<<<<< HEAD
 import { ScrollToTopDirective } from './scroll-to-top.directive';
+=======
+import { PrivacySettingsComponent } from './Settings-Views/privacy-settings/privacy-settings.component';
+import { SecuritySettingsComponent } from './Settings-Views/security-settings/security-settings.component';
+import { ConnectionSettingsComponent } from './Settings-Views/connection-settings/connection-settings.component';
+import { TopBarComponent } from './Shared/top-bar/top-bar.component';
+>>>>>>> 2f13387edcb2178a9a1b73a02096e66c00655599
 
 const config = {
   issuer: 'https://dev-117825.okta.com',
@@ -89,7 +96,14 @@ const config = {
     ViewNavigationHomeComponent,
     ViewFriendsHomeComponent,
     RoomsComponent,
+<<<<<<< HEAD
     ScrollToTopDirective
+=======
+    PrivacySettingsComponent,
+    SecuritySettingsComponent,
+    ConnectionSettingsComponent,
+    TopBarComponent
+>>>>>>> 2f13387edcb2178a9a1b73a02096e66c00655599
   ],
   imports: [
     RouterModule.forRoot(routes),
