@@ -1,24 +1,25 @@
-<div class="container">
-  <div class="w-100 h-100" style="background-color:white;">
+<div class="container-fluid">
     <div class="row">
-      <div class="col-12 col-sm-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3 my-4">
-        <div class="text-center mb-5 mt-3">
-          <h2 class="text-secondary">Profile</h2>
-        </div>
+      <div class="col-12 col-sm-12 col-lg-8 my-3">
+
         <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
 
           <div *ngIf="submitted && (f.firstname.errors || f.lastname.errors)">
             <div class="alert alert-danger" role="alert">Unable to update profile.</div>
           </div>
 
-          <button *ngIf="!editMode" class="btn btn-primary btn-block my-3 py-3" (click)="onClickEdit()">EDIT PROFILE</button>
+          <button *ngIf="!editMode" class="btn btn-primary btn-block my-3 py-3 text-uppercase" (click)="onClickEdit()">
+              Edit Profile <span class="fas fa-pencil ml-2"></span>
+          </button>
           
           <div class="row">
             <div class="col-12 col-sm-6 col-md-6">
   
               <!--First Name-->
               <div class="form-group mb-3">
-                <label for="firstname" class="text-secondary">First Name <span class="text-danger" *ngIf="editMode">*</span></label>
+                <label for="firstname" class="text-secondary">First Name 
+                  <span class="text-danger" *ngIf="editMode">*</span>
+                </label>
                 <input type="text" class="form-control" id="firstname" name="firstname" placeholder="John" required
                 formControlName="firstname"
                 [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }">
@@ -32,7 +33,9 @@
               <!--Last Name-->
               <div class="col-12 col-sm-6 col-md-6">
                 <div class="form-group mb-3">
-                  <label for="lastname" class="text-secondary">Last Name <span class="text-danger" *ngIf="editMode">*</span></label>
+                  <label for="lastname" class="text-secondary">Last Name
+                     <span class="text-danger" *ngIf="editMode">*</span>
+                  </label>
                   <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Doe" required
                   formControlName="lastname"
                   [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }">
@@ -51,7 +54,7 @@
           </div>
 
           <div class="row">
-            <div class="col-12 col-sm-8 col-md-8">
+            <div class="col-12 col-lg-8">
 
               <!--Major-->
               <div class="form-group mb-3">
@@ -62,7 +65,7 @@
             </div>
 
             <!--Graduation Year-->
-            <div class="col-12 col-sm-4 col-md-4">
+            <div class="col-12 col-lg-4">
               <div class="form-group mb-3">
                 <label for="graduationYear" class="text-secondary">Graduation Year</label>
                 <input type="number" class="form-control" id="graduationYear" name="graduationYear" placeholder="2025"
@@ -85,7 +88,8 @@
             formControlName="clubs">
           </div>
      
-          <button *ngIf="editMode" [disabled]="loading" type="submit" class="btn btn-secondary btn-block mt-4 mb-3 py-3">UPDATE PROFILE</button>
+          <!--Submit Button-->
+          <button *ngIf="editMode" [disabled]="loading" type="submit" class="btn btn-secondary btn-block mt-4 mb-3 py-3 text-uppercase">Update Profile</button>
           <div class="text-center">
               <img *ngIf="loading"
               src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />  
@@ -94,5 +98,4 @@
         </form>
       </div>
     </div>
-  </div>
 </div>

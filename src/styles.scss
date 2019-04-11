@@ -32,7 +32,6 @@ app-messages, app-rooms {
     width: calc(100vw - 88px);
     height: 100%;
     background-color:#DAE6ED;
-    overflow-y: scroll;
 }
 
 .text-strong{
@@ -63,4 +62,8 @@ app-messages, app-rooms {
 
 .page-content{
   height: calc(100% - 57px);
+}
+
+.fa, .fas {
+  font-family: "Font Awesome 5 Pro" !important;
 }

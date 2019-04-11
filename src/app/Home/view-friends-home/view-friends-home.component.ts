@@ -169,12 +169,15 @@ export class ViewFriendsHomeComponent implements OnInit {
   // ─── RETURN USER FROM FRIEND LIST ───────────────────────────────────────────────
   //
 
-    getUser(_id: number): User {
-      return this.connections.find(c => c.id === _id);
-    }
+  getUser(_id: number): User {
+    return this.connections.find(c => c.id === _id);
+  }
   // ────────────────────────────────────────────────────────────────────────────────
-
-
+  
+  sortList(users:User[]){
+    return  users.sort((a, b) => ((a.firstName.toLowerCase() + ' ' + a.lastName.toLowerCase()) 
+    > (b.firstName.toLowerCase() + ' ' + b.lastName.toLowerCase()) ? 1 : -1));
+  }
 
   //
   // ─── FILTER LIST OF USERS BY NAME ───────────────────────────────────────────────
