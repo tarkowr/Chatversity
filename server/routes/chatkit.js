@@ -76,15 +76,38 @@ router.post('/testing', (req, res) => {
   });
 });
 
-// Get a User
-router.post('/getuser', (req, res) => {
 
+
+//
+// ─── GET USER ───────────────────────────────────────────────────────────────────
+//
+  
+  router.post('/getuser', (req, res) => {
+
+      chatkit.getUser({
+          id: req.body.user_id,
+      })
+      .then(user => res.status(200).json(user))
+      .catch(err => res.status(500).send(err));
+  });
+// ────────────────────────────────────────────────────────────────────────────────
+
+
+
+//
+// ─── GET USER BY ID ─────────────────────────────────────────────────────────────
+//
+
+  router.get('/GetUserById/:userId', (req, res) => {
     chatkit.getUser({
-        id: req.body.user_id,
+      id: req.params.userId,
     })
     .then(user => res.status(200).json(user))
-    .catch(err => res.status(500).send(err));
-});
+    .catch(error => res.status(500).send(error))
+  })
+// ────────────────────────────────────────────────────────────────────────────────
+
+
 
 var type = upload.single('file');
 // Upload room or user avatar to Mongo
