@@ -20,7 +20,7 @@ export class ViewNavigationHomeComponent implements OnInit {
 
   ngOnInit() {
     this.HomeView.current = true;
-    this.headerText = "Latest News";
+    this.headerText = this.HomeView.name;
 
     // [routerLink]="['/home']" [queryParams]="{view:'param'}"
     this.activatedRoute.queryParams.subscribe(params => {

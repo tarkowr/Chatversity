@@ -7,12 +7,12 @@
       <div class="my-3 px-1">
         <button class="btn btn-block custom-btn text-left my-2 p-3" (click)="showProfileView()"
         [ngClass]="{ 'active': ProfileView.current }">My Profile</button>
-        <button class="btn btn-block custom-btn text-left my-2 p-3" (click)="showPrivacy()"
-        [ngClass]="{ 'active': Privacy.current }">Privacy</button>
-        <button class="btn btn-block custom-btn text-left my-2 p-3" (click)="showSecurity()"
-        [ngClass]="{ 'active': Security.current }">Security</button>
-        <button class="btn btn-block custom-btn text-left my-2 p-3" (click)="showConnections()"
-        [ngClass]="{ 'active': Connections.current }">Connections</button>
+        <button class="btn btn-block custom-btn text-left my-2 p-3" (click)="showPrivacyView()"
+        [ngClass]="{ 'active': PrivacyView.current }">Privacy</button>
+        <button class="btn btn-block custom-btn text-left my-2 p-3" (click)="showSecurityView()"
+        [ngClass]="{ 'active': SecurityView.current }">Security</button>
+        <button class="btn btn-block custom-btn text-left my-2 p-3" (click)="showConnectionsView()"
+        [ngClass]="{ 'active': ConnectionsView.current }">Connections</button>
       </div>
     </div>
   
@@ -20,7 +20,8 @@
     <div *ngIf="ProfileView.current">
       <app-settings-profile></app-settings-profile>
     </div>
-   </div>
+  </div>
+
   </div>
 </div>
       
