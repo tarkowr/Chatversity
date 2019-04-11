@@ -25,6 +25,7 @@ import { RoomsComponent } from './rooms/rooms.component';
 import { PrivacySettingsComponent } from './Settings-Views/privacy-settings/privacy-settings.component';
 import { SecuritySettingsComponent } from './Settings-Views/security-settings/security-settings.component';
 import { ConnectionSettingsComponent } from './Settings-Views/connection-settings/connection-settings.component';
+import { TopBarComponent } from './Shared/top-bar/top-bar.component';
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -58,6 +59,7 @@ import { ConnectionSettingsComponent } from './Settings-Views/connection-setting
     PrivacySettingsComponent,
     SecuritySettingsComponent,
     ConnectionSettingsComponent,
+    TopBarComponent,
   ],
   imports: [
     NativeScriptModule,

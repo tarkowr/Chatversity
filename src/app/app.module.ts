@@ -59,6 +59,7 @@ import { RoomsComponent } from './rooms/rooms.component';
 import { PrivacySettingsComponent } from './Settings-Views/privacy-settings/privacy-settings.component';
 import { SecuritySettingsComponent } from './Settings-Views/security-settings/security-settings.component';
 import { ConnectionSettingsComponent } from './Settings-Views/connection-settings/connection-settings.component';
+import { TopBarComponent } from './Shared/top-bar/top-bar.component';
 
 const config = {
   issuer: 'https://dev-117825.okta.com',
@@ -93,7 +94,8 @@ const config = {
     RoomsComponent,
     PrivacySettingsComponent,
     SecuritySettingsComponent,
-    ConnectionSettingsComponent
+    ConnectionSettingsComponent,
+    TopBarComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
