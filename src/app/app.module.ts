@@ -56,6 +56,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { RoomsComponent } from './rooms/rooms.component';
+import { PrivacySettingsComponent } from './Settings-Views/privacy-settings/privacy-settings.component';
+import { SecuritySettingsComponent } from './Settings-Views/security-settings/security-settings.component';
+import { ConnectionSettingsComponent } from './Settings-Views/connection-settings/connection-settings.component';
 import { TopBarComponent } from './Shared/top-bar/top-bar.component';
 
 const config = {
@@ -89,6 +92,9 @@ const config = {
     ViewNavigationHomeComponent,
     ViewFriendsHomeComponent,
     RoomsComponent,
+    PrivacySettingsComponent,
+    SecuritySettingsComponent,
+    ConnectionSettingsComponent,
     TopBarComponent
   ],
   imports: [
