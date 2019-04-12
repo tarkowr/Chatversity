@@ -9,22 +9,23 @@
   </ng-container>
 
 
-  <button type="button" class="ml-auto btn btn-outline-primary" data-toggle="modal" data-target="#addRoomModal" (click)="roomCreated = false" placement="left" ngbTooltip="Create Room" triggers="hover" [autoClose]="true">
+  <!--<button type="button" class="ml-auto btn btn-outline-primary" data-toggle="modal" data-target="#addRoomModal" (click)="roomCreated = false" placement="left" ngbTooltip="Create Room" triggers="hover" [autoClose]="true">
     <i class="fa fa-plus"></i>
-  </button>
+  </button>-->
 
   <!--<button type="button" class="ml-auto btn btn-outline-primary" data-toggle="modal" data-target="#addRoomModal" placement="left" ngbTooltip="Edit Room" triggers="hover" [autoClose]="true">
     <i class="fa fa-cog"></i>
   </button>-->
 
   <div class="row page-content">
-    <div class="col-4 h-100 overflow-auto">
+    <div class="col-12 col-lg-3 overflow-auto" style="background-color:#F1F8FC; border-bottom:1px solid #DAE6ED;">
         
           <!-- Begin rooms list -->
           <div id="messages" class="row">
             <ng-container *ngFor="let room of rooms">
-                <div class="col-12">
-                    <button class="btn btn-block custom-btn text-left mr-4 my-2 p-3" (click)="joinRoom(room.id)">
+                <div class="col-12 my-2 px-3">
+                    <button class="btn btn-block custom-btn text-left my-2 p-3" (click)="joinRoom(room.id)"
+                    [ngClass]="{ 'active': current_room.id == room.id }">
                         <div class="room d-flex align-items-center justify-content-between">
                             <ng-container *ngIf="room?.custom_data !== undefined">
                                 <div class="" [ngStyle]="{ 'background-image': 'url(assets/avatars/' + room.customData.roomAvatar + ')', 'height':'50px', 'width':'50px', 'background-size':'cover', 'background-position':'center, center' }">
@@ -44,10 +45,10 @@
             </div>
           </div>
     </div>
-    <div class="col-8 h-100 overflow-auto" style="background:#FAFDFF;">
+    <div class="col-12 col-lg-9 overflow-auto" style="background-color: #fafdff; border-left:1px solid #DAE6ED;">
       <div class="chat-window overflow-auto" style="height: calc(100vh - 157px); position:relative;">
         <ng-container *ngIf="room_messages">
-          <div class="container" #chatReel>
+          <div class="container-fluid mt-3" #chatReel>
             <div *ngFor="let message of room_messages">
                 <ng-container *ngIf="message.room.id===current_room.id">
                     <div class="row" id="chatReel">
@@ -66,7 +67,7 @@
       </div>
       <div class="chat-footer" style="position: absolute; bottom: 0; left: 0; width: 100%;">
         <form (ngSubmit)='sendMessage()'>
-          <input placeholder="Type a message. Hit Enter to send" type="text" name="message" [(ngModel)]="message">
+          <input [placeholder]="(current_room) ? 'Message ' + current_room.name : 'Message'" type="text" name="message" [(ngModel)]="message">
         </form>
       </div>
     </div>

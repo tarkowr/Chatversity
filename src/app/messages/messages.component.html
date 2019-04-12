@@ -11,13 +11,14 @@
   </button>-->
 
   <div class="row page-content">
-    <div class="col-4 h-100 overflow-auto">
+    <div  class="col-12 col-lg-3 overflow-auto" style="background-color:#F1F8FC; border-bottom:1px solid #DAE6ED;">
         
           <!-- Begin Messages outlet -->
           <div id="messages" class="row">
             <ng-container *ngFor="let room of rooms">
-              <div class="col-12">
-                <button class="btn btn-block custom-btn text-left mr-4 my-2 p-3" (click)="joinRoom(room.id)">
+              <div class="col-12 my-2 px-3">
+                <button class="btn btn-block custom-btn text-left mr-4 my-2 p-3" (click)="joinRoom(room.id)"
+                [ngClass]="{ 'active': current_room.id == room.id }">
                     <div class="room d-flex align-items-center justify-content-between">
                         <ng-container *ngIf="room?.custom_data !== undefined">
                             <!-- <img src="{{ room.custom_data.roomAvatar }}" alt=""> -->
@@ -36,7 +37,7 @@
             </div>
           </div>
     </div>
-    <div class="col-8 h-100 overflow-auto" style="background:#FAFDFF;">
+    <div class="col-12 col-lg-9 overflow-auto" style="background-color: #fafdff; border-left:1px solid #DAE6ED;">
       <div class="chat-window h-100 overflow-auto">
         <ng-container *ngIf="room_messages">
           <div class="row">

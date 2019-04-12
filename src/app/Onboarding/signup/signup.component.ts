@@ -32,6 +32,7 @@ export class SignupComponent implements OnInit {
   returnUrl: string;
   universities: University[];
   searchingForSchool = false;
+  wrongUniversity:boolean = false;
   formValidation: CustomFormValidation = new CustomFormValidation();
 
   constructor(
@@ -77,7 +78,7 @@ export class SignupComponent implements OnInit {
   // ─── CHECK FOR VALID UNIVERSITY ─────────────────────────────────────────────────
   //
   checkUniversity(_id: number): boolean {
-    console.log('University Id:' + _id);
+    //console.log('University Id:' + _id);
     return (this.universities.find(x => x.id.toString() === _id.toString())) ? true : false;
   }
 
