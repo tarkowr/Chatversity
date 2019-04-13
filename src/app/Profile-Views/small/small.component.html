@@ -18,11 +18,11 @@
         class="rounded img-fluid mx-auto mb-1 d-block">
 
         <!-- User's Name -->
-        <div class="h3 text-secondary text-light-weight mt-3">{{ this.user.firstName }} {{ this.user.lastName }} </div>
+        <div class="h3 text-secondary text-light-weight mt-3">{{ this.user.name }} </div>
 
         <!-- User's Info -->
-        <p class="text-primary">&mdash; Class of {{this.user.profile.graduationYear}} &mdash;</p>
-        <p class="text-secondary mt-2">{{this.user.profile.bio}}</p>
+        <p class="text-primary">&mdash; Class of {{this.user.custom_data.profile.graduationYear}} &mdash;</p>
+        <p class="text-secondary mt-2">{{this.user.custom_data.profile.bio}}</p>
       </div>
 
       <!-- Footer -->
