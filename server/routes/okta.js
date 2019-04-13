@@ -74,6 +74,42 @@ router.get('/', (req, res) => {
 // ────────────────────────────────────────────────────────────────────────────────
 
 
+//
+// ─── HANDLE USER SIGNUP ──────────────────────────────────────────────────────────
+//
+
+  // TODO: Update to dynamically pull url from config
+  router.post('/signup', (req, res) => {
+    console.log("request: ");
+    console.log(req);
+    axios.post(`https://dev-117825.okta.com/api/v1/users`, {
+      "profile": {
+      "firstName": req.body.fName,
+      "lastName": req.body.lName,
+      "email": req.body.username,
+      "login": req.body.username
+      },
+      "credentials": {
+        "password" : { "value": req.body.password }
+      }
+    }, 
+    {
+      headers:{
+        "Accept":'application/json',
+        "Content-Type": 'application/json'
+      }
+    })
+    .then(user => { 
+      // TODO: Create and return Session with Session Token 
+      // TODO: https://developer.okta.com/docs/api/resources/sessions/#create-session-with-session-token
+        res.status(200).json(user.data);
+    })
+    .catch(error => {
+      res.status(500).send('<p>'+ error +'</p>');
+    });
+});
+// ────────────────────────────────────────────────────────────────────────────────
+
 
 //
 // ─── HANDLE USER FORGOT PASSWORD ────────────────────────────────────────────────
