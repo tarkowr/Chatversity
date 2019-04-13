@@ -5,6 +5,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment.prod';
+import { UserService } from '../../Core/_services/user.service';
+import { MessagingService } from '../../Core/_services/messaging.service';
 
 @Component({
   selector: 'app-view-friends-home',
@@ -15,9 +17,10 @@ export class ViewFriendsHomeComponent implements OnInit {
   searchForm: FormGroup;
   loading = false;
   submitted = false;
-  connections: User[];
+  connections: any;
   connection: User;
   isConnection = false;
+  user: any;
 
   // Field for connection
   connectionToAdd = new FormControl('');
@@ -27,102 +30,33 @@ export class ViewFriendsHomeComponent implements OnInit {
   // ─── CONSTRUCTOR ────────────────────────────────────────────────────────────────
   //
 
-    constructor(private http: HttpClient, private formBuilder: FormBuilder) { }
+    constructor(private http: HttpClient,
+      private formBuilder: FormBuilder,
+      private _userService: UserService,
+      private _msgService: MessagingService) { }
   // ────────────────────────────────────────────────────────────────────────────────
 
   results: User[];
 
   ngOnInit() {
 
+    // Instantiate chatkit
+    this._msgService.chatManager.connect()
+    .then((user) => {
+      this.user = user;
+
+      // Load user connections
+      this._userService.getConnections(this.user.id)
+      .toPromise()
+      .then((connections) => {
+        this.connections = connections;
+      });
+    });
+
     // Setup search box
     this.searchForm = this.formBuilder.group({
       search: ['', Validators.required]
     });
-
-    // DELETE THIS TEST DATA WHEN USER SERVICE IS AVAILABLE
-    this.connections = [
-      {
-        id: 1,
-        firstName: 'Richie',
-        lastName: 'Tarkowski',
-        username: '',
-        password: '',
-        university: null,
-        profile: {
-          bio: 'This is my bio!',
-          major: 'CIS',
-          graduationYear: 2021,
-          interests: 'NA',
-          clubs: 'none'
-        },
-        active: true
-      },
-      {
-        id: 2,
-        firstName: 'Connor',
-        lastName: 'Hansen',
-        username: '',
-        password: '',
-        university: null,
-        profile: {
-          bio: 'Hello World!',
-          major: 'CS',
-          graduationYear: 2020,
-          interests: 'Web Design',
-          clubs: 'Robotics'
-        },
-        active: true
-      },
-      {
-        id: 3,
-        firstName: 'Scott',
-        lastName: 'Peterson',
-        username: '',
-        password: '',
-        university: null,
-        profile: {
-          bio: 'Hi, everyone!',
-          major: 'Engineering',
-          graduationYear: 2019,
-          interests: 'Lacross',
-          clubs: 'Engineering Club'
-        },
-        active: false
-      },
-      {
-        id: 4,
-        firstName: 'Noah',
-        lastName: 'Osterhout',
-        username: '',
-        password: '',
-        university: null,
-        profile: {
-          bio: 'Progammer',
-          major: 'Computer Information Systems',
-          graduationYear: 2021,
-          interests: 'Programming',
-          clubs: 'CIS Club'},
-        active: false
-      },
-      {
-        id: 5,
-        firstName: 'Cati',
-        lastName: 'Kujawski',
-        username: '',
-        password: '',
-        university: null,
-        profile: {
-          bio: 'Hello World',
-          major: 'FSU',
-          graduationYear: 2018,
-          interests: 'Soccer',
-          clubs: 'Soccer Club'
-        },
-        active: true
-      }
-    ];
-
-    this.connection = this.connections[0];
   }
 
   //
@@ -173,9 +107,9 @@ export class ViewFriendsHomeComponent implements OnInit {
     return this.connections.find(c => c.id === _id);
   }
   // ────────────────────────────────────────────────────────────────────────────────
-  
-  sortList(users:User[]){
-    return  users.sort((a, b) => ((a.firstName.toLowerCase() + ' ' + a.lastName.toLowerCase()) 
+
+  sortList(users: User[]) {
+    return  users.sort((a, b) => ((a.firstName.toLowerCase() + ' ' + a.lastName.toLowerCase())
     > (b.firstName.toLowerCase() + ' ' + b.lastName.toLowerCase()) ? 1 : -1));
   }
 
@@ -185,8 +119,8 @@ export class ViewFriendsHomeComponent implements OnInit {
 
     getUsersByName(_name: string) {
       _name = _name.toLowerCase();
-      this.results = this.connections.filter(c => 
-        (c.firstName.toLowerCase() + ' ' + c.lastName.toLowerCase()).includes(_name)).slice(0,5);
+      this.results = this.connections.filter(c =>
+        (c.firstName.toLowerCase() + ' ' + c.lastName.toLowerCase()).includes(_name)).slice(0, 5);
     }
   // ────────────────────────────────────────────────────────────────────────────────
 
@@ -236,7 +170,7 @@ export class ViewFriendsHomeComponent implements OnInit {
       return;
     }
 
-    let query:string = this.searchForm.get('search').value;
+    const query: string = this.searchForm.get('search').value;
 
     this.getUsersByName(query);
 
