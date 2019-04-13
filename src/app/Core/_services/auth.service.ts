@@ -24,10 +24,23 @@ export class AuthService {
     // ─── SEND SIGN UP REQUEST TO SERVER ─────────────────────────────────────────────
     //
 
-        signup(fname: string, lname: string, universityId: number, username: string, password: string) {
-            console.log(fname, lname, universityId, username, password);
-            return;
-        }
+    signup(fname: string, lname: string, university:string, username: string, password: string) {
+        console.log(fname, lname, university, username, password);
+
+        return this.http.post<any>(`${environment.apiUrl}/okta/signup`, { fname, lname, username, password })
+        .pipe(switchMap(user => {
+            const user_id = user._embedded.user.id;
+            console.log(user);
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            this.currentUserSubject.next(user);
+            return this.http.post(`${environment.apiUrl}/chatkit/createtoken`, {user_id});
+        }))
+        .pipe(map(data => {
+            console.log(data);
+            localStorage.setItem('chatkitToken', JSON.stringify(data));
+            return data;
+        }));
+    }
     // ─────────────────────────────────────────────────────────────────
 
 

@@ -34,6 +34,7 @@ export class SignupComponent implements OnInit {
   searchingForSchool = false;
   wrongUniversity:boolean = false;
   formValidation: CustomFormValidation = new CustomFormValidation();
+  guessUniversity:string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -87,16 +88,30 @@ export class SignupComponent implements OnInit {
   //
   findUniversity(query: string) {
     this.searchingForSchool = true;
-    console.log(query);
+    //console.log(query);
 
-    this.http.get(`${environment.apiUrl}/university/${query}`)
+    return this.http.get(`${environment.apiUrl}/university/${query}`)
     .toPromise()
     .then(university => {
-      console.log(university);
+      //console.log(university);
+      return university;
     })
     .catch(error => {
       this.searchingForSchool = false;
+      return null;
     });
+  }
+
+  async getUniversity(query: string){
+    let data = new Object();
+    data = await this.findUniversity(query);
+
+    if(data){
+      this.guessUniversity = data['name'];
+    }
+    else{
+      this.guessUniversity = null;
+    }
   }
 
   //
@@ -113,12 +128,12 @@ export class SignupComponent implements OnInit {
     }
 
     // Stop if invalid university
-    if (!(this.checkUniversity(this.signupForm.get('university').value))) {
+    /*if (!(this.checkUniversity(this.signupForm.get('university').value))) {
       console.log('Invalid University.');
       this.f.university.setErrors({'invalid': true});
       this.loading = false;
       return;
-    }
+    }*/
 
     // Create obj to hold formdata
     const formData: FormData = new FormData();
@@ -126,12 +141,17 @@ export class SignupComponent implements OnInit {
     // Append input to form data
     formData.append('firstname', this.signupForm.get('firstname').value);
     formData.append('lastname', this.signupForm.get('lastname').value);
-    formData.append('university', this.signupForm.get('university').value);
+    formData.append('university', this.guessUniversity);
     formData.append('username', this.signupForm.get('username').value);
     formData.append('password', this.signupForm.get('password').value);
 
-    this.auth.signup(this.f.firstname.value, this.f.lastname.value, this.f.university.value, this.f.username.value, this.f.password.value);
-
-    this.loading = false;
+    this.auth.signup(this.f.firstname.value, this.f.lastname.value, this.guessUniversity, this.f.username.value, this.f.password.value)
+    .pipe(first()).subscribe(data => {
+      this.router.navigate([this.returnUrl]);
+    },
+    error => {
+      this.loading = false;
+      this.f.username.setErrors({invalid: true});
+    });
   }
 }
