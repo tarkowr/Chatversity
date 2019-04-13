@@ -233,56 +233,63 @@ export class MessagesComponent implements OnInit {
     });
   }
 
-  // Create room
-  createRoom() {
-    this.roomCreated = true; return;
-    // this.isLoading = true; // Display loading icon
-    const roomName = this.formImport.value.roomNameGroup.roomName;
-    const privateRoom = this.formImport.value.privateRoomGroup.privateRoom;
-    const roomAvatar = this.formImport.value.importFileGroup.importFile;
-    console.log(this.formImport.value.roomNameGroup.roomName);
-    console.log(this.formImport.value.privateRoomGroup.privateRoom);
-    console.log(this.formImport.value.importFileGroup.importFile);
 
-    console.log(this.fileToUpload);
-    console.log(this.formImport.value);
 
-    const formData = new FormData();
-    const b64string = JSON.stringify(this.imagePath);
+  //
+  // ─── CREATE ROOM ────────────────────────────────────────────────────────────────
+  //
 
-    formData.append('file', b64string);
-    formData.append('testvar', 'my test var value');
+    createRoom() {
+      this.roomCreated = true; return;
+      // this.isLoading = true; // Display loading icon
+      const roomName = this.formImport.value.roomNameGroup.roomName;
+      const privateRoom = this.formImport.value.privateRoomGroup.privateRoom;
+      const roomAvatar = this.formImport.value.importFileGroup.importFile;
+      console.log(this.formImport.value.roomNameGroup.roomName);
+      console.log(this.formImport.value.privateRoomGroup.privateRoom);
+      console.log(this.formImport.value.importFileGroup.importFile);
 
-    console.log(formData);
+      console.log(this.fileToUpload);
+      console.log(this.formImport.value);
 
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    headers.append('Accept', 'application/json');
+      const formData = new FormData();
+      const b64string = JSON.stringify(this.imagePath);
 
-    // Create room and insert room avatar into database
-    this.http.post(`${environment.apiUrl}/asdf`, formData)
-    .toPromise()
-    .then(res => { // Image uploaded
-      console.log(res);
+      formData.append('file', b64string);
+      formData.append('testvar', 'my test var value');
 
-      console.log('Image uploaded');
-      this.chatkitUser.createRoom({ // Create the room
-        name: roomName,
-        private: true,
-        customData: { roomAvatar: res['_id'] },
-      }).then(room => { // Success
-        // this.isLoading = false;
-        this.roomCreated = true;
-        console.log(`Created room called ${room.name}`);
+      console.log(formData);
+
+      const headers = new HttpHeaders();
+      headers.append('Content-Type', 'application/x-www-form-urlencoded');
+      headers.append('Accept', 'application/json');
+
+      // Create room and insert room avatar into database
+      this.http.post(`${environment.apiUrl}/asdf`, formData)
+      .toPromise()
+      .then(res => { // Image uploaded
+        console.log(res);
+
+        console.log('Image uploaded');
+        this.chatkitUser.createRoom({ // Create the room
+          name: roomName,
+          private: true,
+          customData: { roomAvatar: res['_id'] },
+        }).then(room => { // Success
+          // this.isLoading = false;
+          this.roomCreated = true;
+          console.log(`Created room called ${room.name}`);
+        })
+        .catch(err => { // Failed room creation
+          console.log(`Error creating room ${err}`);
+        });
       })
-      .catch(err => { // Failed room creation
-        console.log(`Error creating room ${err}`);
+      .catch(err => { // Failed image upload
+        console.log('Error uploading room image');
       });
-    })
-    .catch(err => { // Failed image upload
-      console.log('Error uploading room image');
-    });
-  }
+    }
+  // ─────────────────────────────────────────────────────────────────
+
 
 
   ngOnInit() {
@@ -291,12 +298,9 @@ export class MessagesComponent implements OnInit {
     .subscribe(notification => this.notificationCount = notification);
 
     // TODO: Add this to an addUser function - only call when necessary
-    this.msgService.chatManager
-    .connect()
-    .then(user => {
-      console.log('Connected as user ', user);
-      this.chatkitUser = user;
-      this.rooms = user.rooms;
+      console.log('Connected as user ', this.msgService.chatkitUser);
+      this.chatkitUser = this.msgService.chatkitUser;
+      this.rooms = this.msgService.chatkitUser.rooms;
 
       // Iterate through rooms and subscribe to each
       this.rooms.forEach(room => {
@@ -321,10 +325,7 @@ export class MessagesComponent implements OnInit {
           this.room_messages = messages;
         });
       });
-    })
-    .catch(error => {
-      console.error('error:', error);
-    });
+
 
     // Get user id from local storage
     const user_id = JSON.parse(localStorage.getItem('currentUser'))._embedded.user.id;
