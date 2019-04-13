@@ -23,3 +23,12 @@
         display: none;
     }
 }
+#logout{
+    z-index: 10;  
+    position: absolute;  
+    right: 55px;
+}
+#logoutLink:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
