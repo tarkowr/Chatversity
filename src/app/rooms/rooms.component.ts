@@ -324,9 +324,9 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
       // Join first room in array
       // TODO: refactor this implementation
+      // TODO: Initially load room with most recent read cursor
       this.chatkitUser.joinRoom({roomId: user.rooms[0].id}).then(room => {
         this.current_room = room;
-
 
         // Fetch all messages for joined room
         this.chatkitUser.fetchMultipartMessages({

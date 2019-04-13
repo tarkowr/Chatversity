@@ -8,9 +8,9 @@ import { UserProfile } from '../../Core/_models/profile';
   styleUrls: ['./small.component.css']
 })
 export class SmallComponent implements OnInit {
-  
-  @Input() user: User;
-  @Input() isConnection: boolean = false;
+
+  @Input() user: any;
+  @Input() isConnection = false;
 
   constructor() { }
 
@@ -18,7 +18,7 @@ export class SmallComponent implements OnInit {
 
   }
 
-  addConnection(){
+  addConnection() {
     this.isConnection = true;
   }
 

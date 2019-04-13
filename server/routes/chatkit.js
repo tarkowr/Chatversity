@@ -105,21 +105,20 @@ router.post('/testing', (req, res) => {
 // 
 
   // TODO: Richie add update user here 
-  router.post('/updateUser', (req, res) => {
-  
-    dataToUpdate = req.body.userData
-
-
-  
+  router.get('/updateUser/:id', (req, res) => {
+    
     chatkit.updateUser({
-      id: "22",
+      id: req.params.id,
       customData: {
-        avatarURL: "adsf"
+        profile: {
+          bio: "This is Richie's Bio!",
+          graduationYear: 2020,
+        }
       },
 
     })
-    .then(user => res.status(200).json(user))
-    .catch(err => res.status(500).send(err));
+    .then(user => res.status(200).send('User updated successfully!'))
+    .catch(err => res.status(500).send(err))
   });
 // ────────────────────────────────────────────────────────────────────────────────
 
