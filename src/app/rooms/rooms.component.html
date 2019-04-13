@@ -54,7 +54,10 @@
                     <div class="row" id="chatReel">
                         <!-- Messages -->
                         <div class="col-12">
-                          <span>{{ current_room.userStore.users[message.senderId].name }}</span>
+                          <span>
+                            {{ current_room.userStore.users[message.senderId].name }} 
+                            <small style="color:#717171; font-size:12px;">{{ message.createdAt | date:'shortTime' }}</small>
+                          </span>
                           <p style="color:#626e7a; font-size:15px;">{{ message.parts[0].payload.content }}</p>
                           <hr>
                         </div>
