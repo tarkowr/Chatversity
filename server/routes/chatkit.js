@@ -77,6 +77,53 @@ router.post('/testing', (req, res) => {
 });
 
 
+//
+// ─── GET ALL CONNECTIONS FOR A USER BY ID ───────────────────────────────────────
+//
+
+  router.get('/connections/:id', (req, res) => {
+    chatkit.getUser({
+      // Get the user
+      id: req.params.id,
+    })
+    .then((user) => {
+      // Then get all of the users connections
+      chatkit.getUsersById({
+        userIds: user.custom_data.connections,
+      })
+      .then(users => res.status(200).json(users))
+      .catch(err => console.error(err))
+    })
+    .catch(err => res.status(500).send(err))
+  })
+// ────────────────────────────────────────────────────────────────────────────────
+
+
+
+//
+// ─── UPDATE USER ────────────────────────────────────────────────────────────────
+// 
+
+  // TODO: Richie add update user here 
+  router.post('/updateUser', (req, res) => {
+  
+    dataToUpdate = req.body.userData
+
+
+  
+    chatkit.updateUser({
+      id: "22",
+      customData: {
+        avatarURL: "adsf"
+      },
+
+    })
+    .then(user => res.status(200).json(user))
+    .catch(err => res.status(500).send(err));
+  });
+// ────────────────────────────────────────────────────────────────────────────────
+
+
 
 //
 // ─── GET USER ───────────────────────────────────────────────────────────────────
