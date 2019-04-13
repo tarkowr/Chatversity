@@ -39,8 +39,8 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  // For testing only, use this function to remove the navbar on pages that do not need it
-  RemoveNavbarForTesting(){
+  // ! For testing only, use this function to remove the navbar on pages that do not need it
+  RemoveNavbarForTesting() {
     if(this.router.url == '/login' || this.router.url == '/signup' || this.router.url == '/forgot' || this.router.url == '/new-user' || this.router.url == '/404'){
       return false;
     }

@@ -44,6 +44,8 @@ export class ViewFriendsHomeComponent implements OnInit {
     this._msgService.chatManager.connect()
     .then((user) => {
       this.user = user;
+      console.log(user);
+
 
       // Load user connections
       this._userService.getConnections(this.user.id)
