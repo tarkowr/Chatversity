@@ -80,7 +80,6 @@ router.get('/', (req, res) => {
 
   // TODO: Update to dynamically pull url from config
   router.post('/signup', (req, res) => {
-    console.log("request: ");
     console.log(req);
     axios.post(`https://dev-117825.okta.com/api/v1/users`, {
       "profile": {
