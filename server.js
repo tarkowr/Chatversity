@@ -134,6 +134,26 @@ app.get("/university/:query", (req,res) => {
 
 // ────────────────────────────────────────────────────────────────────────────────
 
+//
+// ─── FIND UNIVERSITY ────────────────────────────────────────────────────────────
+//
+
+app.get("/university/name/:query", (req,res) => {
+
+  // Get the user query from request body
+  var query = req.params.query;
+
+  // Filter for university in JSON list
+  var found = universities.find(university => {
+    return university.name === query;
+  });
+
+  res.status(200).json(found);
+
+  console.log(req.params.query);
+});
+
+// ────────────────────────────────────────────────────────────────────────────────
 
 
 /**

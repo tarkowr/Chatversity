@@ -68,53 +68,6 @@
             </div>
           </div>
 
-            <!--University Select-->
-            <div class="form-group mb-3">
-              <label for="university" class="text-secondary">University <span class="text-danger">*</span></label>
-              <select name="university" required formControlName="university" class="form-control primary-border"
-                  [ngClass]="{ 'is-invalid': submitted && f.university.errors, 'danger-border': submitted && f.university.errors }">
-                  <option [value]="" [disabled]="true" [selected]="true">&mdash; Please Select a University &mdash;</option>
-                  <option [value]="nmc">Northwestern Michigan College</option>
-                  <!--<option *ngFor="let uni of universities" [value]="uni.id">{{ uni.name }}</option>-->
-              </select>
-
-              <div *ngIf="submitted && f.university.errors" class="invalid-feedback">
-                  <div *ngIf="f.university.errors.required">Please select your university.</div>
-                  <div *ngIf="f.university.errors.invalid">Invalid university.</div>
-              </div>
-          </div>
-
-          <!--<div class="dropdown">
-            <div id="myDropdown" class="dropdown-content">
-              <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
-              <a href="#about">About</a>
-              <a href="#base">Base</a>
-              <a href="#blog">Blog</a>
-              <a href="#contact">Contact</a>
-              <a href="#custom">Custom</a>
-              <a href="#support">Support</a>
-              <a href="#tools">Tools</a>
-            </div>
-          </div>
-
-          <script>
-            function filterFunction() {
-              var input, filter, ul, li, a, i;
-              input = document.getElementById("myInput");
-              filter = input.value.toUpperCase();
-              div = document.getElementById("myDropdown");
-              a = div.getElementsByTagName("a");
-              for (i = 0; i < a.length; i++) {
-                txtValue = a[i].textContent || a[i].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                  a[i].style.display = "";
-                } else {
-                  a[i].style.display = "none";
-                }
-              }
-            }
-            </script>-->
-
             <!--Username (Email) Textbox-->
             <div class="form-group mb-3">
                 <label for="username" class="text-secondary">Email <span class="text-danger">*</span></label>
@@ -132,6 +85,19 @@
                     <div *ngIf="f.username.errors.email || f.username.errors.pattern">The username {{ f.username.value }} is invalid.</div>
                 </div>
             </div>
+
+            <!--University Select-->
+            <div class="form-group mb-3">
+              <label for="university" class="text-secondary">University <span class="text-danger">*</span></label>
+              <input type="text" name="university" required formControlName="university" class="form-control primary-border"
+                  placeholder="University of Michigan" (change)="userUpdateUniversity(f.university.value)"
+                  [ngClass]="{ 'is-invalid': submitted && f.university.errors, 'danger-border': submitted && f.university.errors }">
+
+              <div *ngIf="submitted && f.university.errors" class="invalid-feedback">
+                  <div *ngIf="f.university.errors.required">Please provide your university.</div>
+                  <div *ngIf="f.university.errors.invalid">Invalid university.</div>
+              </div>
+          </div>
 
             <!--Password-->
             <div class="form-group">
