@@ -15,8 +15,8 @@
         
           <!-- Begin Messages outlet -->
           <div id="messages" class="row">
-            <ng-container *ngFor="let room of rooms">
-              <div class="col-12 my-2 px-3">
+            <ng-container *ngIf="rooms">
+              <div *ngFor="let room of rooms" class="col-12 my-2 px-3">
                 <button class="btn btn-block custom-btn text-left mr-4 my-2 p-3" (click)="joinRoom(room.id)"
                 [ngClass]="{ 'active': current_room.id == room.id }">
                     <div class="room d-flex align-items-center justify-content-between">

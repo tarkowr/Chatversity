@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { OktaAuthService } from '@okta/okta-angular';
 import { AuthService } from './Core/_services/auth.service';
 import { User } from './Core/_models/user';
 import { Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
+import { MessagingService } from './Core/_services/messaging.service';
 
 
 @Component({
@@ -17,13 +17,22 @@ export class AppComponent implements OnInit {
   title = 'Chatversity';
   // tslint:disable-next-line:no-inferrable-types
   update: boolean = false;
+  currUser: any;
 
   constructor(
       private router: Router,
       private authenticationService: AuthService,
-      updates: SwUpdate
+      updates: SwUpdate,
+      private messagingService: MessagingService
   ) {
-      this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+      this.authenticationService.currentUser.subscribe((x) => {
+        this.currentUser = x;
+        this.messagingService.chatManager.connect()
+        .then((user) => {
+          this.currUser = user;
+          console.log(user);
+        });
+      });
       updates.available.subscribe(event => {
         this.update = true;
       });
@@ -39,9 +48,13 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  // ! For testing only, use this function to remove the navbar on pages that do not need it
+  // For testing only, use this function to remove the navbar on pages that do not need it
   RemoveNavbarForTesting() {
-    if(this.router.url == '/login' || this.router.url == '/signup' || this.router.url == '/forgot' || this.router.url == '/new-user' || this.router.url == '/404'){
+    if (this.router.url === '/login'
+    || this.router.url === '/signup'
+    || this.router.url === '/forgot'
+    || this.router.url === '/new-user'
+    || this.router.url === '/404') {
       return false;
     }
 

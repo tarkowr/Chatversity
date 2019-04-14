@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { MessagingService } from '../Core/_services/messaging.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AppComponent } from '../app.component';
 
 
 @Component({
@@ -13,11 +14,44 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class RoomsComponent implements OnInit, AfterViewInit {
   // @ViewChild('chatReel') chatReel: ElementRef;
   @ViewChildren('chatReel') chatReel: QueryList<ViewContainerRef>;
+  currUser: any;
   //
   // ─── CONSTRUCTOR ────────────────────────────────────────────────────────────────
   //
 
-    constructor(private http: HttpClient, private msgService: MessagingService, elem: ElementRef) {}
+    constructor(private http: HttpClient, private msgService: MessagingService, elem: ElementRef, private app: AppComponent) {
+      this.currUser = app.currUser; // ? Refactor to 'appUser'?
+      this.rooms = app.currUser.rooms;
+
+      console.log('Connected as user ', app.currUser);
+
+      // Join first room in array
+      // TODO: refactor this implementation
+      // TODO: Initially load room with most recent read cursor
+      this.currUser.joinRoom({roomId: app.currUser.rooms[0].id}).then(room => {
+        this.current_room = room;
+
+        // Fetch all messages for joined room
+        this.app.currUser.fetchMultipartMessages({
+          roomId: room.id,
+          limit: 10,
+        }).then(messages => {
+          messages.forEach(message => {
+            console.log(message.parts[0].payload.content);
+          });
+          this.room_messages = messages;
+        });
+      });
+
+      // Iterate through rooms and subscribe to each
+      this.rooms.forEach(room => {
+        if (room.id === this.app.currUser.rooms[0].id) {
+          return;
+        }
+        this.subscribeToRoom(room.id);
+        // TODO: Check if room has read cursor and add `new` badge if not
+      });
+    }
   // ────────────────────────────────────────────────────────────────────────────────
 
 
@@ -39,7 +73,6 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   chatUser: any;
 
   _message = '';
-  chatkitUser: any;
   roomCreated: boolean;
   roomNotifications: Array<any> = [];
   get message(): string {
@@ -104,7 +137,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
     sendMessage() {
       const { message, currentUser } = this;
-      this.chatkitUser.sendMessage({
+      this.app.currUser.sendMessage({
         text: message,
         roomId: this.current_room.id,
       }).then(res => {
@@ -118,19 +151,19 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
   // Join a room
   joinRoom(roomID) {
-    this.chatkitUser.joinRoom({roomId: roomID}).then(room => {
+    this.app.currUser.joinRoom({roomId: roomID}).then(room => {
       this.current_room = room;
       console.log(this.current_room);
 
 
       // After joining room, fetch messages
-      this.chatkitUser.fetchMultipartMessages({roomId: roomID}).then(messages => {
+      this.app.currUser.fetchMultipartMessages({roomId: roomID}).then(messages => {
 
         // Check if messages
         if (messages === undefined || messages.length === 0) { return; }
 
         // Set read cursor
-        this.chatkitUser.setReadCursor({
+        this.app.currUser.setReadCursor({
           roomId: this.current_room.id,
           position: messages[messages.length - 1].id
         })
@@ -160,12 +193,12 @@ export class RoomsComponent implements OnInit, AfterViewInit {
     let hasUnread = false; // Track return status
 
     // First, check if cursor exists
-    const cursor = this.chatkitUser.readCursor({
+    const cursor = this.app.currUser.readCursor({
       roomId: roomID
     });
 
       // if read cursor ID !== latest message ID...
-      this.chatkitUser.fetchMultipartMessages({ // Get latest message
+      this.app.currUser.fetchMultipartMessages({ // Get latest message
         roomId: roomID,
         limit: 1,
       })
@@ -225,7 +258,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   //
 
     subscribeToRoom(roomID) {
-      this.chatkitUser.subscribeToRoomMultipart({
+      this.app.currUser.subscribeToRoomMultipart({
         roomId: roomID,
         hooks: {
           onMessage: message => {
@@ -238,7 +271,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
             // alert(document.getElementById('chatReel'));
 
             // Get the users last cursor position from the room
-            const cursor = this.chatkitUser.readCursor({
+            const cursor = this.app.currUser.readCursor({
               roomId: message.roomId
             });
 
@@ -249,7 +282,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
             } else {
               // Otherwise, message was sent in current room, so all we must do is update the
               // read cursor for the current user's room
-              this.chatkitUser.setReadCursor({
+              this.app.currUser.setReadCursor({
                 roomId: message.roomId,
                 position: message.id,
               });
@@ -291,7 +324,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
         roomAvatar = avatar['filename']; // Store path
         console.log(roomAvatar);
         // Create the room
-        this.chatkitUser.createRoom({ // Create the room
+        this.app.currUser.createRoom({ // Create the room
           name: roomName,
           private: false,
           customData: { roomAvatar: roomAvatar }, // Add room avatar to custom room data
@@ -314,56 +347,9 @@ export class RoomsComponent implements OnInit, AfterViewInit {
     this.msgService.notificationCount
     .subscribe(notification => this.notificationCount = notification);
 
-    // TODO: Add this to an addUser function - only call when necessary
-    this.msgService.chatManager
-    .connect()
-    .then(user => {
-      console.log('Connected as user ', user);
-      this.chatkitUser = user;
-      this.rooms = user.rooms;
-
-      // Join first room in array
-      // TODO: refactor this implementation
-      // TODO: Initially load room with most recent read cursor
-      this.chatkitUser.joinRoom({roomId: user.rooms[0].id}).then(room => {
-        this.current_room = room;
-
-        // Fetch all messages for joined room
-        this.chatkitUser.fetchMultipartMessages({
-          roomId: room.id,
-          limit: 10,
-        }).then(messages => {
-          messages.forEach(message => {
-            console.log(message.parts[0].payload.content);
-          });
-          this.room_messages = messages;
-        });
-      });
-
-      // Iterate through rooms and subscribe to each
-      this.rooms.forEach(room => {
-        if (room.id === user.rooms[0].id) {
-          return;
-        }
-        this.subscribeToRoom(room.id);
-        // TODO: Check if room has read cursor and add `new` badge if not
-      });
-
-
-    })
-    .catch(error => {
-      console.error('error:', error);
-    });
-
     // Get user id from local storage
     const user_id = JSON.parse(localStorage.getItem('currentUser'))._embedded.user.id;
   }
-
-  // logtheheight() {
-  //   if (this.chatReel.nativeElement) {
-  //     console.log(this.chatReel.nativeElement.offsetHeight);
-  //   }
-  // }
 
   ngAfterViewInit() {
     // setInterval(this.logtheheight, 3000);

@@ -28,17 +28,16 @@ export class MessagingService {
 
   constructor( private authenticationService: AuthService) {
 
-    this.authenticationService.currentUser.subscribe(x => {
-      this.currentUser = x;
+    this.currentUser = authenticationService.currentUserValue;
 
-      this.chatManager = new ChatManager({
-        instanceLocator: 'v1:us1:a54bdf12-93d6-46f9-be3b-bfa837917fb5',
-        userId: this.currentUser._embedded.user.id,
-        tokenProvider: new TokenProvider({
-          url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/a54bdf12-93d6-46f9-be3b-bfa837917fb5/token'
-        })
-      });
+    this.chatManager = new ChatManager({
+      instanceLocator: 'v1:us1:a54bdf12-93d6-46f9-be3b-bfa837917fb5',
+      userId: this.currentUser._embedded.user.id,
+      tokenProvider: new TokenProvider({
+        url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/a54bdf12-93d6-46f9-be3b-bfa837917fb5/token'
+      })
     });
+
 
 
 

@@ -62,6 +62,7 @@ import { PrivacySettingsComponent } from './Settings-Views/privacy-settings/priv
 import { SecuritySettingsComponent } from './Settings-Views/security-settings/security-settings.component';
 import { ConnectionSettingsComponent } from './Settings-Views/connection-settings/connection-settings.component';
 import { TopBarComponent } from './Shared/top-bar/top-bar.component';
+import { MessagingService } from './Core/_services/messaging.service';
 
 const config = {
   issuer: 'https://dev-117825.okta.com',
@@ -116,9 +117,10 @@ const config = {
     OktaAuthGuard,
     OktaAuthService,
     AuthService,
-    UserService
+    UserService,
+    MessagingService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 
 export class AppModule { }

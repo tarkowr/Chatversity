@@ -24,7 +24,7 @@ export class AuthService {
     // ─── SEND SIGN UP REQUEST TO SERVER ─────────────────────────────────────────────
     //
 
-    signup(fname: string, lname: string, university:string, username: string, password: string) {
+    signup(fname: string, lname: string, university: string, username: string, password: string) {
         console.log(fname, lname, university, username, password);
 
         return this.http.post<any>(`${environment.apiUrl}/okta/signup`, { fname, lname, username, password })
