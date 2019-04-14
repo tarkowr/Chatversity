@@ -33,9 +33,6 @@ export class ProfileComponent implements OnInit {
     private http: HttpClient,
     private userService: UserService) { }
 
-
-
-
   ngOnInit() {
 
     //

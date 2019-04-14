@@ -133,8 +133,6 @@ export class ViewFriendsHomeComponent implements OnInit {
   //
 
     isConnected(_id: number) {
-      this.isConnection = (_id % 2 === 1) ? true : false; // DELETE THIS LINE
-
       // Get current user data
 
       // Check if this user is on the other user's connections list

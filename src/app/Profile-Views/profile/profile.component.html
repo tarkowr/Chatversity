@@ -15,28 +15,28 @@
                     <!-- <ng-container *ngIf="this.user.presence.state">
                         User is online!
                     </ng-container> -->
+
+                    <!-- User Major and Graduation Year -->
+                    <div>
+                        <span class="text-light" style="font-weight:100;">Class of {{ this.user.customData.profile.graduationYear }}</span><br>
+                        <!-- <span class="text-primary" style="font-weight:100;">{{ this.user.profile.major }}</span> -->
+                    </div>
+    
+                    <!--User Bio-->
+                    <div class="text-left mt-3">
+                        <!-- <p>{{this.user.profile.bio}}</p> -->
+                    </div>
+    
+                    <!--User Clubs-->
+                    <div class="text-left">
+                        <!-- <p><span class="text-secondary-light">Clubs: &nbsp;</span> {{this.user.profile.clubs}}</p> -->
+                    </div>
+    
+                    <!--User Interests-->
+                    <div class="text-left">
+                        <!-- <p><span class="text-secondary-light">Interests: &nbsp;</span> {{this.user.profile.interests}}</p> -->
+                    </div>
                 </ng-container>
-
-                <!-- User Major and Graduation Year -->
-                <div>
-                    <!-- <span class="text-light" style="font-weight:100;">Class of {{ this.user.profile.graduationYear }}</span><br> -->
-                    <!-- <span class="text-primary" style="font-weight:100;">{{ this.user.profile.major }}</span> -->
-                </div>
-
-                <!--User Bio-->
-                <div class="text-left mt-3">
-                    <!-- <p>{{this.user.profile.bio}}</p> -->
-                </div>
-
-                <!--User Clubs-->
-                <div class="text-left">
-                    <!-- <p><span class="text-secondary-light">Clubs: &nbsp;</span> {{this.user.profile.clubs}}</p> -->
-                </div>
-
-                <!--User Interests-->
-                <div class="text-left">
-                    <!-- <p><span class="text-secondary-light">Interests: &nbsp;</span> {{this.user.profile.interests}}</p> -->
-                </div>
             </div>
         </div>
     </div>
