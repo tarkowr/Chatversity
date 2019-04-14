@@ -146,12 +146,12 @@ export class SignupComponent implements OnInit {
     formData.append('password', this.signupForm.get('password').value);
 
     this.auth.signup(this.f.firstname.value, this.f.lastname.value, this.guessUniversity, this.f.username.value, this.f.password.value)
-    .pipe(first()).subscribe(data => {
+    .then(data => {
       this.router.navigate([this.returnUrl]);
     },
     error => {
       this.loading = false;
-      this.f.username.setErrors({invalid: true});
+      //this.f.username.setErrors({invalid: true});
     });
   }
 }

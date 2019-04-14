@@ -27,7 +27,7 @@ export class AuthService {
         signup(fname: string, lname: string, university: string, username: string, password: string) {
             console.log(fname, lname, university, username, password);
 
-            this.http.post<any>(`${environment.apiUrl}/okta/signup`, { fname, lname, username, password })
+            return this.http.post<any>(`${environment.apiUrl}/okta/signup`, { fname, lname, username, password })
             .toPromise()
             .then((user) => {
                 const user_id = user._embedded.user.id;
