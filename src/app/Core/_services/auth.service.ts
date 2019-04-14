@@ -78,11 +78,11 @@ export class AuthService {
     // ─── HANDLE LOGOUT ──────────────────────────────────────────────────────────────
     //
 
-        logout() {
-            // TODO: Add logout function to authentication API - this is fine for now
-            // remove user from local storage to log user out
-            localStorage.removeItem('currentUser');
-            this.currentUserSubject.next(null);
-        }
+    logout() {
+        // TODO: Add logout function to authentication API - this is fine for now
+        // remove user from local storage to log user out
+        localStorage.removeItem('currentUser');
+        this.currentUserSubject.next(null);
+    }
     // ─────────────────────────────────────────────────────────────────
 }
