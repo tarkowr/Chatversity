@@ -7,6 +7,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment.prod';
 import { UserService } from '../../Core/_services/user.service';
 import { MessagingService } from '../../Core/_services/messaging.service';
+import { AppComponent } from '../../app.component';
 
 @Component({
   selector: 'app-view-friends-home',
@@ -33,7 +34,8 @@ export class ViewFriendsHomeComponent implements OnInit {
     constructor(private http: HttpClient,
       private formBuilder: FormBuilder,
       private _userService: UserService,
-      private _msgService: MessagingService) { }
+      private _msgService: MessagingService,
+      private app: AppComponent) { }
   // ────────────────────────────────────────────────────────────────────────────────
 
   results: User[];

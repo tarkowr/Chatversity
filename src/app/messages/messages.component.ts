@@ -64,11 +64,10 @@ export class MessagesComponent implements OnInit {
   });
 
   constructor(private http: HttpClient, private msgService: MessagingService, private app: AppComponent) {
-
-  console.log(app.currUser);
-  this.currUser = app.currUser;
-  this.rooms = app.currUser.rooms;
-  console.log(app.currUser.rooms);
+    console.log(this.app.currUser);
+  this.currUser = this.app.currUser;
+  this.rooms = this.app.currUser.rooms;
+  console.log(this.app.currUser.rooms);
 
     // console.log('Connected as user ', user);
     // this.app.currUser = user;
@@ -101,6 +100,10 @@ export class MessagesComponent implements OnInit {
 
   // Get user id from local storage
   const user_id = JSON.parse(localStorage.getItem('currentUser'))._embedded.user.id;
+
+    // Subscribe to new notifications
+    this.msgService.notificationCount
+    .subscribe(notification => this.notificationCount = notification);
   }
 
   url: string;
@@ -262,7 +265,7 @@ export class MessagesComponent implements OnInit {
             console.log(`Added to room ${room.name}`);
           }
         },
-        messageLimit: 1
+        messageLimit: 0
       });
     }
   // ────────────────────────────────────────────────────────────────────────────────
@@ -321,8 +324,5 @@ export class MessagesComponent implements OnInit {
 
 
   ngOnInit() {
-    // Subscribe to new notifications
-    this.msgService.notificationCount
-    .subscribe(notification => this.notificationCount = notification);
     }
 }

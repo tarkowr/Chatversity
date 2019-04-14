@@ -13,7 +13,7 @@ import { MessagingService } from './Core/_services/messaging.service';
 })
 
 export class AppComponent implements OnInit {
-  currentUser: User;
+  currentUser: any;
   title = 'Chatversity';
   // tslint:disable-next-line:no-inferrable-types
   update: boolean = false;
@@ -22,42 +22,54 @@ export class AppComponent implements OnInit {
   constructor(
       private router: Router,
       private authenticationService: AuthService,
-      updates: SwUpdate,
+      private updates: SwUpdate,
       private messagingService: MessagingService
-  ) {
-      this.authenticationService.currentUser.subscribe((x) => {
-        this.currentUser = x;
-        this.messagingService.chatManager.connect()
-        .then((user) => {
-          this.currUser = user;
-          console.log(user);
-        });
-      });
-      updates.available.subscribe(event => {
-        this.update = true;
-      });
-  }
+  ) {}
+
+  //
+  // ─── LOGOUT USER ────────────────────────────────────────────────────────────────
+  //
+
+    logout() {
+      this.authenticationService.logout();
+      this.router.navigate(['/login']);
+    }
+  // ────────────────────────────────────────────────────────────────────────────────
+
+
+
+  // !
+  // ! ─── FOR TESTING ONLY - USE THIS FUNCTION TO REMOVE THE NAVBAR ON PAGES THAT DO NOT NEED IT 
+  // !
+
+    RemoveNavbarForTesting() {
+      if (this.router.url === '/login'
+      || this.router.url === '/signup'
+      || this.router.url === '/forgot'
+      || this.router.url === '/new-user'
+      || this.router.url === '/404') {
+        return false;
+      }
+
+      return true;
+    }
+  // ! ────────────────────────────────────────────────────────────────────────────────
+
+
 
   ngOnInit() {
+    this.currentUser = this.authenticationService.currentUser;
+
+    this.messagingService.chatManager.connect()
+    .then((user) => {
+      this.currUser = user;
+      console.log(user);
+    });
+
+    this.updates.available.subscribe(event => {
+      this.update = true;
+    });
+
     console.log(this.currentUser);
-  }
-
-  // Logout user
-  logout() {
-    this.authenticationService.logout();
-    this.router.navigate(['/login']);
-  }
-
-  // For testing only, use this function to remove the navbar on pages that do not need it
-  RemoveNavbarForTesting() {
-    if (this.router.url === '/login'
-    || this.router.url === '/signup'
-    || this.router.url === '/forgot'
-    || this.router.url === '/new-user'
-    || this.router.url === '/404') {
-      return false;
-    }
-
-    return true;
   }
 }

@@ -37,7 +37,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
           limit: 10,
         }).then(messages => {
           messages.forEach(message => {
-            console.log(message.parts[0].payload.content);
+            // console.log(message.parts[0].payload.content);
           });
           this.room_messages = messages;
         });

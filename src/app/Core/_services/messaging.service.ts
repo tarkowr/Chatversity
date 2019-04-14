@@ -29,6 +29,7 @@ export class MessagingService {
   constructor( private authenticationService: AuthService) {
 
     this.currentUser = authenticationService.currentUserValue;
+    console.log(this.currentUser);
 
     this.chatManager = new ChatManager({
       instanceLocator: 'v1:us1:a54bdf12-93d6-46f9-be3b-bfa837917fb5',

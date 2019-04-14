@@ -27,54 +27,19 @@ router.get('/', (req, res) => {
     res.send('Chatkit server route works');
 });
 
-// TODO: Place this in messaging service?
-// TODO: Dynamically pull config vars from env
-const chatkit = new Chatkit.default({
-  instanceLocator: 'v1:us1:a54bdf12-93d6-46f9-be3b-bfa837917fb5',
-  key: '9d72d14f-ca75-4f3e-b7ff-553ca6cc929a:LQKR0oU5u56yMIFtEBqLECL0vhNRXllLNvgtXTLOeh0=',
-});
 
-router.post('/testing', (req, res) => {
-  console.log(req.body);
-  // res.status(201).send(req);
-  return;
-  mongoose.connect('mongodb+srv://chatversity_admin:Te0PU0MZzEQOIvmB@primary-qvaqq.mongodb.net/live_db?retryWrites=true', {useNewUrlParser: true});
 
-  var db = mongoose.connection;
-  db.on('error', console.error.bind(console, 'connection error:'));
-  db.once('open', function() {
-    // we're connected!
-    console.log('mongoose connected');
+//
+// ─── INSTANTIATE CHATKIT ────────────────────────────────────────────────────────
+//
 
-    // Define file schema
-    var fileSchema = new mongoose.Schema({
-      avatar: String
-    });
-  
-    // Create object from schema
-    var File = mongoose.model('files', fileSchema, 'files');
-  
-    var file = new File({avatar: req.body.file})
-    file.save(function (err, file) {
-      if (err) return console.error(err);
-      else { return console.log(file); }
-    });
-  
-    // File.find(function (err, files) {
-    //   if (err) return console.error(err);
-    //   console.log(files);
-    // })
-
-  // axios.post('https://webhook.site/68f42878-3fc6-4974-8fbe-0e434e858be6', req)
-  // .then(function (response) {
-  //   // console.log(response);
-  //   res.status(200).json(response.data);
-  // })
-  // .catch(function (error) {
-  //   console.log('error');
-  // });
+  // TODO: Dynamically pull config vars from env
+  const chatkit = new Chatkit.default({
+    instanceLocator: 'v1:us1:a54bdf12-93d6-46f9-be3b-bfa837917fb5',
+    key: '9d72d14f-ca75-4f3e-b7ff-553ca6cc929a:LQKR0oU5u56yMIFtEBqLECL0vhNRXllLNvgtXTLOeh0=',
   });
-});
+// ────────────────────────────────────────────────────────────────────────────────
+
 
 
 //
