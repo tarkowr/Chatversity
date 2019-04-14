@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { User } from '../../Core/_models/user';
-import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment.prod';
 import { UserService } from '../../Core/_services/user.service';
 import { MessagingService } from '../../Core/_services/messaging.service';
@@ -15,15 +13,16 @@ import { AppComponent } from '../../app.component';
   styleUrls: ['./view-friends-home.component.css']
 })
 export class ViewFriendsHomeComponent implements OnInit {
+
   searchForm: FormGroup;
   loading = false;
   submitted = false;
   connections: any;
   connection: User;
   isConnection = false;
-  user: any;
+  currUser: any;
   appUser: any;
-
+  results: User[];
   // Field for connection
   connectionToAdd = new FormControl('');
 
@@ -39,32 +38,37 @@ export class ViewFriendsHomeComponent implements OnInit {
       private app: AppComponent) { }
   // ────────────────────────────────────────────────────────────────────────────────
 
-  results: User[];
 
   ngOnInit() {
-    this.appUser = this.app.currUser;
-    console.log(this.app.currUser);
 
-    // Instantiate chatkit
-    this._msgService.chatManager.connect()
-    .then((user) => {
-      this.user = user;
-      console.log(user);
+    this.currUser = this.app.currUser;
+    console.log(this.currUser);
 
+    //
+    // ─── LOAD USER CONNECTIONS ───────────────────────────────────────
+    //
 
-      // Load user connections
-      this._userService.getConnections(this.user.id)
+      this._userService.getConnections(this.currUser.id)
       .toPromise()
       .then((connections) => {
         this.connections = connections;
       });
-    });
+    // ────────────────────────────────────────────────────────────────────────────────
 
-    // Setup search box
-    this.searchForm = this.formBuilder.group({
-      search: ['', Validators.required]
-    });
+
+
+    //
+    // ─── SETUP SEARCH BOX ────────────────────────────────────────────
+    //
+
+      this.searchForm = this.formBuilder.group({
+        search: ['', Validators.required]
+      });
+    // ─────────────────────────────────────────────────────────────────
+
   }
+
+
 
   //
   // ─── CONVENIENCE GETTER FOR EASY ACCESS TO FORM FIELDS ──────────────────────────
@@ -110,15 +114,23 @@ export class ViewFriendsHomeComponent implements OnInit {
   // ─── RETURN USER FROM FRIEND LIST ───────────────────────────────────────────────
   //
 
-  getUser(_id: number): User {
-    return this.connections.find(c => c.id === _id);
-  }
+    getUser(_id: number): User {
+      return this.connections.find(c => c.id === _id);
+    }
   // ────────────────────────────────────────────────────────────────────────────────
 
-  sortList(users: User[]) {
-    return  users.sort((a, b) => ((a.firstName.toLowerCase() + ' ' + a.lastName.toLowerCase())
-    > (b.firstName.toLowerCase() + ' ' + b.lastName.toLowerCase()) ? 1 : -1));
-  }
+
+  //
+  // ─── SORT CONNECTIONS LIST ──────────────────────────────────────────────────────
+  //
+
+    sortList(users: User[]) {
+      return  users.sort((a, b) => ((a.firstName.toLowerCase() + ' ' + a.lastName.toLowerCase())
+      > (b.firstName.toLowerCase() + ' ' + b.lastName.toLowerCase()) ? 1 : -1));
+    }
+  // ────────────────────────────────────────────────────────────────────────────────
+
+
 
   //
   // ─── FILTER LIST OF USERS BY NAME ───────────────────────────────────────────────
@@ -165,22 +177,23 @@ export class ViewFriendsHomeComponent implements OnInit {
   //
   // ─── HANDLE SIGN UP ─────────────────────────────────────────────────────────────
   //
-  onSearch() {
-    this.submitted = true;
-    this.loading = true;
 
-    if (this.searchForm.invalid) {
-      this.submitted = false;
+    onSearch() {
+      this.submitted = true;
+      this.loading = true;
+
+      if (this.searchForm.invalid) {
+        this.submitted = false;
+        this.loading = false;
+        return;
+      }
+
+      const query: string = this.searchForm.get('search').value;
+
+      this.getUsersByName(query);
+
       this.loading = false;
-      return;
     }
-
-    const query: string = this.searchForm.get('search').value;
-
-    this.getUsersByName(query);
-
-    this.loading = false;
-  }
   // ────────────────────────────────────────────────────────────────────────────────
 
 }
