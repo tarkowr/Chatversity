@@ -71,13 +71,17 @@ router.get('/', (req, res) => {
 
   // TODO: Richie add update user here 
   router.get('/updateUser/:id', (req, res) => {
-    
+    console.log(req.params);
     chatkit.updateUser({
       id: req.params.id,
+      name: req.params.name,
       customData: {
         profile: {
-          bio: "This is Richie's Bio!",
-          graduationYear: 2020,
+          bio: req.params.bio,
+          graduationYear: req.params.graduationYear,
+          clubs: req.params.clubs,
+          major: req.params.major,
+          interests: req.params.interests
         }
       },
 
