@@ -8,20 +8,20 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./top-bar.component.css']
 })
 export class TopBarComponent implements OnInit {
-  @Input() viewName:string;
-  @Input() headerText:string;
+  @Input() viewName: string;
+  @Input() headerText: string;
 
-  returnUrl:string;
+  returnUrl: string;
 
   constructor(private auth: AuthService,
     private route: ActivatedRoute,
     private router: Router) { }
 
   ngOnInit() {
-    this.returnUrl = "/login";
+    this.returnUrl = '/login';
   }
 
-  logOut(){
+  logOut() {
     this.auth.logout();
     this.router.navigate([this.returnUrl]);
   }
