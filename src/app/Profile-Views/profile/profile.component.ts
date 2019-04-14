@@ -11,6 +11,7 @@ import { AuthService } from '../../Core/_services/auth.service';
 import { MessagingService } from '../../Core/_services/messaging.service';
 import { environment } from '../../../environments/environment.prod';
 import { UserService } from '../../Core/_services/user.service';
+import { AppComponent } from '../../app.component';
 
 @Component({
   selector: 'app-profile',
@@ -31,27 +32,31 @@ export class ProfileComponent implements OnInit {
     private authService: AuthService,
     private msgService: MessagingService,
     private http: HttpClient,
-    private userService: UserService) { }
+    private userService: UserService,
+    private app: AppComponent) {console.log(this.app.currUser); }
 
   ngOnInit() {
+
+    console.log(this.app.currUser);
+
 
     //
     // ─── CONNECT TO CHAKIT ───────────────────────────────────────────
     //
-    this.msgService.chatManager
-    .connect()
-    .then(user => {
-      this.user = user;
-      console.log(user); // ! TESTING ONLY
+      this.msgService.chatManager
+      .connect()
+      .then(user => {
+        this.user = user;
+        console.log(user); // ! TESTING ONLY
 
-      // Get users connections
-      this.userService.getConnections(user.id)
-      .toPromise()
-      .then((connections) => {
-        this.connections = connections;
-        console.log(connections);
+        // Get users connections
+        this.userService.getConnections(user.id)
+        .toPromise()
+        .then((connections) => {
+          this.connections = connections;
+          console.log(connections);
+        });
       });
-    });
     // ─────────────────────────────────────────────────────────────────
 
 

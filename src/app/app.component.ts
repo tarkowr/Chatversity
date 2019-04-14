@@ -64,6 +64,12 @@ export class AppComponent implements OnInit {
     .then((user) => {
       this.currUser = user;
       console.log(user);
+      user.rooms.forEach(room => {
+        user.subscribeToRoomMultipart({
+          roomId: room.id,
+          messageLimit: 10
+        });
+      });
     });
 
     this.updates.available.subscribe(event => {

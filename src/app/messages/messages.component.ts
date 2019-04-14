@@ -65,9 +65,9 @@ export class MessagesComponent implements OnInit {
 
   constructor(private http: HttpClient, private msgService: MessagingService, private app: AppComponent) {
     console.log(this.app.currUser);
-  this.currUser = this.app.currUser;
-  this.rooms = this.app.currUser.rooms;
-  console.log(this.app.currUser.rooms);
+    this.currUser = this.app.currUser;
+    this.rooms = this.app.currUser.rooms;
+    console.log(this.app.currUser.rooms);
 
     // console.log('Connected as user ', user);
     // this.app.currUser = user;

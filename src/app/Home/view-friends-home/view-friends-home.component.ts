@@ -22,6 +22,7 @@ export class ViewFriendsHomeComponent implements OnInit {
   connection: User;
   isConnection = false;
   user: any;
+  appUser: any;
 
   // Field for connection
   connectionToAdd = new FormControl('');
@@ -41,6 +42,8 @@ export class ViewFriendsHomeComponent implements OnInit {
   results: User[];
 
   ngOnInit() {
+    this.appUser = this.app.currUser;
+    console.log(this.app.currUser);
 
     // Instantiate chatkit
     this._msgService.chatManager.connect()
