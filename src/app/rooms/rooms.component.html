@@ -8,11 +8,6 @@
     <app-top-bar [viewName]="'Rooms'" [headerText]="'Chat'"></app-top-bar>
   </ng-container>
 
-
-  <!--<button type="button" class="ml-auto btn btn-outline-primary" data-toggle="modal" data-target="#addRoomModal" (click)="roomCreated = false" placement="left" ngbTooltip="Create Room" triggers="hover" [autoClose]="true">
-    <i class="fa fa-plus"></i>
-  </button>-->
-
   <!--<button type="button" class="ml-auto btn btn-outline-primary" data-toggle="modal" data-target="#addRoomModal" placement="left" ngbTooltip="Edit Room" triggers="hover" [autoClose]="true">
     <i class="fa fa-cog"></i>
   </button>-->
@@ -22,21 +17,24 @@
         
           <!-- Begin rooms list -->
           <div id="messages" class="row">
-            <ng-container *ngFor="let room of rooms">
-                <div class="col-12 my-2 px-3">
-                    <button class="btn btn-block custom-btn text-left my-2 p-3" (click)="joinRoom(room.id)"
-                    [ngClass]="{ 'active': current_room.id == room.id }">
-                        <div class="room d-flex align-items-center justify-content-between">
-                            <ng-container *ngIf="room?.custom_data !== undefined">
-                                <div class="" [ngStyle]="{ 'background-image': 'url(assets/avatars/' + room.customData.roomAvatar + ')', 'height':'50px', 'width':'50px', 'background-size':'cover', 'background-position':'center, center' }">
-                                </div>
-                            </ng-container>
-                            <span class="text-secondary">{{ room.name }}</span>
-                            <span *ngIf="roomNotifications[room.id]" class="badge badge-secondary">New</span>
-                          </div>
-                      </button>
-                  </div>
-            </ng-container>
+            <div class="col-12 my-2 px-3">
+                <button class="btn btn-block custom-btn text-left mr-4 my-2 p-3"  data-toggle="modal" data-target="#addRoomModal"
+                (click)="roomCreated = false" id="createRoomBtn">New Room <i class="fa fa-plus"></i> </button>
+
+                <ng-container *ngFor="let room of rooms">
+                <button class="btn btn-block custom-btn text-left my-2 p-3" (click)="joinRoom(room.id)"
+                [ngClass]="{ 'active': current_room.id == room.id }">
+                    <div class="room d-flex align-items-center justify-content-between">
+                        <ng-container *ngIf="room?.custom_data !== undefined">
+                            <div class="" [ngStyle]="{ 'background-image': 'url(assets/avatars/' + room.customData.roomAvatar + ')', 'height':'50px', 'width':'50px', 'background-size':'cover', 'background-position':'center, center' }">
+                            </div>
+                        </ng-container>
+                        <span class="text-secondary">{{ room.name }}</span>
+                        <span *ngIf="roomNotifications[room.id]" class="badge badge-secondary">New</span>
+                      </div>
+                  </button>
+                </ng-container>
+              </div>
             <div *ngIf="(currentUser)" class="col-12">
                 <div class="message-wrap">
                   <img src="{{currentUser.avatarURL}}" alt="">
