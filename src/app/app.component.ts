@@ -24,7 +24,9 @@ export class AppComponent implements OnInit {
       private authenticationService: AuthService,
       private updates: SwUpdate,
       private messagingService: MessagingService
-  ) {}
+  ) {
+    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+  }
 
   //
   // ─── LOGOUT USER ────────────────────────────────────────────────────────────────
@@ -39,7 +41,7 @@ export class AppComponent implements OnInit {
 
 
   // !
-  // ! ─── FOR TESTING ONLY - USE THIS FUNCTION TO REMOVE THE NAVBAR ON PAGES THAT DO NOT NEED IT 
+  // ! ─── FOR TESTING ONLY - USE THIS FUNCTION TO REMOVE THE NAVBAR ON PAGES THAT DO NOT NEED IT
   // !
 
     RemoveNavbarForTesting() {
@@ -58,24 +60,27 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit() {
-    this.currentUser = this.authenticationService.currentUser;
+    // this.currentUser = this.authenticationService.currentUser;
+    console.log(this.currentUser);
 
-    this.messagingService.chatManager.connect()
-    .then((user) => {
-      this.currUser = user;
-      console.log(user);
-      user.rooms.forEach(room => {
-        user.subscribeToRoomMultipart({
-          roomId: room.id,
-          messageLimit: 10
+    if (this.currentUser) {
+      this.messagingService.chatManager.connect()
+      .then((user) => {
+        this.currUser = user;
+        console.log(user);
+        user.rooms.forEach(room => {
+          user.subscribeToRoomMultipart({
+            roomId: room.id,
+            messageLimit: 10
+          });
         });
       });
-    });
 
-    this.updates.available.subscribe(event => {
-      this.update = true;
-    });
+      this.updates.available.subscribe(event => {
+        this.update = true;
+      });
 
-    console.log(this.currentUser);
+      console.log(this.currentUser);
+    }
   }
 }

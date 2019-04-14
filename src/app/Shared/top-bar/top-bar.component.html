@@ -1,15 +1,31 @@
 <div class="row shadow-sm" id="messages_header">
-  <div class="col 12 col-md-3 py-3">
-      <div class="d-flex align-items-center">
-        <span class="text-uppercase text-secondary text-light-weight pl-3">{{ viewName }} <span id="mobile-header-text">&nbsp;|&nbsp; {{ headerText }} &nbsp;|&nbsp; <a (click)="logOut()" id="logoutLink">Logout</a></span></span>
-      </div>
-  </div>
-  <div class="col-md-9 py-3" style="border-left:1px solid #DAE6ED;" id="header-text">
+
+  <!-- left bar -->
+  <div class="col-12 col-md-3 py-3">
     <div class="d-flex align-items-center">
-      <span class="text-uppercase text-secondary text-light-weight pl-3">{{ headerText }}</span>
-      <div id="logout">
-        <button class="btn btn-secondary px-3" (click)="logOut()">Logout</button>
+
+      <span class="text-uppercase text-secondary text-light-weight pl-3">{{ viewName }} <span id="mobile-header-text">&nbsp;|&nbsp; {{ headerText }} &nbsp;|&nbsp; <a (click)="logOut()" id="logoutLink">Logout</a></span></span>
+
+    </div>
+  </div>
+  <!-- end left bar -->
+
+  <!-- right bar -->
+  <div class="col-12 col-md-9 py-3" style="border-left:1px solid #DAE6ED;" id="header-text">
+    <div class="row">
+      <div class="col-12">
+        <div class="d-flex align-items-center">
+
+            <span class="text-uppercase text-secondary text-light-weight pl-3 mr-auto">{{ headerText }}</span>
+
+            <div>
+                <button *ngIf="router.url == '/rooms'" class="btn btn-outline-primary"><i class="fa fa-box"></i> Create Room</button>
+            </div>
+
+        </div>
       </div>
     </div>
   </div>
+  <!-- end right bar -->
+  
 </div>

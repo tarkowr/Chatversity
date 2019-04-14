@@ -2,7 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import {AuthService} from './auth.service';
 import { ChatManager, TokenProvider } from '@pusher/chatkit-client';
 import { User } from '../_models/user';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 
 @Injectable({
@@ -17,6 +17,7 @@ export class MessagingService {
   chatManager: any;
   chatkitUser: any;
   messages = [];
+  currentUserSubscription: Subscription;
 
   _message = '';
   get message(): string {
@@ -28,16 +29,23 @@ export class MessagingService {
 
   constructor( private authenticationService: AuthService) {
 
-    this.currentUser = authenticationService.currentUserValue;
+    this.currentUserSubscription = this.authenticationService.currentUser.subscribe(user => {
+      this.currentUser = user;
+    });
+
+    // this.currentUser = authenticationService.currentUser;
     console.log(this.currentUser);
 
-    this.chatManager = new ChatManager({
-      instanceLocator: 'v1:us1:a54bdf12-93d6-46f9-be3b-bfa837917fb5',
-      userId: this.currentUser._embedded.user.id,
-      tokenProvider: new TokenProvider({
-        url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/a54bdf12-93d6-46f9-be3b-bfa837917fb5/token'
-      })
-    });
+if (this.currentUser) {
+  this.chatManager = new ChatManager({
+    instanceLocator: 'v1:us1:a54bdf12-93d6-46f9-be3b-bfa837917fb5',
+    userId: this.currentUser._embedded.user.id,
+    tokenProvider: new TokenProvider({
+      url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/a54bdf12-93d6-46f9-be3b-bfa837917fb5/token'
+    })
+  });
+}
+
 
 
 

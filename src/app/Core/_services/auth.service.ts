@@ -11,9 +11,9 @@ export class AuthService {
     public currentUser: any;
 
     constructor(private http: HttpClient) {
-        // this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-        // this.currentUser = this.currentUserSubject.asObservable();
-        this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+        this.currentUser = this.currentUserSubject.asObservable();
+        // this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     }
 
     public get currentUserValue() {
@@ -65,6 +65,7 @@ export class AuthService {
                 .then((token) => {
                     console.log(token);
                 localStorage.setItem('chatkitToken', JSON.stringify(token));
+                this.currentUserSubject.next(user);
                 return token;
                 });
             });
