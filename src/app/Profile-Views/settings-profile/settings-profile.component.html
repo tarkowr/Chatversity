@@ -2,9 +2,9 @@
     <div class="row">
       <div class="col-12 col-sm-12 col-lg-8 my-3">
 
-        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+        <form *ngIf="user" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
 
-          <div *ngIf="submitted && (f.firstname.errors || f.lastname.errors)">
+          <div *ngIf="submitted && f.name.errors">
             <div class="alert alert-danger" role="alert">Unable to update profile.</div>
           </div>
 
@@ -12,38 +12,17 @@
               Edit Profile <span class="fas fa-pencil ml-2"></span>
           </button>
           
-          <div class="row">
-            <div class="col-12 col-sm-6 col-md-6">
-  
-              <!--First Name-->
-              <div class="form-group mb-3">
-                <label for="firstname" class="text-secondary">First Name 
-                  <span class="text-danger" *ngIf="editMode">*</span>
-                </label>
-                <input type="text" class="form-control" id="firstname" name="firstname" placeholder="John" required
-                formControlName="firstname"
-                [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }">
+        <!--Name-->
+        <div class="form-group mb-3">
+            <label for="name" class="text-secondary">Name 
+              <span class="text-danger" *ngIf="editMode">*</span>
+            </label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="John Doe" required
+            formControlName="name"
+            [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
 
-                <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
-                  <div *ngIf="f.firstname.errors.required">Please provide your first name.</div>
-                </div>
-                </div>
-              </div>
-  
-              <!--Last Name-->
-              <div class="col-12 col-sm-6 col-md-6">
-                <div class="form-group mb-3">
-                  <label for="lastname" class="text-secondary">Last Name
-                     <span class="text-danger" *ngIf="editMode">*</span>
-                  </label>
-                  <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Doe" required
-                  formControlName="lastname"
-                  [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }">
-
-                <div *ngIf="submitted && f.lastname.errors" class="invalid-feedback">
-                  <div *ngIf="f.lastname.errors.required">Please provide your last name.</div>
-                </div>
-              </div>
+            <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+              <div *ngIf="f.name.errors.required">Please provide your name.</div>
             </div>
           </div>
      
@@ -89,7 +68,7 @@
           </div>
      
           <!--Submit Button-->
-          <button *ngIf="editMode" [disabled]="loading" type="submit" class="btn btn-secondary btn-block mt-4 mb-3 py-3 text-uppercase">Update Profile</button>
+          <button *ngIf="editMode" [disabled]="loading" class="btn btn-secondary btn-block mt-4 mb-3 py-3 text-uppercase">Update Profile</button>
           <div class="text-center">
               <img *ngIf="loading"
               src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />  

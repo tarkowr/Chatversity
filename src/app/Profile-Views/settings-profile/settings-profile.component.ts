@@ -7,6 +7,10 @@ import { NgForm, FormGroup, FormBuilder, Validators, FormControl, MaxLengthValid
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../Core/_models/user';
 import { UserProfile } from '../../Core/_models/profile';
+import { AuthService } from '../../Core/_services/auth.service';
+import { MessagingService } from '../../Core/_services/messaging.service';
+import { environment } from '../../../environments/environment.prod';
+import { UserService } from '../../Core/_services/user.service';
 
 @Component({
   selector: 'app-settings-profile',
@@ -18,45 +22,40 @@ export class SettingsProfileComponent implements OnInit {
   loading = false;
   submitted = false;
   editMode = false;
-  returnUrl: string;
-  user: User;
+  user: any;
   profile: UserProfile;
 
   constructor(    
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private authService: AuthService,
+    private msgService: MessagingService,
+    private http: HttpClient,
+    private userService: UserService) { }
 
   ngOnInit() {
   
     //
-    // ToDo: Get user data from service
+    // ─── CONNECT TO CHAKIT ───────────────────────────────────────────
     //
+    this.msgService.chatManager
+    .connect()
+    .then(user => {
+      this.user = user;
+      console.log(user); // ! TESTING ONLY
 
-    // Create test user
-    this.user = {
-      id: 1,
-      firstName: 'Richie',
-      lastName: 'Tarkowski',
-      username: 'tarkowr@mail.nmc.edu',
-      password: undefined,
-      university: { id: 3, name: 'NMC', state:'MI', domains:null },
-      profile: { bio: "Hello world!", major: "CIS", graduationYear:2021, interests:"Running, NBA, and CS", clubs:"bball"},
-      active: false
-    }
-
-    this.profile = this.user.profile;
-    
-    // Build new form
-    this.profileForm = this.formBuilder.group({
-      firstname: [{value:this.user.firstName, disabled:!this.editMode}, Validators.required],
-      lastname: [{value:this.user.lastName, disabled:!this.editMode}, Validators.required],
-      bio: [{value:this.profile.bio, disabled:!this.editMode}, MaxLengthValidator],
-      major: [{value:this.profile.major, disabled:!this.editMode}, MaxLengthValidator],
-      graduationYear: [{value:this.profile.graduationYear, disabled:!this.editMode}, MaxLengthValidator],
-      interests: [{value:this.profile.interests, disabled:!this.editMode}, MaxLengthValidator],
-      clubs: [{value:this.profile.clubs, disabled:!this.editMode}, MaxLengthValidator]
+      // Build Form
+      this.profileForm = this.formBuilder.group({
+        name: [{value:this.user.name, disabled:!this.editMode}, Validators.required],
+        bio: [{value:this.user.customData.profile.bio, disabled:!this.editMode}, MaxLengthValidator],
+        major: [{value:this.user.customData.profile.major, disabled:!this.editMode}, MaxLengthValidator],
+        graduationYear: [{value:this.user.customData.profile.graduationYear, disabled:!this.editMode}, MaxLengthValidator],
+        interests: [{value:this.user.customData.profile.interests, disabled:!this.editMode}, MaxLengthValidator],
+        clubs: [{value:this.user.customData.profile.clubs, disabled:!this.editMode}, MaxLengthValidator]
+      });
     });
+    // ─────────────────────────────────────────────────────────────────
   }
 
   // Convenience getter for easy access to form fields
@@ -84,8 +83,7 @@ export class SettingsProfileComponent implements OnInit {
     this.editMode = false;
 
     // Get updated profile data from user
-    let _fname:string = this.profileForm.get('firstname').value;
-    let _lname:string = this.profileForm.get('lastname').value;
+    let _name:string = this.profileForm.get('name').value;
     let _bio:string = this.profileForm.get('bio').value;
     let _major:string = this.profileForm.get('major').value;
     let _gradYr:number = this.profileForm.get('graduationYear').value;
@@ -93,13 +91,12 @@ export class SettingsProfileComponent implements OnInit {
     let _clubs:string = this.profileForm.get('clubs').value;
 
     // Update the user object
-    this.user.firstName = _fname;
-    this.user.lastName = _lname;
-    this.user.profile.bio = _bio;
-    this.user.profile.major = _major;
-    this.user.profile.graduationYear = _gradYr;
-    this.user.profile.interests = _interests;
-    this.user.profile.clubs = _clubs;
+    this.user.name = _name;
+    this.user.customData.profile.bio = _bio;
+    this.user.customData.profile.major = _major;
+    this.user.customData.profile.graduationYear = _gradYr;
+    this.user.customData.profile.interests = _interests;
+    this.user.customData.profile.clubs = _clubs;
 
     console.log(this.user);
 
@@ -107,19 +104,21 @@ export class SettingsProfileComponent implements OnInit {
     const formData: FormData = new FormData();
 
     // Append input to form data
-    formData.append('firstname', _fname);
-    formData.append('lastname', _lname);
+    formData.append('name', _name);
     formData.append('bio', _bio);
     formData.append('major', _major);
     formData.append('graduationYear', _gradYr.toString());
     formData.append('interests', _interests);
     formData.append('clubs', _clubs);
 
-    //
-    // ToDo: Send FormData to service to update Pusher/MongoDB
-    //
+    this.userService.update(this.user).pipe().subscribe(data => {
+      console.log('Success!')
+    },
+    error => {
+      this.loading = false;
+      //this.f.username.setErrors({invalid: true});
+    });
 
-    this.loading = false;
     }
 
 }
