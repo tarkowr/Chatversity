@@ -24,37 +24,113 @@ export class SettingsProfileComponent implements OnInit {
   editMode = false;
   user: any;
   profile: UserProfile;
+  subscription: any;
+  chatkitUser: any;
+  editingForm = false;
 
-  constructor(    
+  constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService,
+    private _auth: AuthService,
     private msgService: MessagingService,
     private http: HttpClient,
-    private userService: UserService) { }
+    private userService: UserService) {
+
+      this.subscription = this._auth.chatkitUser$.subscribe(
+        (user) => {
+          this.chatkitUser = user;
+          console.log(this.chatkitUser);
+        }
+      );
+
+    }
 
   ngOnInit() {
-  
+
     //
     // ─── CONNECT TO CHAKIT ───────────────────────────────────────────
     //
-    this.msgService.chatManager
-    .connect()
-    .then(user => {
-      this.user = user;
-      console.log(user); // ! TESTING ONLY
+    let bio: string;
+    try {
+      bio = this.chatkitUser.customData.profile.bio;
+    } catch (error) {
+      bio = '';
+    }
+
+    let major: string;
+    try {
+      major = this.chatkitUser.customData.profile.major;
+    } catch (error) {
+      major = '';
+    }
+
+    let graduationYear: string;
+    try {
+      graduationYear = this.chatkitUser.customData.profile.graduationYear;
+    } catch (error) {
+      graduationYear = '';
+    }
+
+    let interests: string;
+    try {
+      interests = this.chatkitUser.customData.profile.interests;
+    } catch (error) {
+      interests = '';
+    }
+
+    let clubs: string;
+    try {
+      clubs = this.chatkitUser.customData.profile.clubs;
+    } catch (error) {
+      clubs = '';
+    }
 
       // Build Form
       this.profileForm = this.formBuilder.group({
-        name: [{value:this.user.name, disabled:!this.editMode}, Validators.required],
-        bio: [{value:this.user.customData.profile.bio, disabled:!this.editMode}, MaxLengthValidator],
-        major: [{value:this.user.customData.profile.major, disabled:!this.editMode}, MaxLengthValidator],
-        graduationYear: [{value:this.user.customData.profile.graduationYear, disabled:!this.editMode}, MaxLengthValidator],
-        interests: [{value:this.user.customData.profile.interests, disabled:!this.editMode}, MaxLengthValidator],
-        clubs: [{value:this.user.customData.profile.clubs, disabled:!this.editMode}, MaxLengthValidator]
+        // Name
+        name: [
+          {
+            value: this.chatkitUser.name, disabled: !this.editMode
+          },
+          Validators.required
+        ],
+        // Bio
+        bio: [
+          {
+            value: bio, disabled: !this.editMode
+          },
+          MaxLengthValidator],
+        // Major
+        major: [
+          {
+            value: major, disabled: !this.editMode
+          },
+          MaxLengthValidator
+        ],
+        // Graduation year
+        graduationYear: [
+          {
+            value: graduationYear, disabled: !this.editMode
+          },
+          MaxLengthValidator
+        ],
+        // Interests
+        interests: [
+          {
+            value: interests, disabled: !this.editMode
+          },
+            MaxLengthValidator
+          ],
+          // Clubs
+        clubs: [
+          {
+            value: clubs, disabled: !this.editMode
+          },
+          MaxLengthValidator
+        ]
       });
-    });
+
     // ─────────────────────────────────────────────────────────────────
   }
 
@@ -62,13 +138,13 @@ export class SettingsProfileComponent implements OnInit {
   get f() { return this.profileForm.controls; }
 
   // Activate edit mode
-  onClickEdit() { 
+  onClickEdit() {
     this.editMode = true;
     this.profileForm.enable();
   }
 
   // Validation and other actions upon form submission
-  onSubmit() { 
+  onSubmit() {
     this.submitted = true;
     this.loading = true;
 
@@ -83,22 +159,21 @@ export class SettingsProfileComponent implements OnInit {
     this.editMode = false;
 
     // Get updated profile data from user
-    let _name:string = this.profileForm.get('name').value;
-    let _bio:string = this.profileForm.get('bio').value;
-    let _major:string = this.profileForm.get('major').value;
-    let _gradYr:number = this.profileForm.get('graduationYear').value;
-    let _interests:string = this.profileForm.get('interests').value;
-    let _clubs:string = this.profileForm.get('clubs').value;
+    const _name: string = this.profileForm.get('name').value;
+    const _bio: string = this.profileForm.get('bio').value;
+    const _major: string = this.profileForm.get('major').value;
+    const _gradYr: number = this.profileForm.get('graduationYear').value;
+    const _interests: string = this.profileForm.get('interests').value;
+    const _clubs: string = this.profileForm.get('clubs').value;
 
     // Update the user object
-    this.user.name = _name;
-    this.user.customData.profile.bio = _bio;
-    this.user.customData.profile.major = _major;
-    this.user.customData.profile.graduationYear = _gradYr;
-    this.user.customData.profile.interests = _interests;
-    this.user.customData.profile.clubs = _clubs;
+    this.chatkitUser.name = _name;
+    this.chatkitUser.customData.profile.bio = _bio;
+    this.chatkitUser.customData.profile.major = _major;
+    this.chatkitUser.customData.profile.graduationYear = _gradYr;
+    this.chatkitUser.customData.profile.interests = _interests;
+    this.chatkitUser.customData.profile.clubs = _clubs;
 
-    console.log(this.user);
 
     // Create obj to hold formdata
     const formData: FormData = new FormData();
@@ -111,12 +186,12 @@ export class SettingsProfileComponent implements OnInit {
     formData.append('interests', _interests);
     formData.append('clubs', _clubs);
 
-    this.userService.update(this.user).pipe().subscribe(data => {
-      console.log('Success!')
+    this.userService.update(this.chatkitUser.id, this.chatkitUser).pipe().subscribe(data => {
+      console.log('Success!');
     },
     error => {
       this.loading = false;
-      //this.f.username.setErrors({invalid: true});
+      // this.f.username.setErrors({invalid: true});
     });
 
     }
