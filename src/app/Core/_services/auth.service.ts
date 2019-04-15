@@ -75,7 +75,7 @@ export class AuthService implements OnInit {
             .toPromise()
             .then((user) => {
                 // Create chatkit user from Okta User ID
-                this.http.post(`${environment.apiUrl}/chatkit/createuser`, {
+                return this.http.post(`${environment.apiUrl}/chatkit/createuser`, {
                     id: user.id,
                     name: user.profile.UserProfile.firstName + ' ' + user.profile.UserProfile.lastName,
                     custom_data: {
@@ -98,13 +98,15 @@ export class AuthService implements OnInit {
                     console.log(chatkitUser);
 
                     this.currentUser = chatkitUser;
+
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    this.currentUserSubject.next(user);
+
+                    localStorage.setItem('chatkitUserId', user._embedded.user.id);
+                    this.user.next(user._embedded.user.id);
+
+                    return chatkitUser;
                 });
-
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                this.currentUserSubject.next(user);
-
-                localStorage.setItem('chatkitUserId', user._embedded.user.id);
-                this.user.next(user._embedded.user.id);
             });
         }
     // ─────────────────────────────────────────────────────────────────
