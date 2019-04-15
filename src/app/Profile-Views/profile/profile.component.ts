@@ -22,8 +22,15 @@ import { AppComponent } from '../../app.component';
 export class ProfileComponent implements OnInit {
 
   user: any;
-  profile: UserProfile;
+  chatkitUser: any;
   connections: any;
+  subscription: any;
+
+  bio = '';
+  major = '';
+  graduationYear = '';
+  interests = '';
+  clubs = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,33 +39,59 @@ export class ProfileComponent implements OnInit {
     private authService: AuthService,
     private msgService: MessagingService,
     private http: HttpClient,
+    private _auth: AuthService,
     private userService: UserService,
-    private app: AppComponent) {console.log(this.app.currUser); }
+    private app: AppComponent) {
+
+      this.subscription = this._auth.chatkitUser$.subscribe(
+        (user) => {
+          this.chatkitUser = user;
+          console.log(this.chatkitUser);
+          this.initForm();
+        }
+      );
+    }
 
   ngOnInit() {
+  }
 
-    console.log(this.app.currUser);
+  initForm() {
+    console.log(this.chatkitUser.name);
 
+    try {
+      this.bio = this.chatkitUser.customData.bio;
+    } catch (error) {
+      this.bio = '';
+      console.log(this.bio);
+    }
 
-    //
-    // ─── CONNECT TO CHAKIT ───────────────────────────────────────────
-    //
-      this.msgService.chatManager
-      .connect()
-      .then(user => {
-        this.user = user;
-        console.log(user); // ! TESTING ONLY
+    try {
+      this.major = this.chatkitUser.customData.major;
+    } catch (error) {
+      this.major = '';
+      console.log(this.major);
+    }
 
-        // Get users connections
-        this.userService.getConnections(user.id)
-        .toPromise()
-        .then((connections) => {
-          this.connections = connections;
-          console.log(connections);
-        });
-      });
+    try {
+      this.graduationYear = this.chatkitUser.customData.graduationYear;
+    } catch (error) {
+      this.graduationYear = '';
+      console.log(this.graduationYear);
+    }
+
+    try {
+      this.interests = this.chatkitUser.customData.interests;
+    } catch (error) {
+      this.interests = 'asdf';
+      console.log(this.interests);
+    }
+
+    try {
+      this.clubs = this.chatkitUser.customData.clubs;
+    } catch (error) {
+      this.clubs = '';
+      console.log(this.clubs);
+    }
     // ─────────────────────────────────────────────────────────────────
-
-
   }
 }
