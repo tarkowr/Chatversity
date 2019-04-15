@@ -1,6 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
+const okta = require('@okta/okta-sdk-nodejs');
+
+const client = new okta.Client({
+  orgUrl: 'https://dev-117825.okta.com/',
+  token: '00Regr-41ROC64cDOHPrVS-XF7RD4eCJhdOf3RUj81'    // Obtained from Developer Dashboard
+});
+
 // declare axios for making http requests
 const axios = require('axios');
 
@@ -78,35 +85,61 @@ router.get('/', (req, res) => {
 // ─── HANDLE USER SIGNUP ──────────────────────────────────────────────────────────
 //
 
-  // TODO: Update to dynamically pull url from config
   router.post('/signup', (req, res) => {
-    console.log(req);
-    axios.post(`https://dev-117825.okta.com/api/v1/users`, {
-      "profile": {
-      "firstName": req.body.fName,
-      "lastName": req.body.lName,
-      "email": req.body.username,
-      "login": req.body.username
+
+    const newUser = {
+      profile: {
+        firstName: req.body.fname,
+        lastName: req.body.lname,
+        email: req.body.username,
+        login: req.body.username,
       },
-      "credentials": {
-        "password" : { "value": req.body.password }
+      credentials: {
+        password : {
+          value: req.body.password
+        }
       }
-    }, 
-    {
-      headers:{
-        "Accept":'application/json',
-        "Content-Type": 'application/json'
-      }
+    };
+    
+    client.createUser(newUser)
+    .then(user => {
+      res.status(200).json(user)
+      console.log('Created user', user)
     })
-    .then(user => { 
-      // TODO: Create and return Session with Session Token 
-      // TODO: https://developer.okta.com/docs/api/resources/sessions/#create-session-with-session-token
-        res.status(200).json(user.data);
-    })
-    .catch(error => {
-      res.status(500).send('<p>'+ error +'</p>');
+    .catch((err) => {
+      console.log(err);
     });
-});
+  })
+
+// TODO: Update to dynamically pull url from config
+//   router.post('/signup', (req, res) => {
+//     console.log(req);
+//     axios.post(`https://dev-117825.okta.com/api/v1/users`, {
+//       "profile": {
+//       "firstName": req.body.fName,
+//       "lastName": req.body.lName,
+//       "email": req.body.username,
+//       "login": req.body.username
+//       },
+//       "credentials": {
+//         "password" : { "value": req.body.password }
+//       }
+//     }, 
+//     {
+//       headers:{
+//         "Accept":'application/json',
+//         "Content-Type": 'application/json'
+//       }
+//     })
+//     .then(user => { 
+//       // TODO: Create and return Session with Session Token 
+//       // TODO: https://developer.okta.com/docs/api/resources/sessions/#create-session-with-session-token
+//         res.status(200).json(user.data);
+//     })
+//     .catch(error => {
+//       res.status(500).send('<p>'+ error +'</p>');
+//     });
+// });
 // ────────────────────────────────────────────────────────────────────────────────
 
 
