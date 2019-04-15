@@ -28,6 +28,8 @@ export class AuthService implements OnInit {
 
     constructor(private http: HttpClient, private _msgService: MessagingService ) {
 
+        localStorage.setItem('chatkitUserId', null);
+
         this.currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
 
@@ -156,6 +158,7 @@ export class AuthService implements OnInit {
 
 
     initChatkit(userId) {
+        if (userId == null) { return; }
         this.chatManager = new ChatManager({
             instanceLocator: 'v1:us1:a54bdf12-93d6-46f9-be3b-bfa837917fb5',
             userId: userId,
