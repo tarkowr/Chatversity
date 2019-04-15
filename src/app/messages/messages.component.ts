@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { MessagingService } from '../Core/_services/messaging.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../Core/_services/auth.service';
+import { parse } from 'flatted';
 
 
 @Component({
@@ -67,13 +68,12 @@ export class MessagesComponent implements OnInit {
 
   constructor(private http: HttpClient, private msgService: MessagingService, private _auth: AuthService) {
 
-    this.subscription = this._auth.user$.subscribe(
+    this.subscription = this._auth.chatkitUser$.subscribe(
       (user) => {
-        console.log(user);
-        this.chatkitUser = user;
-        // user.roomStore.rooms.forEach(room => {
-        //   this.rooms.push(room);
-        // });
+        // console.log(user);
+        this.chatkitUser = parse(user);
+        console.log(parse(user));
+        this.rooms.push(Object.entries(this.chatkitUser.roomStore.rooms));
         console.log(this.rooms);
       }
     );
@@ -312,9 +312,10 @@ export class MessagesComponent implements OnInit {
 
   ngOnInit() {
 
-    console.log(this.chatkitUser);
-    console.log(this.chatkitUser.roomStore.rooms);
+    // console.log(this.chatkitUser);
+    // console.log(this.chatkitUser.roomStore.rooms);
     console.log(this.rooms);
+    console.log(this.room_messages);
     // this.chatkitUser.rooms;
     console.log(Object.keys(this.rooms));
     // this.rooms.forEach((room) => {
@@ -356,6 +357,6 @@ export class MessagesComponent implements OnInit {
     // Subscribe to new notifications
     this.msgService.notificationCount
     .subscribe(notification => this.notificationCount = notification);
-    console.log(this.chatkitUser);
+    // console.log(this.chatkitUser);
     }
 }

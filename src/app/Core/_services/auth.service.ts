@@ -16,56 +16,41 @@ export class AuthService implements OnInit {
     private messages: any = new Subject();
     public messages$ = this.messages.asObservable();
 
-    private currentUserSubject: BehaviorSubject<any>;
-    public currentUser: any;
+    private currentUserSubject: any = new Subject();
+    public currentUser = this.currentUserSubject.asObservable();
     chatManager: any;
 
     private user: any = new Subject();
     public user$ = this.user.asObservable();
+
+    private chatkitUser: any = new Subject();
+    public chatkitUser$ = this.chatkitUser.asObservable();
 
     constructor(private http: HttpClient, private _msgService: MessagingService ) {
 
         this.currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
 
-        // const chatkitUser = localStorage.getItem('chatkitUser');
-        // if (chatkitUser !== null) {
-        //     console.log(parse(chatkitUser));
-        // }
         console.log('auth service constructed');
 
         this.user = new BehaviorSubject(localStorage.getItem('chatkitUserId'));
         this.user$ = this.user.asObservable();
 
+
+        this.chatkitUser = new BehaviorSubject(localStorage.getItem('chatkitUser'));
+        this.chatkitUser$ = this.chatkitUser.asObservable();
+
+        // Only called on login
         this.user$.subscribe((x) => {
-            if (localStorage.getItem('chatkitUser') === null) {
-                this.initChatkit(x);
-            }
+            console.log(x);
+            this.initChatkit(x);
         });
-
-
-        // this.initChatkit(localStorage.getItem('chatkitUserId'));
-
-        // this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     }
 
     public get currentUserValue() {
         return this.currentUserSubject.value;
     }
 
-    // Handle circular JSON structure returned from chatkit (=
-    getCircularReplacer = () => {
-        const seen = new WeakSet();
-        return (key, value) => {
-          if (typeof value === 'object' && value !== null) {
-            if (seen.has(value)) {
-              return;
-            }
-            seen.add(value);
-          }
-          return value;
-        };
-    }
 
     public get userValue() {
         return this.user;
@@ -114,7 +99,7 @@ export class AuthService implements OnInit {
 
           return this.chatManager.connect().then(user => {
               localStorage.setItem('chatkitUser', stringify(user));
-            console.log(user);
+            console.log(`Connected as ${user.name}`);
             user.joinRoom({ roomId: user.rooms[0].id })
             .then(room => {
                 this.currentRoom.next(room);
@@ -148,11 +133,13 @@ export class AuthService implements OnInit {
             return this.http.post<any>(`${environment.apiUrl}/okta/login`, { username, password })
             .toPromise()
             .then((user) => {
-                const user_id = user._embedded.user.id;
+
                 this.currentUser = user;
                 console.log(user);
+
                 localStorage.setItem('currentUser', JSON.stringify(user));
                 this.currentUserSubject.next(user);
+
                 localStorage.setItem('chatkitUserId', user._embedded.user.id);
                 this.user.next(user._embedded.user.id);
 
