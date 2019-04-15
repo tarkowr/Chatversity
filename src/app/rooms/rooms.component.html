@@ -39,6 +39,7 @@
                 <div class="message-wrap">
                   <img src="{{currentUser.avatarURL}}" alt="">
                   <span>{{ currentUser.name }}</span>
+                  <button class="btn btn-link" (click)="viewUserModal">{{ currentUser.name }}</button>
                 </div>
             </div>
           </div>
@@ -52,10 +53,10 @@
                     <div class="row" id="chatReel">
                         <!-- Messages -->
                         <div class="col-12">
-                          <span style="font-weight:bold;">
-                            {{ current_room.userStore.users[message.senderId].name }} 
-                            <small style="color:#717171; font-size:12px;">{{ message.createdAt | date:'shortTime' }}</small>
-                          </span>
+                            <span role="button" tabindex="0" class="chat-user-link text-secondary font-weight-bold" (click)="setSelectedRoomMember(current_room.userStore.users[message.senderId])" data-toggle="modal" data-target="#profileModal">
+                                {{ current_room.userStore.users[message.senderId].name }}
+                            </span>
+                          <small class="text-muted" style="font-size:12px;">{{ message.createdAt | date:'shortTime' }}</small>
                           <p style="color:#626e7a; font-size:15px;">{{ message.parts[0].payload.content }}</p>
                           <hr>
                         </div>
@@ -72,6 +73,11 @@
         </form>
       </div>
     </div>
+
+    <!-- view user modal -->
+    <app-small *ngIf="selectedRoomMember" [user]="selectedRoomMember" [isConnection]="isConnection"></app-small>
+    <!-- end view user modal -->
+    
   </div>
   <!-- Messages Header -->
 </div>

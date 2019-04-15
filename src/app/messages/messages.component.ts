@@ -3,7 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { MessagingService } from '../Core/_services/messaging.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AppComponent } from '../app.component';
+import { AuthService } from '../Core/_services/auth.service';
+import { parse } from 'flatted';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class MessagesComponent implements OnInit {
   notificationCount: any;
 
 
-  rooms: any;
+  rooms: Array<any> = [];
   currentUser: any;
   user_id: any;
   room_messages: Array<any> = [];
@@ -31,7 +32,9 @@ export class MessagesComponent implements OnInit {
   _message = '';
   roomCreated: boolean;
   roomNotifications: Array<any> = [];
-  currUser: any;
+  chatkitUser: any;
+  subscription: any;
+  incomingMessages: any;
   get message(): string {
     return this._message;
   }
@@ -63,47 +66,31 @@ export class MessagesComponent implements OnInit {
     })
   });
 
-  constructor(private http: HttpClient, private msgService: MessagingService, private app: AppComponent) {
-    console.log(this.app.currUser);
-    this.currUser = this.app.currUser;
-    this.rooms = this.app.currUser.rooms;
-    console.log(this.app.currUser.rooms);
+  constructor(private http: HttpClient, private msgService: MessagingService, private _auth: AuthService) {
 
-    // console.log('Connected as user ', user);
-    // this.app.currUser = user;
-    // this.rooms = user.rooms;
+    this.subscription = this._auth.chatkitUser$.subscribe(
+      (user) => {
+        // console.log(user);
+        this.chatkitUser = user;
+        console.log(this.chatkitUser);
+        this.rooms = user.rooms;
+        console.log(this.rooms);
+      }
+    );
 
-    // Iterate through rooms and subscribe to each
-    this.rooms.forEach(room => {
-      this.subscribeToRoom(room.id);
-      // TODO: Check if room has read cursor and add `new` badge if not
-    });
+    this.incomingMessages = this._auth.messages$.subscribe(
+      (incomingMessage) => {
+        this.room_messages.push(incomingMessage);
+      }
+    );
 
-    // Join first room in array
-    // TODO: refactor this implementation
-    this.app.currUser.joinRoom({roomId: this.rooms[0].id}).then(room => {
-      this.current_room = room;
+    this.current_room = this._auth.currentRoom$.subscribe(
+      (currentRoom) => {
+        this.current_room = currentRoom;
+        console.log(currentRoom);
+      }
+    );
 
-
-      // Fetch all messages for joined room
-      this.app.currUser.fetchMultipartMessages({
-        roomId: this.rooms[0].id,
-        limit: 10,
-      }).then(messages => {
-        messages.forEach(message => {
-          console.log(message.parts[0].payload.content);
-        });
-        this.room_messages = messages;
-      });
-    });
-
-
-  // Get user id from local storage
-  const user_id = JSON.parse(localStorage.getItem('currentUser'))._embedded.user.id;
-
-    // Subscribe to new notifications
-    this.msgService.notificationCount
-    .subscribe(notification => this.notificationCount = notification);
   }
 
   url: string;
@@ -123,7 +110,7 @@ export class MessagesComponent implements OnInit {
   // Send a message
   sendMessage() {
     const { message, currentUser } = this;
-    this.app.currUser.sendMessage({
+    this.chatkitUser.sendMessage({
       text: message,
       roomId: this.current_room.id,
     }).then(res => {
@@ -135,17 +122,17 @@ export class MessagesComponent implements OnInit {
 
   // Join a room
   joinRoom(roomID) {
-    this.app.currUser.joinRoom({roomId: roomID}).then(room => {
+    this.chatkitUser.joinRoom({roomId: roomID}).then(room => {
       this.current_room = room;
 
       // After joining room, fetch messages
-      this.app.currUser.fetchMultipartMessages({roomId: roomID}).then(messages => {
+      this.chatkitUser.fetchMultipartMessages({roomId: roomID}).then(messages => {
 
         // Check if messages
         if (messages === undefined || messages.length === 0) { return; }
 
         // Set read cursor
-        this.app.currUser.setReadCursor({
+        this.chatkitUser.setReadCursor({
           roomId: this.current_room.id,
           position: messages[messages.length - 1].id
         })
@@ -174,12 +161,12 @@ export class MessagesComponent implements OnInit {
     let hasUnread = false; // Track return status
 
     // First, check if cursor exists
-    const cursor = this.app.currUser.readCursor({
+    const cursor = this.chatkitUser.readCursor({
       roomId: roomID
     });
 
       // if read cursor ID !== latest message ID...
-      this.app.currUser.fetchMultipartMessages({ // Get latest message
+      this.chatkitUser.fetchMultipartMessages({ // Get latest message
         roomId: roomID,
         limit: 1,
       })
@@ -226,7 +213,7 @@ export class MessagesComponent implements OnInit {
   //
 
     subscribeToRoom(roomID) {
-      this.app.currUser.subscribeToRoomMultipart({
+      this.chatkitUser.subscribeToRoomMultipart({
         roomId: roomID,
         hooks: {
           onMessage: message => {
@@ -236,7 +223,7 @@ export class MessagesComponent implements OnInit {
             this.room_messages.push(message);
 
             // Get the users last cursor position from the room
-            const cursor = this.app.currUser.readCursor({
+            const cursor = this.chatkitUser.readCursor({
               roomId: message.roomId
             });
 
@@ -247,7 +234,7 @@ export class MessagesComponent implements OnInit {
             } else {
               // Otherwise, message was sent in current room, so all we must do is update the
               // read cursor for the current user's room
-              this.app.currUser.setReadCursor({
+              this.chatkitUser.setReadCursor({
                 roomId: message.roomId,
                 position: message.id,
               });
@@ -304,7 +291,7 @@ export class MessagesComponent implements OnInit {
       console.log(res);
 
       console.log('Image uploaded');
-      this.app.currUser.createRoom({ // Create the room
+      this.chatkitUser.createRoom({ // Create the room
         name: roomName,
         private: true,
         customData: { roomAvatar: res['_id'] },
@@ -324,5 +311,52 @@ export class MessagesComponent implements OnInit {
 
 
   ngOnInit() {
+
+    // console.log(this.chatkitUser);
+    // console.log(this.chatkitUser.roomStore.rooms);
+    console.log(this.rooms);
+    console.log(this.room_messages);
+    // this.chatkitUser.rooms;
+    console.log(Object.keys(this.rooms));
+    // this.rooms.forEach((room) => {
+    //   console.log(room);
+    // });
+
+
+    console.log(this.rooms);
+
+    // console.log('Connected as user ', user);
+    // this.chatkitUser = user;
+    // this.rooms = user.rooms;
+
+    // Iterate through rooms and subscribe to each
+
+    // Join first room in array
+    // TODO: refactor this implementation
+
+    // this.chatkitUser.joinRoom({roomId: this.rooms[0].id}).then(room => {
+    //   this.current_room = room;
+
+
+    //   // Fetch all messages for joined room
+    //   this.chatkitUser.fetchMultipartMessages({
+    //     roomId: this.rooms[0].id,
+    //     limit: 10,
+    //   }).then(messages => {
+    //     messages.forEach(message => {
+    //       // console.log(message.parts[0].payload.content);
+    //     });
+    //     this.room_messages = messages;
+    //   });
+    // });
+
+
+  // Get user id from local storage
+  const user_id = JSON.parse(localStorage.getItem('currentUser'))._embedded.user.id;
+
+    // Subscribe to new notifications
+    this.msgService.notificationCount
+    .subscribe(notification => this.notificationCount = notification);
+    // console.log(this.chatkitUser);
     }
 }
