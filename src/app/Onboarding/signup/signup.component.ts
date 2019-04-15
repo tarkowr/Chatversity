@@ -76,7 +76,7 @@ export class SignupComponent implements OnInit {
   get f() { return this.signupForm.controls; }
   
   //
-  // ─── SEARCH FOR UNIVERSITY FROM JSON STORE ──────────────────────────────────────
+  // ─── VALIDATE UNIVERSITY WITH JSON STORE ──────────────────────────────────────
   //
   validateUniversity(query: string) {
     this.searchingForSchool = true;
@@ -126,7 +126,7 @@ export class SignupComponent implements OnInit {
   }
   
   //
-  // ─── UPDATE UNIVERSITY IF USER CHANGES IT ──────────────────────────────────────
+  // ─── UPDATE UNIVERSITY IF USER CHANGES INPUT ──────────────────────────────────────
   //
   userUpdateUniversity(newUniversity: string){
     this.guessUniversity = newUniversity;
