@@ -64,6 +64,11 @@ app-messages, app-rooms {
 .page-content{
   height: calc(100% - 57px);
 }
+@media (min-width: 768px){ 
+  .page-content{
+    height: calc(100% - 70px);
+  }
+}
 
 .fa, .fas {
   font-family: "Font Awesome 5 Pro" !important;
