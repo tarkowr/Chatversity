@@ -27,24 +27,10 @@ export class MessagingService {
     this._message = value;
   }
 
-  constructor( private authenticationService: AuthService) {
-
-    this.currentUserSubscription = this.authenticationService.currentUser.subscribe(user => {
-      this.currentUser = user;
-    });
+  constructor() {
 
     // this.currentUser = authenticationService.currentUser;
-    console.log(this.currentUser);
-
-if (this.currentUser) {
-  this.chatManager = new ChatManager({
-    instanceLocator: 'v1:us1:a54bdf12-93d6-46f9-be3b-bfa837917fb5',
-    userId: this.currentUser._embedded.user.id,
-    tokenProvider: new TokenProvider({
-      url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/a54bdf12-93d6-46f9-be3b-bfa837917fb5/token'
-    })
-  });
-}
+    // console.log(this.currentUser);
 
 
 
@@ -60,6 +46,20 @@ if (this.currentUser) {
     // .catch(error => {
     //   console.error('error:', error);
     // });
+  }
+
+  initialize(userId) {
+    this.chatManager = new ChatManager({
+      instanceLocator: 'v1:us1:a54bdf12-93d6-46f9-be3b-bfa837917fb5',
+      userId: userId,
+      tokenProvider: new TokenProvider({
+        url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/a54bdf12-93d6-46f9-be3b-bfa837917fb5/token'
+      })
+    });
+
+    return this.chatManager.connect().then(user => {
+      return user;
+    });
   }
 
   setRoomsWithNotifications(count) {
@@ -87,17 +87,17 @@ if (this.currentUser) {
   }
 
   // Join a room
-  // joinRoom(roomID) {
-  //   return this.chatkitUser.joinRoom( { roomId: roomID } )
-  //   .then(room => {
-  //     console.log(`Joined room with ID: ${room.id}`);
-  //     // Subscribe to room to receive notifications
-  //     return room;
-  //   })
-  //   .catch(err => {
-  //     console.log(`Error joining room ${roomID}: ${err}`);
-  //   });
-  // }
+  joinRoom(roomID) {
+    return this.chatkitUser.joinRoom( { roomId: roomID } )
+    .then(room => {
+      console.log(`Joined room with ID: ${room.id}`);
+      // Subscribe to room to receive notifications
+      return room;
+    })
+    .catch(err => {
+      console.log(`Error joining room ${roomID}: ${err}`);
+    });
+  }
 
   // Subscribe to room
   subscribeToRoom(roomID) {

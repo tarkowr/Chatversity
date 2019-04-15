@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment.prod';
 import { UserService } from '../../Core/_services/user.service';
 import { MessagingService } from '../../Core/_services/messaging.service';
 import { AppComponent } from '../../app.component';
+import { AuthService } from '../../Core/_services/auth.service';
 
 @Component({
   selector: 'app-view-friends-home',
@@ -25,6 +26,9 @@ export class ViewFriendsHomeComponent implements OnInit {
   results: User[];
   // Field for connection
   connectionToAdd = new FormControl('');
+  subscription: any;
+  chatkitUser: any;
+  rooms: any;
 
 
   //
@@ -35,38 +39,31 @@ export class ViewFriendsHomeComponent implements OnInit {
       private formBuilder: FormBuilder,
       private _userService: UserService,
       private _msgService: MessagingService,
-      private app: AppComponent) { }
+      private app: AppComponent,
+      private _auth: AuthService) {
+        this.subscription = this._auth.chatkitUser$.subscribe(
+          (user) => {
+            this.chatkitUser = user;
+            console.log(this.chatkitUser);
+            this.rooms = user.rooms;
+            console.log(this.rooms);
+          }
+        );
+
+        // this.incomingMessages = this._auth.messages$.subscribe(
+        //   (incomingMessage) => {
+        //     this.room_messages.push(incomingMessage);
+        //   }
+        // );
+
+        // this.current_room = this._auth.currentRoom$.subscribe(
+        //   (currentRoom) => {
+        //     this.current_room = currentRoom;
+        //     console.log(currentRoom);
+        //   }
+        // );
+      }
   // ────────────────────────────────────────────────────────────────────────────────
-
-
-  ngOnInit() {
-
-    this.currUser = this.app.currUser;
-    console.log(this.currUser);
-
-    //
-    // ─── LOAD USER CONNECTIONS ───────────────────────────────────────
-    //
-
-      this._userService.getConnections(this.currUser.id)
-      .toPromise()
-      .then((connections) => {
-        this.connections = connections;
-      });
-    // ────────────────────────────────────────────────────────────────────────────────
-
-
-
-    //
-    // ─── SETUP SEARCH BOX ────────────────────────────────────────────
-    //
-
-      this.searchForm = this.formBuilder.group({
-        search: ['', Validators.required]
-      });
-    // ─────────────────────────────────────────────────────────────────
-
-  }
 
 
 
@@ -196,4 +193,32 @@ export class ViewFriendsHomeComponent implements OnInit {
     }
   // ────────────────────────────────────────────────────────────────────────────────
 
+
+
+  ngOnInit() {
+
+    //
+    // ─── LOAD USER CONNECTIONS ───────────────────────────────────────
+    //
+
+      this._userService.getConnections(this.chatkitUser.id)
+      .toPromise()
+      .then((connections) => {
+        this.connections = connections;
+        console.log(connections);
+      });
+    // ────────────────────────────────────────────────────────────────────────────────
+
+
+
+    //
+    // ─── SETUP SEARCH BOX ────────────────────────────────────────────
+    //
+
+      this.searchForm = this.formBuilder.group({
+        search: ['', Validators.required]
+      });
+    // ─────────────────────────────────────────────────────────────────
+
+  }
 }

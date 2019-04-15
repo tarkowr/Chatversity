@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private auth: AuthService
-  ) {}
+  ) {  this.returnUrl = '/'; }
 
   ngOnInit() {
     // TODO: Check if already logged in, redirect
@@ -44,7 +44,6 @@ export class LoginComponent implements OnInit {
       )],
       password: ['', Validators.required]
   });
-    this.returnUrl = '/';
   }
 
 
@@ -77,10 +76,12 @@ export class LoginComponent implements OnInit {
       console.log(formData);
 
 
-      this.auth.login(this.f.username.value, this.f.password.value).then(data => {
+      this.auth.login(this.f.username.value, this.f.password.value).then(user => {
+        console.log(`Logged in as ${user._embedded.user.profile.firstName}`);
         this.router.navigate([this.returnUrl]);
       },
       error => {
+        console.log(error);
         this.loading = false;
         this.f.username.setErrors({invalid: true});
       });
