@@ -170,6 +170,7 @@ export class SignupComponent implements OnInit {
     error => {
       this.loading = false;
       // this.f.username.setErrors({invalid: true});
+      console.log(error)
     });
   }
 }

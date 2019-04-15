@@ -79,10 +79,12 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
       this.subscription = this._auth.chatkitUser$.subscribe(
         (user) => {
-          this.chatkitUser = user;
-          console.log(this.chatkitUser);
-          this.rooms = user.rooms;
-          console.log(this.rooms);
+          if(user){
+            this.chatkitUser = user;
+            console.log(this.chatkitUser);
+            this.rooms = user.rooms;
+            console.log(this.rooms);
+          }
         }
       );
 

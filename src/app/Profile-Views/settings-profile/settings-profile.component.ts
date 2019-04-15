@@ -45,9 +45,11 @@ export class SettingsProfileComponent implements OnInit {
 
       this.subscription = this._auth.chatkitUser$.subscribe(
         (user) => {
-          this.chatkitUser = user;
-          console.log(this.chatkitUser);
-          this.initForm();
+          if(user){
+            this.chatkitUser = user;
+            console.log(this.chatkitUser);
+            this.initForm();
+          }
         }
       );
 

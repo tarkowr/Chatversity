@@ -28,7 +28,6 @@ export class AuthService implements OnInit {
 
     constructor(private http: HttpClient, private _msgService: MessagingService ) {
 
-        localStorage.setItem('chatkitUserId', null);
 
         this.currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
@@ -45,6 +44,8 @@ export class AuthService implements OnInit {
         // Only called on login
         this.user$.subscribe((x) => {
             console.log(x);
+            if (!x) { return; }
+
             this.initChatkit(x);
         });
     }
@@ -76,10 +77,11 @@ export class AuthService implements OnInit {
             return this.http.post<any>(`${environment.apiUrl}/okta/signup`, { fname, lname, username, password })
             .toPromise()
             .then((user) => {
+                console.log(user)
                 // Create chatkit user from Okta User ID
                 return this.http.post(`${environment.apiUrl}/chatkit/createuser`, {
                     id: user.id,
-                    name: user.profile.UserProfile.firstName + ' ' + user.profile.UserProfile.lastName,
+                    name: user.profile.firstName + ' ' + user.profile.lastName,
                     custom_data: {
                         connections: [],
                         connectionRequests: [],
@@ -99,15 +101,19 @@ export class AuthService implements OnInit {
                     console.log('Created Chatkit user!');
                     console.log(chatkitUser);
 
-                    this.currentUser = chatkitUser;
+                    return this.login(username, password).then(user => {
+                        return user;
+                    });
+
+                    /*this.currentUser = chatkitUser;
 
                     localStorage.setItem('currentUser', JSON.stringify(user));
                     this.currentUserSubject.next(user);
 
-                    localStorage.setItem('chatkitUserId', user._embedded.user.id);
-                    this.user.next(user._embedded.user.id);
+                    localStorage.setItem('chatkitUserId', user.id);
+                    this.user.next(user.id);*/
 
-                    return chatkitUser;
+                    //return chatkitUser;
                 });
             });
         }
@@ -158,7 +164,7 @@ export class AuthService implements OnInit {
 
 
     initChatkit(userId) {
-        if (userId == null) { return; }
+        console.log(userId)
         this.chatManager = new ChatManager({
             instanceLocator: 'v1:us1:a54bdf12-93d6-46f9-be3b-bfa837917fb5',
             userId: userId,
@@ -171,6 +177,7 @@ export class AuthService implements OnInit {
               localStorage.setItem('chatkitUser', stringify(user));
               this.chatkitUser.next(user);
             console.log(`Connected as ${user.name}`);
+            if (user.rooms) { return user; }
             user.joinRoom({ roomId: user.rooms[0].id })
             .then(room => {
                 this.currentRoom.next(room);
@@ -212,5 +219,7 @@ export class AuthService implements OnInit {
 
     ngOnInit() {
         console.log(this.currentUserSubject.value);
+        localStorage.setItem('chatkitUserId', null);
+
     }
 }
