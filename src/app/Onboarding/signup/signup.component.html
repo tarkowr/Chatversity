@@ -89,7 +89,7 @@
             <!--University Select-->
             <div class="form-group mb-3">
               <label for="university" class="text-secondary">University <span class="text-danger">*</span></label>
-              <input type="text" name="university" required formControlName="university" class="form-control primary-border"
+              <input type="text" [readonly]="true" name="university" required formControlName="university" class="form-control primary-border"
                   placeholder="University of Michigan" (change)="userUpdateUniversity(f.university.value)"
                   [ngClass]="{ 'is-invalid': submitted && f.university.errors, 'danger-border': submitted && f.university.errors }">
 

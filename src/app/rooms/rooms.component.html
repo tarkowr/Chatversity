@@ -29,7 +29,7 @@
                             <div class="" [ngStyle]="{ 'background-image': 'url(assets/avatars/' + room.customData.roomAvatar + ')', 'height':'50px', 'width':'50px', 'background-size':'cover', 'background-position':'center, center' }">
                             </div>
                         </ng-container>
-                        <span class="text-secondary">{{ room.name }}</span>
+                        <span>{{ room.name }}</span>
                         <span *ngIf="roomNotifications[room.id]" class="badge badge-secondary">New</span>
                       </div>
                   </button>
