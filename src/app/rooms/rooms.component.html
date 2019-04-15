@@ -18,8 +18,8 @@
           <!-- Begin rooms list -->
           <div id="messages" class="row">
             <div class="col-12 my-2 px-3">
-                <button class="btn btn-block custom-btn text-left mr-4 my-2 p-3"  data-toggle="modal" data-target="#addRoomModal"
-                (click)="roomCreated = false" id="createRoomBtn">New Room <i class="fa fa-plus"></i> </button>
+                <button class="btn btn-block custom-btn text-left mr-4 my-2 p-3 user-action-btn"  data-toggle="modal"
+                 data-target="#addRoomModal" (click)="roomCreated = false">New Room <i class="fa fa-plus"></i> </button>
 
                 <ng-container *ngFor="let room of rooms">
                 <button class="btn btn-block custom-btn text-left my-2 p-3" (click)="joinRoom(room.id)"
