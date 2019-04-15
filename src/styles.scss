@@ -69,8 +69,11 @@ app-messages, app-rooms {
   font-family: "Font Awesome 5 Pro" !important;
 }
 
-.chat-user-link:hover { 
-  cursor: pointer;
-  text-decoration: underline;
-  outline: none;
+.chat-user-link { 
+  &:focus { outline: none; }
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+    outline: none;
+  }
 }
