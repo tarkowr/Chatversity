@@ -70,6 +70,13 @@ app-messages, app-rooms {
   }
 }
 
+.user-action-btn{
+  color: #0E425F;
+}
+.user-action-btn:hover{
+  border: 1px solid #0E425F;
+}
+
 .fa, .fas {
   font-family: "Font Awesome 5 Pro" !important;
 }
