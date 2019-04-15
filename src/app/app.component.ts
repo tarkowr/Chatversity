@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
   // tslint:disable-next-line:no-inferrable-types
   update: boolean = false;
   currUser: any;
+  // chatkitUser: any;
 
   constructor(
       private router: Router,
@@ -26,6 +27,7 @@ export class AppComponent implements OnInit {
       private messagingService: MessagingService
   ) {
     this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
+    // this.authenticationService.chatkitUser.subscribe(y => this.chatkitUser = y);
   }
 
   //
@@ -63,24 +65,24 @@ export class AppComponent implements OnInit {
     // this.currentUser = this.authenticationService.currentUser;
     console.log(this.currentUser);
 
-    if (this.currentUser) {
-      this.messagingService.chatManager.connect()
-      .then((user) => {
-        this.currUser = user;
-        console.log(user);
-        user.rooms.forEach(room => {
-          user.subscribeToRoomMultipart({
-            roomId: room.id,
-            messageLimit: 10
-          });
-        });
-      });
+    // if (this.currentUser) {
+    //   this.messagingService.chatManager.connect()
+    //   .then((user) => {
+    //     this.currUser = user;
+    //     console.log(user);
+    //     user.rooms.forEach(room => {
+    //       user.subscribeToRoomMultipart({
+    //         roomId: room.id,
+    //         messageLimit: 10
+    //       });
+    //     });
+    //   });
 
-      this.updates.available.subscribe(event => {
-        this.update = true;
-      });
+    //   this.updates.available.subscribe(event => {
+    //     this.update = true;
+    //   });
 
-      console.log(this.currentUser);
-    }
+    //   console.log(this.currentUser);
+    // }
   }
 }

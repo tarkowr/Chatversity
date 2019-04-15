@@ -45,6 +45,7 @@
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
+    "flatted": "^2.0.0",
     "mongodb": "^3.2.2",
     "mongoose": "^5.4.19",
     "multer": "^1.4.1",
