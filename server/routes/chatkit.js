@@ -176,6 +176,25 @@ router.post('/upload/avatar', type, (req, res) => {
   //   // })
   });
 
+  //
+  // ─── CREATE USER ────────────────────────────────────────────────────────────────
+  //
+
+    router.post('/createuser', (req, res) => {
+      console.log(req.body)
+      chatkit.createUser({
+        id: req.body.id,
+        name: req.body.name,
+        customData: req.body.custom_data,
+      })
+        .then(() => {
+          console.log('User created successfully');
+        }).catch((err) => {
+          console.log(err);
+        });
+    })
+  // ────────────────────────────────────────────────────────────────────────────────
+
 
 
 // Get user rooms

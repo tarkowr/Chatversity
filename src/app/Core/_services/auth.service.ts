@@ -62,6 +62,7 @@ export class AuthService implements OnInit {
     //     return this.chatUserSubject.value;
     // }
 
+
     //
     // ─── SEND SIGN UP REQUEST TO SERVER ─────────────────────────────────────────────
     //
@@ -69,23 +70,87 @@ export class AuthService implements OnInit {
         signup(fname: string, lname: string, university: string, username: string, password: string) {
             console.log(fname, lname, university, username, password);
 
+            // Create Okta User
             return this.http.post<any>(`${environment.apiUrl}/okta/signup`, { fname, lname, username, password })
             .toPromise()
             .then((user) => {
-                const user_id = user._embedded.user.id;
-                console.log(user);
+                // Create chatkit user from Okta User ID
+                this.http.post(`${environment.apiUrl}/chatkit/createuser`, {
+                    id: user.id,
+                    name: user.profile.UserProfile.firstName + ' ' + user.profile.UserProfile.lastName,
+                    custom_data: {
+                        connections: [],
+                        connectionRequests: [],
+                        bio: '',
+                        university: university,
+                        graduationYear: '',
+                        interests: '',
+                        clubs: '',
+                        major: '',
+                        privateAccount: false,
+                        showActivityStatus: true,
+                    }
+                })
+                .toPromise()
+                .then((chatkitUser) => {
+                    // Created Chatkit user
+                    console.log('Created Chatkit user!');
+                    console.log(chatkitUser);
+
+                    this.currentUser = chatkitUser;
+                });
+
                 localStorage.setItem('currentUser', JSON.stringify(user));
                 this.currentUserSubject.next(user);
-                this.http.post(`${environment.apiUrl}/chatkit/createtoken`, {user_id})
-                .toPromise()
-                .then((token) => {
-                    console.log(token);
-                localStorage.setItem('chatkitToken', JSON.stringify(token));
-                return token;
-                });
+
+                localStorage.setItem('chatkitUserId', user._embedded.user.id);
+                this.user.next(user._embedded.user.id);
             });
         }
     // ─────────────────────────────────────────────────────────────────
+
+
+
+    //
+    // ─── VALIDATE LOGIN THROUGH OKTA ────────────────────────────────────────────────
+    //
+
+    login(username: string, password: string) {
+        return this.http.post<any>(`${environment.apiUrl}/okta/login`, { username, password })
+        .toPromise()
+        .then((user) => {
+
+            this.currentUser = user;
+            console.log(user);
+
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            this.currentUserSubject.next(user);
+
+            localStorage.setItem('chatkitUserId', user._embedded.user.id);
+            this.user.next(user._embedded.user.id);
+
+            // this.initChatkit(user._embedded.user.id)
+            // .then(data => {
+            //     console.log(data);
+            //     localStorage.setItem('chatkitUser', stringify(data));
+            //     localStorage.setItem('chatkitUserId', data.id);
+            //     // console.log(parse(localStorage.getItem('chatkitUser')));
+            //     this.user.next(data);
+            // });
+
+            // this.currentUserSubject.next(user);
+            // this.http.post(`${environment.apiUrl}/chatkit/createtoken`, {user_id})
+            // .toPromise()
+            // .then((token) => {
+            //     console.log(token);
+            //     localStorage.setItem('chatkitToken', JSON.stringify(token));
+            //     this.currentUserSubject.next(user);
+            // });
+            return user;
+        });
+    }
+// ─────────────────────────────────────────────────────────────────
+
 
 
     initChatkit(userId) {
@@ -125,46 +190,6 @@ export class AuthService implements OnInit {
             return user;
           });
     }
-
-    //
-    // ─── VALIDATE LOGIN THROUGH OKTA ────────────────────────────────────────────────
-    //
-
-        login(username: string, password: string) {
-            return this.http.post<any>(`${environment.apiUrl}/okta/login`, { username, password })
-            .toPromise()
-            .then((user) => {
-
-                this.currentUser = user;
-                console.log(user);
-
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                this.currentUserSubject.next(user);
-
-                localStorage.setItem('chatkitUserId', user._embedded.user.id);
-                this.user.next(user._embedded.user.id);
-
-                // this.initChatkit(user._embedded.user.id)
-                // .then(data => {
-                //     console.log(data);
-                //     localStorage.setItem('chatkitUser', stringify(data));
-                //     localStorage.setItem('chatkitUserId', data.id);
-                //     // console.log(parse(localStorage.getItem('chatkitUser')));
-                //     this.user.next(data);
-                // });
-
-                // this.currentUserSubject.next(user);
-                // this.http.post(`${environment.apiUrl}/chatkit/createtoken`, {user_id})
-                // .toPromise()
-                // .then((token) => {
-                //     console.log(token);
-                //     localStorage.setItem('chatkitToken', JSON.stringify(token));
-                //     this.currentUserSubject.next(user);
-                // });
-                return user;
-            });
-        }
-    // ─────────────────────────────────────────────────────────────────
 
 
 

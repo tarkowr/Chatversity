@@ -32,9 +32,9 @@ export class SignupComponent implements OnInit {
   returnUrl: string;
   universities: University[];
   searchingForSchool = false;
-  wrongUniversity:boolean = false;
+  wrongUniversity = false;
   formValidation: CustomFormValidation = new CustomFormValidation();
-  guessUniversity:string;
+  guessUniversity: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -74,13 +74,13 @@ export class SignupComponent implements OnInit {
   // ─── CONVENIENCE GETTER FOR EASY ACCESS TO FORM FIELDS ──────────────────────────
   //
   get f() { return this.signupForm.controls; }
-  
+
   //
   // ─── VALIDATE UNIVERSITY WITH JSON STORE ──────────────────────────────────────
   //
   validateUniversity(query: string) {
     this.searchingForSchool = true;
-    console.log(query)
+    console.log(query);
     return this.http.get(`${environment.apiUrl}/university/name/${query}`)
     .toPromise()
     .then(university => {
@@ -98,12 +98,12 @@ export class SignupComponent implements OnInit {
   //
   findUniversity(query: string) {
     this.searchingForSchool = true;
-    //console.log(query);
+    // console.log(query);
 
     return this.http.get(`${environment.apiUrl}/university/${query}`)
     .toPromise()
     .then(university => {
-      //console.log(university);
+      // console.log(university);
       return university;
     })
     .catch(error => {
@@ -115,25 +115,25 @@ export class SignupComponent implements OnInit {
   //
   // ─── GET UNIVERSITY BY DOMAIN ──────────────────────────────────────
   //
-  async getUniversity(query: string){
+  async getUniversity(query: string) {
     let data = new Object();
     data = await this.findUniversity(query);
 
-    if(data){
+    if (data) {
       this.guessUniversity = data['name'];
       this.signupForm.get('university').setValue(this.guessUniversity);
     }
   }
-  
+
   //
   // ─── UPDATE UNIVERSITY IF USER CHANGES INPUT ──────────────────────────────────────
   //
-  userUpdateUniversity(newUniversity: string){
+  userUpdateUniversity(newUniversity: string) {
     this.guessUniversity = newUniversity;
 
     this.validateUniversity(this.guessUniversity)
     .then(result => {
-      if(!result){
+      if (!result) {
         this.f.university.setErrors({'invalid': true});
       }
     });
@@ -169,7 +169,7 @@ export class SignupComponent implements OnInit {
     },
     error => {
       this.loading = false;
-      //this.f.username.setErrors({invalid: true});
+      // this.f.username.setErrors({invalid: true});
     });
   }
 }
