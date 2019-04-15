@@ -71,9 +71,9 @@ export class MessagesComponent implements OnInit {
     this.subscription = this._auth.chatkitUser$.subscribe(
       (user) => {
         // console.log(user);
-        this.chatkitUser = parse(user);
-        console.log(parse(user));
-        this.rooms.push(Object.entries(this.chatkitUser.roomStore.rooms));
+        this.chatkitUser = user;
+        console.log(this.chatkitUser);
+        this.rooms = user.rooms;
         console.log(this.rooms);
       }
     );

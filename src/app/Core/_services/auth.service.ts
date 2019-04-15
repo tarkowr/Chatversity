@@ -99,6 +99,7 @@ export class AuthService implements OnInit {
 
           return this.chatManager.connect().then(user => {
               localStorage.setItem('chatkitUser', stringify(user));
+              this.chatkitUser.next(user);
             console.log(`Connected as ${user.name}`);
             user.joinRoom({ roomId: user.rooms[0].id })
             .then(room => {

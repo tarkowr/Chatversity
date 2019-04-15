@@ -17,13 +17,13 @@
           <div id="messages" class="row">
             <div class="col-12">
                 <ng-container *ngIf="rooms && current_room">
-                    <button *ngFor="let room of rooms[0]" class="btn btn-block custom-btn text-left mr-4 my-2 p-3" (click)="joinRoom(room.id)"
-                    [ngClass]="{ 'active': current_room.id == room[1].id }">
+                    <button *ngFor="let room of rooms" class="btn btn-block custom-btn text-left mr-4 my-2 p-3" (click)="joinRoom(room.id)"
+                    [ngClass]="{ 'active': current_room.id == room.id }">
                         <div class="room d-flex align-items-center justify-content-between">
                             <ng-container *ngIf="room?.custom_data !== undefined">
                                 <!-- <img src="{{ room.custom_data.roomAvatar }}" alt=""> -->
                             </ng-container>
-                            <span class="text-secondary">{{ room[1].name }}</span>
+                            <span class="text-secondary">{{ room.name }}</span>
                             <span *ngIf="roomNotifications[room.id]" class="badge badge-secondary">New</span>
                           </div>
                       </button>
