@@ -25,11 +25,12 @@ export class UserService {
     // ─── UPDATE ──────────────────────────────────────────────────────────────
     //
 
-        update(userId: number, data) {
-            const headers = new HttpHeaders({ 'Content-Type': 'appliction/json'});
-            console.log(data);
+        update(userId, data) {
+            const headers = new HttpHeaders({
+                'Content-Type': 'application/json'
+            });
 
-            return this.http.put(`${environment.apiUrl}/chatkit/user/${userId}`, data, {headers: headers});
+            return this.http.post(`${environment.apiUrl}/chatkit/user/${userId}`, data, {headers: headers});
         }
     // ─────────────────────────────────────────────────────────────────
 

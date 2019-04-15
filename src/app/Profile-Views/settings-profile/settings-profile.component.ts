@@ -84,7 +84,7 @@ export class SettingsProfileComponent implements OnInit {
 
 
     // Create obj to hold formdata
-    const formData: FormData = new FormData();
+    // const formData: FormData = new FormData();
 
     // Get current user custom data
     const currentUserData = this.chatkitUser.customData;
@@ -98,13 +98,13 @@ export class SettingsProfileComponent implements OnInit {
     currentUserData['clubs'] = _clubs;
 
     // Append updated data to form data
-    formData.append('userData', JSON.stringify(currentUserData));
+    // formData.append('userData', currentUserData);
+    // formData.append('updatedData',  );
 
     console.log('Saving profile...');
-    console.log(formData);
 
     // Send the updated data and update the user
-    this.userService.update(this.chatkitUser.id, formData)
+    this.userService.update(this.chatkitUser.id, JSON.stringify(currentUserData))
     .subscribe((data) => {
       console.log(data);
       console.log('Success!');
@@ -115,35 +115,35 @@ export class SettingsProfileComponent implements OnInit {
     console.log(this.chatkitUser.name);
 
     try {
-      this.bio = this.chatkitUser.customData.profile.bio;
+      this.bio = this.chatkitUser.customData.bio;
     } catch (error) {
       this.bio = '';
       console.log(this.bio);
     }
 
     try {
-      this.major = this.chatkitUser.customData.profile.major;
+      this.major = this.chatkitUser.customData.major;
     } catch (error) {
       this.major = '';
       console.log(this.major);
     }
 
     try {
-      this.graduationYear = this.chatkitUser.customData.profile.graduationYear;
+      this.graduationYear = this.chatkitUser.customData.graduationYear;
     } catch (error) {
       this.graduationYear = '';
       console.log(this.graduationYear);
     }
 
     try {
-      this.interests = this.chatkitUser.customData.profile.interests;
+      this.interests = this.chatkitUser.customData.interests;
     } catch (error) {
-      this.interests = '';
+      this.interests = 'asdf';
       console.log(this.interests);
     }
 
     try {
-      this.clubs = this.chatkitUser.customData.profile.clubs;
+      this.clubs = this.chatkitUser.customData.clubs;
     } catch (error) {
       this.clubs = '';
       console.log(this.clubs);

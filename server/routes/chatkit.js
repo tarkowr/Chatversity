@@ -70,27 +70,43 @@ router.get('/', (req, res) => {
 // 
 
   // TODO: Richie add update user here 
-  router.put('/user/:id', (req, res) => {
+  router.post('/user/:id', (req, res) => {
     // console.log(req.body)
     // console.log(req)
     // console.log(req.body);
 
-    res.json({requestBody: req})
-    console.dir(req.body);
+    
+    console.log(req.body);
+
+    let name = req.body.name;
+
+    delete req.body.name;
 
     chatkit.updateUser({
       id: req.params.id,
+      name: name,
       customData: req.body,
-    })
-    // .then((user) => {
+    }).then(() => {
+      chatkit.getUser({
+        id: req.params.id,
+      })
+      .then((user) => {
+        console.log(user)
+      })
+      console.log('User updated successfully');
+    }).catch((err) => {
+      console.log(err);
+    });
+    // .then(() => {
     //   res.status(200).send('Success!')
-    //   console.log(`User updated successfuly: ${user}`)
+    //   console.log(`User updated successfuly!`)
       
     // })
     // .catch((err) => {
     //   res.status(500)
     //   console.log(err)
     // })
+    
   });
 // ────────────────────────────────────────────────────────────────────────────────
 
