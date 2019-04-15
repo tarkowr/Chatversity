@@ -6,7 +6,7 @@
       <div class="col-12 mt-4">
 
         <!-- Button to show edit form -->
-        <button (click)="editingForm = !editingForm" [ngClass]="{'btn-primary': editingForm, 'btn-outline-primary': !editingForm}" class="btn">
+        <button (click)="(editingForm = !editingForm)" (click)="(editingForm == false ? onSubmit() : false)" [ngClass]="{'btn-primary': editingForm, 'btn-outline-primary': !editingForm}" class="btn">
           <i class="fa fa-edit" *ngIf="!editingForm"></i> {{ editingForm == true ? 'Save Changes' : 'Edit' }}
         </button>
   
@@ -20,11 +20,8 @@
 
 
       <div class="col-12 col-sm-12 col-lg-8 my-3">
-        <ng-container *ngIf="chatkitUser">
-          <div *ngIf="!editingForm">
-
-          </div>
-          <form *ngIf="editingForm" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+        <ng-container>
+          <form *ngIf="editingForm" id="profileEditForm" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
   
             <div *ngIf="submitted && f.name.errors">
               <div class="alert alert-danger" role="alert">Unable to update profile.</div>

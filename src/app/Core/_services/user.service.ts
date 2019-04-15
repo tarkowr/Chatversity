@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { User } from '../_models/user';
 import { environment } from '../../../environments/environment';
@@ -25,8 +25,11 @@ export class UserService {
     // ─── UPDATE ──────────────────────────────────────────────────────────────
     //
 
-        update(user: any) {
-            return this.http.get(`${environment.apiUrl}/chatkit/updateUser/${user}`);
+        update(userId: number, data) {
+            const headers = new HttpHeaders({ 'Content-Type': 'appliction/json'});
+            console.log(data);
+
+            return this.http.put(`${environment.apiUrl}/chatkit/user/${userId}`, data, {headers: headers});
         }
     // ─────────────────────────────────────────────────────────────────
 

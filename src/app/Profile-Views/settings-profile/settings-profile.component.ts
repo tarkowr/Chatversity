@@ -93,7 +93,7 @@ export class SettingsProfileComponent implements OnInit {
     currentUserData['name'] = _name;
     currentUserData['bio'] = _bio;
     currentUserData['major'] = _major;
-    currentUserData['graduationYear'] = _gradYr.toString();
+    currentUserData['graduationYear'] = _gradYr;
     currentUserData['interests'] = _interests;
     currentUserData['clubs'] = _clubs;
 
@@ -104,13 +104,10 @@ export class SettingsProfileComponent implements OnInit {
     console.log(formData);
 
     // Send the updated data and update the user
-    this.userService.update(this.chatkitUser.id, formData).toPromise()
-    .then(data => {
+    this.userService.update(this.chatkitUser.id, formData)
+    .subscribe((data) => {
+      console.log(data);
       console.log('Success!');
-    },
-    error => {
-      this.loading = false;
-      // this.f.username.setErrors({invalid: true});
     });
   }
 
@@ -159,33 +156,13 @@ export class SettingsProfileComponent implements OnInit {
         // Bio
         bio: [ this.bio, MaxLengthValidator ],
         // Major
-        major: [
-          {
-            value: this.major
-          },
-          MaxLengthValidator
-        ],
+        major: [ this.major, MaxLengthValidator ],
         // Graduation year
-        graduationYear: [
-          {
-            value: this.graduationYear
-          },
-          MaxLengthValidator
-        ],
+        graduationYear: [ this.graduationYear, MaxLengthValidator ],
         // Interests
-        interests: [
-          {
-            value: this.interests
-          },
-            MaxLengthValidator
-          ],
+        interests: [ this.interests, MaxLengthValidator ],
           // Clubs
-        clubs: [
-          {
-            value: this.clubs
-          },
-          MaxLengthValidator
-        ]
+        clubs: [ this.clubs, MaxLengthValidator ]
       });
     // ─────────────────────────────────────────────────────────────────
   }
