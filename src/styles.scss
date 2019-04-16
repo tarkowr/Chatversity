@@ -12,7 +12,8 @@ $theme-colors: (
   "lighter":#F1F8FC,
   "lightest": #fafdff,
   "light-gray": #DAE6ED,
-  "danger": #ff4136
+  "danger": #ff4136,
+  "info": #FF247F,
 );
 
 @import '../node_modules/bootstrap/scss/bootstrap.scss';

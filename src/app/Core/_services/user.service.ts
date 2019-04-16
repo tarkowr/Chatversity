@@ -27,7 +27,8 @@ export class UserService {
 
         update(userId, data) {
             const headers = new HttpHeaders({
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
             });
 
             return this.http.post(`${environment.apiUrl}/chatkit/user/${userId}`, data, {headers: headers});

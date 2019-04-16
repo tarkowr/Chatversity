@@ -14,7 +14,9 @@
   </li>
   <li class="nav-item">
     <a class="nav-link mt-1 mb-1 pt-3 pb-3" routerLink="rooms">
-      <span>{{ notificationCount }}</span>
+      <ng-container *ngIf="incomingMessages">
+          <span *ngIf="incomingMessages" class="badge badge-info">{{ incomingMessages }}</span>
+      </ng-container>
     </a>
   </li>
 </ul>

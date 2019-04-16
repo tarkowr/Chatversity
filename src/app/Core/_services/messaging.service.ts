@@ -3,6 +3,8 @@ import {AuthService} from './auth.service';
 import { ChatManager, TokenProvider } from '@pusher/chatkit-client';
 import { User } from '../_models/user';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment.prod';
 
 
 @Injectable({
@@ -27,26 +29,20 @@ export class MessagingService {
     this._message = value;
   }
 
-  constructor() {
-
-    // this.currentUser = authenticationService.currentUser;
-    // console.log(this.currentUser);
+  constructor(private http: HttpClient) {}
 
 
 
+  //
+  // ─── GET ALL OF A USERS READ CURSORS ────────────────────────────────────────────
+  //
+    getReadCursorsForUser(id: number | string) {
+
+      return this.http.get(`${environment.apiUrl}/chatkit/getReadCursorsForUser/${id}`);
+    }
+  // ─────────────────────────────────────────────────────────────────
 
 
-    // TODO: Add this to an addUser function - only call when necessary
-    // this.chatManager
-    // .connect()
-    // .then(currentUser => {
-    //   console.log('Connected as user ', currentUser);
-    //   this.chatkitUser = currentUser;
-    // })
-    // .catch(error => {
-    //   console.error('error:', error);
-    // });
-  }
 
   initialize(userId) {
     this.chatManager = new ChatManager({

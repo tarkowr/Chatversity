@@ -42,6 +42,24 @@ router.get('/', (req, res) => {
 
 
 
+  //
+  // ─── GET READ CURSORS FOR USER ──────────────────────────────────────────────────
+  //
+  router.get('/getReadCursorsForUser/:id', (req, res) => {
+
+    chatkit
+        .getReadCursorsForUser({
+          userId: req.id,
+        })
+        .then(cursors => console.log('got cursors', cursors))
+        .catch(err => console.error(err))
+  })
+  // ────────────────────────────────────────────────────────────────────────────────
+
+  
+
+
+
 //
 // ─── GET ALL CONNECTIONS FOR A USER BY ID ───────────────────────────────────────
 //
@@ -87,13 +105,17 @@ router.get('/', (req, res) => {
       name: name,
       customData: req.body,
     }).then(() => {
+
+      console.log('User updated successfully');
+
       chatkit.getUser({
         id: req.params.id,
       })
       .then((user) => {
         console.log(user)
+        res.status(200).json(user) // Return the updated user
       })
-      console.log('User updated successfully');
+
     }).catch((err) => {
       console.log(err);
     });

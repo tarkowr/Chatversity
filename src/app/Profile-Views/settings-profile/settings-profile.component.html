@@ -5,7 +5,7 @@
       <div class="col-12 mt-4 mb-3">
 
         <!-- Button to show edit form -->
-        <button (click)="onSaveClick()" (click)="(editingForm == false ? onSubmit() : false)" [ngClass]="{'btn-primary': editingForm, 'btn-outline-primary': !editingForm}" class="btn px-3">
+        <button (click)="(editingForm == true ? onSubmit() : (editingForm = !editingForm))" [ngClass]="{'btn-primary': editingForm, 'btn-outline-primary': !editingForm}" class="btn px-3">
           <i class="fa fa-edit" *ngIf="!editingForm"></i> {{ editingForm == true ? 'Save Changes' : 'Edit' }}
         </button>
   
@@ -97,37 +97,37 @@
             <!--Name-->
             <div class="mb-3">
               <span class="no-edit-label text-uppercase">Name</span> <br>
-              <span> {{ this.name }}</span>
+              <span *ngIf="this.chatkitUser">{{ this.chatkitUser.name }}</span>
             </div>
       
             <!--Bio-->
             <div class="mb-3">
               <span class="no-edit-label text-uppercase">Bio</span> <br>
-              <span> {{ this.bio }}</span>
+              <span> {{ this.chatkitUser.customData.bio }}</span>
             </div>
             
             <!--Major-->
             <div class="mb-3">
               <span class="no-edit-label text-uppercase">Major</span> <br>
-              <span> {{ this.major }}</span>
+              <span> {{ this.chatkitUser.customData.major }}</span>
             </div>
 
             <!--Graduation Year-->
             <div class="mb-3">
               <span class="no-edit-label text-uppercase">Graduation Year</span> <br>
-              <span> {{ this.graduationYear }}</span>
+              <span> {{ this.chatkitUser.customData.graduationYear }}</span>
             </div>
 
             <!--Interests-->
             <div class="mb-3">
               <span class="no-edit-label text-uppercase">Interests</span> <br>
-              <span> {{ this.interests }}</span>
+              <span> {{ this.chatkitUser.customData.interests }}</span>
             </div>
 
             <!--Clubs-->
             <div class="mb-3">
               <span class="no-edit-label text-uppercase">Clubs</span> <br>
-              <span> {{ this.clubs }}</span>
+              <span> {{ this.chatkitUser.customData.clubs }}</span>
             </div>
 
           </div>

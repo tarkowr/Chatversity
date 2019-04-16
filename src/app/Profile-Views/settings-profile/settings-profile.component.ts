@@ -44,13 +44,11 @@ export class SettingsProfileComponent implements OnInit {
     private http: HttpClient,
     private userService: UserService) {
 
-      this.subscription = this._auth.chatkitUser$.subscribe(
+      this._auth.chatkitUser$.subscribe(
         (user) => {
-          if(user){
-            this.chatkitUser = user;
-            console.log(this.chatkitUser);
-            this.initForm();
-          }
+          this.chatkitUser = user;
+          console.log(this.chatkitUser);
+          this.initForm();
         }
       );
 
@@ -74,6 +72,8 @@ export class SettingsProfileComponent implements OnInit {
 
   // Validation and other actions upon form submission
   onSubmit() {
+    console.log('form submitted');
+
     this.submitted = true;
     this.loading = true;
 
@@ -94,6 +94,9 @@ export class SettingsProfileComponent implements OnInit {
 
     // Get current user custom data
     const currentUserData = this.chatkitUser.customData;
+    console.log('Current user data: ');
+    console.log(currentUserData);
+
 
     // Add update data
     currentUserData['name'] = _name;
@@ -105,12 +108,17 @@ export class SettingsProfileComponent implements OnInit {
 
     // Send the updated data and update the user
     this.userService.update(this.chatkitUser.id, JSON.stringify(currentUserData))
-    .subscribe((data) => {
-      console.log(data);
-    });
+    .toPromise()
+    .then((data) => {
 
-    this.getUserProfile();
-    this.loading = false;
+      console.log(data);
+      console.log(this.chatkitUser);
+
+      this.setUserProfile(data);
+
+      this.editingForm = false;
+      this.loading = false;
+    });
   }
 
   initForm() {
@@ -119,7 +127,7 @@ export class SettingsProfileComponent implements OnInit {
     // Build Form
     this.profileForm = this.formBuilder.group({
       // Name
-      name: [ this.chatkitUser.name, Validators.required ],
+      name: [ this.name, Validators.required ],
       // Bio
       bio: [ this.bio, MaxLengthValidator ],
       // Major
@@ -133,13 +141,20 @@ export class SettingsProfileComponent implements OnInit {
     });
   }
 
-  getUserProfile(){
-    try{
+  setUserProfile(userData) {
+    this.chatkitUser.customData.avatarURL = userData.avatar_url;
+    this.chatkitUser.customData.customData = userData.custom_data;
+    this.chatkitUser.name = userData.name;
+    this.chatkitUser.updatedAt = userData.updated_at;
+  }
+
+  getUserProfile() {
+    try {
       this.name = this.chatkitUser.name;
     } catch (error) {
       this.name = '';
     }
-    
+
     try {
       this.bio = this.chatkitUser.customData.bio;
     } catch (error) {
