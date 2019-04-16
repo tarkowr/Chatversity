@@ -1,7 +1,7 @@
 {
   "name": "Chatversity",
   "nativescript": {
-    "id": "org.nativescript.Chatversity"
+    "id": "com.chatversity"
   },
   "version": "0.0.0",
   "scripts": {
@@ -81,5 +81,7 @@
     "ts-node": "~5.0.1",
     "tslint": "~5.9.1",
     "typescript": "~3.1.1"
-  }
+  },
+  "author": "Noah Osterhout",
+  "description": "Chatversity is a messaging app to connect college and university students with their peers. It was built by five college students with the goal of promoting and simplifying collaboration across college and university campuses. "
 }
