@@ -26,6 +26,7 @@ export class ProfileComponent implements OnInit {
   connections: any;
   subscription: any;
 
+  name = '';
   bio = '';
   major = '';
   graduationYear = '';
@@ -43,13 +44,13 @@ export class ProfileComponent implements OnInit {
     private userService: UserService,
     private app: AppComponent) {
 
-      this.subscription = this._auth.chatkitUser$.subscribe(
-        (user) => {
-          this.chatkitUser = user;
-          console.log(this.chatkitUser);
-          this.initForm();
-        }
-      );
+    this.subscription = this._auth.chatkitUser$.subscribe(
+      (user) => {
+        this.chatkitUser = user;
+        console.log(this.chatkitUser);
+        this.initForm();
+      }
+    );
     }
 
   ngOnInit() {
@@ -58,39 +59,40 @@ export class ProfileComponent implements OnInit {
   initForm() {
     console.log(this.chatkitUser.name);
 
+    try{
+      this.name = this.chatkitUser.name;
+    } catch (error) {
+      this.name = '';
+    }
+
     try {
       this.bio = this.chatkitUser.customData.bio;
     } catch (error) {
       this.bio = '';
-      console.log(this.bio);
     }
 
     try {
       this.major = this.chatkitUser.customData.major;
     } catch (error) {
       this.major = '';
-      console.log(this.major);
     }
 
     try {
       this.graduationYear = this.chatkitUser.customData.graduationYear;
     } catch (error) {
       this.graduationYear = '';
-      console.log(this.graduationYear);
     }
 
     try {
       this.interests = this.chatkitUser.customData.interests;
     } catch (error) {
-      this.interests = 'asdf';
-      console.log(this.interests);
+      this.interests = '';
     }
 
     try {
       this.clubs = this.chatkitUser.customData.clubs;
     } catch (error) {
       this.clubs = '';
-      console.log(this.clubs);
     }
     // ─────────────────────────────────────────────────────────────────
   }

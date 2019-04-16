@@ -10,10 +10,7 @@ import { UserProfile } from '../../Core/_models/profile';
 export class SmallComponent implements OnInit {
 
   bio: string;
-  major: string;
   graduationYear: string;
-  interests: string;
-  clubs: string;
 
   @Input() user: any;
   @Input() isConnection = false;
@@ -23,37 +20,15 @@ export class SmallComponent implements OnInit {
   ngOnInit() {
 
     try {
-      this.bio = this.user.customData.profile.bio;
+      this.bio = this.user.customData.bio;
     } catch (error) {
       this.bio = '';
     }
 
-
     try {
-      this.major = this.user.customData.profile.major;
-    } catch (error) {
-      this.major = '';
-    }
-
-
-    try {
-      this.graduationYear = this.user.customData.profile.graduationYear;
+      this.graduationYear = this.user.customData.graduationYear;
     } catch (error) {
       this.graduationYear = '';
-    }
-
-
-    try {
-      this.interests = this.user.customData.profile.interests;
-    } catch (error) {
-      this.interests = '';
-    }
-
-
-    try {
-      this.clubs = this.user.customData.profile.clubs;
-    } catch (error) {
-      this.clubs = '';
     }
   }
 
