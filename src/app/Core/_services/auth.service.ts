@@ -177,7 +177,7 @@ export class AuthService implements OnInit {
               localStorage.setItem('chatkitUser', stringify(user));
               this.chatkitUser.next(user);
             console.log(`Connected as ${user.name}`);
-            if (user.rooms) { return user; }
+            if (!user.rooms) { return user; }
             user.joinRoom({ roomId: user.rooms[0].id })
             .then(room => {
                 this.currentRoom.next(room);
