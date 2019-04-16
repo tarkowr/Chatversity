@@ -28,6 +28,7 @@ export class SettingsProfileComponent implements OnInit {
   chatkitUser: any;
   editingForm = false;
 
+  name = '';
   bio = '';
   major = '';
   graduationYear = '';
@@ -58,11 +59,18 @@ export class SettingsProfileComponent implements OnInit {
   // Convenience getter for easy access to form fields
   get f() { return this.profileForm.controls; }
 
-  // Activate edit mode
-  // onClickEdit() {
-  //   this.editMode = true;
-  //   this.profileForm.enable();
-  // }
+  onSaveClick(){
+    if(this.profileForm){
+      if(this.profileForm.invalid){
+        this.submitted = true;
+        return;
+      }
+    }
+
+    this.submitted = false;
+    this.editingForm = !this.editingForm;
+  }
+
 
   // Validation and other actions upon form submission
   onSubmit() {
@@ -84,10 +92,6 @@ export class SettingsProfileComponent implements OnInit {
     const _interests: string = this.profileForm.get('interests').value;
     const _clubs: string = this.profileForm.get('clubs').value;
 
-
-    // Create obj to hold formdata
-    // const formData: FormData = new FormData();
-
     // Get current user custom data
     const currentUserData = this.chatkitUser.customData;
 
@@ -99,74 +103,72 @@ export class SettingsProfileComponent implements OnInit {
     currentUserData['interests'] = _interests;
     currentUserData['clubs'] = _clubs;
 
-    // Append updated data to form data
-    // formData.append('userData', currentUserData);
-    // formData.append('updatedData',  );
-
-    console.log('Saving profile...');
-
     // Send the updated data and update the user
     this.userService.update(this.chatkitUser.id, JSON.stringify(currentUserData))
     .subscribe((data) => {
       console.log(data);
-      console.log('Success!');
     });
+
+    this.getUserProfile();
+    this.loading = false;
   }
 
   initForm() {
-    console.log(this.chatkitUser.name);
+    this.getUserProfile();
 
+    // Build Form
+    this.profileForm = this.formBuilder.group({
+      // Name
+      name: [ this.chatkitUser.name, Validators.required ],
+      // Bio
+      bio: [ this.bio, MaxLengthValidator ],
+      // Major
+      major: [ this.major, MaxLengthValidator ],
+      // Graduation year
+      graduationYear: [ this.graduationYear, MaxLengthValidator ],
+      // Interests
+      interests: [ this.interests, MaxLengthValidator ],
+        // Clubs
+      clubs: [ this.clubs, MaxLengthValidator ]
+    });
+  }
+
+  getUserProfile(){
+    try{
+      this.name = this.chatkitUser.name;
+    } catch (error) {
+      this.name = '';
+    }
+    
     try {
       this.bio = this.chatkitUser.customData.bio;
     } catch (error) {
       this.bio = '';
-      console.log(this.bio);
     }
 
     try {
       this.major = this.chatkitUser.customData.major;
     } catch (error) {
       this.major = '';
-      console.log(this.major);
     }
 
     try {
       this.graduationYear = this.chatkitUser.customData.graduationYear;
     } catch (error) {
       this.graduationYear = '';
-      console.log(this.graduationYear);
     }
 
     try {
       this.interests = this.chatkitUser.customData.interests;
     } catch (error) {
-      this.interests = 'asdf';
-      console.log(this.interests);
+      this.interests = '';
     }
 
     try {
       this.clubs = this.chatkitUser.customData.clubs;
     } catch (error) {
       this.clubs = '';
-      console.log(this.clubs);
     }
-
-      // Build Form
-      this.profileForm = this.formBuilder.group({
-        // Name
-        name: [ this.chatkitUser.name, Validators.required ],
-        // Bio
-        bio: [ this.bio, MaxLengthValidator ],
-        // Major
-        major: [ this.major, MaxLengthValidator ],
-        // Graduation year
-        graduationYear: [ this.graduationYear, MaxLengthValidator ],
-        // Interests
-        interests: [ this.interests, MaxLengthValidator ],
-          // Clubs
-        clubs: [ this.clubs, MaxLengthValidator ]
-      });
-    // ─────────────────────────────────────────────────────────────────
   }
 
 

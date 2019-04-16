@@ -1,19 +1,23 @@
 <div class="container-fluid">
     <div class="row">
 
-
       <!-- edit buttons -->
-      <div class="col-12 mt-4">
+      <div class="col-12 mt-4 mb-3">
 
         <!-- Button to show edit form -->
-        <button (click)="(editingForm = !editingForm)" (click)="(editingForm == false ? onSubmit() : false)" [ngClass]="{'btn-primary': editingForm, 'btn-outline-primary': !editingForm}" class="btn">
+        <button (click)="onSaveClick()" (click)="(editingForm == false ? onSubmit() : false)" [ngClass]="{'btn-primary': editingForm, 'btn-outline-primary': !editingForm}" class="btn px-3">
           <i class="fa fa-edit" *ngIf="!editingForm"></i> {{ editingForm == true ? 'Save Changes' : 'Edit' }}
         </button>
   
         <!-- Button to cancel form edit => only shown when form is displayed -->
-        <button (click)="editingForm = !editingForm" *ngIf="editingForm" class="btn btn-outline-light">
+        <button (click)="editingForm = !editingForm" *ngIf="editingForm" class="btn btn-outline-primary ml-2 px-3">
           <i class="fa fa-times"></i> Cancel
         </button>
+
+        <!--<div class="text-center">
+          <img *ngIf="loading"
+          src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />  
+        </div>-->
 
       </div>
       <!-- end edit buttons -->
@@ -85,14 +89,48 @@
               <input type="text" class="form-control" id="clubs" name="clubs" placeholder="Which clubs are you involved in?" maxlength="100"
               formControlName="clubs">
             </div>
-       
-            <!--Submit Button-->
-            <button *ngIf="editMode" [disabled]="loading" class="btn btn-secondary btn-block mt-4 mb-3 py-3 text-uppercase">Update Profile</button>
-            <div class="text-center">
-                <img *ngIf="loading"
-                src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />  
-            </div>
+
           </form>
+
+          <div *ngIf="!editingForm">
+
+            <!--Name-->
+            <div class="mb-3">
+              <span class="no-edit-label text-uppercase">Name</span> <br>
+              <span> {{ this.name }}</span>
+            </div>
+      
+            <!--Bio-->
+            <div class="mb-3">
+              <span class="no-edit-label text-uppercase">Bio</span> <br>
+              <span> {{ this.bio }}</span>
+            </div>
+            
+            <!--Major-->
+            <div class="mb-3">
+              <span class="no-edit-label text-uppercase">Major</span> <br>
+              <span> {{ this.major }}</span>
+            </div>
+
+            <!--Graduation Year-->
+            <div class="mb-3">
+              <span class="no-edit-label text-uppercase">Graduation Year</span> <br>
+              <span> {{ this.graduationYear }}</span>
+            </div>
+
+            <!--Interests-->
+            <div class="mb-3">
+              <span class="no-edit-label text-uppercase">Interests</span> <br>
+              <span> {{ this.interests }}</span>
+            </div>
+
+            <!--Clubs-->
+            <div class="mb-3">
+              <span class="no-edit-label text-uppercase">Clubs</span> <br>
+              <span> {{ this.clubs }}</span>
+            </div>
+
+          </div>
         </ng-container>
       </div>
     </div>
