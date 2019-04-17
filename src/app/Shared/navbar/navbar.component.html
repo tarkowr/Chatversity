@@ -4,7 +4,9 @@
     <a class="nav-link mt-1 mb-1 pt-3 pb-3" ngbTooltip="Home" placement="right" triggers="hover" [autoClose]="true" routerLinkActive="active" routerLink="home"><i class="fa fa-home fa-lg"></i></a>
   </li>
   <li class="nav-item">
-    <a class="nav-link mt-1 mb-1 pt-3 pb-3" ngbTooltip="Rooms" placement="right" triggers="hover" [autoClose]="true" routerLinkActive="active" routerLink="rooms"><i class="fa fa-door-closed fa-lg"></i></a>
+    <a class="nav-link mt-1 mb-1 pt-3 pb-3" ngbTooltip="Rooms" placement="right" triggers="hover" [autoClose]="true" routerLinkActive="active" routerLink="rooms"><i class="fa fa-door-closed fa-lg"></i>
+      <span *ngIf="roomsWithNewMessages.length" class="badge badge-info">{{ roomsWithNewMessages.length }}</span>
+    </a>
   </li>
   <li class="nav-item">
     <a class="nav-link mt-1 mb-1 pt-3 pb-3" ngbTooltip="Messages" placement="right" triggers="hover" [autoClose]="true" routerLink="rooms"><i class="far fa-envelope fa-lg"></i></a>
@@ -14,9 +16,9 @@
   </li>
   <li class="nav-item">
     <a class="nav-link mt-1 mb-1 pt-3 pb-3" routerLink="rooms">
-      <ng-container *ngIf="incomingMessages">
-          <span *ngIf="incomingMessages" class="badge badge-info">{{ incomingMessages }}</span>
-      </ng-container>
+      <!-- <ng-container *ngIf="roomMessages">
+          <span *ngIf="roomMessages" class="badge badge-info">{{ incomingMessages }}</span>
+      </ng-container> -->
     </a>
   </li>
 </ul>
