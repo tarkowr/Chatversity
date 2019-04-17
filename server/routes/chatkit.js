@@ -47,12 +47,15 @@ router.get('/', (req, res) => {
   //
   router.get('/getReadCursorsForUser/:id', (req, res) => {
 
-    chatkit
-        .getReadCursorsForUser({
-          userId: req.id,
-        })
-        .then(cursors => console.log('got cursors', cursors))
-        .catch(err => console.error(err))
+    chatkit.getReadCursorsForUser({
+        userId: req.params.id,
+      })
+      .then(cursors => {
+        res.status(200).json(cursors);
+        console.log(cursors);
+        console.log('got cursors', cursors)
+      })
+      .catch(err => console.error(err))
   })
   // ────────────────────────────────────────────────────────────────────────────────
 
