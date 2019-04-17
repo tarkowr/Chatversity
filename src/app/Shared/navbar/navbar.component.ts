@@ -31,20 +31,11 @@ export class NavbarComponent implements OnInit {
 
   setNotifications(user) {
 
-    let cursor;
     const rooms = user.rooms;
     let i = 0;
 
     // foreach room -> compare latest message to user cursor
-    user.rooms.forEach(room => {
-
-      // get cursor
-      cursor = user.readCursor({
-        roomId: room.id
-      });
-
-      console.log(cursor);
-
+    rooms.forEach(room => {
 
       // get latest message
       user.fetchMultipartMessages({
@@ -55,9 +46,13 @@ export class NavbarComponent implements OnInit {
         .then(messages => {
 
           // compare dates -> determine if new
-          if (new Date(messages[0].updatedAt) > new Date(cursor.updatedAt)) {
+          if (messages[0].id > user.readCursor({
+            roomId: room.id
+          }).position) {
+
             console.log(`New message in ${messages[0].room.name}`);
-            this.roomsWithNewMessages[i] = room;
+            this.roomsWithNewMessages.push(room);
+
           }
         })
         .catch(err => {
