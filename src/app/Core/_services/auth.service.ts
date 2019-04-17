@@ -2,7 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ChatManager, TokenProvider } from '@pusher/chatkit-client';
-import { BehaviorSubject, Subject, } from 'rxjs';
+import { BehaviorSubject, Subject, ReplaySubject, } from 'rxjs';
 import { User } from '../_models/user';
 import { MessagingService } from './messaging.service';
 import {parse, stringify} from 'flatted';
@@ -38,8 +38,12 @@ export class AuthService implements OnInit {
         this.user$ = this.user.asObservable();
 
 
-        this.chatkitUser = new BehaviorSubject(localStorage.getItem('chatkitUser'));
+        // this.chatkitUser = new BehaviorSubject(localStorage.getItem('chatkitUser'));
+        this.chatkitUser = new ReplaySubject<Object>(1);
         this.chatkitUser$ = this.chatkitUser.asObservable();
+
+        this.messages = new ReplaySubject<Object>(1);
+        this.messages$ = this.messages.asObservable();
 
         // Only called on login
         this.user$.subscribe((x) => {
@@ -77,7 +81,7 @@ export class AuthService implements OnInit {
             return this.http.post<any>(`${environment.apiUrl}/okta/signup`, { fname, lname, username, password })
             .toPromise()
             .then((user) => {
-                console.log(user)
+                console.log(user);
                 // Create chatkit user from Okta User ID
                 return this.http.post(`${environment.apiUrl}/chatkit/createuser`, {
                     id: user.id,
@@ -101,19 +105,9 @@ export class AuthService implements OnInit {
                     console.log('Created Chatkit user!');
                     console.log(chatkitUser);
 
-                    return this.login(username, password).then(user => {
-                        return user;
+                    return this.login(username, password).then(loggedinUser => {
+                        return loggedinUser;
                     });
-
-                    /*this.currentUser = chatkitUser;
-
-                    localStorage.setItem('currentUser', JSON.stringify(user));
-                    this.currentUserSubject.next(user);
-
-                    localStorage.setItem('chatkitUserId', user.id);
-                    this.user.next(user.id);*/
-
-                    //return chatkitUser;
                 });
             });
         }
@@ -139,32 +133,15 @@ export class AuthService implements OnInit {
             localStorage.setItem('chatkitUserId', user._embedded.user.id);
             this.user.next(user._embedded.user.id);
 
-            // this.initChatkit(user._embedded.user.id)
-            // .then(data => {
-            //     console.log(data);
-            //     localStorage.setItem('chatkitUser', stringify(data));
-            //     localStorage.setItem('chatkitUserId', data.id);
-            //     // console.log(parse(localStorage.getItem('chatkitUser')));
-            //     this.user.next(data);
-            // });
-
-            // this.currentUserSubject.next(user);
-            // this.http.post(`${environment.apiUrl}/chatkit/createtoken`, {user_id})
-            // .toPromise()
-            // .then((token) => {
-            //     console.log(token);
-            //     localStorage.setItem('chatkitToken', JSON.stringify(token));
-            //     this.currentUserSubject.next(user);
-            // });
             return user;
         });
     }
-// ─────────────────────────────────────────────────────────────────
+    // ─────────────────────────────────────────────────────────────────
 
 
 
     initChatkit(userId) {
-        console.log(userId)
+        console.log(userId);
         this.chatManager = new ChatManager({
             instanceLocator: 'v1:us1:a54bdf12-93d6-46f9-be3b-bfa837917fb5',
             userId: userId,
@@ -174,10 +151,10 @@ export class AuthService implements OnInit {
           });
 
           return this.chatManager.connect().then(user => {
+                this.chatkitUser.next(user);
               localStorage.setItem('chatkitUser', stringify(user));
-              this.chatkitUser.next(user);
             console.log(`Connected as ${user.name}`);
-            if (!user.rooms) { return user; }
+            if (!user.rooms.length) { return user; }
             user.joinRoom({ roomId: user.rooms[0].id })
             .then(room => {
                 this.currentRoom.next(room);
