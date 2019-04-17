@@ -79,11 +79,11 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
       this.subscription = this._auth.chatkitUser$.subscribe(
         (user) => {
-          if(user){
+          if (user) {
             this.chatkitUser = user;
-            console.log(this.chatkitUser);
+            // console.log(this.chatkitUser);
             this.rooms = user.rooms;
-            console.log(this.rooms);
+            // console.log(this.rooms);
           }
         }
       );
@@ -354,12 +354,12 @@ export class RoomsComponent implements OnInit, AfterViewInit {
     // setInterval(this.logtheheight, 3000);
     // console.log(this.chatReel);
     this.chatReel.changes.subscribe(c => { c.toArray().forEach(item => {
-      console.log(item);
-      console.log(item.nativeElement);
-      console.log(item.nativeElement.scrollHeight);
+      // console.log(item);
+      // console.log(item.nativeElement);
+      // console.log(item.nativeElement.scrollHeight);
 
-      console.log('Scroll Height: ' + item.nativeElement.offsetParent.scrollHeight);
-      console.log('Scroll Top: ' + item.nativeElement.offsetParent.scrollTop);
+      // console.log('Scroll Height: ' + item.nativeElement.offsetParent.scrollHeight);
+      // console.log('Scroll Top: ' + item.nativeElement.offsetParent.scrollTop);
 
       item.nativeElement.offsetParent.scrollTop = item.nativeElement.offsetParent.scrollHeight;
       // item.nativeElement.scrollTop = item.nativeElement.offsetTop;
