@@ -23,23 +23,17 @@ export class RouteGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       const currentUser = this.authService.currentUserValue;
-        console.log(state.url);
-        console.log(currentUser);
 
-        if (currentUser) {
-
-          // User is authorized
-          if (state.url === '/login') {
-            this.returnUrl = '/home';
-            this.tree = this.router.parseUrl(this.returnUrl);
-            return this.tree;
-           }
-          return true;
-        }
+      if (currentUser) {
         // User is authorized
-        if (state.url === '/login') {
-          return true;
+        if (state.url === '/login' || state.url === '/signup' || state.url === '/forgot') {
+          this.returnUrl = '/home';
+          this.tree = this.router.parseUrl(this.returnUrl);
+          return this.tree;
         }
-        return false;
+        return true;
+      }
+
+      return true;
     }
 }

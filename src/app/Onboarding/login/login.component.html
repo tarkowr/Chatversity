@@ -12,8 +12,8 @@
         <div class="row mt-5">
             <div class="col-12 col-md-8 offset-md-2 col-lg-4 offset-lg-4">
                 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                    <div *ngIf="submitted && f.username.errors">
-                        <div *ngIf="f.username.errors.invalid" class="alert alert-danger" role="alert">Incorrect
+                    <div *ngIf="submitted && loginForm.errors">
+                        <div *ngIf="loginForm.errors.invalid" class="alert alert-danger" role="alert">Incorrect
                             username or password.</div>
                     </div>
 
