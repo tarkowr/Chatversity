@@ -23,7 +23,7 @@ export class RouteGuard implements CanActivate {
         }
 
         // User is ogged in so redirect to login page via UrlTree
-        const url = '/login';
+        const url = '/home';
         const tree: UrlTree = this.router.parseUrl(url);
         return tree;
     }

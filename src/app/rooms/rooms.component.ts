@@ -327,6 +327,13 @@ export class RoomsComponent implements OnInit, AfterViewInit {
     }
   // ────────────────────────────────────────────────────────────────────────────────
 
+  // Check if message timestamp is today
+  MessageSentToday(msgDate: Date) {
+    if (new Date().toDateString() === new Date(msgDate).toDateString()) {
+      return true;
+    }
+    return false;
+  }
 
   ngOnInit() {
     // Subscribe to new notifications

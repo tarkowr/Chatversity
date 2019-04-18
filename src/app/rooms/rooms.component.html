@@ -45,7 +45,7 @@
           </div>
     </div>
     <div class="col-12 col-lg-9 overflow-auto" style="background-color: #fafdff; border-left:1px solid #DAE6ED;">
-      <div class="chat-window overflow-auto" style="height: calc(100vh - 157px); position:relative;">
+      <div class="chat-window overflow-auto" style="height: calc(100vh - 174px); position:relative;">
         <ng-container *ngIf="room_messages">
           <div class="container-fluid mt-3" #chatReel>
             <div *ngFor="let message of room_messages">
@@ -57,7 +57,10 @@
                             [ngClass]="{ 'text-secondary-light': (current_room.userStore.users[message.senderId].id == chatkitUser.id)}" style="font-weight:500">
                                 {{ current_room.userStore.users[message.senderId].name }}
                             </span>
-                          <small class="text-muted pl-1" style="font-size:12px;">{{ message.createdAt | date:'shortTime' }}</small>
+                          <small class="text-muted pl-1" style="font-size:12px;">
+                            <span *ngIf="MessageSentToday(message.createdAt);else full_date">Today at {{ message.createdAt | date:'shortTime' }}</span>
+                            <ng-template #full_date>{{ message.createdAt | date }} at {{ message.createdAt | date:'shortTime' }}</ng-template>
+                          </small>
                           <p style="color:#626e7a; font-size:15px;">{{ message.parts[0].payload.content }}</p>
                           <hr>
                         </div>
