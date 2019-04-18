@@ -22,9 +22,9 @@ export class RouteGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      const currentUser = this.authService.currentUserValue;
-        console.log(state.url);
-        console.log(currentUser);
+      const currentUser = this.authService.userLoggedIn();
+        // console.log(state.url);
+        // console.log(currentUser);
 
         if (currentUser) {
 

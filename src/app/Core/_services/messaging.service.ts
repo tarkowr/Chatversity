@@ -5,50 +5,69 @@ import { User } from '../_models/user';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment.prod';
+import { RoomsComponent } from '~/app/rooms/rooms.component';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class MessagingService {
+export class MessagingService implements OnInit {
 
-  private notifications = new BehaviorSubject(0);
-  notificationCount = this.notifications.asObservable();
 
-  currentUser: any;
+
   chatManager: any;
-  chatkitUser: any;
-  messages = [];
-  currentUserSubscription: Subscription;
-
-  _message = '';
-  get message(): string {
-    return this._message;
-  }
-  set message(value: string) {
-    this._message = value;
-  }
-
+  currentUser: any;
+  latestRoom: any;
+  messages: Array<any> = [];
   constructor(private http: HttpClient) {}
 
 
 
-  //
-  // ─── GET ALL OF A USERS READ CURSORS ────────────────────────────────────────────
-  //
-    getReadCursorsForUser(id: number | string) {
+  enterLatestRoom() {
+    return this.latestRoom;
+  }
 
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
+
+
+  joinRoom(id: any) {
+
+  return this.currentUser.joinRoom({roomId: id})
+      .then(room => {
+        console.log(`Joined room with ID: ${room.id}`);
+        this.latestRoom = room;
+        return room;
+      })
+      .catch(err => {
+        console.log(`Error joining room ${id}: ${err}`);
+      });
+  }
+
+
+
+  subscribeToAllRooms() {
+
+    const currentUser = this.currentUser;
+
+    if (! currentUser.rooms.length) { return; }
+
+    currentUser.rooms.forEach(room => {
+      currentUser.subscribeToRoomMultipart({
+          roomId: room.id,
+          hooks: {
+              onMessage: message => {
+                // console.log('Received message', message);
+                this.messages.push(message);
+              }
+          },
+          messageLimit: 10
+      });
     });
-      return this.http.get(`${environment.apiUrl}/chatkit/getReadCursorsForUser/${id}`, {headers: headers});
-    }
-  // ─────────────────────────────────────────────────────────────────
+  }
 
 
 
-  initialize(userId) {
+  initChatkit(userId) {
+
     this.chatManager = new ChatManager({
       instanceLocator: 'v1:us1:a54bdf12-93d6-46f9-be3b-bfa837917fb5',
       userId: userId,
@@ -57,74 +76,52 @@ export class MessagingService {
       })
     });
 
-    return this.chatManager.connect().then(user => {
-      return user;
-    });
-  }
-
-  setRoomsWithNotifications(count) {
-    // Get current notification count
-    const currNotificationCount = this.notifications.value;
-    // Update the globabl total
-    this.notifications.next(count);
-  }
-
-
-  // Send a message
-  sendMessage(room, message) {
-    this.chatkitUser.sendSimpleMessage({
-      roomId: room.id,
-      text: 'Hi there!',
-    })
-    .then(messageId => {
-      // console.log(`Added message to ${myRoom.name}`);
-      console.log(`Added message to ${room.name}`);
-    })
-    .catch(err => {
-      // console.log(`Error adding message to ${myRoom.name}: ${err}`);
-      console.log(`Error adding message to ${room.name}: ${err}`);
-    });
-  }
-
-  // Join a room
-  joinRoom(roomID) {
-    return this.chatkitUser.joinRoom( { roomId: roomID } )
-    .then(room => {
-      console.log(`Joined room with ID: ${room.id}`);
-      // Subscribe to room to receive notifications
-      return room;
-    })
-    .catch(err => {
-      console.log(`Error joining room ${roomID}: ${err}`);
-    });
-  }
-
-  // Subscribe to room
-  subscribeToRoom(roomID) {
-    return this.chatkitUser.subscribeToRoomMultipart({
-      roomId: roomID,
-      hooks: {
-        onMessage: message => {
-          console.log('received message', message);
-          return message;
-        }
+    return this.chatManager.connect({
+      onAddedToRoom: room => {
+        console.log(`Added to room ${room.name}`);
       },
-      messageLimit: 10
-    });
+      onRemovedFromRoom: room => {
+        console.log(`Removed from room ${room.name}`);
+      },
+      onRoomUpdated: room => {
+        console.log(`Updated room ${room.name}`);
+      },
+      onRoomDeleted: room => {
+        console.log(`Deleted room ${room.name}`);
+      }
+    })
+      .then(user => {
+
+        console.log(`Connected as ${user.name}. \n Setting up rooms...`);
+
+        this.currentUser = user;
+
+        localStorage.setItem('chatkitUserId', user.id);
+
+
+        // If user has no rooms then return
+        if (!user.rooms.length) { return; }
+
+
+        // Subscribe to all user rooms to be notified of new messages
+        this.subscribeToAllRooms();
+
+        // TODO: Join the room with most recent read cursor
+        // Join the latest room
+        this.joinRoom(user.rooms[0].id);
+
+        return user;
+      });
   }
 
-  // Fetch messages from room
-  fetchMessages(roomID) {
-    return this.chatkitUser
-    .fetchMultipartMessages(
-    {
-      roomId: roomID,
-      direction: 'older',
-      limit: 10,
-    })
-    .then(messages => messages )
-    .catch(err => {
-      console.log(`Error fetching messages: ${err}`);
-    });
+
+
+  getMessages() {
+  return this.http.get('');
   }
+
+  ngOnInit() {
+    console.log('Messaging service initialized');
+  }
+
 }

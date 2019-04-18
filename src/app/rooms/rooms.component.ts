@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AppComponent } from '../app.component';
 import { AuthService } from '../Core/_services/auth.service';
 import { parseDate } from 'tough-cookie';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-rooms',
@@ -27,7 +28,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   rooms: Array<any> = [];
   currentUser: any;
   user_id: any;
-  room_messages: Array<any> = [];
+  rooms_with_messages: any = {};
   current_room: any;
   chatUser: any;
   roomCreated: boolean;
@@ -37,6 +38,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   // TODO: Can probably remove these props
   _roomPrivate = '';
   selectedRoomMember: any;
+  messages: Object;
   get roomPrivate(): string {
     return this._roomPrivate;
   }
@@ -70,33 +72,50 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   //
   // ─── CONSTRUCTOR ────────────────────────────────────────────────────────────────
   //
-    constructor(private http: HttpClient, private msgService: MessagingService, private _auth: AuthService) {
+    constructor(private http: HttpClient, private messageService: MessagingService, private _auth: AuthService) {
 
-      this.subscription = this._auth.chatkitUser$.subscribe(
-        (user) => {
-          if (user) {
-            this.chatkitUser = user;
-            // console.log(this.chatkitUser);
-            this.rooms = user.rooms;
-            // console.log(this.rooms);
-          }
-        }
-      );
+      // this.subscription = this._auth.chatkitUser$.subscribe(
+      //   (user) => {
+      //     if (user) {
+      //       this.chatkitUser = user;
+      //       // console.log(this.chatkitUser);
+      //       this.rooms = user.rooms;
+      //       // console.log(this.rooms);
+      //     }
+      //   }
+      // );
 
-      this.incomingMessages = this._auth.messages$.subscribe(
-        (incomingMessage) => {
-          this.room_messages.push(incomingMessage);
-        }
-      );
+      // this.incomingMessages = this._auth.messages$.subscribe(
+      //   (incomingMessage) => {
+      //       console.log(incomingMessage.roomId);
+      //       console.log(this.rooms_with_messages);
 
-      this.current_room = this._auth.currentRoom$.subscribe(
-        (currentRoom) => {
-          this.current_room = currentRoom;
-          // console.log(currentRoom);
-        }
-      );
+      //     // this.rooms_with_messages.push(incomingMessage);
+      //     this.rooms_with_messages[incomingMessage.roomId] = incomingMessage;
+      //     console.log(incomingMessage);
+      //   }
+      // );
+
+      // this.current_room = this._auth.currentRoom$.subscribe(
+      //   (currentRoom) => {
+      //     this.current_room = currentRoom;
+      //     // console.log(currentRoom);
+      //   }
+      // );
     }
   // ────────────────────────────────────────────────────────────────────────────────
+
+
+
+// getMessages(): void {
+//   this.messageService.getMessages()
+//     .subscribe(messages => this.messages = messages);
+// }
+
+    enterLatestRoom(): void {
+      return;
+    }
+
 
   onFileChange(event) {
 
@@ -146,6 +165,9 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       this.current_room = room;
       console.log(this.current_room);
 
+      if (this.rooms_with_messages && this.rooms_with_messages[roomID]) { console.log('returning');
+        return; }
+
       // After joining room, fetch messages
       this.chatkitUser.fetchMultipartMessages({
         roomId: roomID,
@@ -174,10 +196,11 @@ export class RoomsComponent implements OnInit, AfterViewInit {
         messages.forEach(message => {
           // console.log(message.parts[0].payload.content);
           // console.log(message);
+          this.rooms_with_messages[message.roomId] = message;
         });
-        // this.room_messages = messages;
       });
     });
+
   }
   // end Join room
 
@@ -251,52 +274,55 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   // ─── SUBSCRIBE TO ROOM ──────────────────────────────────────────────────────────
   //
 
-    subscribeToRoom(roomID) {
-      this.chatkitUser.subscribeToRoomMultipart({
-        roomId: roomID,
-        hooks: {
-          onMessage: message => {
-            // When a message is received...
+    // subscribeToRoom(roomID) {
 
-            // Push to messages array and update view
-            this.room_messages.push(message);
-            // Scroll chat window to reveal latest message
-            // document.getElementById('chatReel').scrollTop = 0;
-            // alert(document.getElementById('chatReel'));
+    //   this.current_room = this.chatkitUser.roomStore.rooms[roomID];
+    //   this.chatkitUser.subscribeToRoomMultipart({
+    //     roomId: roomID,
+    //     hooks: {
+    //       onMessage: message => {
+    //         // When a message is received...
 
-            // Get the users last cursor position from the room
-            const cursor = this.chatkitUser.readCursor({
-              roomId: message.roomId
-            });
+    //         // Push to messages array and update view
+    //         this.rooms_with_messages[`${message.roomId}`].push(message);
+    //         console.log(this.rooms_with_messages);
+    //         // Scroll chat window to reveal latest message
+    //         // document.getElementById('chatReel').scrollTop = 0;
+    //         // alert(document.getElementById('chatReel'));
 
-            if ((cursor.position !== message.id) && (message.roomId !== this.current_room.id)) {
-              // If the current user has not seen the message, AND the message was received in a different room,
-              // add marker to notification array
-              this.roomNotifications[message.room.id] = true;
-            } else {
-              // Otherwise, message was sent in current room, so all we must do is update the
-              // read cursor for the current user's room
-              this.chatkitUser.setReadCursor({
-                roomId: message.roomId,
-                position: message.id,
-              });
-            }
+    //         // Get the users last cursor position from the room
+    //         const cursor = this.chatkitUser.readCursor({
+    //           roomId: message.roomId
+    //         });
 
-            // Count rooms with unread notifucations
-            let roomsWithNotifications = 0;
-            this.roomNotifications.forEach(room => {
-              roomsWithNotifications += room === true ? 1 : 0;
-            });
-            // Add to global notification counter
-            this.msgService.setRoomsWithNotifications(roomsWithNotifications);
-          },
-          onAddedToRoom: room => {
-            console.log(`Added to room ${room.name}`);
-          }
-        },
-        messageLimit: 1
-      });
-    }
+    //         if ((cursor.position !== message.id) && (message.roomId !== this.current_room.id)) {
+    //           // If the current user has not seen the message, AND the message was received in a different room,
+    //           // add marker to notification array
+    //           this.roomNotifications[message.room.id] = true;
+    //         } else {
+    //           // Otherwise, message was sent in current room, so all we must do is update the
+    //           // read cursor for the current user's room
+    //           this.chatkitUser.setReadCursor({
+    //             roomId: message.roomId,
+    //             position: message.id,
+    //           });
+    //         }
+
+    //         // Count rooms with unread notifucations
+    //         let roomsWithNotifications = 0;
+    //         this.roomNotifications.forEach(room => {
+    //           roomsWithNotifications += room === true ? 1 : 0;
+    //         });
+    //         // Add to global notification counter
+    //         this.messageService.setRoomsWithNotifications(roomsWithNotifications);
+    //       },
+    //       onAddedToRoom: room => {
+    //         console.log(`Added to room ${room.name}`);
+    //       }
+    //     },
+    //     messageLimit: 0 // Only fetch new messages
+    //   });
+    // }
   // ─────────────────────────────────────────────────────────────────
 
 
@@ -357,9 +383,15 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+
+    this.currentUser = this.messageService.currentUser;
+    this.enterLatestRoom();
+
+    // this.getMessages();
+
     // Subscribe to new notifications
-    this.msgService.notificationCount
-    .subscribe(notification => this.notificationCount = notification);
+    // this.messageService.notificationCount
+    // .subscribe(notification => this.notificationCount = notification);
   }
 
   ngAfterViewInit() {

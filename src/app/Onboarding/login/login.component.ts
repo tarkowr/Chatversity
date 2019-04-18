@@ -4,6 +4,7 @@ import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import {AuthService} from '../../Core/_services/auth.service';
 import { CustomFormValidation } from '../../Core/_models/form-validation';
+import { MessagingService } from '../../Core/_services/messaging.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -22,14 +23,14 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loading = false;
   submitted = false;
-  returnUrl: string;
+  returnUrl = 'home';
   formValidation: CustomFormValidation = new CustomFormValidation();
 
   constructor (
     private formBuilder: FormBuilder,
     private router: Router,
-    private auth: AuthService
-  ) {  this.returnUrl = '/'; }
+    private authService: AuthService,
+    private messageService: MessagingService) {}
 
   ngOnInit() {
     // TODO: Check if already logged in, redirect
@@ -50,6 +51,7 @@ export class LoginComponent implements OnInit {
   // ─── HANDLE LOGIN FORM ──────────────────────────────────────────────────────────
   //
     onSubmit() {
+
       this.submitted = true;
       this.loading = true;
 
@@ -66,9 +68,24 @@ export class LoginComponent implements OnInit {
       formData.append('username', this.loginForm.get('username').value);
       formData.append('password', this.loginForm.get('password').value);
 
-      this.auth.login(this.f.username.value, this.f.password.value).then(user => {
+      this.authService.login(this.f.username.value, this.f.password.value).then(user => {
+
         console.log(`Logged in as ${user._embedded.user.profile.firstName}`);
-        this.router.navigate([this.returnUrl]);
+        console.log('Initializing App...');
+
+        /*******************/
+        /* Begin App setup */
+        /*******************/
+
+        // Initialize Chatkit
+        this.messageService.initChatkit(user._embedded.user.id)
+          .then(data => {
+
+            this.authService.setCurrentUser(user);
+            this.router.navigate([this.returnUrl]);
+
+        });
+
       },
       error => {
         console.log('LOGIN ERROR:', error);

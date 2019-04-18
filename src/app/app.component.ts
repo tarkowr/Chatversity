@@ -13,7 +13,7 @@ import { MessagingService } from './Core/_services/messaging.service';
 })
 
 export class AppComponent implements OnInit {
-  currentUser: any;
+  currentUserLoggedIn: any;
   title = 'Chatversity';
   update = false;
   currUser: any;
@@ -21,21 +21,15 @@ export class AppComponent implements OnInit {
 
   constructor(
       private router: Router,
-      private authenticationService: AuthService,
-      private updates: SwUpdate,
-      private messagingService: MessagingService
-  ) {
-    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-    // this.authenticationService.chatkitUser.subscribe(y => this.chatkitUser = y);
-  }
+      private authService: AuthService,
+      private updates: SwUpdate) {}
 
   //
   // ─── LOGOUT USER ────────────────────────────────────────────────────────────────
   //
 
     logout() {
-      this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      this.authService.logout();
     }
   // ────────────────────────────────────────────────────────────────────────────────
 
@@ -61,12 +55,10 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit() {
-    // this.currentUser = this.authenticationService.currentUser;
+    this.currentUserLoggedIn = this.authService.userLoggedIn();
     console.log('%cWelcome to Chatversity!', 'font-size: 20px; color: #186fa0;');
 
-    console.log('OKTA USER:', this.currentUser);
-
-    // if (this.currentUser) {
+    // if (this.currentUserLoggedIn) {
     //   this.messagingService.chatManager.connect()
     //   .then((user) => {
     //     this.currUser = user;
@@ -83,7 +75,7 @@ export class AppComponent implements OnInit {
     //     this.update = true;
     //   });
 
-    //   console.log(this.currentUser);
+    //   console.log(this.currentUserLoggedIn);
     // }
   }
 }

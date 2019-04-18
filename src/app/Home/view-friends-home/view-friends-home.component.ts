@@ -30,6 +30,7 @@ export class ViewFriendsHomeComponent implements OnInit {
   chatkitUser: any;
   rooms: any;
 
+  currentUser: any;
 
   //
   // ─── CONSTRUCTOR ────────────────────────────────────────────────────────────────
@@ -40,29 +41,7 @@ export class ViewFriendsHomeComponent implements OnInit {
       private _userService: UserService,
       private _msgService: MessagingService,
       private app: AppComponent,
-      private _auth: AuthService) {
-        this.subscription = this._auth.chatkitUser$.subscribe(
-          (user) => {
-            this.chatkitUser = user;
-            console.log(this.chatkitUser);
-            this.rooms = user.rooms;
-            console.log(this.rooms);
-          }
-        );
-
-        // this.incomingMessages = this._auth.messages$.subscribe(
-        //   (incomingMessage) => {
-        //     this.room_messages.push(incomingMessage);
-        //   }
-        // );
-
-        // this.current_room = this._auth.currentRoom$.subscribe(
-        //   (currentRoom) => {
-        //     this.current_room = currentRoom;
-        //     console.log(currentRoom);
-        //   }
-        // );
-      }
+      private authService: AuthService) {}
   // ────────────────────────────────────────────────────────────────────────────────
 
 
@@ -196,6 +175,8 @@ export class ViewFriendsHomeComponent implements OnInit {
 
 
   ngOnInit() {
+
+    this.currentUser = this.authService
 
     //
     // ─── LOAD USER CONNECTIONS ───────────────────────────────────────
