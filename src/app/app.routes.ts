@@ -16,9 +16,9 @@ import { RoomsComponent } from './rooms/rooms.component';
 
 export const routes: Routes = [
     /* Must be logged out to access these components */
-    { path: 'forgot',  component: ForgotComponent/*, canActivate: [RouteGuard]*/ },
-    { path: 'signup', component: SignupComponent/*, canActivate: [RouteGuard]*/ },
-    { path: 'login',  component: LoginComponent/*, canActivate: [RouteGuard]*/ },
+    { path: 'forgot',  component: ForgotComponent, canActivate: [RouteGuard] },
+    { path: 'signup', component: SignupComponent, canActivate: [RouteGuard] },
+    { path: 'login',  component: LoginComponent, canActivate: [RouteGuard] },
 
     /* Must be logged in to access these components */
     { path: '', component: ViewNavigationHomeComponent, canActivate: [AuthGuard] },

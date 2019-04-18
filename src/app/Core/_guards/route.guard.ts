@@ -3,11 +3,17 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Rout
 import { Observable } from 'rxjs';
 import { AuthService } from '../_services/auth.service';
 
+
+
+
 @Injectable({
   providedIn: 'root'
 })
 
 export class RouteGuard implements CanActivate {
+  returnUrl: string;
+  tree: UrlTree;
+
   constructor(
     private router: Router,
     private authService: AuthService
@@ -16,15 +22,24 @@ export class RouteGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      const currentUser = this.authService.currentUser;
-        if (!currentUser) {
-          // User is not authorized so return true
+      const currentUser = this.authService.currentUserValue;
+        console.log(state.url);
+        console.log(currentUser);
+
+        if (currentUser) {
+
+          // User is authorized
+          if (state.url === '/login') {
+            this.returnUrl = '/home';
+            this.tree = this.router.parseUrl(this.returnUrl);
+            return this.tree;
+           }
           return true;
         }
-
-        // User is ogged in so redirect to login page via UrlTree
-        const url = '/home';
-        const tree: UrlTree = this.router.parseUrl(url);
-        return tree;
+        // User is authorized
+        if (state.url === '/login') {
+          return true;
+        }
+        return false;
     }
 }
