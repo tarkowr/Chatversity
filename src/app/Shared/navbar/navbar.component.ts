@@ -62,11 +62,7 @@ export class NavbarComponent implements OnInit {
         i++;
 
     });
-
   }
 
-
-
   ngOnInit() {}
-
 }

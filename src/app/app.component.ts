@@ -15,8 +15,7 @@ import { MessagingService } from './Core/_services/messaging.service';
 export class AppComponent implements OnInit {
   currentUser: any;
   title = 'Chatversity';
-  // tslint:disable-next-line:no-inferrable-types
-  update: boolean = false;
+  update = false;
   currUser: any;
   // chatkitUser: any;
 
@@ -63,7 +62,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     // this.currentUser = this.authenticationService.currentUser;
-    console.log(this.currentUser);
+    console.log('%cWelcome to Chatversity!', 'font-size: 20px; color: #186fa0;');
+
+    console.log('OKTA USER:', this.currentUser);
 
     // if (this.currentUser) {
     //   this.messagingService.chatManager.connect()
