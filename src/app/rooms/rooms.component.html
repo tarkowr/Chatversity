@@ -53,10 +53,11 @@
                     <div class="row" id="chatReel">
                         <!-- Messages -->
                         <div class="col-12">
-                            <span role="button" tabindex="0" class="chat-user-link text-secondary font-weight-bold" (click)="setSelectedRoomMember(current_room.userStore.users[message.senderId])" data-toggle="modal" data-target="#profileModal">
+                            <span role="button" tabindex="0" class="chat-user-link text-secondary" (click)="setSelectedRoomMember(current_room.userStore.users[message.senderId])" data-toggle="modal" data-target="#profileModal"
+                            [ngClass]="{ 'text-secondary-light': (current_room.userStore.users[message.senderId].id == chatkitUser.id)}" style="font-weight:500">
                                 {{ current_room.userStore.users[message.senderId].name }}
                             </span>
-                          <small class="text-muted" style="font-size:12px;">{{ message.createdAt | date:'shortTime' }}</small>
+                          <small class="text-muted pl-1" style="font-size:12px;">{{ message.createdAt | date:'shortTime' }}</small>
                           <p style="color:#626e7a; font-size:15px;">{{ message.parts[0].payload.content }}</p>
                           <hr>
                         </div>
