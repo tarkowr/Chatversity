@@ -5,6 +5,7 @@ import { MessagingService } from '../Core/_services/messaging.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AppComponent } from '../app.component';
 import { AuthService } from '../Core/_services/auth.service';
+import { parseDate } from 'tough-cookie';
 
 @Component({
   selector: 'app-rooms',
@@ -132,6 +133,8 @@ export class RoomsComponent implements OnInit, AfterViewInit {
         roomId: this.current_room.id,
       }).then(res => {
         console.log(res);
+        console.log();
+
       });
       this.message = '';
     }
@@ -144,7 +147,12 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       console.log(this.current_room);
 
       // After joining room, fetch messages
-      this.chatkitUser.fetchMultipartMessages({roomId: roomID}).then(messages => {
+      this.chatkitUser.fetchMultipartMessages({
+        roomId: roomID,
+        direction: 'older',
+        limit: 10,
+      })
+        .then(messages => {
 
         // Check if messages
         if (messages === undefined || messages.length === 0) { return; }
@@ -167,7 +175,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
           // console.log(message.parts[0].payload.content);
           // console.log(message);
         });
-        this.room_messages = messages;
+        // this.room_messages = messages;
       });
     });
   }
@@ -329,8 +337,21 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
   // Check if message timestamp is today
   MessageSentToday(msgDate: Date) {
-    if (new Date().toDateString() === new Date(msgDate).toDateString()) {
-      return true;
+
+    // get current date
+    const currDate = new Date();
+    currDate.setDate(currDate.getDate());
+    // console.log(currDate);
+
+
+    // get message date
+    msgDate = new Date(msgDate);
+    // console.log(msgDate);
+
+    const daysBetween = Math.floor(( Date.parse(currDate.toDateString()) - Date.parse(msgDate.toDateString()) ) / 86400000);
+
+    if (daysBetween >= 7) {
+      console.log('Message is at least 7 days old');
     }
     return false;
   }
@@ -339,28 +360,14 @@ export class RoomsComponent implements OnInit, AfterViewInit {
     // Subscribe to new notifications
     this.msgService.notificationCount
     .subscribe(notification => this.notificationCount = notification);
-
-    // Get user id from local storage
-    const user_id = JSON.parse(localStorage.getItem('currentUser'))._embedded.user.id;
   }
 
   ngAfterViewInit() {
-    // setInterval(this.logtheheight, 3000);
-    // console.log(this.chatReel);
-    this.chatReel.changes.subscribe(c => { c.toArray().forEach(item => {
-      // console.log(item);
-      // console.log(item.nativeElement);
-      // console.log(item.nativeElement.scrollHeight);
 
-      // console.log('Scroll Height: ' + item.nativeElement.offsetParent.scrollHeight);
-      // console.log('Scroll Top: ' + item.nativeElement.offsetParent.scrollTop);
-
-      item.nativeElement.offsetParent.scrollTop = item.nativeElement.offsetParent.scrollHeight;
-      // item.nativeElement.scrollTop = item.nativeElement.offsetTop;
-      // item.nativeElement.animate({ scrollTop: 0 }, 'fast');
-      // item.nativeElement.scrollTop = 0;
+    this.chatReel.changes.subscribe(c => {
+      c.toArray().forEach(item => {
+        item.nativeElement.offsetParent.scrollTop = item.nativeElement.offsetParent.scrollHeight;
+      });
     });
-  });
-    // console.log(elem.nativeElement);
   }
 }
