@@ -112,9 +112,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 //     .subscribe(messages => this.messages = messages);
 // }
 
-    enterLatestRoom(): void {
-      return;
-    }
+
 
 
   onFileChange(event) {
@@ -161,7 +159,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
   // Join a room
   joinRoom(roomID) {
-    this.chatkitUser.joinRoom({roomId: roomID}).then(room => {
+    this.currentUser.joinRoom({roomId: roomID}).then(room => {
       this.current_room = room;
       console.log(this.current_room);
 
@@ -169,7 +167,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
         return; }
 
       // After joining room, fetch messages
-      this.chatkitUser.fetchMultipartMessages({
+      this.currentUser.fetchMultipartMessages({
         roomId: roomID,
         direction: 'older',
         limit: 10,
@@ -180,7 +178,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
         if (messages === undefined || messages.length === 0) { return; }
 
         // Set read cursor
-        this.chatkitUser.setReadCursor({
+        this.currentUser.setReadCursor({
           roomId: this.current_room.id,
           position: messages[messages.length - 1].id
         })
@@ -384,20 +382,14 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
-    this.currentUser = this.authService.getCurrentUser().subscribe((user) => {
+    this.authService.getCurrentUser().subscribe((user) => {
       this.currentUser = user;
       this.rooms = user.rooms;
       this.current_room = this.messageService.getLatestRoom(user);
+      this.messageService.getLatestReadCursor(user);
       console.log(user.rooms);
-      this.enterLatestRoom();
       console.log(user);
     });
-
-    // this.getMessages();
-
-    // Subscribe to new notifications
-    // this.messageService.notificationCount
-    // .subscribe(notification => this.notificationCount = notification);
   }
 
   ngAfterViewInit() {

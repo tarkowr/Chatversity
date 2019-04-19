@@ -10,10 +10,10 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
-    private _currentUser: Subject<any>;
+    private _currentUser: ReplaySubject<any>;
 
     constructor(private http: HttpClient, private messageService: MessagingService, private router: Router ) {
-        this._currentUser = new Subject<any>();
+        this._currentUser = new ReplaySubject<any>(1);
         console.log('Auth service constructed');
     }
 

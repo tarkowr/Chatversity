@@ -23,13 +23,38 @@ export class MessagingService {
 
 
 
-  // enterLatestRoom(user) {
-  //   user.joinRoom({roomId:});
-  // }
 
   getLatestRoom(user) {
     return user.rooms[0];
   }
+
+
+  enterLatestRoom(user): void {
+
+  }
+
+
+
+  getLatestReadCursor(user) {
+    let latestFound = false;
+    let latest: Date;
+    let cursor: any;
+
+    user.rooms.forEach(room => {
+
+      cursor = user.readCursor({
+        roomId: room.id
+      });
+      cursor = new Date(cursor.updatedAt);
+
+      if (cursor < latest || !latestFound) {
+        latest = cursor;
+        latestFound = true;
+      }
+    });
+    return latest;
+  }
+
 
 
   joinRoom(id: any) {
