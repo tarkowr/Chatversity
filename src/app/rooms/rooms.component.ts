@@ -385,6 +385,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   ngOnInit() {
 
     this.currentUser = this.messageService.currentUser;
+    this.current_room = this.messageService.latestRoom;
     this.enterLatestRoom();
 
     // this.getMessages();

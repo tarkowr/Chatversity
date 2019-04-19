@@ -10,17 +10,31 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
-    currentUser;
+    private _currentUser;
 
-    constructor(private http: HttpClient, private _msgService: MessagingService, private router: Router ) {}
+    constructor(private http: HttpClient, private messageService: MessagingService, private router: Router ) {}
 
-    setCurrentUser(user: any) {
-        this.currentUser = user;
+    get currentUser() {
+        return this._currentUser;
     }
 
-    getCurrentUser(user: any) {
-        return this.currentUser;
+    set currentUser(user: any) {
+        this._currentUser = user;
     }
+
+
+
+    async initializeApp() {
+        if (this.userLoggedIn()) {
+            this.currentUser = await this.messageService.initChatkit(localStorage.getItem('chatkitUserId'))
+            .then(chatkitUser => {
+                console.log('setting chatkit user');
+                this._currentUser = chatkitUser;
+                return chatkitUser;
+            });
+        }
+    }
+
 
 
     userLoggedIn() {
@@ -100,6 +114,8 @@ export class AuthService {
         logout() {
             localStorage.clear();
             this.router.navigate(['/login']);
+            console.clear();
         }
     // ─────────────────────────────────────────────────────────────────
+
 }

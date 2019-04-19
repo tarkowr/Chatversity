@@ -11,7 +11,7 @@ import { RoomsComponent } from '~/app/rooms/rooms.component';
 @Injectable({
   providedIn: 'root'
 })
-export class MessagingService implements OnInit {
+export class MessagingService {
 
 
 
@@ -19,7 +19,7 @@ export class MessagingService implements OnInit {
   currentUser: any;
   latestRoom: any;
   messages: Array<any> = [];
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { console.log('Messaging service constructed'); }
 
 
 
@@ -119,9 +119,4 @@ export class MessagingService implements OnInit {
   getMessages() {
   return this.http.get('');
   }
-
-  ngOnInit() {
-    console.log('Messaging service initialized');
-  }
-
 }

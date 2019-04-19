@@ -9,25 +9,13 @@ import { forEach } from '@angular/router/src/utils/collection';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
 
   currentUser: any;
   rooms: Array<any>;
   roomsWithNewMessages: Array<any> = [];
 
-  constructor(private _auth: AuthService, private _messaging: MessagingService) {
-
-    // this._auth.chatkitUser$.subscribe(
-    //   (user) => {
-
-    //     this.currentUser = (user != null) ? user : null;
-
-    //     if ((user != null) && (user.id)) {
-    //       this.setNotifications(user);
-    //     }
-    //   }
-    // );
-  }
+  constructor(private authService: AuthService, private messageService: MessagingService) {}
 
   setNotifications(user) {
 
@@ -62,5 +50,10 @@ export class NavbarComponent {
         i++;
 
     });
+  }
+
+  ngOnInit() {
+    this.currentUser = this.authService.currentUser;
+    console.log(this.currentUser);
   }
 }

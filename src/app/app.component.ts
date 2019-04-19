@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
   title = 'Chatversity';
   update = false;
   currUser: any;
+  currentUser: any;
   // chatkitUser: any;
 
   constructor(
@@ -54,7 +55,15 @@ export class AppComponent implements OnInit {
 
 
 
-  ngOnInit() {
+  async ngOnInit() {
+
+     await this.authService.initializeApp();
+
+    console.log('app init');
+    this.currentUser = this.authService.currentUser;
+    console.log(this.currentUser);
+
+
     this.currentUserLoggedIn = this.authService.userLoggedIn();
     console.log('%cWelcome to Chatversity!', 'font-size: 20px; color: #186fa0;');
 

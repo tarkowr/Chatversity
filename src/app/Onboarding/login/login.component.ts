@@ -68,9 +68,9 @@ export class LoginComponent implements OnInit {
       formData.append('username', this.loginForm.get('username').value);
       formData.append('password', this.loginForm.get('password').value);
 
-      this.authService.login(this.f.username.value, this.f.password.value).then(user => {
+      this.authService.login(this.f.username.value, this.f.password.value).then(oktaUser => {
 
-        console.log(`Logged in as ${user._embedded.user.profile.firstName}`);
+        console.log(`Logged in as ${oktaUser._embedded.user.profile.firstName}`);
         console.log('Initializing App...');
 
         /*******************/
@@ -78,10 +78,12 @@ export class LoginComponent implements OnInit {
         /*******************/
 
         // Initialize Chatkit
-        this.messageService.initChatkit(user._embedded.user.id)
-          .then(data => {
+        this.messageService.initChatkit(oktaUser._embedded.user.id)
+          .then(chatkitUser => {
 
-            this.authService.setCurrentUser(user);
+            this.authService.currentUser = chatkitUser;
+            console.log(this.authService.currentUser);
+
             this.router.navigate([this.returnUrl]);
 
         });
