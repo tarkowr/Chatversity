@@ -2,7 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ChatManager, TokenProvider } from '@pusher/chatkit-client';
-import { BehaviorSubject, Subject, ReplaySubject, } from 'rxjs';
+import { BehaviorSubject, Subject, ReplaySubject, Observable, } from 'rxjs';
 import { MessagingService } from './messaging.service';
 import {parse, stringify} from 'flatted';
 import { map } from 'rxjs/operators';
@@ -10,35 +10,43 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
-    private _currentUser;
+    private _currentUser: Subject<any>;
 
-    constructor(private http: HttpClient, private messageService: MessagingService, private router: Router ) {}
+    constructor(private http: HttpClient, private messageService: MessagingService, private router: Router ) {
+        this._currentUser = new Subject<any>();
+        console.log('Auth service constructed');
+    }
 
     get currentUser() {
-        return this._currentUser;
+        return this._currentUser.asObservable();
     }
 
     set currentUser(user: any) {
-        this._currentUser = user;
+        console.log('setting current user');
+        this._currentUser.next(user);
+    }
+
+    getCurrentUser(): Observable<any> {
+        return this._currentUser.asObservable();
+    }
+
+
+    getUserId() {
+        return localStorage.getItem('chatkitUserId');
     }
 
 
 
-    async initializeApp() {
-        if (this.userLoggedIn()) {
-            this.currentUser = await this.messageService.initChatkit(localStorage.getItem('chatkitUserId'))
-            .then(chatkitUser => {
-                console.log('setting chatkit user');
-                this._currentUser = chatkitUser;
-                return chatkitUser;
-            });
-        }
+    initializeApp() {
+        this.messageService.initChatkit(localStorage.getItem('chatkitUserId'))
+        .then(chatkitUser => {
+            console.log('setting chatkit user');
+            localStorage.setItem('chatkitUser', chatkitUser);
+            this._currentUser = chatkitUser;
+        });
     }
-
-
 
     userLoggedIn() {
-        console.log(localStorage.getItem('chatkitUserId') != null);
         return localStorage.getItem('chatkitUserId') != null;
     }
 

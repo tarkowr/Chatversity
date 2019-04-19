@@ -72,9 +72,9 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   //
   // ─── CONSTRUCTOR ────────────────────────────────────────────────────────────────
   //
-    constructor(private http: HttpClient, private messageService: MessagingService, private _auth: AuthService) {
+    constructor(private http: HttpClient, private messageService: MessagingService, private authService: AuthService) {
 
-      // this.subscription = this._auth.chatkitUser$.subscribe(
+      // this.subscription = this.authService.chatkitUser$.subscribe(
       //   (user) => {
       //     if (user) {
       //       this.chatkitUser = user;
@@ -85,7 +85,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       //   }
       // );
 
-      // this.incomingMessages = this._auth.messages$.subscribe(
+      // this.incomingMessages = this.authService.messages$.subscribe(
       //   (incomingMessage) => {
       //       console.log(incomingMessage.roomId);
       //       console.log(this.rooms_with_messages);
@@ -96,7 +96,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       //   }
       // );
 
-      // this.current_room = this._auth.currentRoom$.subscribe(
+      // this.current_room = this.authService.currentRoom$.subscribe(
       //   (currentRoom) => {
       //     this.current_room = currentRoom;
       //     // console.log(currentRoom);
@@ -384,9 +384,14 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
-    this.currentUser = this.messageService.currentUser;
-    this.current_room = this.messageService.latestRoom;
-    this.enterLatestRoom();
+    this.currentUser = this.authService.getCurrentUser().subscribe((user) => {
+      this.currentUser = user;
+      this.rooms = user.rooms;
+      this.current_room = this.messageService.getLatestRoom(user);
+      console.log(user.rooms);
+      this.enterLatestRoom();
+      console.log(user);
+    });
 
     // this.getMessages();
 

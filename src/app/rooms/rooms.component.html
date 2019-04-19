@@ -16,7 +16,7 @@
     <div class="col-12 col-lg-3 overflow-auto" style="background-color:#F1F8FC; border-bottom:1px solid #DAE6ED;">
         
           <!-- Begin rooms list -->
-          <div id="messages" class="row">
+          <div *ngIf="rooms" id="messages" class="row">
             <div class="col-12 my-2 px-3">
                 <button class="btn btn-block custom-btn text-left mr-4 my-2 p-3 user-action-btn"  data-toggle="modal"
                  data-target="#addRoomModal" (click)="roomCreated = false">New Room <i class="fa fa-plus"></i> </button>
@@ -35,9 +35,9 @@
                   </button>
                 </ng-container>
               </div>
-            <div *ngIf="(currentUser)" class="col-12">
+            <div *ngIf="currentUser" class="col-12">
                 <div class="message-wrap">
-                  <img src="{{currentUser.avatarURL}}" alt="">
+                  <img src="https://images.unsplash.com/photo-1509868918748-a554ad25f858?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=3159ec467959b2aada4b75d565c270aa" class="img-fluid" alt="" style="border-radius: 100px;width: 50px;height: 50px;object-fit: cover;object-position: center;">
                   <span>{{ currentUser.name }}</span>
                   <button class="btn btn-link" (click)="viewUserModal">{{ currentUser.name }}</button>
                 </div>

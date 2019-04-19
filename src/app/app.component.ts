@@ -23,7 +23,8 @@ export class AppComponent implements OnInit {
   constructor(
       private router: Router,
       private authService: AuthService,
-      private updates: SwUpdate) {}
+      private updates: SwUpdate,
+      private messageService: MessagingService) {}
 
   //
   // ─── LOGOUT USER ────────────────────────────────────────────────────────────────
@@ -55,36 +56,19 @@ export class AppComponent implements OnInit {
 
 
 
-  async ngOnInit() {
-
-     await this.authService.initializeApp();
-
-    console.log('app init');
-    this.currentUser = this.authService.currentUser;
-    console.log(this.currentUser);
-
-
-    this.currentUserLoggedIn = this.authService.userLoggedIn();
+  ngOnInit() {
     console.log('%cWelcome to Chatversity!', 'font-size: 20px; color: #186fa0;');
+    console.log('Initializing app');
 
-    // if (this.currentUserLoggedIn) {
-    //   this.messagingService.chatManager.connect()
-    //   .then((user) => {
-    //     this.currUser = user;
-    //     console.log(user);
-    //     user.rooms.forEach(room => {
-    //       user.subscribeToRoomMultipart({
-    //         roomId: room.id,
-    //         messageLimit: 10
-    //       });
-    //     });
-    //   });
+    this.messageService.initChatkit(this.authService.getUserId())
+    .then(chatkitUser => {
+      console.log('got chatkit user');
+      console.log(chatkitUser);
+      this.authService.currentUser = chatkitUser;
+      this.currentUser = chatkitUser;
+      console.log(this.authService.currentUser);
 
-    //   this.updates.available.subscribe(event => {
-    //     this.update = true;
-    //   });
-
-    //   console.log(this.currentUserLoggedIn);
-    // }
+  });
+    console.log('User Logged In: ' + this.authService.userLoggedIn());
   }
 }

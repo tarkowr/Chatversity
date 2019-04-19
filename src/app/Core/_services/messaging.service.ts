@@ -23,10 +23,13 @@ export class MessagingService {
 
 
 
-  enterLatestRoom() {
-    return this.latestRoom;
-  }
+  // enterLatestRoom(user) {
+  //   user.joinRoom({roomId:});
+  // }
 
+  getLatestRoom(user) {
+    return user.rooms[0];
+  }
 
 
   joinRoom(id: any) {
