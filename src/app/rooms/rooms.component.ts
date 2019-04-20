@@ -72,46 +72,8 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   //
   // ─── CONSTRUCTOR ────────────────────────────────────────────────────────────────
   //
-    constructor(private http: HttpClient, private messageService: MessagingService, private authService: AuthService) {
-
-      // this.subscription = this.authService.chatkitUser$.subscribe(
-      //   (user) => {
-      //     if (user) {
-      //       this.chatkitUser = user;
-      //       // console.log(this.chatkitUser);
-      //       this.rooms = user.rooms;
-      //       // console.log(this.rooms);
-      //     }
-      //   }
-      // );
-
-      // this.incomingMessages = this.authService.messages$.subscribe(
-      //   (incomingMessage) => {
-      //       console.log(incomingMessage.roomId);
-      //       console.log(this.rooms_with_messages);
-
-      //     // this.rooms_with_messages.push(incomingMessage);
-      //     this.rooms_with_messages[incomingMessage.roomId] = incomingMessage;
-      //     console.log(incomingMessage);
-      //   }
-      // );
-
-      // this.current_room = this.authService.currentRoom$.subscribe(
-      //   (currentRoom) => {
-      //     this.current_room = currentRoom;
-      //     // console.log(currentRoom);
-      //   }
-      // );
-    }
+    constructor(private http: HttpClient, private messageService: MessagingService, private authService: AuthService) {}
   // ────────────────────────────────────────────────────────────────────────────────
-
-
-
-// getMessages(): void {
-//   this.messageService.getMessages()
-//     .subscribe(messages => this.messages = messages);
-// }
-
 
 
 
@@ -121,28 +83,25 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
     this.selectedFile = <File>event.target.files[0];
     this.fd.append('avatar', this.selectedFile, this.selectedFile.name);
-    // this.fileToUpload = file;
-    // const reader = new FileReader();
-    // reader.readAsDataURL(file); // read file as data url
-    // reader.onload = (_event) => {
-    //   console.log(reader.result); // log base64 string
-    //   this.imagePath = reader.result;
-    // };
   }
+
+
 
   //
   // ─── VIEW A USER IN THE ROOM ────────────────────────────────────────────────────
   //
 
-  setSelectedRoomMember(user: any) {
-    this.selectedRoomMember = user;
-  }
+    setSelectedRoomMember(user: any) {
+      this.selectedRoomMember = user;
+    }
   // ────────────────────────────────────────────────────────────────────────────────
+
 
 
   //
   // ─── SEND A MESSAGE ─────────────────────────────────────────────────────────────
   //
+
     sendMessage() {
       const { message, currentUser } = this;
       this.chatkitUser.sendMessage({
@@ -157,50 +116,24 @@ export class RoomsComponent implements OnInit, AfterViewInit {
     }
   // ─────────────────────────────────────────────────────────────────
 
-  // Join a room
-  joinRoom(roomID) {
-    this.currentUser.joinRoom({roomId: roomID}).then(room => {
-      this.current_room = room;
-      console.log(this.current_room);
 
-      if (this.rooms_with_messages && this.rooms_with_messages[roomID]) { console.log('returning');
-        return; }
 
-      // After joining room, fetch messages
-      this.currentUser.fetchMultipartMessages({
-        roomId: roomID,
-        direction: 'older',
-        limit: 10,
-      })
-        .then(messages => {
+  //
+  // ─── JOIN A ROOM ────────────────────────────────────────────────────────────────
+  //
 
-        // Check if messages
-        if (messages === undefined || messages.length === 0) { return; }
+    joinRoom(roomID) {
 
-        // Set read cursor
-        this.currentUser.setReadCursor({
-          roomId: this.current_room.id,
-          position: messages[messages.length - 1].id
-        })
-        .then(() => {
-          this.roomNotifications[room.id] = false;
-        }); // Remove marker from notifications array
-        // .then(() => {
-        //     console.log('Set cursor');
-        //   })
-        //   .catch(err => {
-        //     console.log(`Error setting cursor: ${err}`);
-        //   });
-        messages.forEach(message => {
-          // console.log(message.parts[0].payload.content);
-          // console.log(message);
-          this.rooms_with_messages[message.roomId] = message;
-        });
+      this.messageService.joinRoom(this.currentUser, roomID).then((room) => {
+
+        // update current room
+        this.current_room = room;
       });
-    });
 
-  }
-  // end Join room
+    }
+  // ────────────────────────────────────────────────────────────────────────────────
+
+
 
   // Function => check if user has unread messages in a room
   hasUnread(roomID) {
@@ -269,63 +202,6 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
 
   //
-  // ─── SUBSCRIBE TO ROOM ──────────────────────────────────────────────────────────
-  //
-
-    // subscribeToRoom(roomID) {
-
-    //   this.current_room = this.chatkitUser.roomStore.rooms[roomID];
-    //   this.chatkitUser.subscribeToRoomMultipart({
-    //     roomId: roomID,
-    //     hooks: {
-    //       onMessage: message => {
-    //         // When a message is received...
-
-    //         // Push to messages array and update view
-    //         this.rooms_with_messages[`${message.roomId}`].push(message);
-    //         console.log(this.rooms_with_messages);
-    //         // Scroll chat window to reveal latest message
-    //         // document.getElementById('chatReel').scrollTop = 0;
-    //         // alert(document.getElementById('chatReel'));
-
-    //         // Get the users last cursor position from the room
-    //         const cursor = this.chatkitUser.readCursor({
-    //           roomId: message.roomId
-    //         });
-
-    //         if ((cursor.position !== message.id) && (message.roomId !== this.current_room.id)) {
-    //           // If the current user has not seen the message, AND the message was received in a different room,
-    //           // add marker to notification array
-    //           this.roomNotifications[message.room.id] = true;
-    //         } else {
-    //           // Otherwise, message was sent in current room, so all we must do is update the
-    //           // read cursor for the current user's room
-    //           this.chatkitUser.setReadCursor({
-    //             roomId: message.roomId,
-    //             position: message.id,
-    //           });
-    //         }
-
-    //         // Count rooms with unread notifucations
-    //         let roomsWithNotifications = 0;
-    //         this.roomNotifications.forEach(room => {
-    //           roomsWithNotifications += room === true ? 1 : 0;
-    //         });
-    //         // Add to global notification counter
-    //         this.messageService.setRoomsWithNotifications(roomsWithNotifications);
-    //       },
-    //       onAddedToRoom: room => {
-    //         console.log(`Added to room ${room.name}`);
-    //       }
-    //     },
-    //     messageLimit: 0 // Only fetch new messages
-    //   });
-    // }
-  // ─────────────────────────────────────────────────────────────────
-
-
-
-  //
   // ─── CREATE ROOM ────────────────────────────────────────────────────────────────
   //
 
@@ -359,26 +235,33 @@ export class RoomsComponent implements OnInit, AfterViewInit {
     }
   // ────────────────────────────────────────────────────────────────────────────────
 
-  // Check if message timestamp is today
-  MessageSentToday(msgDate: Date) {
-
-    // get current date
-    const currDate = new Date();
-    currDate.setDate(currDate.getDate());
-    // console.log(currDate);
 
 
-    // get message date
-    msgDate = new Date(msgDate);
-    // console.log(msgDate);
+  //
+  // ─── CHECK IF MESSAGE TIMESTAMP IS TODAY ────────────────────────────────────────
+  //
 
-    const daysBetween = Math.floor(( Date.parse(currDate.toDateString()) - Date.parse(msgDate.toDateString()) ) / 86400000);
+    MessageSentToday(msgDate: Date) {
 
-    if (daysBetween >= 7) {
-      console.log('Message is at least 7 days old');
+      // get current date
+      const currDate = new Date();
+      currDate.setDate(currDate.getDate());
+      // console.log(currDate);
+
+
+      // get message date
+      msgDate = new Date(msgDate);
+      // console.log(msgDate);
+
+      const daysBetween = Math.floor(( Date.parse(currDate.toDateString()) - Date.parse(msgDate.toDateString()) ) / 86400000);
+
+      if (daysBetween >= 7) {
+        console.log('Message is at least 7 days old');
+      }
+      return false;
     }
-    return false;
-  }
+  // ────────────────────────────────────────────────────────────────────────────────
+
 
   ngOnInit() {
 
@@ -386,7 +269,8 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       this.currentUser = user;
       this.rooms = user.rooms;
       this.current_room = this.messageService.getLatestRoom(user);
-      this.messageService.getLatestReadCursor(user);
+      console.log(this.current_room);
+
       console.log(user.rooms);
       console.log(user);
     });
