@@ -36,13 +36,6 @@
             </button>
           </ng-container>
         </div>
-        <div *ngIf="(currentUser)" class="col-12">
-          <div class="message-wrap">
-            <img src="{{currentUser.avatarURL}}" alt="">
-            <span>{{ currentUser.name }}</span>
-            <button class="btn btn-link" (click)="viewUserModal">{{ currentUser.name }}</button>
-          </div>
-        </div>
       </div>
     </div>
     <div class="col-12 col-lg-9 overflow-auto" style="background-color: #fafdff; border-left:1px solid #DAE6ED;">
@@ -104,11 +97,12 @@
         </ng-container>
 
       </div>
+      
       <div class="chat-footer" style="position: absolute; bottom: 0; left: 0; width: 100%;"
       *ngIf="(current_room)">
         <!--TODO: Change placeholder to only display room name if room name is defined-->
         <form (ngSubmit)='sendMessage()'>
-          <input *ngIf="current_room" [placeholder]="(current_room.name) ? 'Message ' + current_room.name : 'Message'" type="text" name="message" [(ngModel)]="message">
+          <input [placeholder]="(current_room.name) ? 'Message ' + current_room.name : 'Message'" type="text" name="message" [(ngModel)]="message">
         </form>
       </div>
     </div>
@@ -118,7 +112,6 @@
     <!-- end view user modal -->
 
   </div>
-  <!-- Messages Header -->
 </div>
 
 <!-- Create room modal -->
