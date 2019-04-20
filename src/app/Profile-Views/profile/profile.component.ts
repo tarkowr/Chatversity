@@ -31,18 +31,16 @@ export class ProfileComponent implements OnInit {
   interests = '';
   clubs = '';
 
-  constructor( private authService: AuthService ) {
-
-    this.subscription = this.authService.currentUser.subscribe(
-      (user) => {
-        this.currentUser = user;
-        console.log('CHATKIT USER:', this.currentUser);
-        this.initForm();
-      }
-    );
-  }
+  constructor( private authService: AuthService ) { }
 
   ngOnInit() {
+    this.authService.currentUser.subscribe(
+      (user) => {
+        this.currentUser = user
+        console.log('CHATKIT USER:', this.currentUser)
+        this.initForm()
+      }
+    )
   }
 
   initForm() {
