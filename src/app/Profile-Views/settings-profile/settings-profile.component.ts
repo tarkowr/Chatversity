@@ -170,7 +170,6 @@ export class SettingsProfileComponent implements OnInit {
 
   ngOnInit() {
 
-
     this.authService.getCurrentUser().subscribe((user) => {
       this.currentUser = user
       this.initForm()

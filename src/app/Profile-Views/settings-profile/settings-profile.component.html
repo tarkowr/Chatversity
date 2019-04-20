@@ -25,6 +25,18 @@
             <div *ngIf="submitted && f.name.errors">
               <div class="alert alert-danger" role="alert">Unable to update profile.</div>
             </div>
+
+          <!-- Profile Picture -->
+          <figure>
+              <img src="{{ currentUser.avatarURL }}" alt="User Profile Picture">
+              <!-- <input type="file" name="filepond" data-max-files="10" required> -->
+              <file-pond #myPond 
+                [options]="pondOptions" 
+                [files]="pondFiles"
+                (oninit)="pondHandleInit()"
+                (onaddfile)="pondHandleAddFile($event)">
+              </file-pond>
+            </figure>
             
           <!--Name-->
           <div class="form-group mb-3">
@@ -85,18 +97,6 @@
 
           <!-- BEGIN PROFILE DISPLAY -->
           <div *ngIf="!editingForm && currentUser">
-
-            <!-- Profile Picture -->
-            <figure>
-              <img src="{{ currentUser.avatarURL }}" alt="User Profile Picture">
-              <!-- <input type="file" name="filepond" data-max-files="10" required> -->
-              <file-pond #myPond 
-                [options]="pondOptions" 
-                [files]="pondFiles"
-                (oninit)="pondHandleInit()"
-                (onaddfile)="pondHandleAddFile($event)">
-              </file-pond>
-            </figure>
 
             <!--Name-->
             <div class="mb-3">
