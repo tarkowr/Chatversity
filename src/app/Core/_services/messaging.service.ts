@@ -12,43 +12,202 @@ import { environment } from '../../../environments/environment.prod';
 })
 export class MessagingService {
 
-  private notifications = new BehaviorSubject(0);
-  notificationCount = this.notifications.asObservable();
 
-  currentUser: any;
+
   chatManager: any;
-  chatkitUser: any;
-  messages = [];
-  currentUserSubscription: Subscription;
-
-  _message = '';
-  get message(): string {
-    return this._message;
-  }
-  set message(value: string) {
-    this._message = value;
-  }
-
-  constructor(private http: HttpClient) {}
+  currentUser: any;
+  latestRoom: any;
+  latestReadCursor: any;
+  messages: Array<any> = [];
+  constructor(private http: HttpClient) { console.log('Messaging service constructed'); }
 
 
 
   //
-  // ─── GET ALL OF A USERS READ CURSORS ────────────────────────────────────────────
+  // ─── SET READ CURSOR ────────────────────────────────────────────────────────────
   //
-    getReadCursorsForUser(id: number | string) {
 
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    });
-      return this.http.get(`${environment.apiUrl}/chatkit/getReadCursorsForUser/${id}`, {headers: headers});
+    setLatestReadCursor(user, roomId) {
+
+      // get position (ID) of latest room message
+      this.fetchMessages(user, roomId, '', '', 1).then((messages) => {
+        console.log(messages);
+
+        // set position of cursor to match
+        user.setReadCursor({
+            roomId: roomId,
+            position: messages[0].id
+          })
+          .then(() => {
+            user.rooms.forEach(room => {
+              if (room.id === messages[0].roomId) {
+                this.latestRoom = room;
+              }
+            });
+            console.log(`Set read cursor in room ${roomId} with position ${messages[0].id}`);
+          })
+          .catch(err => {
+            console.log(`Error setting cursor: ${err}`);
+          });
+      });
+    }
+  // ────────────────────────────────────────────────────────────────────────────────
+
+
+
+  //
+  // ─── SET READ CURSOR ────────────────────────────────────────────────────────────
+  //
+
+    setReadCursor(user, roomId, position) {
+
+      user.setReadCursor({
+          roomId: roomId,
+          position: position
+        })
+        .then(() => {
+          console.log(`Set read cursor in room ${roomId}`);
+        })
+        .catch(err => {
+          console.log(`Error setting cursor: ${err}`);
+        });
+    }
+  // ────────────────────────────────────────────────────────────────────────────────
+
+
+
+  //
+  // ─── GET LATEST ROOM ────────────────────────────────────────────────────────────
+  //
+
+    getLatestRoom(user) {
+      console.log('getting latest room');
+      if (this.latestRoom) { return this.latestRoom; }
+
+      let latestRoom;
+      const latestReadCursor = this.getLatestReadCursor(user);
+      console.log(latestReadCursor);
+
+
+      user.rooms.forEach(room => {
+        console.log(room.id);
+        console.log(latestReadCursor.roomId);
+
+        if (room.id === latestReadCursor.roomId) { latestRoom = room; }
+
+      });
+
+      return latestRoom;
+
+      // return user.rooms.forEach(room => {
+      //   console.log(room.id);
+      //   console.log(latestReadCursor.roomId);
+
+      //   while (room.id)
+
+      //   if (room.id === latestReadCursor.roomId) { return room; }
+
+      //   // if (latestRoom) { console.log('Got latest room'); return latestRoom; }/
+
+      // });
     }
   // ─────────────────────────────────────────────────────────────────
 
 
 
-  initialize(userId) {
+  //
+  // ─── GET LATEST CURSOR ──────────────────────────────────────────────────────────
+  //
+
+    getLatestReadCursor(user) {
+
+      if (this.latestReadCursor) { return this.latestReadCursor; }
+
+      const cursors = [];
+
+      // first, get user cursor from each room
+      user.rooms.forEach(room => {
+        cursors.push(user.readCursor({ roomId: room.id }));
+      });
+
+      console.log(cursors);
+      
+      // then sort to find lowest
+      const sorted = cursors.sort();
+      console.log(sorted);
+      
+      const latestCursor = sorted[0];
+
+      this.latestReadCursor = latestCursor;
+      return latestCursor;
+    }
+  // ─────────────────────────────────────────────────────────────────
+
+
+
+  fetchMessages(user, roomId, initialId?, direction = 'older', limit = 0) {
+
+    return user.fetchMultipartMessages({
+      roomId: roomId,
+      initialId: initialId,
+      direction: direction,
+      limit: limit,
+    })
+      .then(messages => {
+        return messages;
+      })
+      .catch(err => {
+        console.log(`Error fetching messages: ${err}`);
+      });
+  }
+
+
+
+
+  //
+  // ─── JOIN ROOM ───────────────────────────────────────────────────
+  //
+
+    joinRoom(user: any, roomId: any) {
+
+    return user.joinRoom({roomId: roomId})
+        .then(room => {
+          this.setLatestReadCursor(user, roomId);
+          return room;
+        })
+        .catch(err => {
+          console.log(`Error joining room ${roomId}: ${err}`);
+        });
+    }
+  // ─────────────────────────────────────────────────────────────────
+
+
+
+
+  subscribeToAllRooms() {
+
+    const currentUser = this.currentUser;
+
+    if (! currentUser.rooms.length) { return; }
+
+    currentUser.rooms.forEach(room => {
+      currentUser.subscribeToRoomMultipart({
+          roomId: room.id,
+          hooks: {
+              onMessage: message => {
+                // console.log('Received message', message);
+                this.messages.push(message);
+              }
+          },
+          messageLimit: 10
+      });
+    });
+  }
+
+
+
+  initChatkit(userId) {
+
     this.chatManager = new ChatManager({
       instanceLocator: 'v1:us1:a54bdf12-93d6-46f9-be3b-bfa837917fb5',
       userId: userId,
@@ -57,74 +216,54 @@ export class MessagingService {
       })
     });
 
-    return this.chatManager.connect().then(user => {
-      return user;
-    });
-  }
-
-  setRoomsWithNotifications(count) {
-    // Get current notification count
-    const currNotificationCount = this.notifications.value;
-    // Update the globabl total
-    this.notifications.next(count);
-  }
-
-
-  // Send a message
-  sendMessage(room, message) {
-    this.chatkitUser.sendSimpleMessage({
-      roomId: room.id,
-      text: 'Hi there!',
-    })
-    .then(messageId => {
-      // console.log(`Added message to ${myRoom.name}`);
-      console.log(`Added message to ${room.name}`);
-    })
-    .catch(err => {
-      // console.log(`Error adding message to ${myRoom.name}: ${err}`);
-      console.log(`Error adding message to ${room.name}: ${err}`);
-    });
-  }
-
-  // Join a room
-  joinRoom(roomID) {
-    return this.chatkitUser.joinRoom( { roomId: roomID } )
-    .then(room => {
-      console.log(`Joined room with ID: ${room.id}`);
-      // Subscribe to room to receive notifications
-      return room;
-    })
-    .catch(err => {
-      console.log(`Error joining room ${roomID}: ${err}`);
-    });
-  }
-
-  // Subscribe to room
-  subscribeToRoom(roomID) {
-    return this.chatkitUser.subscribeToRoomMultipart({
-      roomId: roomID,
-      hooks: {
-        onMessage: message => {
-          console.log('received message', message);
-          return message;
-        }
+    return this.chatManager.connect({
+      onAddedToRoom: room => {
+        console.log(`Added to room ${room.name}`);
       },
-      messageLimit: 10
-    });
+      onRemovedFromRoom: room => {
+        console.log(`Removed from room ${room.name}`);
+      },
+      onRoomUpdated: room => {
+        console.log(`Updated room ${room.name}`);
+      },
+      onRoomDeleted: room => {
+        console.log(`Deleted room ${room.name}`);
+      }
+    })
+      .then(user => {
+
+        console.log(`Connected as ${user.name}. \n Setting up rooms...`);
+
+        this.currentUser = user;
+
+        localStorage.setItem('chatkitUserId', user.id);
+
+        // If user has no rooms then return
+        if (!user.rooms.length) { return; }
+
+        // Subscribe to all user rooms to be notified of new messages
+        this.subscribeToAllRooms();
+
+        // Join the latest room
+
+          console.log(user);
+
+        const latestRoom = this.getLatestRoom(user);
+        console.log(latestRoom);
+        
+        this.joinRoom(user, latestRoom.id);
+        // this.getLatestRoom(user).then((room) => {
+        //   this.joinRoom(user, room.id);
+        // });
+
+
+        return user;
+      });
   }
 
-  // Fetch messages from room
-  fetchMessages(roomID) {
-    return this.chatkitUser
-    .fetchMultipartMessages(
-    {
-      roomId: roomID,
-      direction: 'older',
-      limit: 10,
-    })
-    .then(messages => messages )
-    .catch(err => {
-      console.log(`Error fetching messages: ${err}`);
-    });
+
+
+  getMessages() {
+  return this.http.get('');
   }
 }

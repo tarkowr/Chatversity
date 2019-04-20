@@ -20,7 +20,7 @@ import { AppComponent } from '../../app.component';
 export class ProfileComponent implements OnInit {
 
   user: any;
-  chatkitUser: any;
+  currentUser: any;
   connections: any;
   subscription: any;
 
@@ -31,12 +31,12 @@ export class ProfileComponent implements OnInit {
   interests = '';
   clubs = '';
 
-  constructor( private _auth: AuthService ) {
+  constructor( private authService: AuthService ) {
 
-    this.subscription = this._auth.chatkitUser$.subscribe(
+    this.subscription = this.authService.currentUser.subscribe(
       (user) => {
-        this.chatkitUser = user;
-        console.log('CHATKIT USER:', this.chatkitUser);
+        this.currentUser = user;
+        console.log('CHATKIT USER:', this.currentUser);
         this.initForm();
       }
     );
@@ -47,37 +47,37 @@ export class ProfileComponent implements OnInit {
 
   initForm() {
     try {
-      this.name = this.chatkitUser.name;
+      this.name = this.currentUser.name;
     } catch (error) {
       this.name = '';
     }
 
     try {
-      this.bio = this.chatkitUser.customData.bio;
+      this.bio = this.currentUser.customData.bio;
     } catch (error) {
       this.bio = '';
     }
 
     try {
-      this.major = this.chatkitUser.customData.major;
+      this.major = this.currentUser.customData.major;
     } catch (error) {
       this.major = '';
     }
 
     try {
-      this.graduationYear = this.chatkitUser.customData.graduationYear;
+      this.graduationYear = this.currentUser.customData.graduationYear;
     } catch (error) {
       this.graduationYear = '';
     }
 
     try {
-      this.interests = this.chatkitUser.customData.interests;
+      this.interests = this.currentUser.customData.interests;
     } catch (error) {
       this.interests = '';
     }
 
     try {
-      this.clubs = this.chatkitUser.customData.clubs;
+      this.clubs = this.currentUser.customData.clubs;
     } catch (error) {
       this.clubs = '';
     }

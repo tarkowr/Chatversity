@@ -21,9 +21,9 @@ export class ViewFriendsHomeComponent implements OnInit {
   // Field for connection
   connectionToAdd = new FormControl('');
   subscription: any;
-  chatkitUser: any;
   rooms: any;
 
+  currentUser: any;
 
   //
   // ─── CONSTRUCTOR ────────────────────────────────────────────────────────────────
@@ -34,29 +34,7 @@ export class ViewFriendsHomeComponent implements OnInit {
       private _userService: UserService,
       private _msgService: MessagingService,
       private app: AppComponent,
-      private _auth: AuthService) {
-        this.subscription = this._auth.chatkitUser$.subscribe(
-          (user) => {
-            this.chatkitUser = user;
-            console.log(this.chatkitUser);
-            this.rooms = user.rooms;
-            console.log(this.rooms);
-          }
-        );
-
-        // this.incomingMessages = this._auth.messages$.subscribe(
-        //   (incomingMessage) => {
-        //     this.room_messages.push(incomingMessage);
-        //   }
-        // );
-
-        // this.current_room = this._auth.currentRoom$.subscribe(
-        //   (currentRoom) => {
-        //     this.current_room = currentRoom;
-        //     console.log(currentRoom);
-        //   }
-        // );
-      }
+      private authService: AuthService) { this.currentUser = authService.currentUser; }
   // ────────────────────────────────────────────────────────────────────────────────
 
   //
@@ -73,7 +51,7 @@ export class ViewFriendsHomeComponent implements OnInit {
         // Get the user from Chatkit by matching the IDs
         this.http.get(`${environment.apiUrl}/chatkit/GetUserById/${oktaUser['id']}`)
         .toPromise()
-        .then((chatkitUser) => {
+        .then((currentUser) => {
           // Found user => add 'connection request marker' to custom data field
           // TODO: Check if users are already connected
 
@@ -143,11 +121,14 @@ export class ViewFriendsHomeComponent implements OnInit {
 
   ngOnInit() {
 
+    console.log(this.currentUser);
+
+
     //
     // ─── LOAD USER CONNECTIONS ───────────────────────────────────────
     //
 
-      this._userService.getConnections(this.chatkitUser.id)
+      this._userService.getConnections(this.currentUser.id)
       .toPromise()
       .then((connections) => {
         this.connections = connections;

@@ -13,29 +13,25 @@ import { MessagingService } from './Core/_services/messaging.service';
 })
 
 export class AppComponent implements OnInit {
-  currentUser: any;
+  currentUserLoggedIn: any;
   title = 'Chatversity';
   update = false;
   currUser: any;
+  currentUser: any;
   // chatkitUser: any;
 
   constructor(
       private router: Router,
-      private authenticationService: AuthService,
+      private authService: AuthService,
       private updates: SwUpdate,
-      private messagingService: MessagingService
-  ) {
-    this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-    // this.authenticationService.chatkitUser.subscribe(y => this.chatkitUser = y);
-  }
+      private messageService: MessagingService) {}
 
   //
   // ─── LOGOUT USER ────────────────────────────────────────────────────────────────
   //
 
     logout() {
-      this.authenticationService.logout();
-      this.router.navigate(['/login']);
+      this.authService.logout();
     }
   // ────────────────────────────────────────────────────────────────────────────────
 
@@ -61,29 +57,29 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit() {
-    // this.currentUser = this.authenticationService.currentUser;
     console.log('%cWelcome to Chatversity!', 'font-size: 20px; color: #186fa0;');
+    console.log('Initializing app');
 
-    console.log('OKTA USER:', this.currentUser);
+    this.authService.getCurrentUser().subscribe((user) => {
 
-    // if (this.currentUser) {
-    //   this.messagingService.chatManager.connect()
-    //   .then((user) => {
-    //     this.currUser = user;
-    //     console.log(user);
-    //     user.rooms.forEach(room => {
-    //       user.subscribeToRoomMultipart({
-    //         roomId: room.id,
-    //         messageLimit: 10
-    //       });
-    //     });
-    //   });
+      if (user) { this.currentUser = user; return; } else {
+        this.messageService.initChatkit(this.authService.getUserId());
+      }
 
-    //   this.updates.available.subscribe(event => {
-    //     this.update = true;
-    //   });
 
-    //   console.log(this.currentUser);
-    // }
+      console.log(user.rooms);
+      console.log(user);
+    });
+
+  //   this.messageService.initChatkit(this.authService.getUserId())
+  //   .then(chatkitUser => {
+  //     console.log('got chatkit user');
+  //     console.log(chatkitUser);
+  //     this.authService.currentUser = chatkitUser;
+  //     this.currentUser = chatkitUser;
+  //     console.log(this.authService.currentUser);
+
+  // });
+    console.log('User Logged In: ' + this.authService.userLoggedIn());
   }
 }

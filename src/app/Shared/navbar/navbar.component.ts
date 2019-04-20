@@ -15,19 +15,7 @@ export class NavbarComponent implements OnInit {
   rooms: Array<any>;
   roomsWithNewMessages: Array<any> = [];
 
-  constructor(private _auth: AuthService, private _messaging: MessagingService) {
-
-    this._auth.chatkitUser$.subscribe(
-      (user) => {
-
-        this.currentUser = (user != null) ? user : null;
-
-        if ((user != null) && (user.id)) {
-          this.setNotifications(user);
-        }
-      }
-    );
-  }
+  constructor(private authService: AuthService, private messageService: MessagingService) {}
 
   setNotifications(user) {
 
@@ -64,5 +52,8 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.currentUser = this.authService.currentUser;
+    console.log(this.currentUser);
+  }
 }

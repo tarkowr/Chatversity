@@ -16,18 +16,18 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      const currentUser = this.authService.currentUserValue;
-        if (currentUser) {
-          // User authorized so return true
-          console.log('USER AUTHORIZED');
-          return true;
-        }
 
-        console.log('USER NOT AUTHORIZED');
+      if (this.authService.userLoggedIn()) {
+        // User authorized so return true
+        console.log('USER AUTHORIZED');
+        return true;
+      }
 
-        // not logged in so redirect to login page via UrlTree
-        const url = '/login';
-        const tree: UrlTree = this.router.parseUrl(url);
-        return tree;
+      console.log('USER NOT AUTHORIZED');
+
+      // not logged in so redirect to login page via UrlTree
+      const url = '/login';
+      const tree: UrlTree = this.router.parseUrl(url);
+      return tree;
     }
 }

@@ -7,6 +7,9 @@ var bodyParser = require('body-parser')
 var multer  = require('multer')
 var app = express()
 const universities = require('./universities')
+var fs      = require('fs')
+var formidable = require('formidable'),
+    util = require('util')
 
 // Setting up the root route
 app.get('/', (req, res) => {
@@ -81,6 +84,62 @@ var upload = multer({
 // ──────────────────────────────────────────────────────────────
 //
 
+
+
+//
+// ─── UPLOAD USER AVATAR ─────────────────────────────────────────────────────────
+//
+
+  app.post('/user/avatar/:user_id', (req, res) => {
+
+    var form = new formidable.IncomingForm()
+    // form.encoding = 'utf-8'
+    form.uploadDir = `./src/assets/avatars/`
+    form.keepExtensions = true
+
+    // form.on('file', function(name, file) {
+    //   file.name = req.params.user_id;
+    // });
+    // res.status(200).send('done')
+
+    form.parse(req);
+
+    form.on('fileBegin', function (name, file){
+        file.path = './src/assets/avatars/' + file.name;
+    });
+
+    form.on('file', function (name, file){
+        console.log('Uploaded ' + file.name);
+    });
+    // res.sendFile(__dirname + '/index.html');
+
+    // setTimeout(function(){
+      // form.parse(req, res)
+
+        // res.status(200).json({fields: fields, files: files})
+    // }, 1000)
+
+    // form.onPart = function(part) {
+    //   if (!part.filename) {
+    //     // let formidable handle all non-file parts
+    //     form.handlePart(part);
+    //   } else {
+    //     part.filename.name = req.params.user_id
+    //   }
+    // }
+
+    
+
+
+
+
+    console.log('received file')
+  });
+
+// ────────────────────────────────────────────────────────────────────────────────
+
+
+
 //
 // ─── UPLOAD ROOM AVATAR ─────────────────────────────────────────────────────────
 //
@@ -101,6 +160,7 @@ app.get("/rooms/:id/avatar", (req, res) => {
   res.sendFile(path.join(__dirname, `./uploads/${req.params.id}-avatar`));
   // ? path.resolve
 });
+
 
 
 //
@@ -134,6 +194,8 @@ app.get("/university/:query", (req,res) => {
 
 // ────────────────────────────────────────────────────────────────────────────────
 
+
+
 //
 // ─── FIND UNIVERSITY ────────────────────────────────────────────────────────────
 //
@@ -151,9 +213,10 @@ app.get("/university/name/:query", (req,res) => {
   res.status(200).json(found);
 
   // console.log(req.params.query);
-});
+})
 
 // ────────────────────────────────────────────────────────────────────────────────
+
 
 
 /**
