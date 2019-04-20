@@ -26,6 +26,7 @@ import { PrivacySettingsComponent } from './Settings-Views/privacy-settings/priv
 import { SecuritySettingsComponent } from './Settings-Views/security-settings/security-settings.component';
 import { ConnectionSettingsComponent } from './Settings-Views/connection-settings/connection-settings.component';
 import { TopBarComponent } from './Shared/top-bar/top-bar.component';
+import { SearchBarComponent } from './Shared/search-bar/search-bar.component';
 
 
 // Uncomment and add to NgModule imports if you need to use two-way binding
@@ -60,6 +61,7 @@ import { TopBarComponent } from './Shared/top-bar/top-bar.component';
     SecuritySettingsComponent,
     ConnectionSettingsComponent,
     TopBarComponent,
+    SearchBarComponent,
   ],
   imports: [
     NativeScriptModule,
