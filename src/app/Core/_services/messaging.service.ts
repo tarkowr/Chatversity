@@ -19,8 +19,8 @@ export class MessagingService {
   latestRoom: any
   latestReadCursor: any
   messages: Array<any> = []
-  roomsAndMessages: any;
-  rooms: any;
+  roomsAndMessages: any
+  rooms: Array<any> = []
   constructor(private http: HttpClient) { console.log('Messaging service constructed') }
 
 
@@ -149,6 +149,8 @@ export class MessagingService {
 
   roomHasMessages(user, roomId) {
 
+    if (!this.rooms) { return false }
+
     this.rooms.forEach(room => {
       if (room.id === roomId) { return true}
     })
@@ -159,7 +161,11 @@ export class MessagingService {
 
   fetchRoomMessages(user, roomId, direction = 'older', limit = 0) {
 
-    if (this.roomHasMessages(user, roomId)) { return this.rooms }
+    if (this.roomHasMessages(user, roomId)) {
+      this.rooms.forEach(room => {
+        if (room.id === roomId) { return room[1]}
+      })
+    }
 
     return user.fetchMultipartMessages({
       roomId: roomId,
@@ -169,6 +175,8 @@ export class MessagingService {
       .then(messages => {
 
         const roomWithMessages = new Array(roomId, messages)
+        console.log(roomWithMessages)
+
 
         this.rooms.push(roomWithMessages)
         return messages

@@ -76,13 +76,13 @@
                   <!-- Messages -->
                   <div class="col-12">
                     <div class="col-12 col-md-10 my-2 py-2"
-                      [ngClass]="current_room.userStore.users[message.senderId].id == chatkitUser.id ? 'message my-message
+                      [ngClass]="message.senderId == currentUser.id ? 'message my-message
                       offset-md-2' : 'message user-message'">
 
                       <span role="button" tabindex="0" class="chat-user-link"
-                        (click)="setSelectedRoomMember(current_room.userStore.users[message.senderId])"
+                        (click)="setSelectedRoomMember(message.sender)"
                         data-toggle="modal" data-target="#profileModal"
-                        [ngClass]="current_room.userStore.users[message.senderId].id == chatkitUser.id ? 'text-secondary-light' : 'text-secondary'"
+                        [ngClass]="message.senderId == currentUser.id ? 'text-secondary-light' : 'text-secondary'"
                         style="font-weight:500">
                         {{ current_room.userStore.users[message.senderId].name }}
                       </span>
@@ -98,14 +98,14 @@
                   </div>
                 </div>
               </ng-container>
-              
+
             </div>
           </div>
         </ng-container>
 
       </div>
       <div class="chat-footer" style="position: absolute; bottom: 0; left: 0; width: 100%;"
-      *ngIf="(current_room.name)">
+      *ngIf="(current_room)">
         <!--TODO: Change placeholder to only display room name if room name is defined-->
         <form (ngSubmit)='sendMessage()'>
           <input *ngIf="current_room" [placeholder]="(current_room.name) ? 'Message ' + current_room.name : 'Message'" type="text" name="message" [(ngModel)]="message">

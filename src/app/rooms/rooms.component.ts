@@ -30,6 +30,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   chatUser: any
   roomCreated: boolean
   roomNotifications: Array<any> = []
+  room_messages: Array<any> = []
   url: string
 
   // TODO: Can probably remove these props
@@ -133,6 +134,10 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
         // and get the room messages
         this.messageService.fetchRoomMessages(this.currentUser, roomID, '', 20).then((messages) => {
+
+          this.room_messages = messages
+          console.log(this.room_messages)
+          
           console.log(messages)
         })
       })
