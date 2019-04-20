@@ -1,12 +1,12 @@
-import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, ViewChildren, QueryList, ViewContainerRef} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { MessagingService } from '../Core/_services/messaging.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AppComponent } from '../app.component';
-import { AuthService } from '../Core/_services/auth.service';
-import { parseDate } from 'tough-cookie';
-import { Observable } from 'rxjs';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, ViewChildren, QueryList, ViewContainerRef} from '@angular/core'
+import { HttpClient } from '@angular/common/http'
+import { environment } from '../../environments/environment'
+import { MessagingService } from '../Core/_services/messaging.service'
+import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { AppComponent } from '../app.component'
+import { AuthService } from '../Core/_services/auth.service'
+import { parseDate } from 'tough-cookie'
+import { Observable } from 'rxjs'
 
 @Component({
   selector: 'app-rooms',
@@ -15,40 +15,40 @@ import { Observable } from 'rxjs';
 })
 export class RoomsComponent implements OnInit, AfterViewInit {
 
-  @ViewChildren('chatReel') chatReel: QueryList<ViewContainerRef>;
-  currUser: any;
-  subscription: any;
-  fileToUpload: File;
-  imagePath: any;
-  selectedFile: File = null;
-  fd = new FormData();
-  rooms: Array<any> = [];
-  currentUser: any;
-  user_id: any;
-  rooms_with_messages: any = {};
-  current_room: any;
-  chatUser: any;
-  roomCreated: boolean;
-  roomNotifications: Array<any> = [];
-  url: string;
+  @ViewChildren('chatReel') chatReel: QueryList<ViewContainerRef>
+  currUser: any
+  subscription: any
+  fileToUpload: File
+  imagePath: any
+  selectedFile: File = null
+  fd = new FormData()
+  rooms: Array<any> = []
+  currentUser: any
+  user_id: any
+  rooms_with_messages: any = {}
+  current_room: any
+  chatUser: any
+  roomCreated: boolean
+  roomNotifications: Array<any> = []
+  url: string
 
   // TODO: Can probably remove these props
-  _roomPrivate = '';
-  selectedRoomMember: any;
-  messages: Object;
+  _roomPrivate = ''
+  selectedRoomMember: any
+  messages: Object
   get roomPrivate(): string {
-    return this._roomPrivate;
+    return this._roomPrivate
   }
   set roomPrivate(value: string) {
-    this._roomPrivate = value;
+    this._roomPrivate = value
   }
 
-  _message = '';
+  _message = ''
   get message(): string {
-    return this._message;
+    return this._message
   }
   set message(value: string) {
-    this._message = value;
+    this._message = value
   }
 
   formImport = new FormGroup({
@@ -64,7 +64,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
     privateRoomGroup: new FormGroup({
       privateRoom: new FormControl('')
     })
-  });
+  })
 
   //
   // ─── CONSTRUCTOR ────────────────────────────────────────────────────────────────
@@ -80,10 +80,10 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
     onFileChange(event) {
 
-      if (!(event.target.files && event.target.files[0])) { return; }
+      if (!(event.target.files && event.target.files[0])) { return }
 
-      this.selectedFile = <File>event.target.files[0];
-      this.fd.append('avatar', this.selectedFile, this.selectedFile.name);
+      this.selectedFile = <File>event.target.files[0]
+      this.fd.append('avatar', this.selectedFile, this.selectedFile.name)
     }
   // ────────────────────────────────────────────────────────────────────────────────
 
@@ -94,7 +94,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   //
 
     setSelectedRoomMember(user: any) {
-      this.selectedRoomMember = user;
+      this.selectedRoomMember = user
     }
   // ────────────────────────────────────────────────────────────────────────────────
 
@@ -105,16 +105,16 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   //
 
     sendMessage() {
-      const { message, currentUser } = this;
+      const { message, currentUser } = this
       this.currentUser.sendMessage({
         text: message,
         roomId: this.current_room.id,
       }).then(res => {
-        console.log(res);
-        console.log();
+        console.log(res)
+        console.log()
 
-      });
-      this.message = '';
+      })
+      this.message = ''
     }
   // ─────────────────────────────────────────────────────────────────
 
@@ -129,8 +129,13 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       this.messageService.joinRoom(this.currentUser, roomID).then((room) => {
 
         // update current room
-        this.current_room = room;
-      });
+        this.current_room = room
+
+        // and get the room messages
+        this.messageService.fetchRoomMessages(this.currentUser, roomID, '', 20).then((messages) => {
+          console.log(messages)
+        })
+      })
 
     }
   // ────────────────────────────────────────────────────────────────────────────────
@@ -143,12 +148,12 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
     hasUnread(roomID) {
 
-      let hasUnread = false; // Track return status
+      let hasUnread = false // Track return status
 
       // First, check if cursor exists
       const cursor = this.currentUser.readCursor({
         roomId: roomID
-      });
+      })
 
       // if read cursor ID !== latest message ID...
       this.currentUser.fetchMultipartMessages({ // Get latest message
@@ -157,16 +162,16 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       })
       .then(messages => {
         if (cursor) { // Has cursor so check cursor pos vs latest message id
-          hasUnread = (cursor.position !== messages[0].initialId) ? true : false;
+          hasUnread = (cursor.position !== messages[0].initialId) ? true : false
         } else {
           // No cursor => set
         }
       })
       .catch(err => {
-        console.log(`Error fetching messages: ${err}`);
-      });
+        console.log(`Error fetching messages: ${err}`)
+      })
 
-      return hasUnread;
+      return hasUnread
     }
   // ────────────────────────────────────────────────────────────────────────────────
 
@@ -180,10 +185,10 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       return this.http.post<any>(`${environment.apiUrl}/chatkit/getuser`, {user_id})
       .toPromise()
       .then(res => {
-        return res;
-        console.log(res);
+        return res
+        console.log(res)
       })
-      .catch(error => console.log(error));
+      .catch(error => console.log(error))
     }
   // ─────────────────────────────────────────────────────────────────
 
@@ -198,10 +203,10 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       .toPromise()
       .then(res => {
         // this.rooms = res;
-        console.log(res);
-        return res;
+        console.log(res)
+        return res
       })
-      .catch(error => console.log(error));
+      .catch(error => console.log(error))
     }
   // ─────────────────────────────────────────────────────────────────
 
@@ -213,31 +218,31 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
     createRoom() { // TODO: Add to message service
 
-      const roomName = this.formImport.value.roomNameGroup.roomName;
-      let roomAvatar = '';
+      const roomName = this.formImport.value.roomNameGroup.roomName
+      let roomAvatar = ''
 
       // TODO: Add this to upload service
       // Upload image
       this.http.post(`${environment.apiUrl}/rooms/avatar`, this.fd)
       .toPromise()
       .then( avatar => {
-        roomAvatar = avatar['filename']; // Store path
-        console.log(roomAvatar);
+        roomAvatar = avatar['filename'] // Store path
+        console.log(roomAvatar)
         // Create the room
         this.currentUser.createRoom({ // Create the room
           name: roomName,
           private: false,
           customData: { roomAvatar: roomAvatar }, // Add room avatar to custom room data
         }).then( room => { // Succes
-            this.rooms.push(room); // Add the new room to the list
-            this.roomCreated = true;
-            console.log(room);
-            console.log(`Created room called ${room.name}`);
+            this.rooms.push(room) // Add the new room to the list
+            this.roomCreated = true
+            console.log(room)
+            console.log(`Created room called ${room.name}`)
           })
           .catch(err => { // Failed room creation
-            console.log(`Error creating room ${err}`);
-          });
-      });
+            console.log(`Error creating room ${err}`)
+          })
+      })
     }
   // ────────────────────────────────────────────────────────────────────────────────
 
@@ -250,21 +255,21 @@ export class RoomsComponent implements OnInit, AfterViewInit {
     MessageSentToday(msgDate: Date) {
 
       // get current date
-      const currDate = new Date();
-      currDate.setDate(currDate.getDate());
+      const currDate = new Date()
+      currDate.setDate(currDate.getDate())
       // console.log(currDate);
 
 
       // get message date
-      msgDate = new Date(msgDate);
+      msgDate = new Date(msgDate)
       // console.log(msgDate);
 
-      const daysBetween = Math.floor(( Date.parse(currDate.toDateString()) - Date.parse(msgDate.toDateString()) ) / 86400000);
+      const daysBetween = Math.floor(( Date.parse(currDate.toDateString()) - Date.parse(msgDate.toDateString()) ) / 86400000)
 
       if (daysBetween >= 7) {
-        console.log('Message is at least 7 days old');
+        console.log('Message is at least 7 days old')
       }
-      return false;
+      return false
     }
   // ────────────────────────────────────────────────────────────────────────────────
 
@@ -273,22 +278,22 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   ngOnInit() {
 
     this.authService.getCurrentUser().subscribe((user) => {
-      this.currentUser = user;
-      this.rooms = user.rooms;
-      this.current_room = this.messageService.getLatestRoom(user);
-      console.log(this.current_room);
+      this.currentUser = user
+      this.rooms = user.rooms
+      this.current_room = this.messageService.getLatestRoom(user)
 
-      console.log(user.rooms);
-      console.log(user);
-    });
+      console.log(this.current_room)
+      console.log(user.rooms)
+      console.log(user)
+    })
   }
 
   ngAfterViewInit() {
 
     this.chatReel.changes.subscribe(c => {
       c.toArray().forEach(item => {
-        item.nativeElement.offsetParent.scrollTop = item.nativeElement.offsetParent.scrollHeight;
-      });
-    });
+        item.nativeElement.offsetParent.scrollTop = item.nativeElement.offsetParent.scrollHeight
+      })
+    })
   }
 }
