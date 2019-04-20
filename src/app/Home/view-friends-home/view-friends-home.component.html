@@ -69,39 +69,7 @@
 
     <div class="tab-pane fade" id="pills-search-connections" role="tabpanel" aria-labelledby="pills-search-connections">
       <!--Search connections-->
-      <form [formGroup]="searchForm" class="my-4">
-          <!--Search Bar-->
-          <div class="form-group mb-3">
-              <input type="search" required class="form-control primary-border" id="search" name="search" placeholder="Search" 
-              formControlName="search" (input)="onSearch()">
-          </div>
-      </form>
-
-      <!--Connection search results-->
-      <div class="my-2 search-results" *ngIf="(submitted && !searchForm.invalid)">
-        <div *ngIf="(results.length > 0)">
-            <div *ngFor="let result of results">
-                <button class="btn btn-block text-left px-3 py-2 my-2 user-card" data-toggle="modal" data-target="#profileModal"
-                (click)="setUser(result.id)">
-                    <img src="..." onerror="this.src='../../assets/images/DefaultProfile.png'"
-                    class="circle img-fluid rounded-circle card-img" [ngClass]="{ 'border-online': result.active }"/> 
-        
-                    <span class="text-secondary ml-3">{{ result.firstName }} {{ result.lastName }}</span>
-                </button>
-            </div>
-        </div>
-
-        <div *ngIf="loading" class="spinner-border text-whiet" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
-        
-        <div *ngIf="(results.length == 0)" class="ml-2">
-          <span class="text-light">Sorry, we could not find any results.</span>
-        </div>
-
-        <hr *ngIf="(results.length > 0)">
-      </div>
-      <!-- End connection search results -->
+        <app-search-bar [userType]="true"></app-search-bar>
       <!-- End Search connections -->
     </div>
   </div>

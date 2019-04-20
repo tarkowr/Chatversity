@@ -63,6 +63,7 @@ import { SecuritySettingsComponent } from './Settings-Views/security-settings/se
 import { ConnectionSettingsComponent } from './Settings-Views/connection-settings/connection-settings.component';
 import { TopBarComponent } from './Shared/top-bar/top-bar.component';
 import { MessagingService } from './Core/_services/messaging.service';
+import { SearchBarComponent } from './Shared/search-bar/search-bar.component';
 
 const config = {
   issuer: 'https://dev-117825.okta.com',
@@ -99,7 +100,8 @@ const config = {
     PrivacySettingsComponent,
     SecuritySettingsComponent,
     ConnectionSettingsComponent,
-    TopBarComponent
+    TopBarComponent,
+    SearchBarComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
