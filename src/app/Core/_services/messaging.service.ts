@@ -2,7 +2,7 @@ import { Injectable, OnInit } from '@angular/core'
 import {AuthService} from './auth.service'
 import { ChatManager, TokenProvider } from '@pusher/chatkit-client'
 import { User } from '../_models/user'
-import { BehaviorSubject, Subscription } from 'rxjs'
+import { BehaviorSubject, Subscription, ReplaySubject, Subject } from 'rxjs'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { environment } from '../../../environments/environment.prod'
 
@@ -18,10 +18,10 @@ export class MessagingService {
   currentUser: any
   latestRoom: any
   latestReadCursor: any
-  messages: Array<any> = []
+  messages: Subject<any> = new Subject<any>()
   roomsAndMessages: any
   rooms: Array<any> = []
-  constructor(private http: HttpClient) { console.log('Messaging service constructed') }
+  constructor(private http: HttpClient) { this.messages = new Subject<any>() }
 
 
 
@@ -221,7 +221,7 @@ export class MessagingService {
           hooks: {
               onMessage: message => {
                 // console.log('Received message', message);
-                this.messages.push(message)
+                this.messages.next(message)
               }
           },
           messageLimit: 10

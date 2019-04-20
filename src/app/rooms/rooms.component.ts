@@ -113,7 +113,6 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       }).then(res => {
         console.log(res)
         console.log()
-
       })
       this.message = ''
     }
@@ -272,7 +271,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       const daysBetween = Math.floor(( Date.parse(currDate.toDateString()) - Date.parse(msgDate.toDateString()) ) / 86400000)
 
       if (daysBetween >= 7) {
-        console.log('Message is at least 7 days old')
+        // console.log('Message is at least 7 days old')
       }
       return false
     }
@@ -287,6 +286,9 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       this.rooms = user.rooms
       this.current_room = this.messageService.getLatestRoom(user)
       this.joinRoom(this.current_room.id)
+      this.messageService.messages.subscribe((message) => {
+        this.room_messages.push(message)
+      })
 
       console.log(this.current_room)
       console.log(user.rooms)
