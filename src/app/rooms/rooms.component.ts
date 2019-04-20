@@ -18,11 +18,8 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   @ViewChildren('chatReel') chatReel: QueryList<ViewContainerRef>;
   currUser: any;
   subscription: any;
-  incomingMessages: any;
-  chatkitUser: any;
   fileToUpload: File;
   imagePath: any;
-  notificationCount: any;
   selectedFile: File = null;
   fd = new FormData();
   rooms: Array<any> = [];
@@ -77,13 +74,18 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
 
 
-  onFileChange(event) {
+  //
+  // ─── DETECT FILE CHANGE FOR ROOM AVATAR ON CREATION ─────────────────────────────
+  //
 
-    if (!(event.target.files && event.target.files[0])) { return; }
+    onFileChange(event) {
 
-    this.selectedFile = <File>event.target.files[0];
-    this.fd.append('avatar', this.selectedFile, this.selectedFile.name);
-  }
+      if (!(event.target.files && event.target.files[0])) { return; }
+
+      this.selectedFile = <File>event.target.files[0];
+      this.fd.append('avatar', this.selectedFile, this.selectedFile.name);
+    }
+  // ────────────────────────────────────────────────────────────────────────────────
 
 
 
@@ -104,7 +106,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
     sendMessage() {
       const { message, currentUser } = this;
-      this.chatkitUser.sendMessage({
+      this.currentUser.sendMessage({
         text: message,
         roomId: this.current_room.id,
       }).then(res => {
@@ -135,34 +137,38 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
 
 
-  // Function => check if user has unread messages in a room
-  hasUnread(roomID) {
+  //
+  // ─── CHECK UNREAD MESSAGES ──────────────────────────────────────────────────────
+  //
 
-    let hasUnread = false; // Track return status
+    hasUnread(roomID) {
 
-    // First, check if cursor exists
-    const cursor = this.chatkitUser.readCursor({
-      roomId: roomID
-    });
+      let hasUnread = false; // Track return status
 
-    // if read cursor ID !== latest message ID...
-    this.chatkitUser.fetchMultipartMessages({ // Get latest message
-      roomId: roomID,
-      limit: 1,
-    })
-    .then(messages => {
-      if (cursor) { // Has cursor so check cursor pos vs latest message id
-        hasUnread = (cursor.position !== messages[0].initialId) ? true : false;
-      } else {
-        // No cursor => set
-      }
-    })
-    .catch(err => {
-      console.log(`Error fetching messages: ${err}`);
-    });
+      // First, check if cursor exists
+      const cursor = this.currentUser.readCursor({
+        roomId: roomID
+      });
 
-    return hasUnread;
-  }
+      // if read cursor ID !== latest message ID...
+      this.currentUser.fetchMultipartMessages({ // Get latest message
+        roomId: roomID,
+        limit: 1,
+      })
+      .then(messages => {
+        if (cursor) { // Has cursor so check cursor pos vs latest message id
+          hasUnread = (cursor.position !== messages[0].initialId) ? true : false;
+        } else {
+          // No cursor => set
+        }
+      })
+      .catch(err => {
+        console.log(`Error fetching messages: ${err}`);
+      });
+
+      return hasUnread;
+    }
+  // ────────────────────────────────────────────────────────────────────────────────
 
 
 
@@ -218,7 +224,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
         roomAvatar = avatar['filename']; // Store path
         console.log(roomAvatar);
         // Create the room
-        this.chatkitUser.createRoom({ // Create the room
+        this.currentUser.createRoom({ // Create the room
           name: roomName,
           private: false,
           customData: { roomAvatar: roomAvatar }, // Add room avatar to custom room data
@@ -261,6 +267,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       return false;
     }
   // ────────────────────────────────────────────────────────────────────────────────
+
 
 
   ngOnInit() {

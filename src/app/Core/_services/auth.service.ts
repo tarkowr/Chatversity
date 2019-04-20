@@ -1,39 +1,39 @@
-import { Injectable, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-import { ChatManager, TokenProvider } from '@pusher/chatkit-client';
-import { BehaviorSubject, Subject, ReplaySubject, Observable, } from 'rxjs';
-import { MessagingService } from './messaging.service';
-import {parse, stringify} from 'flatted';
-import { map } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { Injectable, OnInit } from '@angular/core'
+import { HttpClient } from '@angular/common/http'
+import { environment } from '../../../environments/environment'
+import { ChatManager, TokenProvider } from '@pusher/chatkit-client'
+import { BehaviorSubject, Subject, ReplaySubject, Observable, } from 'rxjs'
+import { MessagingService } from './messaging.service'
+import {parse, stringify} from 'flatted'
+import { map } from 'rxjs/operators'
+import { Router } from '@angular/router'
 
 @Injectable()
 export class AuthService {
-    private _currentUser: ReplaySubject<any>;
+    private _currentUser: ReplaySubject<any>
 
     constructor(private http: HttpClient, private messageService: MessagingService, private router: Router ) {
-        this._currentUser = new ReplaySubject<any>(1);
-        this.initializeApp();
-        console.log('Auth service constructed');
+        this._currentUser = new ReplaySubject<any>(1)
+        this.initializeApp()
+        console.log('Auth service constructed')
     }
 
     get currentUser() {
-        return this._currentUser.asObservable();
+        return this._currentUser.asObservable()
     }
 
     set currentUser(user: any) {
-        console.log('setting current user');
-        this._currentUser.next(user);
+        console.log('setting current user')
+        this._currentUser.next(user)
     }
 
     getCurrentUser(): Observable<any> {
-        return this._currentUser.asObservable();
+        return this._currentUser.asObservable()
     }
 
 
     getUserId() {
-        return localStorage.getItem('chatkitUserId');
+        return localStorage.getItem('chatkitUserId')
     }
 
 
@@ -41,14 +41,14 @@ export class AuthService {
     initializeApp() {
         this.messageService.initChatkit(localStorage.getItem('chatkitUserId'))
         .then(chatkitUser => {
-            console.log('setting chatkit user');
-            localStorage.setItem('chatkitUser', chatkitUser);
-            this._currentUser.next(chatkitUser);
-        });
+            console.log('setting chatkit user')
+            localStorage.setItem('chatkitUser', chatkitUser)
+            this._currentUser.next(chatkitUser)
+        })
     }
 
     userLoggedIn() {
-        return localStorage.getItem('chatkitUserId') != null;
+        return localStorage.getItem('chatkitUserId') != null
     }
 
 
@@ -84,13 +84,13 @@ export class AuthService {
             .then((chatkitUser) => {
                     // Created Chatkit user
                     // console.log('Created Chatkit user!');
-                    console.log(chatkitUser);
+                    console.log(chatkitUser)
 
                     return this.login(username, password).then(loggedinUser => {
-                        return loggedinUser;
-                    });
-                });
-            });
+                        return loggedinUser
+                    })
+                })
+            })
         }
     // ─────────────────────────────────────────────────────────────────
 
@@ -105,12 +105,12 @@ export class AuthService {
             .toPromise()
             .then((user) => {
 
-                console.log('LOGGED IN OKTA USER: ', user);
+                console.log('LOGGED IN OKTA USER: ', user)
 
-                localStorage.setItem('OktaUser', JSON.stringify(user));
+                localStorage.setItem('OktaUser', JSON.stringify(user))
 
-                return user;
-            });
+                return user
+            })
         }
     // ─────────────────────────────────────────────────────────────────
 
@@ -121,9 +121,9 @@ export class AuthService {
     //
 
         logout() {
-            localStorage.clear();
-            this.router.navigate(['/login']);
-            console.clear();
+            localStorage.clear()
+            this.router.navigate(['/login'])
+            console.clear()
         }
     // ─────────────────────────────────────────────────────────────────
 
