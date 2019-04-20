@@ -286,6 +286,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       this.currentUser = user
       this.rooms = user.rooms
       this.current_room = this.messageService.getLatestRoom(user)
+      this.joinRoom(this.current_room.id)
 
       console.log(this.current_room)
       console.log(user.rooms)
