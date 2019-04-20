@@ -57,22 +57,23 @@ import { FooterComponent } from './Shared/footer/footer.component'
 import { NavbarComponent } from './Shared/navbar/navbar.component'
 
 // Okta Guard and Service
-import { OktaCallbackComponent, OktaAuthGuard } from '@okta/okta-angular'
-import { OktaAuthService } from './app.service'
-import { CallbackComponent } from './Core/callback/callback.component'
-import { ProtectedComponent } from './Core/protected/protected.component'
-import { OktaAuthModule } from '@okta/okta-angular'
-import { routes } from './app.routes'
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { ServiceWorkerModule } from '@angular/service-worker'
-import { environment } from '../environments/environment'
-import { RoomsComponent } from './rooms/rooms.component'
-import { ScrollToTopDirective } from './scroll-to-top.directive'
-import { PrivacySettingsComponent } from './Settings-Views/privacy-settings/privacy-settings.component'
-import { SecuritySettingsComponent } from './Settings-Views/security-settings/security-settings.component'
-import { ConnectionSettingsComponent } from './Settings-Views/connection-settings/connection-settings.component'
-import { TopBarComponent } from './Shared/top-bar/top-bar.component'
-import { MessagingService } from './Core/_services/messaging.service'
+import { OktaCallbackComponent, OktaAuthGuard } from '@okta/okta-angular';
+import { OktaAuthService } from './app.service';
+import { CallbackComponent } from './Core/callback/callback.component';
+import { ProtectedComponent } from './Core/protected/protected.component';
+import { OktaAuthModule } from '@okta/okta-angular';
+import { routes } from './app.routes';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+import { RoomsComponent } from './rooms/rooms.component';
+import { ScrollToTopDirective } from './scroll-to-top.directive';
+import { PrivacySettingsComponent } from './Settings-Views/privacy-settings/privacy-settings.component';
+import { SecuritySettingsComponent } from './Settings-Views/security-settings/security-settings.component';
+import { ConnectionSettingsComponent } from './Settings-Views/connection-settings/connection-settings.component';
+import { TopBarComponent } from './Shared/top-bar/top-bar.component';
+import { MessagingService } from './Core/_services/messaging.service';
+import { SearchBarComponent } from './Shared/search-bar/search-bar.component';
 
 const config = {
   issuer: 'https://dev-117825.okta.com',
@@ -109,7 +110,8 @@ const config = {
     PrivacySettingsComponent,
     SecuritySettingsComponent,
     ConnectionSettingsComponent,
-    TopBarComponent
+    TopBarComponent,
+    SearchBarComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

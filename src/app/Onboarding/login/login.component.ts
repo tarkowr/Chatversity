@@ -92,7 +92,7 @@ export class LoginComponent implements OnInit {
       error => {
         console.log('LOGIN ERROR:', error);
         this.loading = false;
-        this.f.username.setErrors({invalid: true});
+        this.loginForm.setErrors( {'invalid': true} );
       });
     }
   // ─────────────────────────────────────────────────────────────────

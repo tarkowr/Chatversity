@@ -76,4 +76,19 @@
     color: #0E425F;
     border: 1px solid #bddef1;
 }
-  
+
+.message{
+    border:1px solid;
+    border-radius: 15px;
+    background-color: white;
+}
+.my-message{
+    text-align: left;    
+    border-color: #DAE6ED;
+    // border-color:#a6bfce;
+}
+
+.user-message{
+    text-align: left;
+    border-color:rgb(196, 229, 250);
+}

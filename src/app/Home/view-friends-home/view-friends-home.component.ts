@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { User } from '../../Core/_models/user';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.prod';
 import { UserService } from '../../Core/_services/user.service';
@@ -15,15 +14,10 @@ import { AuthService } from '../../Core/_services/auth.service';
 })
 export class ViewFriendsHomeComponent implements OnInit {
 
-  searchForm: FormGroup;
-  loading = false;
-  submitted = false;
   connections: any;
-  connection: User;
-  isConnection = false;
   currUser: any;
   appUser: any;
-  results: User[];
+
   // Field for connection
   connectionToAdd = new FormControl('');
   subscription: any;
@@ -42,17 +36,6 @@ export class ViewFriendsHomeComponent implements OnInit {
       private app: AppComponent,
       private authService: AuthService) { this.currentUser = authService.currentUser; }
   // ────────────────────────────────────────────────────────────────────────────────
-
-
-
-  //
-  // ─── CONVENIENCE GETTER FOR EASY ACCESS TO FORM FIELDS ──────────────────────────
-  //
-
-    get f() { return this.searchForm.controls; }
-  // ────────────────────────────────────────────────────────────────────────────────
-
-
 
   //
   // ─── ADD CONNECTION ─────────────────────────────────────────────────────────────
@@ -89,7 +72,7 @@ export class ViewFriendsHomeComponent implements OnInit {
   // ─── RETURN USER FROM FRIEND LIST ───────────────────────────────────────────────
   //
 
-    getUser(_id: number): User {
+    getUser(_id: number): any {
       return this.connections.find(c => c.id === _id);
     }
   // ────────────────────────────────────────────────────────────────────────────────
@@ -99,25 +82,11 @@ export class ViewFriendsHomeComponent implements OnInit {
   // ─── SORT CONNECTIONS LIST ──────────────────────────────────────────────────────
   //
 
-    sortList(users: User[]) {
+    sortList(users: any) {
       return  users.sort((a, b) => ((a.firstName.toLowerCase() + ' ' + a.lastName.toLowerCase())
       > (b.firstName.toLowerCase() + ' ' + b.lastName.toLowerCase()) ? 1 : -1));
     }
   // ────────────────────────────────────────────────────────────────────────────────
-
-
-
-  //
-  // ─── FILTER LIST OF USERS BY NAME ───────────────────────────────────────────────
-  //
-
-    getUsersByName(_name: string) {
-      _name = _name.toLowerCase();
-      this.results = this.connections.filter(c =>
-        (c.firstName.toLowerCase() + ' ' + c.lastName.toLowerCase()).includes(_name)).slice(0, 5);
-    }
-  // ────────────────────────────────────────────────────────────────────────────────
-
 
 
   //
@@ -135,42 +104,19 @@ export class ViewFriendsHomeComponent implements OnInit {
     }
   // ─────────────────────────────────────────────────────────────────
 
-
-
+  
   //
   // ─── HANDLE CLICK USER BUTTON ───────────────────────────────────────────────────
   //
 
-    setUser(_id: number) {
-      this.connection = this.getUser(_id);
-      this.isConnected(_id);
-    }
-  // ─────────────────────────────────────────────────────────────────
+  setUser(_id: number) {
 
-
+  }
+// ─────────────────────────────────────────────────────────────────
 
   //
-  // ─── HANDLE SIGN UP ─────────────────────────────────────────────────────────────
+  // ─── HANDLE SEARCH ─────────────────────────────────────────────────────────────
   //
-
-    onSearch() {
-      this.submitted = true;
-      this.loading = true;
-
-      if (this.searchForm.invalid) {
-        this.submitted = false;
-        this.loading = false;
-        return;
-      }
-
-      const query: string = this.searchForm.get('search').value;
-
-      this.getUsersByName(query);
-
-      this.loading = false;
-    }
-  // ────────────────────────────────────────────────────────────────────────────────
-
 
 
   ngOnInit() {
@@ -189,17 +135,5 @@ export class ViewFriendsHomeComponent implements OnInit {
         console.log(connections);
       });
     // ────────────────────────────────────────────────────────────────────────────────
-
-
-
-    //
-    // ─── SETUP SEARCH BOX ────────────────────────────────────────────
-    //
-
-      this.searchForm = this.formBuilder.group({
-        search: ['', Validators.required]
-      });
-    // ─────────────────────────────────────────────────────────────────
-
   }
 }

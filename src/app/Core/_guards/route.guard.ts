@@ -29,17 +29,13 @@ export class RouteGuard implements CanActivate {
         if (currentUser) {
 
           // User is authorized
-          if (state.url === '/login') {
+          if (state.url === '/login' || state.url === '/signup' || state.url === '/forgot') {
             this.returnUrl = '/home';
             this.tree = this.router.parseUrl(this.returnUrl);
             return this.tree;
            }
           return true;
         }
-        // User is authorized
-        if (state.url === '/login') {
-          return true;
-        }
-        return false;
-    }
+        return true;
+      }
 }
