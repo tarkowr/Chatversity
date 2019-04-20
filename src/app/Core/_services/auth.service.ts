@@ -14,6 +14,7 @@ export class AuthService {
 
     constructor(private http: HttpClient, private messageService: MessagingService, private router: Router ) {
         this._currentUser = new ReplaySubject<any>(1);
+        this.initializeApp();
         console.log('Auth service constructed');
     }
 
@@ -42,7 +43,7 @@ export class AuthService {
         .then(chatkitUser => {
             console.log('setting chatkit user');
             localStorage.setItem('chatkitUser', chatkitUser);
-            this._currentUser = chatkitUser;
+            this._currentUser.next(chatkitUser);
         });
     }
 

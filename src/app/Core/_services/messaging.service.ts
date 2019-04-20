@@ -31,6 +31,7 @@ export class MessagingService {
 
       // get position (ID) of latest room message
       this.fetchMessages(user, roomId, '', '', 1).then((messages) => {
+        console.log(messages);
 
         // set position of cursor to match
         user.setReadCursor({
@@ -38,7 +39,12 @@ export class MessagingService {
             position: messages[0].id
           })
           .then(() => {
-            console.log(`Set read cursor in room ${roomId}`);
+            user.rooms.forEach(room => {
+              if (room.id === messages[0].roomId) {
+                this.latestRoom = room;
+              }
+            });
+            console.log(`Set read cursor in room ${roomId} with position ${messages[0].id}`);
           })
           .catch(err => {
             console.log(`Error setting cursor: ${err}`);
@@ -58,6 +64,12 @@ export class MessagingService {
       user.setReadCursor({
           roomId: roomId,
           position: position
+        })
+        .then(() => {
+          console.log(`Set read cursor in room ${roomId}`);
+        })
+        .catch(err => {
+          console.log(`Error setting cursor: ${err}`);
         });
     }
   // ────────────────────────────────────────────────────────────────────────────────
@@ -111,24 +123,23 @@ export class MessagingService {
 
       if (this.latestReadCursor) { return this.latestReadCursor; }
 
-      let latestFound = false;
-      let latest: Date;
-      let cursor: any;
+      const cursors = [];
 
+      // first, get user cursor from each room
       user.rooms.forEach(room => {
-
-        cursor = user.readCursor({
-          roomId: room.id
-        });
-
-        if (new Date(cursor) < latest || !latestFound) {
-          latest = cursor;
-          latestFound = true;
-        }
+        cursors.push(user.readCursor({ roomId: room.id }));
       });
 
-      this.latestReadCursor = cursor;
-      return cursor;
+      console.log(cursors);
+      
+      // then sort to find lowest
+      const sorted = cursors.sort();
+      console.log(sorted);
+      
+      const latestCursor = sorted[0];
+
+      this.latestReadCursor = latestCursor;
+      return latestCursor;
     }
   // ─────────────────────────────────────────────────────────────────
 

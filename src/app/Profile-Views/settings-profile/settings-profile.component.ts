@@ -16,7 +16,7 @@ export class SettingsProfileComponent implements OnInit {
   profileForm: FormGroup;
   user: any;
   subscription: any;
-  chatkitUser: any;
+  currentUser: any;
 
   name = '';
   bio = '';
@@ -27,16 +27,8 @@ export class SettingsProfileComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private _auth: AuthService,
-    private userService: UserService) {
-      this._auth.chatkitUser$.subscribe(
-        (user) => {
-          this.chatkitUser = user;
-          console.log('CHATKIT USER:', this.chatkitUser);
-          this.initForm();
-        }
-      );
-    }
+    private authService: AuthService,
+    private userService: UserService) {}
 
   // Convenience getter for easy access to form fields
   get f() { return this.profileForm.controls; }
@@ -62,7 +54,7 @@ export class SettingsProfileComponent implements OnInit {
     const _clubs: string = this.profileForm.get('clubs').value;
 
     // Get current user custom data
-    const currentUserData = this.chatkitUser.customData;
+    const currentUserData = this.currentUser.customData;
     console.log('CHATKIT USER CUSTOM DATA: ', currentUserData);
 
     // Add update data
@@ -74,12 +66,12 @@ export class SettingsProfileComponent implements OnInit {
     currentUserData['clubs'] = _clubs;
 
     // Send the updated data and update the user
-    this.userService.update(this.chatkitUser.id, JSON.stringify(currentUserData))
+    this.userService.update(this.currentUser.id, JSON.stringify(currentUserData))
     .toPromise()
     .then((data) => {
 
       console.log('RESPONSE:', data);
-      console.log('UPDATED CHATKIT USER:', this.chatkitUser);
+      console.log('UPDATED CHATKIT USER:', this.currentUser);
 
       this.setUserProfile(data);
 
@@ -111,51 +103,57 @@ export class SettingsProfileComponent implements OnInit {
 
   // Set updated profile data
   setUserProfile(userData) {
-    this.chatkitUser.customData.avatarURL = userData.avatar_url;
-    this.chatkitUser.customData.customData = userData.custom_data;
-    this.chatkitUser.name = userData.name;
-    this.chatkitUser.updatedAt = userData.updated_at;
+    this.currentUser.customData.avatarURL = userData.avatar_url;
+    this.currentUser.customData.customData = userData.custom_data;
+    this.currentUser.name = userData.name;
+    this.currentUser.updatedAt = userData.updated_at;
   }
 
   // Bring in chatkit user data
   getUserProfile() {
     try {
-      this.name = this.chatkitUser.name;
+      this.name = this.currentUser.name;
     } catch (error) {
       this.name = '';
     }
 
     try {
-      this.bio = this.chatkitUser.customData.bio;
+      this.bio = this.currentUser.customData.bio;
     } catch (error) {
       this.bio = '';
     }
 
     try {
-      this.major = this.chatkitUser.customData.major;
+      this.major = this.currentUser.customData.major;
     } catch (error) {
       this.major = '';
     }
 
     try {
-      this.graduationYear = this.chatkitUser.customData.graduationYear;
+      this.graduationYear = this.currentUser.customData.graduationYear;
     } catch (error) {
       this.graduationYear = '';
     }
 
     try {
-      this.interests = this.chatkitUser.customData.interests;
+      this.interests = this.currentUser.customData.interests;
     } catch (error) {
       this.interests = '';
     }
 
     try {
-      this.clubs = this.chatkitUser.customData.clubs;
+      this.clubs = this.currentUser.customData.clubs;
     } catch (error) {
       this.clubs = '';
     }
   }
 
   ngOnInit() {
+    this.authService.currentUser.subscribe(
+      (user) => {
+        this.currentUser = user;
+        this.initForm();
+      }
+    );
   }
 }

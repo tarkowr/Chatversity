@@ -60,15 +60,26 @@ export class AppComponent implements OnInit {
     console.log('%cWelcome to Chatversity!', 'font-size: 20px; color: #186fa0;');
     console.log('Initializing app');
 
-    this.messageService.initChatkit(this.authService.getUserId())
-    .then(chatkitUser => {
-      console.log('got chatkit user');
-      console.log(chatkitUser);
-      this.authService.currentUser = chatkitUser;
-      this.currentUser = chatkitUser;
-      console.log(this.authService.currentUser);
+    this.authService.getCurrentUser().subscribe((user) => {
 
-  });
+      if (user) { this.currentUser = user; return; } else {
+        this.messageService.initChatkit(this.authService.getUserId());
+      }
+
+
+      console.log(user.rooms);
+      console.log(user);
+    });
+
+  //   this.messageService.initChatkit(this.authService.getUserId())
+  //   .then(chatkitUser => {
+  //     console.log('got chatkit user');
+  //     console.log(chatkitUser);
+  //     this.authService.currentUser = chatkitUser;
+  //     this.currentUser = chatkitUser;
+  //     console.log(this.authService.currentUser);
+
+  // });
     console.log('User Logged In: ' + this.authService.userLoggedIn());
   }
 }
