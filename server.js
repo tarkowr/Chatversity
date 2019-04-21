@@ -9,7 +9,9 @@ var app = express()
 const universities = require('./universities')
 var fs      = require('fs')
 var formidable = require('formidable'),
-    util = require('util')
+util = require('util')
+
+var tmp = require('tmp')
 
 // Setting up the root route
 app.get('/', (req, res) => {
@@ -151,23 +153,43 @@ var upload = multer({
     form.keepExtensions = true
 
     // generate tmp file name for later reference when room creation form submitted
-    var tmpFileName = Math.floor(Math.random() * 100000)
+    var tmpFileId = Math.floor(Math.random() * 100000)
     
     form.parse(req)
 
+    // var tmpobj = tmp.dirSync({ mode: 0750, prefix: tmpFileId });
+
+
+    tmp.dir({ template: './src/assets/tmp/tmp-XXXXXX' }, function _tempDirCreated(err, path) {
+      if (err) throw err;
+    
+      console.log("Dir: ", path);
+    });
+
+
+    // create temporary file location inside of tmp folder
+    // tmp.file(function _tempFileCreated(err, path, fd, cleanupCallback) {
+    //   if (err) throw err;
+    //   console.log("File: ", path);
+    //   console.log("Filedescriptor: ", fd);
+    
+    //   // If we don't need the file anymore we could manually call the cleanupCallback
+    //   // But that is not necessary if we didn't pass the keep option because the library
+    //   // will clean after itself.
+    //   cleanupCallback();
+    // });
+
     form.on('fileBegin', function (name, file){
-      file.path = './src/assets/tmp/' + tmpFileName
+      file.path = './src/assets/tmp/' + file.name
     })
 
     form.on('file', function (name, file){
         console.log('Uploaded ' + file.name)
         res.type('text/plain')
-        res.status(200).send(tmpFileName.toString())
+        res.status(200).send(tmpFileId.toString())
     })
   })
 // ────────────────────────────────────────────────────────────────────────────────
-
-  
 
 
 
@@ -178,7 +200,8 @@ var upload = multer({
 app.post('/rooms/avatar', (req, res) => {
 
 
-  console.log('test')
+  // avatar should already exist in temo folder => move to permanent storage
+
   var form = new formidable.IncomingForm()
 
   form.parse(req, function(err, fields, files) {

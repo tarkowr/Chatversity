@@ -239,8 +239,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       console.log('room submitted')
       console.log(this.formImport)
       console.log(this.finalRoomData)
-      
-      
+
 
       const roomName = this.formImport.value.roomNameGroup.roomName
       let roomAvatar = ''
@@ -332,7 +331,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
             formData.append(fieldName, file, file.name);
 
             const request = new XMLHttpRequest();
-            request.open('POST', `${environment.apiUrl}/rooms/avatar/`)
+            request.open('POST', `${environment.apiUrl}/rooms/avatar/tmp`)
 
             // Should call the progress method to update the progress to 100% before calling load
             // Setting computable to false switches the loading indicator to infinite mode
