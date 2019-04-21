@@ -38,6 +38,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   selectedRoomMember: any
   messages: Object
   pondOptions: any
+  finalRoomData: FormData
   get roomPrivate(): string {
     return this._roomPrivate
   }
@@ -237,14 +238,18 @@ export class RoomsComponent implements OnInit, AfterViewInit {
     createRoom() { // TODO: Add to message service
       console.log('room submitted')
       console.log(this.formImport)
+      console.log(this.finalRoomData)
+      
       
 
       const roomName = this.formImport.value.roomNameGroup.roomName
       let roomAvatar = ''
 
-      this.http.post(`${environment.apiUrl}/rooms/avatar`, JSON.stringify(this.formImport)).toPromise().then(response => console.log(response)
-      )
-      return
+      this.http.post(`${environment.apiUrl}/rooms/avatar`, this.finalRoomData)
+      .toPromise()
+      .then((response) => console.log(JSON.stringify(response)))
+      .catch(error => console.log(error))
+
 
       // TODO: Add this to upload service
       // Upload image
@@ -346,17 +351,17 @@ export class RoomsComponent implements OnInit, AfterViewInit {
             // so your server knows which file to return without exposing that info to the client
             request.onload = function() {
               if (request.status >= 200 && request.status < 300) {
-                console.log(request)
+                console.log(request.responseText)
                 
                   // the load method accepts either a string (id) or an object
-                  load(request.responseText);
+                  load(request.responseText)
               }
               else {
                   // Can call the error method if something is wrong, should exit after
                   error('oh no');
               }
           };
-
+          this.finalRoomData = formData
           request.send(formData);
           
           // Should expose an abort method so the request can be cancelled
@@ -370,6 +375,34 @@ export class RoomsComponent implements OnInit, AfterViewInit {
               }
           };
           },
+          load: (source, load, error, progress, abort, headers) => {
+            // Should request a file object from the server here
+            // ...
+
+            // Can call the error method if something is wrong, should exit after
+            error('oh my goodness');
+
+            // Can call the header method to supply FilePond with early response header string
+            // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/getAllResponseHeaders
+            // headers(headersString);
+
+            // Should call the progress method to update the progress to 100% before calling load
+            // (endlessMode, loadedSize, totalSize)
+            progress(true, 0, 1024);
+
+            // Should call the load method with a file object or blob when done
+            // load(file);
+
+            // Should expose an abort method so the request can be cancelled
+            return {
+                abort: () => {
+                    // User tapped cancel, abort our ongoing actions here
+
+                    // Let FilePond know the request has been cancelled
+                    abort();
+                }
+            };
+        },
           revert: './revert.php',
           restore: './restore.php?id=',
           fetch: './fetch.php?data='
