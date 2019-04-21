@@ -283,6 +283,8 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
     this.authService.getCurrentUser().subscribe((user) => {
       this.currentUser = user
+      if (!user.rooms) { return }
+      
       this.rooms = user.rooms
       this.current_room = this.messageService.getLatestRoom(user)
       this.joinRoom(this.current_room.id)

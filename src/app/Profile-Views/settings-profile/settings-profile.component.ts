@@ -77,6 +77,10 @@ export class SettingsProfileComponent implements OnInit {
     const currentUserData = this.currentUser.customData
     console.log('CHATKIT USER CUSTOM DATA: ', currentUserData)
 
+    if (!currentUserData.connections) {
+      currentUserData['connections'] = []
+    }
+
     // Add update data
     currentUserData['name'] = _name
     currentUserData['bio'] = _bio
@@ -124,7 +128,7 @@ export class SettingsProfileComponent implements OnInit {
   // Set updated profile data
   setUserProfile(userData) {
     this.currentUser.customData.avatarURL = userData.avatar_url
-    this.currentUser.customData.customData = userData.custom_data
+    this.currentUser.customData = userData.custom_data
     this.currentUser.name = userData.name
     this.currentUser.updatedAt = userData.updated_at
   }

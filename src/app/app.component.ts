@@ -66,8 +66,6 @@ export class AppComponent implements OnInit {
         this.messageService.initChatkit(this.authService.getUserId());
       }
 
-
-      console.log(user.rooms);
       console.log(user);
     });
 
