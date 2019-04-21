@@ -141,12 +141,68 @@ var upload = multer({
 
 
 //
+// ─── UPLOAD TEMPORARY ROOM AVATAR ───────────────────────────────────────────────
+//
+
+  app.post('/rooms/avatar/tmp', (req, res) => {
+
+    var form = new formidable.IncomingForm()
+    form.uploadDir = `./src/assets/tmp/`
+    form.keepExtensions = true
+
+    // generate tmp file name for later reference when room creation form submitted
+    var tmpFileName = Math.floor(Math.random() * 100000)
+    
+    form.parse(req)
+
+    form.on('fileBegin', function (name, file){
+      file.path = './src/assets/tmp/' + tmpFileName
+    })
+
+    form.on('file', function (name, file){
+        console.log('Uploaded ' + file.name)
+        res.type('text/plain')
+        res.status(200).send(tmpFileName.toString())
+    })
+  })
+// ────────────────────────────────────────────────────────────────────────────────
+
+  
+
+
+
+//
 // ─── UPLOAD ROOM AVATAR ─────────────────────────────────────────────────────────
 //
 
-app.post('/rooms/avatar', upload.single("avatar"), (req, res) => {
-  console.log(req.file);
-  res.status(200).json(req.file);
+app.post('/rooms/avatar', (req, res) => {
+
+
+  console.log('test')
+  var form = new formidable.IncomingForm()
+
+  form.parse(req, function(err, fields, files) {
+    res.writeHead(200, {'content-type': 'text/plain'});
+    res.write('received upload:\n\n');
+    res.end(util.inspect({fields: fields, files: files}));
+  });
+
+
+    // // form.encoding = 'utf-8'
+    // form.uploadDir = `./src/assets/avatars/`
+    // form.keepExtensions = true
+
+    // form.parse(req)
+
+    // form.on('fileBegin', function (name, file){
+    //     file.path = './src/assets/avatars/' + file.name;
+    // });
+
+    // form.on('file', function (name, file){
+    //     console.log('Uploaded ' + file.name);
+    // });
+
+    // res.status(200).json(req.file);
 });
 // ────────────────────────────────────────────────────────────────────────────────
 

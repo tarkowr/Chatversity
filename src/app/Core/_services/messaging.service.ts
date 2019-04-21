@@ -26,6 +26,25 @@ export class MessagingService {
 
 
   //
+  // ─── HANDLE DELETE ROOM ─────────────────────────────────────────────────────────
+  //
+
+
+    deleteRoom(user, id) {
+
+      user.deleteRoom({ roomId: id })
+      .then(() => {
+        console.log(`Deleted room with ID: ${id}`)
+      })
+      .catch(err => {
+        console.log(`Error deleted room ${id}: ${err}`)
+      })
+    }
+  // ────────────────────────────────────────────────────────────────────────────────
+
+
+
+  //
   // ─── SET READ CURSOR ────────────────────────────────────────────────────────────
   //
 
