@@ -84,7 +84,7 @@ export class AuthService {
             .toPromise()
             .then((chatkitUser) => {
                     // Created Chatkit user
-                    // console.log('Created Chatkit user!');
+                    console.log('Created Chatkit user!');
                     console.log(chatkitUser)
 
                     return this.login(username, password).then(loggedinUser => {
