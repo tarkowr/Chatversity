@@ -106,28 +106,34 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       console.log(id)
       this.messageService.deleteRoom(this.currentUser, id).then((latestRoom) => {
 
+        // remove local messages from the deleted room...
+        for ( let i = 0; i < this.room_messages.length; i++) {
+          if ( this.room_messages[i].id === id) {
+            this.room_messages.splice(i, 1)
+          }
+        }
 
-        for ( let i = 0; i < this.rooms.length; i++) { // remove the deleted room from the local rooms array...
-          if ( this.rooms[i].id === latestRoom.id) {
+        // remove the deleted room from the local rooms array...
+        for ( let i = 0; i < this.rooms.length; i++) {
+          if ( this.rooms[i].id === id) {
             this.rooms.splice(i, 1)
           }
-       }
+        }
 
-       // ...then join the latest room
-       this.messageService.joinRoom(this.currentUser, latestRoom.id).then((room) => {
+        // ...then join the latest room
+        this.messageService.joinRoom(this.currentUser, latestRoom.id).then((room) => {
 
         // update current room
         this.current_room = room
 
         // and get the room messages
         this.messageService.fetchRoomMessages(this.currentUser, room.id, '', 20).then((messages) => {
+            this.room_messages = messages
+            console.log(this.room_messages)
 
-          this.room_messages = messages
-          console.log(this.room_messages)
-
-          console.log(messages)
+            console.log(messages)
+          })
         })
-      })
 
       })
     }
@@ -290,13 +296,13 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
         const roomName = this.formImport.value.roomNameGroup.roomName
         let roomAvatar = ''
-  
+
         this.http.post(`${environment.apiUrl}/rooms/avatar`, this.finalRoomData)
         .toPromise()
         .then((response) => console.log(JSON.stringify(response)))
         .catch(error => console.log(error))
-  
-  
+
+
         // TODO: Add this to upload service
         // Upload image
         this.http.post(`${environment.apiUrl}/rooms/avatar`, this.fd)
