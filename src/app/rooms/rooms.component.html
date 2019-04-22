@@ -1,7 +1,7 @@
 <div class="container-fluid" style="height:100vh;">
 
   <ng-container *ngIf="current_room">
-    <app-top-bar [viewName]="'Rooms'" [headerText]="current_room.name" [roomId]="current_room.id"></app-top-bar>
+    <app-top-bar [viewName]="'Rooms'" [headerText]="current_room.name" [roomId]="current_room.id" (roomDeleted)="deleteRoom($event)"></app-top-bar>
   </ng-container>
 
   <ng-container *ngIf="!current_room">

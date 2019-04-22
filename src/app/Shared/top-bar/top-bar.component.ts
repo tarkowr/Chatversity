@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core'
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { AuthService } from '../../Core/_services/auth.service'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MessagingService } from '../../Core/_services/messaging.service'
@@ -12,6 +12,7 @@ export class TopBarComponent implements OnInit {
   @Input() viewName: string
   @Input() headerText: string
   @Input() roomId: string
+  @Output() roomDeleted = new EventEmitter()
 
   returnUrl: string
   currentUser: any;
@@ -28,9 +29,10 @@ export class TopBarComponent implements OnInit {
 
     deleteRoom(id) {
 
-      this.messageService.deleteRoom(this.currentUser, id)
+      this.roomDeleted.emit(id)
     }
   // ────────────────────────────────────────────────────────────────────────────────
+
 
 
   ngOnInit() {

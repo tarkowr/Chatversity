@@ -32,9 +32,16 @@ export class MessagingService {
 
     deleteRoom(user, id) {
 
-      user.deleteRoom({ roomId: id })
+      return user.deleteRoom({ roomId: id })
       .then(() => {
         console.log(`Deleted room with ID: ${id}`)
+
+        this.latestReadCursor = false
+        this.latestRoom = false
+
+        this.latestRoom = this.getLatestRoom(user)
+
+        return this.latestRoom
       })
       .catch(err => {
         console.log(`Error deleted room ${id}: ${err}`)
@@ -54,22 +61,33 @@ export class MessagingService {
       this.fetchRoomMessages(user, roomId, '', 1).then((messages) => {
         console.log(messages)
 
-        // set position of cursor to match
-        user.setReadCursor({
-            roomId: roomId,
-            position: messages[0].id
+        if (!messages.length) {
+          user.rooms.forEach(room => {
+            if (room.id === roomId) {
+              this.latestRoom = room
+              return
+            }
           })
-          .then(() => {
-            user.rooms.forEach(room => {
-              if (room.id === messages[0].roomId) {
-                this.latestRoom = room
-              }
+        } else {
+
+          // set position of cursor to match
+          user.setReadCursor({
+              roomId: roomId,
+              position: messages[0].id
             })
-            console.log(`Set read cursor in room ${roomId} with position ${messages[0].id}`)
-          })
-          .catch(err => {
-            console.log(`Error setting cursor: ${err}`)
-          })
+            .then(() => {
+              user.rooms.forEach(room => {
+                if (room.id === messages[0].roomId) {
+                  this.latestRoom = room
+                }
+              })
+              console.log(`Set read cursor in room ${roomId} with position ${messages[0].id}`)
+            })
+            .catch(err => {
+              console.log(`Error setting cursor: ${err}`)
+            })
+        }
+
       })
     }
   // ────────────────────────────────────────────────────────────────────────────────
