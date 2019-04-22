@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router'
 import { HttpClientModule } from '@angular/common/http'
 import { AuthService } from './Core/_services/auth.service'
 import { UserService } from './Core/_services/user.service'
+declare var require: any;
 
 
 // import filepond module
@@ -12,8 +13,11 @@ import { FilePondModule, registerPlugin } from 'ngx-filepond'
 
 // import and register filepond file type validation plugin
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
+import FilePondPluginFileRename from 'filepond-plugin-file-rename'
 registerPlugin(FilePondPluginFileValidateType)
 
+
+registerPlugin(FilePondPluginFileRename)
 
 
 // Angular Bootstrap

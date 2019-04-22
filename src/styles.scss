@@ -20,7 +20,7 @@ $theme-colors: (
 
 html, body {
     font-size: 16px; // Base font size
-    font-family: "Poppins", "Nunito", "Proxima Nova", sans-serif;
+    // font-family: "Poppins", "Nunito", "Proxima Nova", sans-serif;
     height: 100vh;    // Cover Full Screen
     width: 100%;     // Cover Full Screen
     scroll-behavior: smooth;
@@ -52,6 +52,10 @@ app-messages, app-rooms {
   display: flex;
   width: calc(100vw - 88px);
   flex-direction: column;
+}
+
+.cursor-default {
+  cursor: default;
 }
 
 .custom-btn{

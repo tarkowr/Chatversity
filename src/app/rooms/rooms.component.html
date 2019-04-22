@@ -1,7 +1,7 @@
 <div class="container-fluid" style="height:100vh;">
 
   <ng-container *ngIf="current_room">
-    <app-top-bar [viewName]="'Rooms'" [headerText]="current_room.name"></app-top-bar>
+    <app-top-bar [viewName]="'Rooms'" [headerText]="current_room.name" [roomId]="current_room.id" (roomDeleted)="deleteRoom($event)"></app-top-bar>
   </ng-container>
 
   <ng-container *ngIf="!current_room">
@@ -18,8 +18,6 @@
           <!-- Begin rooms list -->
           <div *ngIf="rooms && current_room" id="messages" class="row">
             <div class="col-12 my-2 px-3">
-                <button class="btn btn-block custom-btn text-left mr-4 my-2 p-3 user-action-btn"  data-toggle="modal"
-                 data-target="#addRoomModal" (click)="roomCreated = false">New Room <i class="fa fa-plus"></i> </button>
 
           <ng-container *ngFor="let room of rooms">
             <button class="btn btn-block custom-btn text-left my-2 p-3" (click)="joinRoom(room.id)"
@@ -129,7 +127,7 @@
     </div>
   </div> <!-- End success modal dialog -->
 
-  <div *ngIf="!roomCreated" class="modal-dialog" role="document">
+  <div *ngIf="!roomCreated && currentUser" class="modal-dialog" role="document">
     <div class="modal-content">
       <!-- Modal Header -->
       <div class="modal-header">
@@ -160,22 +158,21 @@
           <!-- Room Avatar -->
           <div class="form-group" formGroupName="userAvatarFileGroup">
             <div class="form-control-file">
-              <div class="custom-file">
-                <img src={{imagePath}} width="150" alt="Thumb preview...">
-                <input formControlName="avatar" (change)="onFileChange($event)" type="file" accept=".png, .jpg, .jpeg"
-                  class="custom-file-input" id="avatar" #avatar>
-                <label class="custom-file-label" for="avatar">Choose file</label>
-              </div>
+              <file-pond #newRoomPond 
+              [options]="pondOptions" 
+              [files]="pondFiles"
+              (oninit)="pondHandleInit()"
+              (onaddfile)="pondHandleAddFile($event)">
+              </file-pond>
             </div>
           </div>
-          <!-- Submit -->
-          <button type="submit" class="btn btn-primary" [disabled]="!formImport.valid">Submit</button>
+          <button type="submit" class="btn btn-primary" [disabled]="!formImport.valid">Create room</button>
         </form>
       </div>
       <!-- Modal Footer -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+          <!-- Submit -->
+          
       </div>
     </div> <!-- End modal content -->
   </div> <!-- End modal dialog -->

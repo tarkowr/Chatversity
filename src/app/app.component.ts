@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from './Core/_services/auth.service';
-import { User } from './Core/_models/user';
-import { Router } from '@angular/router';
-import { SwUpdate } from '@angular/service-worker';
-import { MessagingService } from './Core/_services/messaging.service';
+import { Component, OnInit } from '@angular/core'
+import { AuthService } from './Core/_services/auth.service'
+import { User } from './Core/_models/user'
+import { Router } from '@angular/router'
+import { SwUpdate } from '@angular/service-worker'
+import { MessagingService } from './Core/_services/messaging.service'
 
 
 @Component({
@@ -13,11 +13,11 @@ import { MessagingService } from './Core/_services/messaging.service';
 })
 
 export class AppComponent implements OnInit {
-  currentUserLoggedIn: any;
-  title = 'Chatversity';
-  update = false;
-  currUser: any;
-  currentUser: any;
+  currentUserLoggedIn: any
+  title = 'Chatversity'
+  update = false
+  currUser: any
+  currentUser: any
   // chatkitUser: any;
 
   constructor(
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
   //
 
     logout() {
-      this.authService.logout();
+      this.authService.logout()
     }
   // ────────────────────────────────────────────────────────────────────────────────
 
@@ -47,29 +47,29 @@ export class AppComponent implements OnInit {
       || this.router.url === '/forgot'
       || this.router.url === '/new-user'
       || this.router.url === '/404') {
-        return false;
+        return false
       }
 
-      return true;
+      return true
     }
   // ! ────────────────────────────────────────────────────────────────────────────────
 
 
 
   ngOnInit() {
-    console.log('%cWelcome to Chatversity!', 'font-size: 20px; color: #186fa0;');
-    console.log('Initializing app');
+    console.log('%cWelcome to Chatversity!', 'font-size: 20px; color: #186fa0;')
+    console.log('Initializing app')
 
     this.authService.getCurrentUser().subscribe((user) => {
 
-      if (user) { this.currentUser = user; return; } else {
-        this.messageService.initChatkit(this.authService.getUserId());
+      if (user) { this.currentUser = user; return } else {
+        this.messageService.initChatkit(this.authService.getUserId())
       }
 
 
-      console.log(user.rooms);
-      console.log(user);
-    });
+      console.log(user.rooms)
+      console.log(user)
+    })
 
   //   this.messageService.initChatkit(this.authService.getUserId())
   //   .then(chatkitUser => {
@@ -80,6 +80,6 @@ export class AppComponent implements OnInit {
   //     console.log(this.authService.currentUser);
 
   // });
-    console.log('User Logged In: ' + this.authService.userLoggedIn());
+    console.log('User Logged In: ' + this.authService.userLoggedIn())
   }
 }

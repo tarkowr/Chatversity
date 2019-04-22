@@ -19,15 +19,14 @@ export class AuthGuard implements CanActivate {
 
       if (this.authService.userLoggedIn()) {
         // User authorized so return true
-        console.log('USER AUTHORIZED');
-        return true;
+        console.log('USER AUTHORIZED')
+        return true
       }
 
-      console.log('USER NOT AUTHORIZED');
-
-      // not logged in so redirect to login page via UrlTree
-      const url = '/login';
-      const tree: UrlTree = this.router.parseUrl(url);
-      return tree;
+      // User not authorized so redirect to login page via UrlTree
+      console.log('USER NOT AUTHORIZED')
+      const url = '/login'
+      const tree: UrlTree = this.router.parseUrl(url)
+      return tree
     }
 }
