@@ -9,7 +9,10 @@ var app = express()
 const universities = require('./universities')
 var fs      = require('fs')
 var formidable = require('formidable'),
-    util = require('util')
+util = require('util')
+var crypto = require("crypto")
+
+var tmp = require('tmp')
 
 // Setting up the root route
 app.get('/', (req, res) => {
@@ -17,7 +20,11 @@ app.get('/', (req, res) => {
 })
 
 // Parsers for POST data
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ 
+  extended: false,
+  keepExtensions: true 
+}))
+
 app.use(bodyParser.json())
 
 
@@ -141,12 +148,70 @@ var upload = multer({
 
 
 //
+// ─── UPLOAD TEMPORARY ROOM AVATAR ───────────────────────────────────────────────
+//
+
+  app.post('/rooms/avatar/tmp', (req, res) => {
+
+    var form = new formidable.IncomingForm()
+
+    form.keepExtensions = true
+    form.uploadDir = './src/assets/tmp'
+
+    // generate tmp file name for later reference when room creation form submitted
+    // var tmpFileId = Math.floor(Math.random() * 100000)
+    var id = crypto.randomBytes(20).toString('hex')
+    
+    form.parse(req)
+
+    form.on('file', function (name, file){
+
+      fs.rename(file.path, form.uploadDir + "/" + id + path.extname(file.name), function( error ) {});
+
+      console.log('Uploaded ' + file.name)
+      res.type('text/plain')
+      res.status(200).send(id.toString())
+    })
+  })
+// ────────────────────────────────────────────────────────────────────────────────
+
+
+
+//
 // ─── UPLOAD ROOM AVATAR ─────────────────────────────────────────────────────────
 //
 
-app.post('/rooms/avatar', upload.single("avatar"), (req, res) => {
-  console.log(req.file);
-  res.status(200).json(req.file);
+app.post('/rooms/avatar', (req, res) => {
+
+
+  // avatar should already exist in temo folder => move to permanent storage
+
+  var form = new formidable.IncomingForm()
+
+  form.keepExtensions = true
+  form.uploadDir = './src/assets/rooms'
+
+  form.parse(req, function(err, fields, files) {
+    res.status(200).json(files)
+    // res.end(util.inspect({fields: fields, files: files}));
+  });
+
+
+    // // form.encoding = 'utf-8'
+    // form.uploadDir = `./src/assets/avatars/`
+    // form.keepExtensions = true
+
+    // form.parse(req)
+
+    // form.on('fileBegin', function (name, file){
+    //     file.path = './src/assets/avatars/' + file.name;
+    // });
+
+    // form.on('file', function (name, file){
+    //     console.log('Uploaded ' + file.name);
+    // });
+
+    // res.status(200).json(req.file);
 });
 // ────────────────────────────────────────────────────────────────────────────────
 

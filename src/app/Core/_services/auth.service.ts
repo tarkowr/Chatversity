@@ -39,6 +39,7 @@ export class AuthService {
 
 
     initializeApp() {
+        if (!localStorage.getItem('chatkitUserId')) { return }
         this.messageService.initChatkit(localStorage.getItem('chatkitUserId'))
         .then(chatkitUser => {
             console.log('setting chatkit user')
@@ -83,7 +84,7 @@ export class AuthService {
             .toPromise()
             .then((chatkitUser) => {
                     // Created Chatkit user
-                    // console.log('Created Chatkit user!');
+                    console.log('Created Chatkit user!');
                     console.log(chatkitUser)
 
                     return this.login(username, password).then(loggedinUser => {
