@@ -39,6 +39,7 @@ export class AuthService {
 
 
     initializeApp() {
+        if (!localStorage.getItem('chatkitUserId')) { return }
         this.messageService.initChatkit(localStorage.getItem('chatkitUserId'))
         .then(chatkitUser => {
             console.log('setting chatkit user')

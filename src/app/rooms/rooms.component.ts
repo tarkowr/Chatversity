@@ -85,6 +85,11 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
   pondHandleAddFile(event: any) {
     // event.preventDefault()
+    console.log(event)
+    this.pondFiles.push(event.file.file)
+
+
+    
     console.log('A file was added')
     // removes the file at index 1
   }
@@ -240,37 +245,42 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       console.log(this.formImport)
       console.log(this.finalRoomData)
 
+      this.pond.processFile().then((fileId) => {
+        console.log(fileId)
 
-      const roomName = this.formImport.value.roomNameGroup.roomName
-      let roomAvatar = ''
+        const roomName = this.formImport.value.roomNameGroup.roomName
+        let roomAvatar = ''
+  
+        this.http.post(`${environment.apiUrl}/rooms/avatar`, this.finalRoomData)
+        .toPromise()
+        .then((response) => console.log(JSON.stringify(response)))
+        .catch(error => console.log(error))
+  
+  
+        // TODO: Add this to upload service
+        // Upload image
+        this.http.post(`${environment.apiUrl}/rooms/avatar`, this.fd)
+        .toPromise()
+        .then( avatar => {
+          roomAvatar = avatar['filename'] // Store path
+          console.log(roomAvatar)
+          // Create the room
+          this.currentUser.createRoom({ // Create the room
+            name: roomName,
+            private: false,
+            customData: { roomAvatar: roomAvatar }, // Add room avatar to custom room data
+          }).then( room => { // Succes
+              this.rooms.push(room) // Add the new room to the list
+              this.roomCreated = true
+              console.log(room)
+              console.log(`Created room called ${room.name}`)
+            })
+            .catch(err => { // Failed room creation
+              console.log(`Error creating room ${err}`)
+            })
+      })
 
-      this.http.post(`${environment.apiUrl}/rooms/avatar`, this.finalRoomData)
-      .toPromise()
-      .then((response) => console.log(JSON.stringify(response)))
-      .catch(error => console.log(error))
 
-
-      // TODO: Add this to upload service
-      // Upload image
-      this.http.post(`${environment.apiUrl}/rooms/avatar`, this.fd)
-      .toPromise()
-      .then( avatar => {
-        roomAvatar = avatar['filename'] // Store path
-        console.log(roomAvatar)
-        // Create the room
-        this.currentUser.createRoom({ // Create the room
-          name: roomName,
-          private: false,
-          customData: { roomAvatar: roomAvatar }, // Add room avatar to custom room data
-        }).then( room => { // Succes
-            this.rooms.push(room) // Add the new room to the list
-            this.roomCreated = true
-            console.log(room)
-            console.log(`Created room called ${room.name}`)
-          })
-          .catch(err => { // Failed room creation
-            console.log(`Error creating room ${err}`)
-          })
       })
     }
   // ────────────────────────────────────────────────────────────────────────────────
@@ -306,6 +316,8 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
+    this.finalRoomData = new FormData()
+
     this.authService.getCurrentUser().subscribe((user) => {
       this.currentUser = user
       this.rooms = user.rooms
@@ -316,64 +328,22 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       })
 
       this.pondOptions = {
-        instantUpload: true,
+        fileRenameFunction: (file) => {
+
+          var randomFileName = new Uint32Array(1);
+          window.crypto.getRandomValues(randomFileName)
+          return `${randomFileName}${file.extension}`
+      },
+        allowFileRename: true,
+        instantUpload: false,
         class: 'my-filepond',
-        multiple: true,
+        multiple: false,
         labelIdle: 'Upload .jpeg or .png',
         acceptedFileTypes: 'image/jpeg, image/png',
         checkValidity: true,
         server: {
           url: `${environment.apiUrl}`,
-          process:(fieldName, file, metadata, load, error, progress, abort) => {
-            // fieldName is the name of the input field
-            // file is the actual file object to send
-            const formData = new FormData();
-            formData.append(fieldName, file, file.name);
-
-            const request = new XMLHttpRequest();
-            request.open('POST', `${environment.apiUrl}/rooms/avatar/tmp`)
-
-            // Should call the progress method to update the progress to 100% before calling load
-            // Setting computable to false switches the loading indicator to infinite mode
-            request.upload.onprogress = (e) => {
-                progress(e.lengthComputable, e.loaded, e.total)
-            // url: 'rooms/avatar/tmp',
-            // onload: (response) => response,
-            // onerror: (response) => response.data,
-            // ondata: (formData) => {
-            //   formData.append('Hello', 'World')
-            //   return formData
-            // }
-          }
-          // Should call the load method when done and pass the returned server file id
-            // this server file id is then used later on when reverting or restoring a file
-            // so your server knows which file to return without exposing that info to the client
-            request.onload = function() {
-              if (request.status >= 200 && request.status < 300) {
-                console.log(request.responseText)
-                
-                  // the load method accepts either a string (id) or an object
-                  load(request.responseText)
-              }
-              else {
-                  // Can call the error method if something is wrong, should exit after
-                  error('oh no');
-              }
-          };
-          this.finalRoomData = formData
-          request.send(formData);
-          
-          // Should expose an abort method so the request can be cancelled
-          return {
-              abort: () => {
-                  // This function is entered if the user has tapped the cancel button
-                  request.abort();
-
-                  // Let FilePond know the request has been cancelled
-                  abort();
-              }
-          };
-          },
+          process: '/rooms/avatar/tmp',
           load: (source, load, error, progress, abort, headers) => {
             // Should request a file object from the server here
             // ...
