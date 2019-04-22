@@ -42,27 +42,33 @@ export class ViewFriendsHomeComponent implements OnInit {
   //
 
     addConnection() {
-      console.log(this.connectionToAdd.value);
-      // Get okta user by login (email)
-      this.http.get(`${environment.apiUrl}/okta/GetUserByLogin/${this.connectionToAdd.value}` )
-      .toPromise()
-      .then((oktaUser) => {
-        console.log(oktaUser);
-        // Get the user from Chatkit by matching the IDs
-        this.http.get(`${environment.apiUrl}/chatkit/GetUserById/${oktaUser['id']}`)
-        .toPromise()
-        .then((currentUser) => {
-          // Found user => add 'connection request marker' to custom data field
-          // TODO: Check if users are already connected
+      const userId = '00udacjrnsj15ezNA356'
+      this._userService.inviteConnection(userId).toPromise().then((user) => {
 
-        })
-        .catch((error) => {
-          console.log('Chatkit user not found!');
-        });
+        console.log(user)
       })
-      .catch((error) => {
-        console.log('Okta user not found!');
-      });
+
+      // console.log(this.connectionToAdd.value);
+      // // Get okta user by login (email)
+      // this.http.get(`${environment.apiUrl}/okta/GetUserByLogin/${this.connectionToAdd.value}` )
+      // .toPromise()
+      // .then((oktaUser) => {
+      //   console.log(oktaUser);
+      //   // Get the user from Chatkit by matching the IDs
+      //   this.http.get(`${environment.apiUrl}/chatkit/GetUserById/${oktaUser['id']}`)
+      //   .toPromise()
+      //   .then((currentUser) => {
+      //     // Found user => add 'connection request marker' to custom data field
+      //     // TODO: Check if users are already connected
+
+      //   })
+      //   .catch((error) => {
+      //     console.log('Chatkit user not found!');
+      //   });
+      // })
+      // .catch((error) => {
+      //   console.log('Okta user not found!');
+      // });
     }
   // ─────────────────────────────────────────────────────────────────
 

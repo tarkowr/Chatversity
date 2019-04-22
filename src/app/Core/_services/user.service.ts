@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 
-import { User } from '../_models/user';
-import { environment } from '../../../environments/environment';
+import { User } from '../_models/user'
+import { environment } from '../../../environments/environment'
 
 @Injectable({
     providedIn: 'root'
@@ -15,7 +15,7 @@ export class UserService {
     //
 
         getConnections(id: number) {
-            return this.http.get(`${environment.apiUrl}/chatkit/connections/${id}`);
+            return this.http.get(`${environment.apiUrl}/chatkit/connections/${id}`)
         }
     // ────────────────────────────────────────────────────────────────────────────────
 
@@ -29,24 +29,42 @@ export class UserService {
             const headers = new HttpHeaders({
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-            });
+            })
 
-            return this.http.post(`${environment.apiUrl}/chatkit/user/${userId}`, data, {headers: headers});
+            return this.http.post(`${environment.apiUrl}/chatkit/user/${userId}`, data, {headers: headers})
         }
     // ─────────────────────────────────────────────────────────────────
 
 
 
+    //
+    // ─── SEND AN INVITE TO THE REQUESTED USER ───────────────────────────────────────
+    //
+
+        inviteConnection(userId) {
+            const headers = new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            })
+
+            const data = JSON.stringify({ 'userId': `${userId}` })
+
+            return this.http.post(`${environment.apiUrl}/chatkit/invite/`, data, {headers: headers})
+        }
+    // ────────────────────────────────────────────────────────────────────────────────
+
+
+
     getAll() {
-        return this.http.get<User[]>(`${environment.apiUrl}/users`);
+        return this.http.get<User[]>(`${environment.apiUrl}/users`)
     }
 
     getById(id: number) {
-        return this.http.get(`${environment.apiUrl}/okta/users/` + id);
+        return this.http.get(`${environment.apiUrl}/okta/users/` + id)
     }
 
     register(user: User) {
-        return this.http.post(`${environment.apiUrl}/users/register`, user);
+        return this.http.post(`${environment.apiUrl}/users/register`, user)
     }
 
     // update(user: any) {
@@ -55,6 +73,6 @@ export class UserService {
     // }
 
     delete(id: number) {
-        return this.http.delete(`${environment.apiUrl}/okta/users/` + id);
+        return this.http.delete(`${environment.apiUrl}/okta/users/` + id)
     }
 }

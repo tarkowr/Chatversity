@@ -16,6 +16,8 @@ $theme-colors: (
   "info": #FF247F,
 );
 
+$danger-lighten: #ffe7e5;
+
 @import '../node_modules/bootstrap/scss/bootstrap.scss';
 
 html, body {
@@ -96,4 +98,9 @@ app-messages, app-rooms {
     text-decoration: underline;
     outline: none;
   }
+}
+
+.dropdown-menu .dropdown-item.dropdown-item-danger:hover {
+  background-color: $danger-lighten;
+  background-image: none;
 }
