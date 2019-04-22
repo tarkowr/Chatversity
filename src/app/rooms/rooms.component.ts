@@ -89,10 +89,50 @@ export class RoomsComponent implements OnInit, AfterViewInit {
     this.pondFiles.push(event.file.file)
 
 
-    
+
     console.log('A file was added')
     // removes the file at index 1
   }
+
+
+  
+
+  //
+  // ─── HANDLE DELETE ROOM ─────────────────────────────────────────────────────────
+  //
+
+    deleteRoom(id) {
+
+      console.log(id)
+      this.messageService.deleteRoom(this.currentUser, id).then((latestRoom) => {
+
+
+        for ( let i = 0; i < this.rooms.length; i++) { // remove the deleted room from the local rooms array...
+          if ( this.rooms[i].id === latestRoom.id) {
+            this.rooms.splice(i, 1)
+          }
+       }
+
+       // ...then join the latest room
+       this.messageService.joinRoom(this.currentUser, latestRoom.id).then((room) => {
+
+        // update current room
+        this.current_room = room
+
+        // and get the room messages
+        this.messageService.fetchRoomMessages(this.currentUser, room.id, '', 20).then((messages) => {
+
+          this.room_messages = messages
+          console.log(this.room_messages)
+
+          console.log(messages)
+        })
+      })
+
+      })
+    }
+  // ────────────────────────────────────────────────────────────────────────────────
+
 
 
   //
