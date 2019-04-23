@@ -2,7 +2,7 @@ import { Injectable, OnInit } from '@angular/core'
 import {AuthService} from './auth.service'
 import { ChatManager, TokenProvider } from '@pusher/chatkit-client'
 import { User } from '../_models/user'
-import { BehaviorSubject, Subscription, ReplaySubject, Subject } from 'rxjs'
+import { BehaviorSubject, Subscription, ReplaySubject, Subject, Observable } from 'rxjs'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { environment } from '../../../environments/environment.prod'
 
@@ -19,9 +19,15 @@ export class MessagingService {
   latestRoom: any
   latestReadCursor: any
   messages: Subject<any> = new Subject<any>()
+  onlineUsers: Subject<any> = new Subject<any>()
   roomsAndMessages: any
   rooms: Array<any> = []
   constructor(private http: HttpClient) { this.messages = new Subject<any>() }
+
+
+  getOnlineUsers(): Observable<any> {
+    return this.onlineUsers.asObservable()
+  }
 
 
 
@@ -299,6 +305,10 @@ export class MessagingService {
       },
       onRoomDeleted: room => {
         console.log(`Deleted room ${room.name}`)
+      },
+      onPresenceChanged: (state, user) => {
+        this.onlineUsers.next({ state, user })
+        console.log(`User ${user.name} is ${state.current}`)
       }
     })
       .then(user => {
@@ -310,22 +320,22 @@ export class MessagingService {
         localStorage.setItem('chatkitUserId', user.id)
 
         // If user has no rooms then return
-        if (!user.rooms.length) { return }
+        if (user.rooms.length) { 
+          // Subscribe to all user rooms to be notified of new messages
+          this.subscribeToAllRooms()
 
-        // Subscribe to all user rooms to be notified of new messages
-        this.subscribeToAllRooms()
-
-        // Join the latest room
+          // Join the latest room
 
           console.log(user)
 
-        const latestRoom = this.getLatestRoom(user)
-        console.log(latestRoom)
-        
-        this.joinRoom(user, latestRoom.id)
-        // this.getLatestRoom(user).then((room) => {
-        //   this.joinRoom(user, room.id);
-        // });
+          const latestRoom = this.getLatestRoom(user)
+          console.log(latestRoom)
+
+          this.joinRoom(user, latestRoom.id)
+          // this.getLatestRoom(user).then((room) => {
+          //   this.joinRoom(user, room.id);
+          // });
+        }
 
 
         return user
