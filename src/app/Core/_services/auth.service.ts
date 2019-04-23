@@ -84,7 +84,7 @@ export class AuthService {
             .toPromise()
             .then((chatkitUser) => {
                     // Created Chatkit user
-                    console.log('Created Chatkit user!');
+                    console.log('Created Chatkit user!')
                     console.log(chatkitUser)
 
                     return this.login(username, password).then(loggedinUser => {
@@ -109,6 +109,15 @@ export class AuthService {
                 console.log('LOGGED IN OKTA USER: ', user)
 
                 localStorage.setItem('OktaUser', JSON.stringify(user))
+
+                this.messageService.initChatkit(user._embedded.user.id)
+                .then(chatkitUser => {
+
+                  this.currentUser.currentUser = chatkitUser
+
+                  this.router.navigate(['/home'])
+
+              })
 
                 return user
             })
