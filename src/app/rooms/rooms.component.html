@@ -79,13 +79,13 @@
                         style="font-weight:500">
                         {{ message.sender.name }}
                       </span>
-                      <small class="text-muted pl-1" style="font-size:12px;">
+                      <small class="text-muted pl-1 message-date" style="font-size:12px;">
                         <span *ngIf="MessageSentToday(message.createdAt);else full_date">Today at
                           {{ message.createdAt | date:'shortTime' }}</span>
                         <ng-template #full_date>{{ message.createdAt | date }} at
                           {{ message.createdAt | date:'shortTime' }}</ng-template>
                       </small>
-                      <div style="color:#626e7a; font-size:15px;">{{ message.parts[0].payload.content }}</div>
+                      <div class="message-body" style="color:#626e7a; font-size:15px;">{{ message.parts[0].payload.content }}</div>
                       <!-- <hr> -->
                     </div>
                   </div>
@@ -101,7 +101,7 @@
       <div class="chat-footer" style="position: absolute; bottom: 0; left: 0; width: 100%;"
       *ngIf="(current_room)">
         <!--TODO: Change placeholder to only display room name if room name is defined-->
-        <form (ngSubmit)='sendMessage()'>
+        <form autocomplete="off" (ngSubmit)='sendMessage()'>
           <input [placeholder]="(current_room.name) ? 'Message ' + current_room.name : 'Message'" type="text" name="message" [(ngModel)]="message">
         </form>
       </div>
