@@ -113,7 +113,7 @@ export class AuthService {
                 this.messageService.initChatkit(user._embedded.user.id)
                 .then(chatkitUser => {
 
-                  this.currentUser.currentUser = chatkitUser
+                  this.currentUser = chatkitUser
 
                   this.router.navigate(['/home'])
 
