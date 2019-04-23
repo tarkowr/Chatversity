@@ -182,7 +182,6 @@ app.use('/chatkit', chatkit)
 
   app.post('/rooms/avatar', (req, res) => {
 
-
     // avatar should already exist in temo folder => move to permanent storage
 
     var form = new formidable.IncomingForm()
@@ -192,25 +191,7 @@ app.use('/chatkit', chatkit)
 
     form.parse(req, function(err, fields, files) {
       res.status(200).json(files)
-      // res.end(util.inspect({fields: fields, files: files}));
     });
-
-
-      // // form.encoding = 'utf-8'
-      // form.uploadDir = `./src/assets/avatars/`
-      // form.keepExtensions = true
-
-      // form.parse(req)
-
-      // form.on('fileBegin', function (name, file){
-      //     file.path = './src/assets/avatars/' + file.name;
-      // });
-
-      // form.on('file', function (name, file){
-      //     console.log('Uploaded ' + file.name);
-      // });
-
-      // res.status(200).json(req.file);
   });
 // ────────────────────────────────────────────────────────────────────────────────
 

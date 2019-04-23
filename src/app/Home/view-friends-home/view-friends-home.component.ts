@@ -22,6 +22,7 @@ export class ViewFriendsHomeComponent implements OnInit {
   rooms: any
 
   currentUser: any
+  onlineUsers: any
 
   //
   // ─── CONSTRUCTOR ────────────────────────────────────────────────────────────────
@@ -125,7 +126,10 @@ export class ViewFriendsHomeComponent implements OnInit {
 
   ngOnInit() {
 
-    console.log(this.currentUser)
+
+    this._msgService.getOnlineUsers().subscribe((userAndState) => {
+      console.log(userAndState)
+    })
 
     this.authService.getCurrentUser().subscribe((user) => {
       this.currentUser = user
