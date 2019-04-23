@@ -15,8 +15,12 @@
       <div *ngFor="let user of userResults">
           <button class="btn btn-block text-left px-3 py-2 my-2 user-card" data-toggle="modal"  data-target="#profileModal"
           (click)="setUser(user)">
-              <img src="" onerror="this.src='../../assets/images/DefaultProfile.png'"
-              class="circle img-fluid rounded-circle card-img"/> 
+          
+          <span class="position-relative d-inline-block">
+            <img src="" onerror="this.src='../../assets/images/DefaultProfile.png'"
+            class="circle img-fluid rounded-circle card-img"/> 
+            <span class="position-absolute" style="bottom:0; right: 0; transform: translate(20%, 20%);"><i class="fa fa-circle fa-xs text-success"></i></span>
+          </span>
         
               <!--<span class="online-indicator ml-3"><i style="font-size: 0.6em;" class="fa fa-circle"
                 [ngClass]="getUserActivityStatus(user.id) ? 'text-success' : 'text-danger'"></i>
