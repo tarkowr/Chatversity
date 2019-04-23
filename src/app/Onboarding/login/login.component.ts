@@ -70,23 +70,23 @@ export class LoginComponent implements OnInit {
 
       this.authService.login(this.f.username.value, this.f.password.value).then(oktaUser => {
 
-        console.log(`Logged in as ${oktaUser._embedded.user.profile.firstName}`);
-        console.log('Connecting to ChatKit...');
+        console.log(`Logged in as ${oktaUser._embedded.user.profile.firstName}`)
+        console.log('Connecting to ChatKit...')
 
         /*******************/
         /* Begin App setup */
         /*******************/
 
         // Initialize Chatkit
-        this.messageService.initChatkit(oktaUser._embedded.user.id)
-          .then(chatkitUser => {
+        // this.messageService.initChatkit(oktaUser._embedded.user.id)
+        //   .then(chatkitUser => {
 
-            this.authService.currentUser = chatkitUser;
-            console.log(this.authService.currentUser);
+        //     this.authService.currentUser = chatkitUser;
+        //     console.log(this.authService.currentUser);
 
-            this.router.navigate([this.returnUrl]);
+        //     this.router.navigate([this.returnUrl]);
 
-        });
+        // });
 
       },
       error => {
