@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+
 
 @Component({
   selector: 'app-security-settings',
@@ -7,9 +10,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SecuritySettingsComponent implements OnInit {
 
-  constructor() { }
+  oldPassword = new FormControl('')
+  changePassForm: FormGroup;
+  passwordsMatch: boolean;
+  constructor(private formBuilder: FormBuilder) { }
+
+  onChanges() {
+    this.changePassForm.valueChanges.subscribe(val => {
+      
+      
+      if (val.newPassword === val.confirmPassword) {
+
+        this.passwordsMatch = true
+      } else {
+        this.passwordsMatch = false
+      }
+    })
+  }
 
   ngOnInit() {
+    this.changePassForm = this.formBuilder.group({
+      oldPassword: new FormControl ([''], Validators.required),
+      newPassword: new FormControl([''], Validators.required),
+      confirmPassword: new FormControl([''], Validators.required),
+    })
+
+    this.onChanges()
   }
 
 }
