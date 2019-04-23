@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core'
 
 @Component({
   selector: 'app-small',
@@ -7,11 +7,11 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class SmallComponent implements OnInit {
 
-  bio: string;
-  graduationYear: string;
+  bio: string
+  graduationYear: string
 
-  @Input() user: any;
-  @Input() isConnection = false;
+  @Input() user: any
+  @Input() isConnection = false
 
   constructor() { }
 
@@ -21,7 +21,7 @@ export class SmallComponent implements OnInit {
 
   // TODO: Implement actual add connection functionality
   addConnection() {
-    this.isConnection = true;
+    this.isConnection = true
   }
 
 }
