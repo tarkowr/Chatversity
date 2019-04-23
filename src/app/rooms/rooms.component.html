@@ -39,6 +39,8 @@
     <div class="col-12 col-lg-9 overflow-auto" style="background-color: #fafdff; border-left:1px solid #DAE6ED;">
       <div class="chat-window overflow-auto" style="height: calc(100vh - 174px); position:relative;">
         
+        <!--TODO: Do we still need this code? If not, DELETE-->
+        
         <!--<ng-container *ngIf="rooms_with_messages">
           <div class="container-fluid mt-3" #chatReel>
             <div *ngFor="let room of rooms_with_messages | keyvalue">
@@ -66,7 +68,7 @@
                 <div class="row" id="chatReel">
                   <!-- Messages -->
                   <div class="col-12">
-                    <div class="col-12 col-md-10 my-2 py-2"
+                    <div class="col-12 col-md-10 my-2 p-3"
                       [ngClass]="message.senderId == currentUser.id ? 'message my-message
                       offset-md-2' : 'message user-message'">
 

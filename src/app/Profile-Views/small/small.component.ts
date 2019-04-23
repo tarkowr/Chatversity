@@ -16,7 +16,27 @@ export class SmallComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    // Get user bio
+    try {
+      this.bio = this.user.customData.bio
+    } catch (err) {
+      try {
+        this.bio = this.user.custom_data.bio
+      } catch (error) {
+        this.bio = ''
+      }
+    }
 
+    // Get user graduation year
+    try {
+      this.graduationYear = this.user.customData.graduationYear
+    } catch (err) {
+      try {
+        this.bio = this.user.custom_data.graduationYear
+      } catch (error) {
+        this.bio = ''
+      }
+    }
   }
 
   // TODO: Implement actual add connection functionality

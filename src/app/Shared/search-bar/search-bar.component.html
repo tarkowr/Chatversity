@@ -1,5 +1,3 @@
-<app-small id="profileModal" *ngIf="user" [user]="user" [isConnection]="false"></app-small>
-
 <!--Search Bar-->
 <form [formGroup]="searchForm" class="my-4">
   <div class="form-group mb-3">
@@ -13,7 +11,7 @@
   <div *ngIf="(userResults)">
       <div class="text-light">Users:</div> <hr>
       <div *ngFor="let user of userResults">
-          <button class="btn btn-block text-left px-3 py-2 my-2 user-card" data-toggle="modal" data-target="#profileModal"
+          <button class="btn btn-block text-left px-3 py-2 my-2 user-card" data-toggle="modal"  data-target="#profileModal"
           (click)="setUser(user)">
               <img src="" onerror="this.src='../../assets/images/DefaultProfile.png'"
               class="circle img-fluid rounded-circle card-img" [ngClass]="{ 'border-online': user.active }"/> 
@@ -22,6 +20,8 @@
           </button>
       </div>
   </div>
+
+  <app-small id="profileModal" *ngIf="user" [user]="user" [isConnection]="false"></app-small>
 
   <div *ngIf="(roomResults)">
       <div class="text-light">Rooms:</div> <hr>
