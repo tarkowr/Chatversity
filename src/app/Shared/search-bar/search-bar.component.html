@@ -16,24 +16,21 @@
           <button class="btn btn-block text-left px-3 py-2 my-2 user-card" data-toggle="modal"  data-target="#profileModal"
           (click)="setUser(user)">
               <img src="" onerror="this.src='../../assets/images/DefaultProfile.png'"
-              class="circle img-fluid rounded-circle card-img" [ngClass]="{ 'border-online': user.active }"/> 
+              class="circle img-fluid rounded-circle card-img" [ngClass]="{ 'border-online': getUserActivityStatus(user) }"/> 
   
               <span class="text-secondary ml-3">{{ user.name }}</span>
           </button>
       </div>
   </div>
 
-  <app-small id="profileModal" *ngIf="user" [user]="user" [isConnection]="false"></app-small>
+  <app-small id="profileModal" *ngIf="selectedUser" [user]="selectedUser" [isConnection]="false"></app-small>
 
   <div *ngIf="(roomResults)">
       <div class="text-light">Rooms:</div> <hr>
       <div *ngFor="let room of roomResults">
-          <button class="btn btn-block text-left px-3 py-2 my-2 user-card" data-toggle="modal" data-target=""
-          (click)="setRoom(room.id)">
-              <img src="" onerror="this.src='../../assets/images/DefaultProfile.png'"
-              class="circle img-fluid rounded-circle card-img" [ngClass]="{ 'border-online': user.active }"/> 
-  
-              <span class="text-secondary ml-3">{{ user.firstName }} {{ user.lastName }}</span>
+          <button class="btn btn-block text-left px-3 py-2 my-2 user-card"
+          (click)="setRoom(room)">
+              <span class="text-secondary ml-3">{{ room.name }}</span>
           </button>
       </div>
   </div>

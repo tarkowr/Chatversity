@@ -13,15 +13,19 @@ export class SearchBarComponent implements OnInit {
   @Input() userType: boolean
   @Input() roomType: boolean
 
+  currUser: any
+
   searchForm: FormGroup
   loading = false
   submitted = false
+
   userResults: any
   roomResults: any
+
   users: any
-  user: any
+  selectedUser: any
   rooms: any
-  currUser: any
+  selectedRoom: any
 
   constructor(private formBuilder: FormBuilder, private _userService: UserService, private _msgService: MessagingService,
     private authService: AuthService) { }
@@ -111,7 +115,7 @@ export class SearchBarComponent implements OnInit {
     }
 
     if (this.roomType) {
-      // this.getRoomsByName(query)
+      this.getRoomsByName(query)
     }
 
     this.loading = false
@@ -123,9 +127,17 @@ export class SearchBarComponent implements OnInit {
   //
 
   setUser(_user: any) {
-    this.user = _user
+    this.selectedUser = _user
   }
-  
+
+  setRoom(_room: any) {
+    this.selectedRoom = _room
+  }
+
+  getUserActivityStatus(_user: any) {
+    return false
+  }
+
 // ─────────────────────────────────────────────────────────────────
 
   ngOnInit() {
@@ -134,18 +146,31 @@ export class SearchBarComponent implements OnInit {
         this.currUser = user
         console.log('CHATKIT USER:', this.currUser)
 
-        this._userService.getAll()
+        if (this.userType) {
+          this._userService.getAll()
+          .toPromise()
+          .then((data) => {
+            console.log('RESPONSE:', data)
+            this.users = data
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+        }
+        
+      if (this.roomType) {
+        this._msgService.getAllRooms()
         .toPromise()
         .then((data) => {
-          console.log('RESPONSE:', data)
-          this.users = data
+          // console.log('RESPONSE:', data)
+          this.rooms = data
         })
         .catch((error) => {
           console.log(error)
         })
       }
+     }
     )
-
 
 
     //
