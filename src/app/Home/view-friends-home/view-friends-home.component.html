@@ -35,9 +35,9 @@
                   <img src="" onerror="this.src='../../assets/images/DefaultProfile.png'"
                   class="circle img-fluid rounded-circle card-img" [ngClass]="{ 'border-online': c.active }"/> 
       
-                  <span class="text-secondary font-weight-bold ml-3">
+                  <span class="text-secondary ml-3">
                     {{ c.name }}
-                    <small style="font-size:12px; color:#96b7c9;">{{ appUser.presenceStore[c.id] }}</small>
+                    <small *ngIf="currentUser.presenceStore" class="text-muted pl-1" style="font-size:12px;">{{ currentUser.presenceStore[c.id] }}</small>
                   </span>
               </button>
             </div>
@@ -54,9 +54,9 @@
           (click)="connection = c">
               <img src="..." onerror="this.src='../../assets/images/DefaultProfile.png'"
               class="circle img-fluid rounded-circle card-img" [ngClass]="{ 'border-online': c.active }"/> 
-              <span class="text-secondary font-weight-bold ml-3">
+              <span class="text-secondary ml-3">
                   {{ c.name }}
-                  <small style="font-size:12px; color:#96b7c9;">{{ appUser.presenceStore[c.id] }}</small>
+                  <small *ngIf="currentUser.presenceStore" class="text-muted pl-1" style="font-size:12px;">{{ currentUser.presenceStore[c.id] }}</small>
                 </span>
           </button>
         </div>
@@ -69,14 +69,13 @@
 
     <div class="tab-pane fade" id="pills-search-connections" role="tabpanel" aria-labelledby="pills-search-connections">
       <!--Search connections-->
-        <app-search-bar [userType]="true"></app-search-bar>
+        <app-search-bar [userType]="true" [roomType]="false"></app-search-bar>
       <!-- End Search connections -->
     </div>
   </div>
 </div>
   <!-- End Actions -->
 </div> 
-
 
   <!-- Add connection modal -->
   <div class="modal fade" id="addConnectionModal" tabindex="-1" role="dialog" aria-labelledby="addConnectionModalLabel" aria-hidden="true">

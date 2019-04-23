@@ -20,13 +20,9 @@
         <!-- User's Name -->
         <div class="h3 text-secondary text-light-weight mt-3">{{ this.user.name }} </div>
 
-{{user?.custom_data?.graduationYear}}
-
         <!-- User's Info -->
-        <p class="text-primary" *ngIf="user.customData?.graduationYear">&mdash; Class of {{user.customData.graduationYear}} &mdash;</p>
-        <p class="text-primary" *ngIf="user.custom_data?.graduationYear">&mdash; Class of {{user.custom_data.graduationYear}} &mdash;</p>
-        <p class="text-secondary mt-2" *ngIf="user.customData?.graduationYear">{{ user.customData.bio }}</p>
-        <p class="text-secondary mt-2" *ngIf="user.custom_data?.graduationYear">{{ user.custom_data.bio }}</p>
+        <p class="text-primary">&mdash; Class of {{ graduationYear }} &mdash;</p>
+        <p class="text-secondary mt-2">{{ bio }}</p>
       </div>
 
       <!-- Footer -->

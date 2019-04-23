@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment.prod';
-import { UserService } from '../../Core/_services/user.service';
-import { MessagingService } from '../../Core/_services/messaging.service';
-import { AppComponent } from '../../app.component';
-import { AuthService } from '../../Core/_services/auth.service';
+import { Component, OnInit } from '@angular/core'
+import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
+import { HttpClient } from '@angular/common/http'
+import { environment } from '../../../environments/environment.prod'
+import { UserService } from '../../Core/_services/user.service'
+import { MessagingService } from '../../Core/_services/messaging.service'
+import { AppComponent } from '../../app.component'
+import { AuthService } from '../../Core/_services/auth.service'
 
 @Component({
   selector: 'app-view-friends-home',
@@ -14,16 +14,14 @@ import { AuthService } from '../../Core/_services/auth.service';
 })
 export class ViewFriendsHomeComponent implements OnInit {
 
-  connections: any;
-  currUser: any;
-  appUser: any;
+  connections: any
 
   // Field for connection
-  connectionToAdd = new FormControl('');
-  subscription: any;
-  rooms: any;
+  connectionToAdd = new FormControl('')
+  subscription: any
+  rooms: any
 
-  currentUser: any;
+  currentUser: any
 
   //
   // ─── CONSTRUCTOR ────────────────────────────────────────────────────────────────
@@ -48,12 +46,12 @@ export class ViewFriendsHomeComponent implements OnInit {
         console.log(user)
       })
 
-      // console.log(this.connectionToAdd.value);
+      // console.log(this.connectionToAdd.value)
       // // Get okta user by login (email)
       // this.http.get(`${environment.apiUrl}/okta/GetUserByLogin/${this.connectionToAdd.value}` )
       // .toPromise()
       // .then((oktaUser) => {
-      //   console.log(oktaUser);
+      //   console.log(oktaUser)
       //   // Get the user from Chatkit by matching the IDs
       //   this.http.get(`${environment.apiUrl}/chatkit/GetUserById/${oktaUser['id']}`)
       //   .toPromise()
@@ -63,12 +61,12 @@ export class ViewFriendsHomeComponent implements OnInit {
 
       //   })
       //   .catch((error) => {
-      //     console.log('Chatkit user not found!');
-      //   });
+      //     console.log('Chatkit user not found!')
+      //   })
       // })
       // .catch((error) => {
-      //   console.log('Okta user not found!');
-      // });
+      //   console.log('Okta user not found!')
+      // })
     }
   // ─────────────────────────────────────────────────────────────────
 
