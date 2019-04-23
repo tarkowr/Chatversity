@@ -1,17 +1,25 @@
 <div class="container-fluid" style="height:100vh;">
 
-    <app-top-bar [viewName]="'Search'" [headerText]="'Users & Rooms'"></app-top-bar>
+    <app-top-bar [viewName]="'Search'" [headerText]="headerText + ' Search'"></app-top-bar>
   
     <div class="row page-content">
       <div class="col-12 col-lg-3" style="background-color:#F1F8FC; border-bottom:1px solid #DAE6ED;">
         <div class="my-3 px-1">
-          <button class="btn btn-block custom-btn text-left mr-4 my-2 p-3"
-          [ngClass]="{ 'active': true }">Search</button>
+          <button class="btn btn-block custom-btn text-left mr-4 my-2 p-3" (click)="showPage(this.UserView.id)"
+          [ngClass]="{ 'active': this.UserView.current }">Users</button>
+
+          <button class="btn btn-block custom-btn text-left mr-4 my-2 p-3" (click)="showPage(this.RoomView.id)"
+          [ngClass]="{ 'active': this.RoomView.current }">Rooms</button>
         </div>
       </div>
   
       <div class="col-12 col-lg-9" style="background-color: #fafdff; border-left:1px solid #DAE6ED;">
-          <app-search-bar [userType]="true" [roomType]="true"></app-search-bar>
+        <div *ngIf="this.UserView.current">
+          <app-search-bar [userType]="true" [roomType]="false"></app-search-bar>
+        </div>
+        <div *ngIf="this.RoomView.current">
+          <app-search-bar [userType]="false" [roomType]="true"></app-search-bar>
+        </div>
       </div>
     </div>
   </div>
