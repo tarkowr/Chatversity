@@ -141,36 +141,37 @@ export class SearchBarComponent implements OnInit {
 // ─────────────────────────────────────────────────────────────────
 
   ngOnInit() {
-    this.authService.currentUser.subscribe(
+    this.authService.getCurrentUser().subscribe(
       (user) => {
         this.currUser = user
-        console.log(this.currUser)
+        console.log('CHATKIT USER:', this.currUser)
+
+        if (this.userType) {
+          this._userService.getAll()
+          .toPromise()
+          .then((data) => {
+            console.log('RESPONSE:', data)
+            this.users = data
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+        }
+        
+      if (this.roomType) {
+        this._msgService.getAllRooms()
+        .toPromise()
+        .then((data) => {
+          // console.log('RESPONSE:', data)
+          this.rooms = data
+        })
+        .catch((error) => {
+          console.log(error)
+        })
       }
+     }
     )
 
-    if (this.userType) {
-      this._userService.getAll()
-      .toPromise()
-      .then((data) => {
-        // console.log('RESPONSE:', data)
-        this.users = data
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-    }
-
-    if (this.roomType) {
-      this._msgService.getAllRooms()
-      .toPromise()
-      .then((data) => {
-        // console.log('RESPONSE:', data)
-        this.rooms = data
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-    }
 
     //
     // ─── SETUP SEARCH BOX ────────────────────────────────────────────

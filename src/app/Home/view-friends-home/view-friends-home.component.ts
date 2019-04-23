@@ -34,7 +34,7 @@ export class ViewFriendsHomeComponent implements OnInit {
       private _userService: UserService,
       private _msgService: MessagingService,
       private app: AppComponent,
-      private authService: AuthService) { this.currentUser = authService.currentUser; }
+      private authService: AuthService) { }
   // ────────────────────────────────────────────────────────────────────────────────
 
   //
@@ -79,7 +79,7 @@ export class ViewFriendsHomeComponent implements OnInit {
   //
 
     getUser(_id: number): any {
-      return this.connections.find(c => c.id === _id);
+      return this.connections.find(c => c.id === _id)
     }
   // ────────────────────────────────────────────────────────────────────────────────
 
@@ -90,7 +90,7 @@ export class ViewFriendsHomeComponent implements OnInit {
 
     sortList(users: any) {
       return  users.sort((a, b) => ((a.firstName.toLowerCase() + ' ' + a.lastName.toLowerCase())
-      > (b.firstName.toLowerCase() + ' ' + b.lastName.toLowerCase()) ? 1 : -1));
+      > (b.firstName.toLowerCase() + ' ' + b.lastName.toLowerCase()) ? 1 : -1))
     }
   // ────────────────────────────────────────────────────────────────────────────────
 
@@ -106,7 +106,7 @@ export class ViewFriendsHomeComponent implements OnInit {
 
       // Toggle isConnection variable
 
-      return;
+      return
     }
   // ─────────────────────────────────────────────────────────────────
 
@@ -127,19 +127,17 @@ export class ViewFriendsHomeComponent implements OnInit {
 
   ngOnInit() {
 
-    console.log(this.currentUser);
+    console.log(this.currentUser)
 
+    this.authService.getCurrentUser().subscribe((user) => {
+      this.currentUser = user
 
-    //
-    // ─── LOAD USER CONNECTIONS ───────────────────────────────────────
-    //
-
-      this._userService.getConnections(this.currentUser.id)
+      this._userService.getConnections(user.id)
       .toPromise()
       .then((connections) => {
-        this.connections = connections;
-        console.log(connections);
-      });
-    // ────────────────────────────────────────────────────────────────────────────────
+        this.connections = connections
+        console.log(connections)
+      })
+    })
   }
 }

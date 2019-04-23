@@ -2,7 +2,7 @@
   <div class="col 12 col-md-3 py-3">
       <div class="d-flex h-100 align-items-center">
         <span id="header-left-text" class="text-secondary font-weight-bold cursor-default">{{ viewName }} <span id="mobile-header-text">&nbsp;|&nbsp; {{ headerText }}</span></span>
-        <button *ngIf="roomId" [disabled]="this.router.url != '/rooms'" ngbTooltip="Create Room" placement="left" triggers="hover" [autoClose]="true" class="btn btn-link text-secondary ml-auto py-0" type="button" data-toggle="modal" data-target="#addRoomModal"><i class="fa fa-plus-square"></i></button>
+        <button *ngIf="roomId" [disabled]="this.router.url != '/rooms'" ngbTooltip="Create Room" placement="left" triggers="hover" [autoClose]="true" class="btn btn-outline-primary ml-auto" type="button" data-toggle="modal" data-target="#addRoomModal"><i class="fa fa-plus"></i></button>
       </div>
   </div>
   <div class="col-md-9 py-3" style="border-left:1px solid #DAE6ED;" id="header-text">
@@ -11,13 +11,13 @@
       
       <!-- Default dropright button -->
       <div *ngIf="roomId" class="ml-auto">
-        <button ngbTooltip="Room Settings" placement="left" triggers="hover" [autoClose]="true" type="button" class="btn btn-link text-secondary py-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-outline-primary" ngbTooltip="Invite User" placement="left" triggers="hover" [autoClose]="true" type="button"> <span><i class="fa fa-user-plus ml-auto"></i></span></button>
+        <button ngbTooltip="Room Settings" placement="left" triggers="hover" [autoClose]="true" type="button" class="btn btn-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-cog"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
           <!-- Dropdown menu links -->
-          <button class="dropdown-item" type="button">Invite User <span><i class="fa fa-user-plus text-light"></i></span></button>
-          <button class="dropdown-item" type="button">Edit</button>
+          <button class="dropdown-item" type="button"><span><i class="fa fa-edit"></i></span> Edit</button>
           <button class="dropdown-item dropdown-item-danger text-danger" type="button" data-toggle="modal" data-target="#deleteRoomModal"><span><i class="fa fa-trash-alt"></i></span> Delete</button>
         </div>
       </div>
