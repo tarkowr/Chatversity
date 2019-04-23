@@ -12,15 +12,21 @@ export class SecuritySettingsComponent implements OnInit {
 
   oldPassword = new FormControl('')
   changePassForm: FormGroup;
+  samePassword: boolean;
   passwordsMatch: boolean;
   constructor(private formBuilder: FormBuilder) { }
 
   onChanges() {
     this.changePassForm.valueChanges.subscribe(val => {
       
+      if (val.oldPassword === val.newPassword){
+        this.samePassword = true
+      }
+      else{
+        this.samePassword = false
+      }
       
       if (val.newPassword === val.confirmPassword) {
-
         this.passwordsMatch = true
       } else {
         this.passwordsMatch = false
