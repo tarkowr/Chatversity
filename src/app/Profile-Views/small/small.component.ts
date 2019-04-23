@@ -32,9 +32,9 @@ export class SmallComponent implements OnInit {
       this.graduationYear = this.user.customData.graduationYear
     } catch (err) {
       try {
-        this.bio = this.user.custom_data.graduationYear
+        this.graduationYear = this.user.custom_data.graduationYear
       } catch (error) {
-        this.bio = ''
+        this.graduationYear = ''
       }
     }
   }

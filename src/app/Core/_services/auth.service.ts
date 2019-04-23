@@ -110,16 +110,13 @@ export class AuthService {
 
                 localStorage.setItem('OktaUser', JSON.stringify(user))
 
-                this.messageService.initChatkit(user._embedded.user.id)
+                return this.messageService.initChatkit(user._embedded.user.id)
                 .then(chatkitUser => {
 
                   this.currentUser = chatkitUser
 
-                  this.router.navigate(['/home'])
-
+                  return chatkitUser
               })
-
-                return user
             })
         }
     // ─────────────────────────────────────────────────────────────────

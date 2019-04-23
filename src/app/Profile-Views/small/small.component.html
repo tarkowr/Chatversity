@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div id="profileModal" class="modal hide fade col-10 offset-1 col-md-6 offset-md-3" tabindex="-1"
+<div *ngIf="user && bio && graduationYear" id="profileModal" class="modal hide fade col-10 offset-1 col-md-6 offset-md-3" tabindex="-1"
   role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content text-center">
