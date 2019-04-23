@@ -66,9 +66,7 @@ export class SearchBarComponent implements OnInit {
   //
 
   getUsersByName(_name: string) {
-    _name = _name.toLowerCase()
-    this.userResults = this.users.filter(c =>
-      c.name.toLowerCase().includes(_name))
+    this.userResults = this.search(_name, this.users)
   }
   // ────────────────────────────────────────────────────────────────────────────────
 
@@ -77,11 +75,20 @@ export class SearchBarComponent implements OnInit {
   //
 
   getRoomsByName(_name: string) {
-    _name = _name.toLowerCase()
-    this.roomResults = this.rooms.filter(r =>
-      r.name.includes(_name)).slice(0, 5)
+     this.roomResults = this.search(_name, this.rooms)
   }
   // ────────────────────────────────────────────────────────────────────────────────
+
+  //
+  // ─── HELPER SEARCH METHOD ─────────────────────────────────────────────────────────────
+  //
+  search(_query: string, _data: any) {
+    const _length = _query.length
+    _query = _query.toLowerCase()
+
+    return _data.filter(d =>
+      d.name.toLowerCase().substring(0, _length).includes(_query)).splice(0, 5)
+  }
 
   //
   // ─── HANDLE SEARCH ─────────────────────────────────────────────────────────────
@@ -116,9 +123,9 @@ export class SearchBarComponent implements OnInit {
   //
 
   setUser(_user: any) {
-    console.log(_user)
     this.user = _user
   }
+  
 // ─────────────────────────────────────────────────────────────────
 
   ngOnInit() {

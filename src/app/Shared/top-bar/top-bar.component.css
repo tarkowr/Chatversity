@@ -5,6 +5,11 @@
     color: #94B0C0;
     top:0;
     position: sticky;
+    height: 70px;
+}
+
+#messages_header i {
+    font-size: 1.3em;
 }
 
 #header-text{
