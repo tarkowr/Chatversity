@@ -292,8 +292,8 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       console.log(this.formImport)
       console.log(this.finalRoomData)
 
-      this.pond.processFile().then((fileId) => {
-        console.log(fileId)
+      this.pond.processFile().then((file) => {
+        console.log(file)
 
         const roomName = this.formImport.value.roomNameGroup.roomName
         let roomAvatar = ''
@@ -367,14 +367,16 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
     this.authService.getCurrentUser().subscribe((user) => {
       this.currentUser = user
-      if (!user.rooms) { return }
-      
-      this.rooms = user.rooms
-      this.current_room = this.messageService.getLatestRoom(user)
-      this.joinRoom(this.current_room.id)
-      this.messageService.messages.subscribe((message) => {
-        this.room_messages.push(message)
-      })
+
+      if (user.rooms.length) {
+
+        this.rooms = user.rooms
+        this.current_room = this.messageService.getLatestRoom(user)
+        this.joinRoom(this.current_room.id)
+        this.messageService.messages.subscribe((message) => {
+          this.room_messages.push(message)
+        })
+      }
 
       this.pondOptions = {
         fileRenameFunction: (file) => {
