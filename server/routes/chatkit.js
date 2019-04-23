@@ -257,8 +257,8 @@ router.post('/upload/avatar', type, (req, res) => {
       name: req.body.name,
       customData: req.body.custom_data,
     })
-      .then(() => {
-        res.status(200).json('{ }');
+      .then((user) => {
+        res.status(200).json(user);
         console.log('User created successfully');
       }).catch((err) => {
         console.log(err);
