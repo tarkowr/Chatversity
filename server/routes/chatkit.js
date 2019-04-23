@@ -202,7 +202,7 @@ router.get('/users', (req, res) => {
 //
 
 router.get('/rooms', (req, res) => {
-  chatkit.getRooms()
+  chatkit.getRooms({})
   .then((rooms) => {
     res.status(200).json(rooms)
   }).catch((err) => {

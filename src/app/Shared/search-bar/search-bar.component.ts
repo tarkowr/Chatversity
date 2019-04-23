@@ -3,6 +3,7 @@ import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angula
 import { UserService } from '../../Core/_services/user.service'
 import { MessagingService } from '../../Core/_services/messaging.service'
 import { AuthService } from '../../Core/_services/auth.service'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-search-bar',
@@ -28,7 +29,7 @@ export class SearchBarComponent implements OnInit {
   selectedRoom: any
 
   constructor(private formBuilder: FormBuilder, private _userService: UserService, private _msgService: MessagingService,
-    private authService: AuthService) { }
+    private authService: AuthService, private router: Router) { }
 
   //
   // ─── CONVENIENCE GETTER FOR EASY ACCESS TO FORM FIELDS ──────────────────────────
@@ -86,6 +87,7 @@ export class SearchBarComponent implements OnInit {
   //
   // ─── HELPER SEARCH METHOD ─────────────────────────────────────────────────────────────
   //
+
   search(_query: string, _data: any) {
     const _length = _query.length
     _query = _query.toLowerCase()
@@ -129,23 +131,34 @@ export class SearchBarComponent implements OnInit {
   setUser(_user: any) {
     this.selectedUser = _user
   }
+  // ─────────────────────────────────────────────────────────────────
+
+  //
+  // ─── HANDLE CLICK ROOM BUTTON ───────────────────────────────────────────────────
+  //
 
   setRoom(_room: any) {
     this.selectedRoom = _room
   }
+  // ─────────────────────────────────────────────────────────────────
+
+  //
+  // ─── HANDLE CLICK ROOM BUTTON ───────────────────────────────────────────────────
+  //
 
   getUserActivityStatus(_id: any) {
     return (this.currUser.presenceStore[_id] === 'online') ? true : false
   }
-
-// ─────────────────────────────────────────────────────────────────
+  // ─────────────────────────────────────────────────────────────────
 
   ngOnInit() {
+    // Get current user
     this.authService.getCurrentUser().subscribe(
       (user) => {
         this.currUser = user
         console.log('CHATKIT USER:', this.currUser)
 
+        // Get all users
         if (this.userType) {
           this._userService.getAll()
           .toPromise()
@@ -158,6 +171,7 @@ export class SearchBarComponent implements OnInit {
           })
         }
 
+        // Get all rooms
         if (this.roomType) {
           this._msgService.getAllRooms()
           .toPromise()
@@ -171,14 +185,10 @@ export class SearchBarComponent implements OnInit {
         }
      })
 
-    //
-    // ─── SETUP SEARCH BOX ────────────────────────────────────────────
-    //
-
+    // Setup search box
     this.searchForm = this.formBuilder.group({
       search: ['', Validators.required]
     })
-  // ─────────────────────────────────────────────────────────────────
   }
 
 }

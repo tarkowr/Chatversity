@@ -6,6 +6,7 @@ import { UserService } from '../../Core/_services/user.service'
 import { MessagingService } from '../../Core/_services/messaging.service'
 import { AppComponent } from '../../app.component'
 import { AuthService } from '../../Core/_services/auth.service'
+import { View } from '../../Core/_models/view'
 
 @Component({
   selector: 'app-view-friends-home',
@@ -23,6 +24,13 @@ export class ViewFriendsHomeComponent implements OnInit {
 
   currentUser: any
   onlineUsers: any
+
+  AllView: View = { id: 1, name: 'All', current: false }
+  OnlineView: View = { id: 2, name: 'Online', current: false }
+  PendingView: View = { id: 3, name: 'Pending', current: false }
+  SearchView: View = { id: 4, name: 'Search', current: false }
+
+  views: View[] = [this.AllView, this.OnlineView, this.PendingView, this.SearchView]
 
   //
   // ─── CONSTRUCTOR ────────────────────────────────────────────────────────────────
@@ -43,7 +51,6 @@ export class ViewFriendsHomeComponent implements OnInit {
     addConnection() {
       const userId = '00udacjrnsj15ezNA356'
       this._userService.inviteConnection(userId).toPromise().then((user) => {
-
         console.log(user)
       })
 
@@ -77,9 +84,9 @@ export class ViewFriendsHomeComponent implements OnInit {
   // ─── RETURN USER FROM FRIEND LIST ───────────────────────────────────────────────
   //
 
-    getUser(_id: number): any {
-      return this.connections.find(c => c.id === _id)
-    }
+  getUser(_id: number): any {
+    return this.connections.find(c => c.id === _id)
+  }
   // ────────────────────────────────────────────────────────────────────────────────
 
 
@@ -87,10 +94,10 @@ export class ViewFriendsHomeComponent implements OnInit {
   // ─── SORT CONNECTIONS LIST ──────────────────────────────────────────────────────
   //
 
-    sortList(users: any) {
-      return  users.sort((a, b) => ((a.firstName.toLowerCase() + ' ' + a.lastName.toLowerCase())
-      > (b.firstName.toLowerCase() + ' ' + b.lastName.toLowerCase()) ? 1 : -1))
-    }
+  sortList(users: any) {
+    return  users.sort((a, b) => ((a.firstName.toLowerCase() + ' ' + a.lastName.toLowerCase())
+    > (b.firstName.toLowerCase() + ' ' + b.lastName.toLowerCase()) ? 1 : -1))
+  }
   // ────────────────────────────────────────────────────────────────────────────────
 
 
@@ -98,34 +105,40 @@ export class ViewFriendsHomeComponent implements OnInit {
   // ─── CHECK IF USERS ARE FRIENDS ─────────────────────────────────────────────────
   //
 
-    isConnected(_id: number) {
-      // Get current user data
+  isConnected(_id: number) {
+    // Get current user data
 
-      // Check if this user is on the other user's connections list
+    // Check if this user is on the other user's connections list
 
-      // Toggle isConnection variable
+    // Toggle isConnection variable
 
-      return
-    }
+    return
+  }
   // ─────────────────────────────────────────────────────────────────
 
-  
   //
-  // ─── HANDLE CLICK USER BUTTON ───────────────────────────────────────────────────
+  // ─── SET ALL VIEW CURRENT ATTRIBUTE TO FALSE ─────────────────────────────────────────────────
   //
 
-  setUser(_id: number) {
-
+  setViewsToFalse() {
+    this.views.forEach(function(view) {
+      view.current = false
+    })
   }
-// ─────────────────────────────────────────────────────────────────
+  // ─────────────────────────────────────────────────────────────────
 
   //
-  // ─── HANDLE SEARCH ─────────────────────────────────────────────────────────────
+  // ─── SET CLICKED VIEW TO TRUE ─────────────────────────────────────────────────
   //
 
+  setView(_view: View) {
+    this.setViewsToFalse()
+    _view.current = true
+  }
+  // ─────────────────────────────────────────────────────────────────
 
   ngOnInit() {
-
+    this.AllView.current = true
 
     this._msgService.getOnlineUsers().subscribe((userAndState) => {
       console.log(userAndState)
