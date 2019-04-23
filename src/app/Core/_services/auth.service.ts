@@ -128,6 +128,7 @@ export class AuthService {
     //
 
         logout() {
+            this.messageService.disconnect()
             localStorage.clear()
             this.router.navigate(['/login'])
             console.clear()

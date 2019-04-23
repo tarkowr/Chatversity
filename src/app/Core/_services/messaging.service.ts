@@ -251,6 +251,10 @@ export class MessagingService {
 
 
 
+  disconnect() {
+    this.currentUser.disconnect()
+  }
+
 
   subscribeToAllRooms() {
 
@@ -320,7 +324,9 @@ export class MessagingService {
         localStorage.setItem('chatkitUserId', user.id)
 
         // If user has no rooms then return
-        if (user.rooms.length) { 
+        if (user.rooms.length) {
+           console.log('subscribing to all rooms')
+           
           // Subscribe to all user rooms to be notified of new messages
           this.subscribeToAllRooms()
 

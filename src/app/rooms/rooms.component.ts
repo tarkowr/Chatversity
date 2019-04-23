@@ -373,9 +373,9 @@ export class RoomsComponent implements OnInit, AfterViewInit {
         this.rooms = user.rooms
         this.current_room = this.messageService.getLatestRoom(user)
         this.joinRoom(this.current_room.id)
-        this.messageService.messages.subscribe((message) => {
-          this.room_messages.push(message)
-        })
+        // this.messageService.messages.subscribe((message) => {
+        //   this.room_messages.push(message)
+        // })
       }
 
       this.pondOptions = {
