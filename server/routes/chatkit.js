@@ -38,13 +38,48 @@ router.get('/', (req, res) => {
     instanceLocator: 'v1:us1:a54bdf12-93d6-46f9-be3b-bfa837917fb5',
     key: '9d72d14f-ca75-4f3e-b7ff-553ca6cc929a:LQKR0oU5u56yMIFtEBqLECL0vhNRXllLNvgtXTLOeh0=',
   });
+
 // ────────────────────────────────────────────────────────────────────────────────
 
 
 
-  //
-  // ─── GET READ CURSORS FOR USER ──────────────────────────────────────────────────
-  //
+//
+// ─── HANDLE SEND CONNECTION REQUEST TO ANOTHER USER ─────────────────────────────
+//
+
+  router.post('/invite', (req, res) => {
+    console.log(req.body)
+    // get the requested user...
+    chatkit.getUser({
+      id: req.body.userId,
+    })
+      .then((user) => { // then send the connection request => store in custom data
+        // chatkit.updateUser({
+        //   id: req.params.id,
+        //   name: name,
+        //   customData: req.body,
+        // })
+        //   .then(() => {
+        //     console.log('Invite sent!')
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //   });
+        res.status(200).json(user)
+        console.log(user)
+    })
+      .catch((err) => {
+        console.log(err)
+      })
+  })
+
+// ────────────────────────────────────────────────────────────────────────────────
+
+
+
+//
+// ─── GET READ CURSORS FOR USER ──────────────────────────────────────────────────
+//
   router.get('/getReadCursorsForUser/:id', (req, res) => {
 
     chatkit.getReadCursorsForUser({
@@ -57,9 +92,7 @@ router.get('/', (req, res) => {
       })
       .catch(err => console.error(err))
   })
-  // ────────────────────────────────────────────────────────────────────────────────
-
-  
+// ────────────────────────────────────────────────────────────────────────────────
 
 
 

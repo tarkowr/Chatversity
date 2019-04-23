@@ -35,6 +35,24 @@ export class UserService {
 
 
 
+    //
+    // ─── SEND AN INVITE TO THE REQUESTED USER ───────────────────────────────────────
+    //
+
+        inviteConnection(userId) {
+            const headers = new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            })
+
+            const data = JSON.stringify({ 'userId': `${userId}` })
+
+            return this.http.post(`${environment.apiUrl}/chatkit/invite/`, data, {headers: headers})
+        }
+    // ────────────────────────────────────────────────────────────────────────────────
+
+
+
     getAll() {
         const headers = new HttpHeaders({
             'Content-Type': 'application/json',

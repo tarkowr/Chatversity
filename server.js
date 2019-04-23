@@ -67,21 +67,20 @@ app.use('/chatkit', chatkit)
 // ─── CREATE MULTER INSTANCE ─────────────────────────────────────────────────────
 //  
 
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, `./src/assets/${req.file.fieldname}`) // Set upload location
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-  }
-})
+  var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, `./src/assets/${req.file.fieldname}`) // Set upload location
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    }
+  })
 
-var upload = multer({
-  storage: storage
-})
+  var upload = multer({
+    storage: storage
+  })
 
 // ────────────────────────────────────────────────────────────────────────────────
-
 
 
 
@@ -181,38 +180,38 @@ var upload = multer({
 // ─── UPLOAD ROOM AVATAR ─────────────────────────────────────────────────────────
 //
 
-app.post('/rooms/avatar', (req, res) => {
+  app.post('/rooms/avatar', (req, res) => {
 
 
-  // avatar should already exist in temo folder => move to permanent storage
+    // avatar should already exist in temo folder => move to permanent storage
 
-  var form = new formidable.IncomingForm()
+    var form = new formidable.IncomingForm()
 
-  form.keepExtensions = true
-  form.uploadDir = './src/assets/rooms'
+    form.keepExtensions = true
+    form.uploadDir = './src/assets/rooms'
 
-  form.parse(req, function(err, fields, files) {
-    res.status(200).json(files)
-    // res.end(util.inspect({fields: fields, files: files}));
+    form.parse(req, function(err, fields, files) {
+      res.status(200).json(files)
+      // res.end(util.inspect({fields: fields, files: files}));
+    });
+
+
+      // // form.encoding = 'utf-8'
+      // form.uploadDir = `./src/assets/avatars/`
+      // form.keepExtensions = true
+
+      // form.parse(req)
+
+      // form.on('fileBegin', function (name, file){
+      //     file.path = './src/assets/avatars/' + file.name;
+      // });
+
+      // form.on('file', function (name, file){
+      //     console.log('Uploaded ' + file.name);
+      // });
+
+      // res.status(200).json(req.file);
   });
-
-
-    // // form.encoding = 'utf-8'
-    // form.uploadDir = `./src/assets/avatars/`
-    // form.keepExtensions = true
-
-    // form.parse(req)
-
-    // form.on('fileBegin', function (name, file){
-    //     file.path = './src/assets/avatars/' + file.name;
-    // });
-
-    // form.on('file', function (name, file){
-    //     console.log('Uploaded ' + file.name);
-    // });
-
-    // res.status(200).json(req.file);
-});
 // ────────────────────────────────────────────────────────────────────────────────
 
 
@@ -221,10 +220,11 @@ app.post('/rooms/avatar', (req, res) => {
 // ─── GET ROOM AVATAR ────────────────────────────────────────────────────────────
 //
 
-app.get("/rooms/:id/avatar", (req, res) => {
-  res.sendFile(path.join(__dirname, `./uploads/${req.params.id}-avatar`));
-  // ? path.resolve
-});
+  app.get("/rooms/:id/avatar", (req, res) => {
+    res.sendFile(path.join(__dirname, `./uploads/${req.params.id}-avatar`));
+    // ? path.resolve
+  });
+// ────────────────────────────────────────────────────────────────────────────────
 
 
 
@@ -232,30 +232,30 @@ app.get("/rooms/:id/avatar", (req, res) => {
 // ─── FIND UNIVERSITY ────────────────────────────────────────────────────────────
 //
 
-app.get("/university/:query", (req,res) => {
+  app.get("/university/:query", (req,res) => {
 
-  // Get the user query from request body
-  var query = req.params.query;
+    // Get the user query from request body
+    var query = req.params.query;
 
-  // Get the web domain from the user query (username / email)
-  var domainToFind = query.replace(/.*@/, "")
+    // Get the web domain from the user query (username / email)
+    var domainToFind = query.replace(/.*@/, "")
 
-  // Filter for university in JSON list
-  var found = universities.find(university => {
-    return university.domains.some((domain) => {
-      return (domain === domainToFind)
+    // Filter for university in JSON list
+    var found = universities.find(university => {
+      return university.domains.some((domain) => {
+        return (domain === domainToFind)
+      });
     });
-  });
-// http.post(`${environment.apiUrl}/okta/forgot`)
-  res.status(200).json(found);
-  // res.status(200).json(req.params.query);
-//   res.status(200).json({
-//     universities: universities
-//  });
-  // TODO: Search JSON file and return university if query matched
+  // http.post(`${environment.apiUrl}/okta/forgot`)
+    res.status(200).json(found);
+    // res.status(200).json(req.params.query);
+  //   res.status(200).json({
+  //     universities: universities
+  //  });
+    // TODO: Search JSON file and return university if query matched
 
-  // console.log(req.params.query);
-});
+    // console.log(req.params.query);
+  });
 
 // ────────────────────────────────────────────────────────────────────────────────
 
@@ -265,20 +265,20 @@ app.get("/university/:query", (req,res) => {
 // ─── FIND UNIVERSITY ────────────────────────────────────────────────────────────
 //
 
-app.get("/university/name/:query", (req,res) => {
+  app.get("/university/name/:query", (req,res) => {
 
-  // Get the user query from request body
-  var query = req.params.query;
+    // Get the user query from request body
+    var query = req.params.query;
 
-  // Filter for university in JSON list
-  var found = universities.find(university => {
-    return university.name === query;
-  });
+    // Filter for university in JSON list
+    var found = universities.find(university => {
+      return university.name === query;
+    });
 
-  res.status(200).json(found);
+    res.status(200).json(found);
 
-  // console.log(req.params.query);
-})
+    // console.log(req.params.query);
+  })
 
 // ────────────────────────────────────────────────────────────────────────────────
 
