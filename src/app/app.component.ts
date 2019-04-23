@@ -62,12 +62,13 @@ export class AppComponent implements OnInit {
 
     this.authService.getCurrentUser().subscribe((user) => {
 
-      if (user) { this.currentUser = user; return } else {
-        this.messageService.initChatkit(this.authService.getUserId())
-      }
+      this.currentUser = user
+      // if (user) { this.currentUser = user; return } else {
+      //   this.messageService.initChatkit(this.authService.getUserId())
+      // }
 
-      console.log(user);
-    });
+      console.log(user)
+    })
 
   //   this.messageService.initChatkit(this.authService.getUserId())
   //   .then(chatkitUser => {
