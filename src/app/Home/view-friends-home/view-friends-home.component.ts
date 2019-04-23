@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment.prod';
-import { UserService } from '../../Core/_services/user.service';
-import { MessagingService } from '../../Core/_services/messaging.service';
-import { AppComponent } from '../../app.component';
-import { AuthService } from '../../Core/_services/auth.service';
+import { Component, OnInit } from '@angular/core'
+import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
+import { HttpClient } from '@angular/common/http'
+import { environment } from '../../../environments/environment.prod'
+import { UserService } from '../../Core/_services/user.service'
+import { MessagingService } from '../../Core/_services/messaging.service'
+import { AppComponent } from '../../app.component'
+import { AuthService } from '../../Core/_services/auth.service'
 
 @Component({
   selector: 'app-view-friends-home',
@@ -14,16 +14,17 @@ import { AuthService } from '../../Core/_services/auth.service';
 })
 export class ViewFriendsHomeComponent implements OnInit {
 
-  connections: any;
-  currUser: any;
-  appUser: any;
+  connections: any
+  currUser: any
 
   // Field for connection
-  connectionToAdd = new FormControl('');
-  subscription: any;
-  rooms: any;
+  connectionToAdd = new FormControl('')
+  subscription: any
+  rooms: any
 
-  currentUser: any;
+  currentUser: any
+
+  onlineUsers: any
 
   //
   // ─── CONSTRUCTOR ────────────────────────────────────────────────────────────────
@@ -127,7 +128,10 @@ export class ViewFriendsHomeComponent implements OnInit {
 
   ngOnInit() {
 
-    console.log(this.currentUser)
+
+    this._msgService.getOnlineUsers().subscribe((userAndState) => {
+      console.log(userAndState)
+    })
 
     this.authService.getCurrentUser().subscribe((user) => {
       this.currentUser = user
