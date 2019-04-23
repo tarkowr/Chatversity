@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 
-@import url('https://fonts.googleapis.com/css?family=Poppins:400,500');
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,300,400,500');
 
 /*Variable Overrides*/
 $theme-colors: (
@@ -12,18 +12,23 @@ $theme-colors: (
   "lighter":#F1F8FC,
   "lightest": #fafdff,
   "light-gray": #DAE6ED,
-  "danger": #ff4136
+  "danger": #ff4136,
+  "info": #FF247F,
+  "success": #00f437
 );
+
+$danger-lighten: #ffe7e5;
 
 @import '../node_modules/bootstrap/scss/bootstrap.scss';
 
 html, body {
     font-size: 16px; // Base font size
-    font-family: "Poppins", "Nunito", "Proxima Nova", sans-serif;
+    // font-family: "Poppins", "Nunito", "Proxima Nova", sans-serif;
     height: 100vh;    // Cover Full Screen
     width: 100%;     // Cover Full Screen
     scroll-behavior: smooth;
 }
+
 
 body{
   overflow-x: hidden;
@@ -33,6 +38,10 @@ app-messages, app-rooms {
     width: calc(100vw - 88px);
     height: 100%;
     background-color:#DAE6ED;
+}
+
+.text-secondary-light{
+  color: #186fa0;
 }
 
 .text-strong{
@@ -46,8 +55,11 @@ app-messages, app-rooms {
 .app-main {
   display: flex;
   width: calc(100vw - 88px);
-  /*width: 100%;*/
   flex-direction: column;
+}
+
+.cursor-default {
+  cursor: default;
 }
 
 .custom-btn{
@@ -62,12 +74,7 @@ app-messages, app-rooms {
 }
 
 .page-content{
-  height: calc(100% - 57px);
-}
-@media (min-width: 768px){ 
-  .page-content{
-    height: calc(100% - 70px);
-  }
+  height: calc(100% - 70px);
 }
 
 .user-action-btn{
@@ -88,4 +95,9 @@ app-messages, app-rooms {
     text-decoration: underline;
     outline: none;
   }
+}
+
+.dropdown-menu .dropdown-item.dropdown-item-danger:hover {
+  background-color: $danger-lighten;
+  background-image: none;
 }

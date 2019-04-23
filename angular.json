@@ -31,7 +31,9 @@
               "src/manifest.json"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles-app-loading.scss",
+              "src/styles.scss",
+              "./node_modules/filepond/dist/filepond.min.css"
             ],
             "scripts": []
           },

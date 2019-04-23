@@ -38,6 +38,60 @@ router.get('/', (req, res) => {
     instanceLocator: 'v1:us1:a54bdf12-93d6-46f9-be3b-bfa837917fb5',
     key: '9d72d14f-ca75-4f3e-b7ff-553ca6cc929a:LQKR0oU5u56yMIFtEBqLECL0vhNRXllLNvgtXTLOeh0=',
   });
+
+// ────────────────────────────────────────────────────────────────────────────────
+
+
+
+//
+// ─── HANDLE SEND CONNECTION REQUEST TO ANOTHER USER ─────────────────────────────
+//
+
+  router.post('/invite', (req, res) => {
+    console.log(req.body)
+    // get the requested user...
+    chatkit.getUser({
+      id: req.body.userId,
+    })
+      .then((user) => { // then send the connection request => store in custom data
+        // chatkit.updateUser({
+        //   id: req.params.id,
+        //   name: name,
+        //   customData: req.body,
+        // })
+        //   .then(() => {
+        //     console.log('Invite sent!')
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+        //   });
+        res.status(200).json(user)
+        console.log(user)
+    })
+      .catch((err) => {
+        console.log(err)
+      })
+  })
+
+// ────────────────────────────────────────────────────────────────────────────────
+
+
+
+//
+// ─── GET READ CURSORS FOR USER ──────────────────────────────────────────────────
+//
+  router.get('/getReadCursorsForUser/:id', (req, res) => {
+
+    chatkit.getReadCursorsForUser({
+        userId: req.params.id,
+      })
+      .then(cursors => {
+        res.status(200).json(cursors);
+        console.log(cursors);
+        console.log('got cursors', cursors)
+      })
+      .catch(err => console.error(err))
+  })
 // ────────────────────────────────────────────────────────────────────────────────
 
 
@@ -69,13 +123,7 @@ router.get('/', (req, res) => {
 // ─── UPDATE USER ────────────────────────────────────────────────────────────────
 // 
 
-  // TODO: Richie add update user here 
   router.post('/user/:id', (req, res) => {
-    // console.log(req.body)
-    // console.log(req)
-    // console.log(req.body);
-
-    
     console.log(req.body);
 
     let name = req.body.name;
@@ -87,26 +135,20 @@ router.get('/', (req, res) => {
       name: name,
       customData: req.body,
     }).then(() => {
+
+      // console.log('User updated successfully');
+
       chatkit.getUser({
         id: req.params.id,
       })
       .then((user) => {
-        console.log(user)
+        console.log('UPDATED USER:', user)
+        res.status(200).json(user) // Return the updated user
       })
-      console.log('User updated successfully');
+
     }).catch((err) => {
       console.log(err);
     });
-    // .then(() => {
-    //   res.status(200).send('Success!')
-    //   console.log(`User updated successfuly!`)
-      
-    // })
-    // .catch((err) => {
-    //   res.status(500)
-    //   console.log(err)
-    // })
-    
   });
 // ────────────────────────────────────────────────────────────────────────────────
 
@@ -139,6 +181,34 @@ router.get('/', (req, res) => {
     .then(user => res.status(200).json(user))
     .catch(error => res.status(500).send(error))
   })
+// ────────────────────────────────────────────────────────────────────────────────
+
+//
+// ─── GET ALL USERS ─────────────────────────────────────────────────────────────
+//
+
+router.get('/users', (req, res) => {
+  chatkit.getUsers()
+  .then((users) => {
+    res.status(200).json(users)
+  }).catch((err) => {
+    console.log(err);
+  });
+})
+// ────────────────────────────────────────────────────────────────────────────────
+
+//
+// ─── GET ALL ROOMS ─────────────────────────────────────────────────────────────
+//
+
+router.get('/rooms', (req, res) => {
+  chatkit.getRooms({})
+  .then((rooms) => {
+    res.status(200).json(rooms)
+  }).catch((err) => {
+    console.log(err);
+  });
+})
 // ────────────────────────────────────────────────────────────────────────────────
 
 
@@ -180,20 +250,20 @@ router.post('/upload/avatar', type, (req, res) => {
   // ─── CREATE USER ────────────────────────────────────────────────────────────────
   //
 
-    router.post('/createuser', (req, res) => {
-      console.log(req.body)
-      chatkit.createUser({
-        id: req.body.id,
-        name: req.body.name,
-        customData: req.body.custom_data,
-      })
-        .then(() => {
-          res.status(200).json('{ }');
-          console.log('User created successfully');
-        }).catch((err) => {
-          console.log(err);
-        });
+  router.post('/createuser', (req, res) => {
+    console.log(req.body)
+    chatkit.createUser({
+      id: req.body.id,
+      name: req.body.name,
+      customData: req.body.custom_data,
     })
+      .then((user) => {
+        res.status(200).json(user);
+        console.log('User created successfully');
+      }).catch((err) => {
+        console.log(err);
+      });
+  })
   // ────────────────────────────────────────────────────────────────────────────────
 
 
@@ -213,8 +283,7 @@ router.post('/GetUserRooms', async (req, res) => {
 // Get Chatkit User
 // TODO: Update to dynamically pull url from config
 router.post('/createtoken', (req, res) => {
-    console.log("Chatkit req: ");
-    console.log(req);
+    console.log('CHATKIT REQUEST:', req);
     axios.post(`${process.env.CHATKIT_TEST_TOKEN_ENDPOINT}/token`, {
         "grant_type": "client_credentials",
         "user_id": req.body.user_id
