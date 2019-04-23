@@ -75,7 +75,7 @@
                         data-toggle="modal" data-target="#profileModal"
                         [ngClass]="message.senderId == currentUser.id ? 'text-secondary-light' : 'text-secondary'"
                         style="font-weight:500">
-                        {{ current_room.userStore.users[message.senderId].name }}
+                        {{ message.sender.name }}
                       </span>
                       <small class="text-muted pl-1" style="font-size:12px;">
                         <span *ngIf="MessageSentToday(message.createdAt);else full_date">Today at

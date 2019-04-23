@@ -32,6 +32,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   roomNotifications: Array<any> = []
   room_messages: Array<any> = []
   url: string
+  isConnection = false
 
   // TODO: Can probably remove these props
   _roomPrivate = ''
