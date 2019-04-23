@@ -19,7 +19,7 @@
       Password</button>
 
     <!-- PASSWORD FORM -->
-    <form [formGroup]="changePassForm" id="changePasswordForm" class="collapse pt-4 col-12 col-md-8">
+    <form [formGroup]="changePassForm" id="changePasswordForm" class="collapse pt-4 col-12 col-md-6">
       <!-- old password -->
       <div class="form-group">
         <input formControlName="oldPassword" class="form-control" type="password" name="oldPassword" id="oldPassword" placeholder="Old Password">
@@ -37,7 +37,7 @@
          
         
       </div>
-      <button type="submit" class="btn btn-secondary text-uppercase px-4">submit</button>
+      <button type="submit" class="btn btn-secondary text-uppercase px-4"(click)="onSubmit()">submit</button>
     </form>
     <hr />
   </div>

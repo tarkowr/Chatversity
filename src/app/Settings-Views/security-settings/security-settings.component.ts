@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-
+import { CustomFormValidation } from '../../Core/_models/form-validation';
 
 
 @Component({
@@ -10,6 +10,7 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 })
 export class SecuritySettingsComponent implements OnInit {
 
+  formValidation = new CustomFormValidation;
   oldPassword = new FormControl('')
   changePassForm: FormGroup;
   samePassword: boolean;
@@ -18,26 +19,34 @@ export class SecuritySettingsComponent implements OnInit {
 
   onChanges() {
     this.changePassForm.valueChanges.subscribe(val => {
-      
-      if (val.oldPassword === val.newPassword){
+
+      if (val.oldPassword === val.newPassword) {
         this.samePassword = true
       }
-      else{
+      else {
         this.samePassword = false
       }
-      
+
       if (val.newPassword === val.confirmPassword) {
         this.passwordsMatch = true
       } else {
         this.passwordsMatch = false
       }
     })
-  }
+}
 
+  onSubmit(){
+    if (this.changePassForm.invalid) {
+      return;
+    }
+    console.log("hi")
+  }
   ngOnInit() {
     this.changePassForm = this.formBuilder.group({
-      oldPassword: new FormControl ([''], Validators.required),
-      newPassword: new FormControl([''], Validators.required),
+      oldPassword: new FormControl([''], Validators.required),
+      newPassword: new FormControl([''], Validators.compose([
+        Validators.required, Validators.pattern(this.formValidation.passwordValidation)
+      ])),
       confirmPassword: new FormControl([''], Validators.required),
     })
 
