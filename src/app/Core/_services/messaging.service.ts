@@ -266,6 +266,15 @@ export class MessagingService {
     })
   }
 
+  getAllRooms() {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    })
+
+    return this.http.get<any[]>(`${environment.apiUrl}/chatkit/rooms`)
+  }
+
 
 
   initChatkit(userId) {
