@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 
-@import url('https://fonts.googleapis.com/css?family=Poppins:400,500');
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,300,400,500');
 
 /*Variable Overrides*/
 $theme-colors: (
@@ -28,6 +28,7 @@ html, body {
     width: 100%;     // Cover Full Screen
     scroll-behavior: smooth;
 }
+
 
 body{
   overflow-x: hidden;
