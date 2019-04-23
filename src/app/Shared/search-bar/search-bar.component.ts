@@ -134,8 +134,8 @@ export class SearchBarComponent implements OnInit {
     this.selectedRoom = _room
   }
 
-  getUserActivityStatus(_user: any) {
-    return false
+  getUserActivityStatus(_id: any) {
+    return (this.currUser.presenceStore[_id] === 'online') ? true : false
   }
 
 // ─────────────────────────────────────────────────────────────────
@@ -150,28 +150,26 @@ export class SearchBarComponent implements OnInit {
           this._userService.getAll()
           .toPromise()
           .then((data) => {
-            console.log('RESPONSE:', data)
+            console.log('RESPONSE USER:', data)
             this.users = data
           })
           .catch((error) => {
             console.log(error)
           })
         }
-        
-      if (this.roomType) {
-        this._msgService.getAllRooms()
-        .toPromise()
-        .then((data) => {
-          // console.log('RESPONSE:', data)
-          this.rooms = data
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-      }
-     }
-    )
 
+        if (this.roomType) {
+          this._msgService.getAllRooms()
+          .toPromise()
+          .then((data) => {
+            console.log('RESPONSE ROOM:', data)
+            this.rooms = data
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+        }
+     })
 
     //
     // ─── SETUP SEARCH BOX ────────────────────────────────────────────

@@ -15,7 +15,6 @@ import { AuthService } from '../../Core/_services/auth.service'
 export class ViewFriendsHomeComponent implements OnInit {
 
   connections: any
-  currUser: any
 
   // Field for connection
   connectionToAdd = new FormControl('')
@@ -23,7 +22,6 @@ export class ViewFriendsHomeComponent implements OnInit {
   rooms: any
 
   currentUser: any
-
   onlineUsers: any
 
   //
@@ -49,12 +47,12 @@ export class ViewFriendsHomeComponent implements OnInit {
         console.log(user)
       })
 
-      // console.log(this.connectionToAdd.value);
+      // console.log(this.connectionToAdd.value)
       // // Get okta user by login (email)
       // this.http.get(`${environment.apiUrl}/okta/GetUserByLogin/${this.connectionToAdd.value}` )
       // .toPromise()
       // .then((oktaUser) => {
-      //   console.log(oktaUser);
+      //   console.log(oktaUser)
       //   // Get the user from Chatkit by matching the IDs
       //   this.http.get(`${environment.apiUrl}/chatkit/GetUserById/${oktaUser['id']}`)
       //   .toPromise()
@@ -64,12 +62,12 @@ export class ViewFriendsHomeComponent implements OnInit {
 
       //   })
       //   .catch((error) => {
-      //     console.log('Chatkit user not found!');
-      //   });
+      //     console.log('Chatkit user not found!')
+      //   })
       // })
       // .catch((error) => {
-      //   console.log('Okta user not found!');
-      // });
+      //   console.log('Okta user not found!')
+      // })
     }
   // ─────────────────────────────────────────────────────────────────
 
