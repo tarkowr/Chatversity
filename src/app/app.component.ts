@@ -54,11 +54,9 @@ export class AppComponent implements OnInit {
     }
   // ! ────────────────────────────────────────────────────────────────────────────────
 
-
-
   ngOnInit() {
     console.log('%cWelcome to Chatversity!', 'font-size: 20px; color: #186fa0;')
-    console.log('Initializing app')
+    console.log('Initializing app...')
 
     this.authService.getCurrentUser().subscribe((user) => {
 
@@ -67,7 +65,7 @@ export class AppComponent implements OnInit {
       //   this.messageService.initChatkit(this.authService.getUserId())
       // }
 
-      console.log(user)
+      console.log('OKTA USER: ', user)
     })
 
   //   this.messageService.initChatkit(this.authService.getUserId())
