@@ -117,6 +117,15 @@ export class ViewFriendsHomeComponent implements OnInit {
   // ─────────────────────────────────────────────────────────────────
 
   //
+  // ─── CHECKS IF USER IS ONLINE ───────────────────────────────────────────────────
+  //
+
+  isUserOnline(_id: any) {
+    return (this.currentUser.presenceStore[_id] === 'online') ? true : false
+  }
+  // ─────────────────────────────────────────────────────────────────
+
+  //
   // ─── SET ALL VIEW CURRENT ATTRIBUTE TO FALSE ─────────────────────────────────────────────────
   //
 

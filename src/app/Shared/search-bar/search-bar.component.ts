@@ -143,11 +143,20 @@ export class SearchBarComponent implements OnInit {
   // ─────────────────────────────────────────────────────────────────
 
   //
-  // ─── HANDLE CLICK ROOM BUTTON ───────────────────────────────────────────────────
+  // ─── CHECKS IF USER IS ONLINE ───────────────────────────────────────────────────
+  //
+
+  isUserOnline(_id: any) {
+    return (this.currUser.presenceStore[_id] === 'online') ? true : false
+  }
+  // ─────────────────────────────────────────────────────────────────
+
+  //
+  // ─── RETURNS USER ACTIVITY STATUS ───────────────────────────────────────────────────
   //
 
   getUserActivityStatus(_id: any) {
-    return (this.currUser.presenceStore[_id] === 'online') ? true : false
+    return (this.currUser.presenceStore[_id] === 'online') ? 'Online' : 'Offline'
   }
   // ─────────────────────────────────────────────────────────────────
 

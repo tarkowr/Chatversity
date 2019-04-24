@@ -5,6 +5,13 @@
 }
 .user-card:hover{
     background-color: transparent;
-}.card-img{
+    border: 1px solid #b6bfc4;
+}
+.card-img{
     max-width: 40px;
+}
+.activity-status{
+    border: none;
+    padding: 0;
+    box-shadow: 0px 0px 3px #282828, 0px 0px 2px #282828 inset;
 }

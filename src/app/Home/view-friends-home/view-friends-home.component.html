@@ -39,15 +39,26 @@
           <div *ngFor="let c of connections" class="my-2">
               <button class="btn btn-block text-left px-3 py-2 user-card" data-toggle="modal" data-target="#profileModal"
               (click)="connection = c">
+                <span class="position-relative d-inline-block">
                   <img src="" onerror="this.src='../../assets/images/DefaultProfile.png'"
-                  class="circle img-fluid rounded-circle card-img" [ngClass]="{ 'border-online': c.active }"/> 
-      
-                  <span class="text-secondary ml-3">
-                    {{ c.name }}
-                    <small *ngIf="currentUser.presenceStore" class="text-muted pl-1" style="font-size:12px;">{{ currentUser.presenceStore[c.id] }}</small>
+                  class="circle img-fluid rounded-circle card-img"/>
+                  <span class="position-absolute" style="bottom:0; right: 0; transform: translate(0%, 20%);">
+                    <i class="fa fa-circle fa-xs rounded-circle activity-status" 
+                    [ngClass]="(isUserOnline(c.id)) ? 'text-success' : 'text-danger'"></i>
                   </span>
+                </span>
+      
+                <span class="text-secondary ml-3">
+                  {{ c.name }}
+                  <!--<small *ngIf="currentUser.presenceStore" class="text-muted pl-1" style="font-size:12px;">{{ currentUser.presenceStore[c.id] }}</small>-->
+                </span>
               </button>
             </div>
+        </ng-container>
+        <ng-container *ngIf="!connections">
+          <div class="ml-3">
+            <span class="text-light">You don't have any connections! Add your friends <a [routerLink]="['/search']">Here.</a></span> <br>
+          </div>
         </ng-container>
       </div>
     </div>
@@ -58,13 +69,20 @@
         <span class="sr-only">Online Connections</span>
         <div *ngFor="let c of connections" class="my-2">
           <button class="btn btn-block text-left px-3 py-2 user-card" data-toggle="modal" data-target="#profileModal"
-          *ngIf="currentUser.presenceStore[c.id] === 'online'" (click)="connection = c">
-              <img src="..." onerror="this.src='../../assets/images/DefaultProfile.png'"
-              class="circle img-fluid rounded-circle card-img" [ngClass]="{ 'border-online': c.active }"/> 
-              <span class="text-secondary ml-3">
-                  {{ c.name }}
-                  <small *ngIf="currentUser.presenceStore" class="text-muted pl-1" style="font-size:12px;">{{ currentUser.presenceStore[c.id] }}</small>
-                </span>
+          *ngIf="isUserOnline(c.id)" (click)="connection = c">
+            <span class="position-relative d-inline-block">
+              <img src="" onerror="this.src='../../assets/images/DefaultProfile.png'"
+              class="circle img-fluid rounded-circle card-img"/>
+              <span class="position-absolute" style="bottom:0; right: 0; transform: translate(0%, 20%);">
+                <i class="fa fa-circle fa-xs rounded-circle activity-status" 
+                [ngClass]="(isUserOnline(c.id)) ? 'text-success' : 'text-danger'"></i>
+              </span>
+            </span>
+
+            <span class="text-secondary ml-3">
+              {{ c.name }}
+              <!--<small *ngIf="currentUser.presenceStore" class="text-muted pl-1" style="font-size:12px;">{{ currentUser.presenceStore[c.id] }}</small>-->
+            </span>
           </button>
         </div>
       </div>

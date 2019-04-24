@@ -3,7 +3,7 @@
 <!--Search Bar-->
 <form [formGroup]="searchForm" class="my-4">
   <div class="form-group mb-3">
-      <input type="search" required class="form-control primary-border" id="search" name="search" placeholder="Search" 
+      <input type="search" required class="form-control primary-border px-3" id="search" name="search" placeholder="Search" 
       formControlName="search" (input)="onSearch()">
   </div>
 </form>
@@ -18,16 +18,15 @@
           
           <span class="position-relative d-inline-block">
             <img src="" onerror="this.src='../../assets/images/DefaultProfile.png'"
-            class="circle img-fluid rounded-circle card-img"/> 
-            <span class="position-absolute" style="bottom:0; right: 0; transform: translate(20%, 20%);"><i class="fa fa-circle fa-xs text-success"></i></span>
+            class="circle img-fluid rounded-circle card-img"/>
+            <span class="position-absolute" style="bottom:0; right: 0; transform: translate(0%, 20%);">
+              <i class="fa fa-circle fa-xs rounded-circle activity-status" 
+              [ngClass]="(isUserOnline(user.id)) ? 'text-success' : 'text-danger'"></i>
+            </span>
           </span>
-        
-              <!--<span class="online-indicator ml-3"><i style="font-size: 0.6em;" class="fa fa-circle"
-                [ngClass]="getUserActivityStatus(user.id) ? 'text-success' : 'text-danger'"></i>
-              </span>-->
   
-              <span class="text-secondary ml-3">{{ user.name }}</span>
-              <!--<small *ngIf="currUser.presenceStore" class="text-muted pl-1" style="font-size:12px;">{{ currUser.presenceStore[user.id] }}</small>-->
+            <span class="text-secondary ml-3">{{ user.name }}</span>
+            <!--<small *ngIf="currUser.presenceStore" class="text-muted pl-1" style="font-size:12px;">{{ currUser.presenceStore[user.id] }}</small>-->
           </button>
       </div>
   </div>
