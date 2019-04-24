@@ -293,28 +293,40 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
       this.pond.processFile().then((file) => {
         console.log(file)
+        console.log(file.serverId)
 
         const roomName = this.formImport.value.roomNameGroup.roomName
-        let roomAvatar = ''
+        const privateRoom = this.formImport.value.privateRoomGroup.privateRoom
+        const filePath = file.serverId + '.' + file.fileExtension
+
+
+        this.currentUser.createRoom({ // Create the room
+          name: roomName,
+          private: privateRoom,
+          customData: { roomAvatar: filePath }, // Add room avatar to custom room data
+        }).then( room => { // Succes
+            this.rooms.push(room) // Add the new room to the list
+            this.roomCreated = true
+            console.log(room)
+            console.log(`Created room called ${room.name}`)
+          })
+          .catch(err => { // Failed room creation
+            console.log(`Error creating room ${err}`)
+          })
+
+          return
 
         this.http.post(`${environment.apiUrl}/rooms/avatar`, this.finalRoomData)
         .toPromise()
-        .then((response) => console.log(JSON.stringify(response)))
-        .catch(error => console.log(error))
-
-
-        // TODO: Add this to upload service
-        // Upload image
-        this.http.post(`${environment.apiUrl}/rooms/avatar`, this.fd)
-        .toPromise()
-        .then( avatar => {
-          roomAvatar = avatar['filename'] // Store path
-          console.log(roomAvatar)
+        .then((response) => {
+          // roomAvatar = avatar['filename'] // Store path
+          console.log(response)
+          return
           // Create the room
           this.currentUser.createRoom({ // Create the room
             name: roomName,
             private: false,
-            customData: { roomAvatar: roomAvatar }, // Add room avatar to custom room data
+            // customData: { roomAvatar: roomAvatar }, // Add room avatar to custom room data
           }).then( room => { // Succes
               this.rooms.push(room) // Add the new room to the list
               this.roomCreated = true
@@ -324,7 +336,10 @@ export class RoomsComponent implements OnInit, AfterViewInit {
             .catch(err => { // Failed room creation
               console.log(`Error creating room ${err}`)
             })
-      })
+          console.log(JSON.stringify(response))
+        }
+        )
+        .catch(error => console.log(error))
 
 
       })
