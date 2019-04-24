@@ -1,7 +1,7 @@
 <div class="container-fluid mt-4">
 
   <div *ngIf="this.SearchView.current === false">
-      <app-small *ngIf="connection" [user]="connection" [isConnection]="isConnection"></app-small>
+      <app-small *ngIf="connection" [currUser]="currentUser" [user]="connection"></app-small>
   </div>
 
   <div class="row">
