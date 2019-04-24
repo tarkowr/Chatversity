@@ -36,14 +36,11 @@ export class SettingsProfileComponent implements OnInit {
     console.log('FilePond has initialised', this.pond)
   }
 
-
-
   pondHandleAddFile(event: any) {
     // event.preventDefault()
     console.log('A file was added')
     // removes the file at index 1
   }
-
 
   constructor(
     private formBuilder: FormBuilder,

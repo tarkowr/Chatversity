@@ -134,6 +134,22 @@ export class SearchBarComponent implements OnInit {
   // ─────────────────────────────────────────────────────────────────
 
   //
+  // ─── CHECK IF USERS ARE CONNECTED ───────────────────────────────────────────────────
+  //
+  checkIfConnected(_id: any) {
+    if (!this.currUser.customData) {
+      return false
+    }
+
+    if (this.currUser.id === _id) {
+      return false
+    }
+
+    return (this.currUser.customData.connections.includes(_id.toString())) ? true : false
+  }
+  // ─────────────────────────────────────────────────────────────────
+
+  //
   // ─── HANDLE CLICK ROOM BUTTON ───────────────────────────────────────────────────
   //
 

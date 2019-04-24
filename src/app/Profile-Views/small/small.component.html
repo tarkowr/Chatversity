@@ -5,14 +5,14 @@
     <div class="modal-content text-center">
 
       <!--Header-->
-      <div class="modal-header" style="border:none;">
+      <div class="modal-header py-2" style="border:none;">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true" style="font-size:1.75rem;">&times;</span>
         </button>
       </div>
 
       <!--Body-->
-      <div class="modal-body">
+      <div class="modal-body pb-3">
         <!-- Profile Image -->
         <!-- <img src="" onerror="this.src='../../assets/images/DefaultProfile.png'" id="user-image"
         class="rounded img-fluid mx-auto mb-1 d-block"> -->
@@ -26,10 +26,13 @@
       </div>
 
       <!-- Footer -->
-      <div class="modal-footer">
+      <div *ngIf="canAddAsConnection()" class="modal-footer">
         <button type="button" class="btn btn-primary mx-auto" (click)="addConnection()"
-        *ngIf="!isConnection">Add Connection</button>
-        <span class="text-light mx-auto py-2" *ngIf="isConnection">You are connected with this user!</span>
+        *ngIf="(validateIsConnectionStatus());else already_connected">Add Connection</button>
+
+        <ng-template #already_connected>
+          <span class="text-light mx-auto py-2">You are connected with this user!</span>
+        </ng-template>
       </div>
     </div>
   </div>

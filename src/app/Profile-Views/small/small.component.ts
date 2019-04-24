@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core'
+import { UserService } from '../../Core/_services/user.service'
 
 @Component({
   selector: 'app-small',
@@ -10,15 +11,47 @@ export class SmallComponent implements OnInit {
   bio: string
   graduationYear: string
 
-  @Input() user: any
-  @Input() isConnection = false
+  loading = false
 
-  constructor() { }
+  @Input() currUser: any
+  @Input() user: any
+
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.bio = this.getUserBio()
     this.graduationYear = this.getUserGradYr()
   }
+
+  // Check if user can add popup profile user as connection
+  canAddAsConnection() {
+    if (!this.currUser) {
+      return false
+    }
+
+    if (!this.currUser.customData) {
+      return false
+    }
+
+    return (this.currUser.id === this.user.id) ? false : true
+  }
+
+  //
+  // ─── CHECK IF USERS ARE CONNECTED ───────────────────────────────────────────────────
+  //
+  validateIsConnectionStatus() {
+    if (!this.currUser.customData.connections) {
+      this.currUser.customData['connections'] = []
+      return true
+    }
+
+    if (this.currUser.id === this.user.id) {
+      return false
+    }
+
+    return (this.currUser.customData.connections.includes(this.user.id)) ? false : true
+  }
+  // ─────────────────────────────────────────────────────────────────
 
   // Get user's bio
   getUserBio() {
@@ -58,9 +91,39 @@ export class SmallComponent implements OnInit {
     return this.graduationYear
   }
 
-  // TODO: Implement actual add connection functionality
+  // Add user as a connection
   addConnection() {
-    this.isConnection = true
+    if (!this.validateIsConnectionStatus()) {
+      return
+    }
+
+    if (!this.user.id) {
+      return
+    }
+
+    this.loading = true
+
+    // Get current user custom data
+    const currentUserData = this.currUser.customData
+
+    currentUserData['name'] = this.currUser.name
+    currentUserData.connections.push(this.user.id)
+
+    // Send the updated connection and update the user
+    this.userService.update(this.currUser.id, JSON.stringify(currentUserData))
+    .toPromise()
+    .then((data) => {
+      console.log('UPDATED CHATKIT USER', this.currUser)
+
+      this.setUserConnections(data)
+
+      this.loading = false
+    })
   }
 
+  // Set updated connections
+  setUserConnections(userData) {
+    this.currUser.customData = userData.custom_data
+    this.currUser.updatedAt = userData.updated_at
+  }
 }

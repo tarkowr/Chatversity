@@ -1,4 +1,4 @@
-<app-small *ngIf="selectedUser" [user]="selectedUser" [isConnection]="false"></app-small>
+<app-small *ngIf="selectedUser" [currUser]="currUser" [user]="selectedUser"></app-small>
 
 <!--Search Bar-->
 <form [formGroup]="searchForm" class="my-4">
@@ -13,20 +13,25 @@
   <div *ngIf="(userResults)">
       <div class="text-light">Users:</div> <hr>
       <div *ngFor="let user of userResults">
-          <button class="btn btn-block text-left px-3 py-2 my-2 user-card"
-           data-toggle="modal" data-target="#profileModal" (click)="setUser(user)">
+          <button class="btn btn-block text-left px-3 py-2 my-2 user-card d-flex align-items-center"
+          data-toggle="modal" data-target="#profileModal" (click)="setUser(user)">
           
-          <span class="position-relative d-inline-block">
-            <img src="" onerror="this.src='../../assets/images/DefaultProfile.png'"
-            class="circle img-fluid rounded-circle card-img"/>
-            <span class="position-absolute" style="bottom:0; right: 0; transform: translate(0%, 20%);">
-              <i class="fa fa-circle fa-xs rounded-circle activity-status" 
-              [ngClass]="(isUserOnline(user.id)) ? 'text-success' : 'text-danger'"></i>
+            <span class="position-relative d-inline-block">
+              <img src="" onerror="this.src='../../assets/images/DefaultProfile.png'"
+              class="circle img-fluid rounded-circle card-img"/>
+              <span class="position-absolute" style="bottom:0; right: 0; transform: translate(0%, 20%);">
+                <i class="fa fa-circle fa-xs rounded-circle activity-status" 
+                [ngClass]="(isUserOnline(user.id)) ? 'text-success' : 'text-danger'"></i>
+              </span>
             </span>
-          </span>
   
-            <span class="text-secondary ml-3">{{ user.name }}</span>
-            <!--<small *ngIf="currUser.presenceStore" class="text-muted pl-1" style="font-size:12px;">{{ currUser.presenceStore[user.id] }}</small>-->
+            <span class="text-secondary ml-3">
+              {{ user.name }}
+            </span>
+
+            <span *ngIf="checkIfConnected(user.id)" class="ml-auto text-muted">
+              <small>Connected</small>
+            </span>
           </button>
       </div>
   </div>

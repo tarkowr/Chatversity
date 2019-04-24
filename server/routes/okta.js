@@ -105,7 +105,8 @@ router.get('/', (req, res) => {
       console.log('CREATED USER', user)
     })
     .catch((err) => {
-      console.log(err);
+      console.log('CREATE USER ERROR ', err);
+      res.status(err.status).send(err)
     });
   });
 
