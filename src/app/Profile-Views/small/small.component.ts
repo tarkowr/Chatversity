@@ -16,7 +16,12 @@ export class SmallComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    // Get user bio
+    this.bio = this.getUserBio()
+    this.graduationYear = this.getUserGradYr()
+  }
+
+  // Get user's bio
+  getUserBio() {
     try {
       this.bio = this.user.customData.bio
     } catch (err) {
@@ -27,7 +32,15 @@ export class SmallComponent implements OnInit {
       }
     }
 
-    // Get user graduation year
+    if (!this.bio) {
+      this.bio = ''
+    }
+
+    return this.bio
+  }
+
+  // Get user's gradution year
+  getUserGradYr() {
     try {
       this.graduationYear = this.user.customData.graduationYear
     } catch (err) {
@@ -37,6 +50,12 @@ export class SmallComponent implements OnInit {
         this.graduationYear = ''
       }
     }
+
+    if (!this.graduationYear) {
+      this.graduationYear = ''
+    }
+
+    return this.graduationYear
   }
 
   // TODO: Implement actual add connection functionality
