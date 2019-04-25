@@ -30,23 +30,7 @@ export class SecuritySettingsComponent implements OnInit {
 
   //
   // ─── CHECK IF NEW PASSWORD AND CONFIRM PASSWORD MATCH ──────────────────────────
-  //
-  // onChanges() {
-  //   this.changePassForm.valueChanges.subscribe(val => {
-
-  //     if (val.oldPassword === val.newPassword) {
-  //       this.samePassword = true
-  //     } else {
-  //       this.samePassword = false
-  //     }
-
-  //     if (val.newPassword === val.confirmPassword) {
-  //       this.passwordsMatch = true
-  //     } else {
-  //       this.passwordsMatch = false
-  //     }
-  //   })
-  // }
+  //  
 
   onInputChange() {
     if (this.f.oldPassword.value === this.f.newPassword.value) {
@@ -110,7 +94,5 @@ export class SecuritySettingsComponent implements OnInit {
       ])],
       confirmPassword: ['', Validators.required],
     })
-
-    // this.onChanges()
   }
 }

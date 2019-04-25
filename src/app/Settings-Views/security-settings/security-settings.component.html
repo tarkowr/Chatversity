@@ -50,8 +50,6 @@
           <span *ngIf="passwordsMatch && changePassForm.get('confirmPassword').dirty && changePassForm.get('newPassword').dirty && !noNewInput" class="text-success">Passwords Match!</span> 
           <span *ngIf="!passwordsMatch && changePassForm.get('confirmPassword').dirty && changePassForm.get('newPassword').dirty && !noNewInput" class="text-danger">Passwords must match.</span>
           
-          <!-- <span *ngIf="passwordsMatch" class="text-success">Passwords Match!</span> 
-          <span *ngIf="!passwordsMatch" class="text-danger">Passwords must match.</span>  -->
         </div>
       </div>
 
