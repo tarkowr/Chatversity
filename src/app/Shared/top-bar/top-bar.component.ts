@@ -3,7 +3,7 @@ import { AuthService } from '../../Core/_services/auth.service'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MessagingService } from '../../Core/_services/messaging.service'
 import { ClipboardService } from 'ngx-clipboard'
-import * as CryptoJS from 'crypto-ts'
+import * as CryptoTS from 'crypto-ts'
 
 @Component({
   selector: 'app-top-bar',
@@ -44,18 +44,45 @@ export class TopBarComponent implements OnInit {
 
 
   genInviteLink() {
-    this.roomInviteLink = 'chatversity.app/invite/' + CryptoJS.AES.encrypt('valid', this.roomId).toString()
+
+    // Encrypt
+var ciphertext = CryptoTS.AES.encrypt('my message', 'secret key 123');
+ 
+// Decrypt
+var bytes  = CryptoTS.AES.decrypt(ciphertext.toString(), 'secret key 123');
+var plaintext = bytes.toString(CryptoTS.enc.Utf8);
+
+console.log(plaintext);
+
+
+
+    const roomId = this.roomId.toString()
+    console.log(roomId)
+    
+    const cipherText = CryptoTS.AES.encrypt('hello world', 'mykey')
+
+      const decryptedString =  CryptoTS.AES.decrypt(cipherText, 'mykey')
+
+      console.log(decryptedString)
+
+    // this.roomInviteLink = 'chatversity.app/chatkit/invite/' +
+    // encodeURIComponent(encryptedString)
+
+
+console.log(this.roomId)
+
+
+    // this.roomInviteLink = encodeURIComponent(linkText)
     console.log(this.roomInviteLink)
-    console.log(CryptoJS.AES.decrypt(this.roomInviteLink, this.roomId).toString())
     // const randomRoomInviteString = window.crypto.getRandomValues(new Int32Array(1))[0].toString()
     // console.log(randomRoomInviteString)
-    // CryptoJS.AES.encrypt(randomRoomInviteString, 'secret key').toString()
+    // CryptoTS.AES.encrypt(randomRoomInviteString, 'secret key').toString()
   }
 
 
   ngOnInit() {
 
-    console.log(CryptoJS.AES.encrypt('secret message', 'secret key').toString())
+    console.log(CryptoTS.AES.encrypt('secret message', 'secret key').toString())
 
     this.authService.getCurrentUser().subscribe((user) => {
 
