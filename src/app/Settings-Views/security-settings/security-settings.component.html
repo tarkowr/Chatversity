@@ -33,7 +33,7 @@
         required placeholder="New Password" (input)="onInputChange()">
 
         <div *ngIf="samePassword && changePassForm.get('oldPassword').dirty && changePassForm.get('newPassword').dirty && !noOldInput" class="text-danger">New password cannot be the same as the old password.</div>
-        <div *ngIf="(submitted && f.newPassword.errors)" class="invalid-feedback">
+        <div *ngIf="(submitted && f.newPassword.errors)" class="text-danger">
           <div *ngIf="f.newPassword.errors.required">Please enter a new password.</div>
           <div *ngIf="f.newPassword.errors.pattern">Your new password must have atleast: <br>
             <div style="padding-left:20px">▶&nbsp; 8 characters <br> ▶&nbsp; 1 uppercase letter <br> ▶&nbsp; 1 number</div>
