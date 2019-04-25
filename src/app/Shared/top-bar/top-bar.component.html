@@ -11,7 +11,7 @@
       
       <!-- Default dropright button -->
       <div *ngIf="roomId" class="ml-auto">
-        <button class="btn btn-outline-primary" data-toggle="modal" data-target="#inviteUsersModal" ngbTooltip="Invite User" placement="left" triggers="hover" [autoClose]="true" type="button"> <span><i class="fa fa-user-plus ml-auto"></i></span></button>
+        <button (click)="genInviteLink()" class="btn btn-outline-primary" data-toggle="modal" data-target="#inviteUsersModal" ngbTooltip="Invite User" placement="left" triggers="hover" [autoClose]="true" type="button"> <span><i class="fa fa-user-plus ml-auto"></i></span></button>
         <button ngbTooltip="Room Settings" placement="left" triggers="hover" [autoClose]="true" type="button" class="btn btn-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-cog"></i>
         </button>
@@ -40,10 +40,15 @@
           </button>
         </div>
         <div class="modal-body text-center">
-          <p class="font-weight-bold">Share this link with others to grant access to your room<small class="d-block">This action cannot be undone</small></p>
-          
-          <div #container>
-            <button ngxClipboard type="button" class="btn btn-outline-info" [cbContent]="roomCipherText" [container]="container">Copy</button>
+          <p class="font-weight-bold">Share this link with others to grant access to your room.</p>
+
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" [value]="roomInviteLink" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <div class="input-group-append">
+              <div #container>
+                <button ngxClipboard type="button" [container]="container" [cbContent]="roomInviteLink" class="btn btn-outline-info" type="button" id="button-addon2">Copy</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

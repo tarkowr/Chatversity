@@ -299,7 +299,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
       const roomName = this.formImport.value.roomNameGroup.roomName
       const privateRoom = this.formImport.value.privateRoomGroup.privateRoom
-      const roomCipher = CryptoJS.AES.encrypt('secret message', 'secret key').toString()
+      // const roomCipher = CryptoJS.AES.encrypt('secret message', 'secret key').toString()
 
       // If no file added => get ui avatar (add to file list)
       if ( this.pond.getFiles().length ) {
@@ -316,7 +316,6 @@ export class RoomsComponent implements OnInit, AfterViewInit {
             private: privateRoom,
             customData: {
               roomAvatar: filePath,
-              roomCipher: roomCipher,
             }, // Add room avatar to custom room data
           }).then( room => { // Succes
               this.rooms.push(room) // Add the new room to the list
@@ -335,7 +334,6 @@ export class RoomsComponent implements OnInit, AfterViewInit {
         this.currentUser.createRoom({ // Create the room
           name: roomName,
           private: privateRoom,
-          customData: {roomCipher: roomCipher}
         }).then( room => { // Succes
             this.rooms.push(room) // Add the new room to the list
             this.roomCreated = true

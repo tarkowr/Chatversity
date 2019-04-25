@@ -18,6 +18,7 @@ export class TopBarComponent implements OnInit {
 
   returnUrl: string
   currentUser: any
+  roomInviteLink: string
 
   constructor(private authService: AuthService,
     private route: ActivatedRoute,
@@ -36,9 +37,19 @@ export class TopBarComponent implements OnInit {
   // ────────────────────────────────────────────────────────────────────────────────
 
 
+  copy(text: string) {
+    this._clipboardService.copyFromContent(text)
+    console.log(text)
+  }
 
-  displayInviteUser() {
 
+  genInviteLink() {
+    this.roomInviteLink = 'chatversity.app/invite/' + CryptoJS.AES.encrypt('valid', this.roomId).toString()
+    console.log(this.roomInviteLink)
+    console.log(CryptoJS.AES.decrypt(this.roomInviteLink, this.roomId).toString())
+    // const randomRoomInviteString = window.crypto.getRandomValues(new Int32Array(1))[0].toString()
+    // console.log(randomRoomInviteString)
+    // CryptoJS.AES.encrypt(randomRoomInviteString, 'secret key').toString()
   }
 
 
