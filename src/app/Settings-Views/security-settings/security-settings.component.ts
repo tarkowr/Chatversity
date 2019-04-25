@@ -99,7 +99,7 @@ export class SecuritySettingsComponent implements OnInit {
     formData.append('confirmPassword', this.changePassForm.get('confirmPassword').value)
 
     // TODO: Send to Okta and handle response
-  }
+    }
 
   ngOnInit() {
     // Build change password form
