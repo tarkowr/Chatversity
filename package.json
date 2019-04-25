@@ -3,7 +3,7 @@
   "nativescript": {
     "id": "com.chatversity"
   },
-  "version": "0.0.0",
+  "version": "10.15.3",
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
