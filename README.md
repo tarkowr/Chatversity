@@ -12,7 +12,7 @@
 <br />
 
 ## Status
-
+[![CircleCI](https://circleci.com/gh/NoahsNMC/Chatversity_App/tree/master.svg?style=svg)](https://circleci.com/gh/NoahsNMC/Chatversity_App/tree/master)
 ![](https://img.shields.io/github/issues/NoahsNMC/Chatversity_App.svg)
 ![](https://img.shields.io/github/forks/NoahsNMC/Chatversity_App.svg)
 ![](https://img.shields.io/github/stars/NoahsNMC/Chatversity_App.svg)
@@ -20,7 +20,6 @@
 ![](https://img.shields.io/twitter/url/https/github.com/NoahsNMC/Chatversity_App.svg?style=social)
 ![](https://opencollective.com/chatversity)
 <a href="https://opencollective.com/bootstrap">![](https://img.shields.io/badge/donate-become%20a%20backer-blue.svg)</a>
-[![CircleCI](https://circleci.com/gh/NoahsNMC/Chatversity_App/tree/master.svg?style=svg)](https://circleci.com/gh/NoahsNMC/Chatversity_App/tree/master)
 
 ## Stack
 
