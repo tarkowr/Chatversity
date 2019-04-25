@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { AuthService } from '../../Core/_services/auth.service'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MessagingService } from '../../Core/_services/messaging.service'
+import { ClipboardService } from 'ngx-clipboard'
+import * as CryptoJS from 'crypto-ts'
 
 @Component({
   selector: 'app-top-bar',
@@ -15,12 +17,13 @@ export class TopBarComponent implements OnInit {
   @Output() roomDeleted = new EventEmitter()
 
   returnUrl: string
-  currentUser: any;
+  currentUser: any
 
   constructor(private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
-    private messageService: MessagingService) { }
+    private messageService: MessagingService,
+    private _clipboardService: ClipboardService) { }
 
 
   //
@@ -28,14 +31,20 @@ export class TopBarComponent implements OnInit {
   //
 
     deleteRoom(id) {
-
       this.roomDeleted.emit(id)
     }
   // ────────────────────────────────────────────────────────────────────────────────
 
 
 
+  displayInviteUser() {
+
+  }
+
+
   ngOnInit() {
+
+    console.log(CryptoJS.AES.encrypt('secret message', 'secret key').toString())
 
     this.authService.getCurrentUser().subscribe((user) => {
 

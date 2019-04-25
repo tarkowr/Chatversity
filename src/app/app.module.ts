@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http'
 import { AuthService } from './Core/_services/auth.service'
 import { UserService } from './Core/_services/user.service'
 import { AvatarModule } from 'ngx-avatar'
+import { ClipboardModule } from 'ngx-clipboard'
 declare var require: any
 
 
@@ -132,7 +133,8 @@ const config = {
     ReactiveFormsModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     FilePondModule,
-    AvatarModule
+    AvatarModule,
+    ClipboardModule
   ],
   providers: [
     OktaAuthGuard,

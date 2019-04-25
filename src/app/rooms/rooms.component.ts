@@ -8,6 +8,7 @@ import { AuthService } from '../Core/_services/auth.service'
 import { parseDate } from 'tough-cookie'
 import { Observable } from 'rxjs'
 import { UserService } from '../Core/_services/user.service'
+import * as CryptoJS from 'crypto-ts'
 
 @Component({
   selector: 'app-rooms',
@@ -100,7 +101,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   }
 
 
-  
+
 
   //
   // ─── HANDLE DELETE ROOM ─────────────────────────────────────────────────────────
@@ -296,47 +297,54 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       console.log(this.formImport)
       console.log(this.finalRoomData)
 
+      const roomName = this.formImport.value.roomNameGroup.roomName
+      const privateRoom = this.formImport.value.privateRoomGroup.privateRoom
+      const roomCipher = CryptoJS.AES.encrypt('secret message', 'secret key').toString()
+
       // If no file added => get ui avatar (add to file list)
-      if ( !this.pond.getFiles().length ) {
+      if ( this.pond.getFiles().length ) {
 
-        this.userService.getUiAvatar().toPromise().then((uiFile) => {
-        // no file => get one from ui avatar and add to process queue
-          console.log((uiFile))
-          return
+        // File has been added
+        this.pond.processFile().then((processedFile) => {
+          console.log(processedFile)
+          console.log(processedFile.serverId)
 
-          this.pond.addFile(uiFile)
-          .then(file => {
-            // File has been added
-            this.pond.processFile().then((processedFile) => {
-              console.log(processedFile)
-              console.log(processedFile.serverId)
+          const filePath = processedFile.serverId + '.' + processedFile.fileExtension
 
-              const roomName = this.formImport.value.roomNameGroup.roomName
-              const privateRoom = this.formImport.value.privateRoomGroup.privateRoom
-              const filePath = processedFile.serverId + '.' + processedFile.fileExtension
-
-              this.currentUser.createRoom({ // Create the room
-                name: roomName,
-                private: privateRoom,
-                customData: { roomAvatar: filePath }, // Add room avatar to custom room data
-              }).then( room => { // Succes
-                  this.rooms.push(room) // Add the new room to the list
-                  this.roomCreated = true
-                  console.log(room)
-                  console.log(`Created room called ${room.name}`)
-                })
-                .catch(err => { // Failed room creation
-                  console.log(`Error creating room ${err}`)
-                })
-
-                return
+          this.currentUser.createRoom({ // Create the room
+            name: roomName,
+            private: privateRoom,
+            customData: {
+              roomAvatar: filePath,
+              roomCipher: roomCipher,
+            }, // Add room avatar to custom room data
+          }).then( room => { // Succes
+              this.rooms.push(room) // Add the new room to the list
+              this.roomCreated = true
+              console.log(room)
+              console.log(`Created room called ${room.name}`)
+            })
+            .catch(err => { // Failed room creation
+              console.log(`Error creating room ${err}`)
             })
 
-          })
-          .catch(error => {
-            // Something went wrong
-          })
+            return
         })
+      } else {
+        // No image uploaded => create room without image
+        this.currentUser.createRoom({ // Create the room
+          name: roomName,
+          private: privateRoom,
+          customData: {roomCipher: roomCipher}
+        }).then( room => { // Succes
+            this.rooms.push(room) // Add the new room to the list
+            this.roomCreated = true
+            console.log(room)
+            console.log(`Created room called ${room.name}`)
+          })
+          .catch(err => { // Failed room creation
+            console.log(`Error creating room ${err}`)
+          })
       }
     }
   // ────────────────────────────────────────────────────────────────────────────────
@@ -390,7 +398,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       this.pondOptions = {
         fileRenameFunction: (file) => {
 
-          var randomFileName = new Uint32Array(1);
+          const randomFileName = new Uint32Array(1)
           window.crypto.getRandomValues(randomFileName)
           return `${randomFileName}${file.extension}`
       },
