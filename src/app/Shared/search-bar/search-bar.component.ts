@@ -159,6 +159,31 @@ export class SearchBarComponent implements OnInit {
   // ─────────────────────────────────────────────────────────────────
 
   //
+  // ─── HANDLE JOIN ROOM ───────────────────────────────────────────────────
+  //
+
+  joinRoom(_room: any) {
+    this._msgService.joinRoom(this.currUser, _room.id).then((room) => {
+      this._msgService.subscribeToRoom(this.currUser, _room.id)
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+  // ─────────────────────────────────────────────────────────────────
+
+  //
+  // ─── CHECK IF USER IS IN ROOM ───────────────────────────────────────────────────
+  //
+  checkIfInRoom(_id: any) {
+    if (!this.currUser.roomSubscriptions) {
+      return false
+    }
+
+    return (this.currUser.roomSubscriptions[_id]) ? true : false
+  }
+  // ─────────────────────────────────────────────────────────────────
+
+  //
   // ─── CHECKS IF USER IS ONLINE ───────────────────────────────────────────────────
   //
 
