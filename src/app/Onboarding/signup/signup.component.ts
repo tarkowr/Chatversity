@@ -163,6 +163,7 @@ export class SignupComponent implements OnInit {
     error => {
       console.log('SIGN UP ERROR:', error)
       this.loading = false
+      this.f.username.setErrors( { 'oktaError': true } )
     })
   }
 }

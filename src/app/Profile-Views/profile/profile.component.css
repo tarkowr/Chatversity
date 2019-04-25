@@ -8,12 +8,21 @@
 }
 #profile-content{
     margin-top: 20px;
+    text-align: center;
 }
 @media (min-width: 992px){ /*Large*/
     #profile-content{
         margin-top: 0px;
+        text-align: left;
     }
     #profile-picture-container > img{
         margin: 0 auto;
     }
+}
+.card{
+    box-shadow: 2px 2px 4px #DAE6ED;
+    transition: box-shadow .5s;
+}
+.card:hover{
+    box-shadow: 4px 4px 8px #DAE6ED;
 }

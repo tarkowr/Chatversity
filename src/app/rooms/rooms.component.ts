@@ -16,7 +16,6 @@ import { Observable } from 'rxjs'
 export class RoomsComponent implements OnInit, AfterViewInit {
 
   @ViewChildren('chatReel') chatReel: QueryList<ViewContainerRef>
-  currUser: any
   subscription: any
   fileToUpload: File
   imagePath: any

@@ -7,6 +7,7 @@ import { MessagingService } from './messaging.service'
 import {parse, stringify} from 'flatted'
 import { map } from 'rxjs/operators'
 import { Router } from '@angular/router'
+import { reject } from 'q'
 
 @Injectable()
 export class AuthService {
@@ -63,7 +64,6 @@ export class AuthService {
             return this.http.post<any>(`${environment.apiUrl}/okta/signup`, { fname, lname, username, password })
             .toPromise()
             .then(user => {
-                // console.log(user);
                 // Create chatkit user from Okta User ID
                 return this.http.post(`${environment.apiUrl}/chatkit/createuser`, {
                     id: user.id,
@@ -80,17 +80,19 @@ export class AuthService {
                         privateAccount: false,
                         showActivityStatus: true,
                     }
-            })
-            .toPromise()
-            .then((chatkitUser) => {
+                })
+                .toPromise()
+                .then((chatkitUser) => {
                     // Created Chatkit user
-                    console.log('Created Chatkit user!')
-                    console.log(chatkitUser)
+                    console.log('CREATED CHATKIT USER ', chatkitUser)
 
                     return this.login(username, password).then(loggedinUser => {
                         return loggedinUser
                     })
                 })
+            })
+            .catch(err => {
+                return reject(err)
             })
         }
     // ─────────────────────────────────────────────────────────────────

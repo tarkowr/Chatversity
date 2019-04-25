@@ -19,25 +19,40 @@
       Password</button>
 
     <!-- PASSWORD FORM -->
-    <form [formGroup]="changePassForm" id="changePasswordForm" class="collapse pt-4 col-12 col-md-6">
-      <!-- old password -->
+    <form [formGroup]="changePassForm" (ngSubmit)="onSubmit()" id="changePasswordForm" class="collapse pt-4 col-12 col-md-6">
+
+      <!-- Old password -->
       <div class="form-group">
-        <input formControlName="oldPassword" class="form-control" type="password" name="oldPassword" id="oldPassword" placeholder="Old Password">
+        <input formControlName="oldPassword" class="form-control" type="password" name="oldPassword" id="oldPassword"
+        required placeholder="Old Password">
       </div>
-      <!-- new password -->
+
+      <!-- New password -->
       <div class="form-group">
-        <input formControlName="newPassword" class="form-control" type="password" name="newPassword" id="newPassword" placeholder="New Password">
-        <span *ngIf="samePassword" class="text-danger">New password cannot be the same as the old password</span>
+        <input formControlName="newPassword" class="form-control" type="password" name="newPassword" id="newPassword"
+        required placeholder="New Password">
+
+        <!--<div *nfIf="samePassword()" class="text-danger">New password cannot be the same as the old password.</div>-->
+        <div *ngIf="(submitted && f.newPassword.errors)" class="invalid-feedback">
+          <div *ngIf="f.newPassword.errors.required">Please enter a new password.</div>
+          <div *ngIf="f.newPassword.errors.pattern">Your new password must have atleast: <br>
+            <div style="padding-left:20px">▶&nbsp; 8 characters <br> ▶&nbsp; 1 uppercase letter <br> ▶&nbsp; 1 number</div>
+          </div>
+        </div>
       </div>
-      <!-- confirm password -->
+
+      <!-- Confirm password -->
       <div class="form-group">
-        <input formControlName="confirmPassword" class="form-control" type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password">
-        <span *ngIf="passwordsMatch" class="text-success">Passwords Match</span> 
-        <span *ngIf="!passwordsMatch && changePassForm.get('confirmPassword').touched" class="text-danger">Passwords must match</span> 
-         
-        
+        <input formControlName="confirmPassword" class="form-control" type="password" name="confirmPassword" id="confirmPassword"
+        required placeholder="Confirm Password">
+
+        <div class="mt-2">
+          <span *ngIf="passwordsMatch" class="text-success">Passwords Match!</span> 
+          <span *ngIf="!passwordsMatch && changePassForm.get('confirmPassword').touched" class="text-danger">Passwords must match.</span>
+        </div>
       </div>
-      <button type="submit" class="btn btn-secondary text-uppercase px-4"(click)="onSubmit()">submit</button>
+
+      <button class="btn btn-login btn-outline-secondary text-uppercase px-4">submit</button>
     </form>
     <hr />
   </div>

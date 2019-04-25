@@ -134,6 +134,22 @@ export class SearchBarComponent implements OnInit {
   // ─────────────────────────────────────────────────────────────────
 
   //
+  // ─── CHECK IF USERS ARE CONNECTED ───────────────────────────────────────────────────
+  //
+  checkIfConnected(_id: any) {
+    if (!this.currUser.customData) {
+      return false
+    }
+
+    if (this.currUser.id === _id) {
+      return false
+    }
+
+    return (this.currUser.customData.connections.includes(_id.toString())) ? true : false
+  }
+  // ─────────────────────────────────────────────────────────────────
+
+  //
   // ─── HANDLE CLICK ROOM BUTTON ───────────────────────────────────────────────────
   //
 
@@ -143,11 +159,20 @@ export class SearchBarComponent implements OnInit {
   // ─────────────────────────────────────────────────────────────────
 
   //
-  // ─── HANDLE CLICK ROOM BUTTON ───────────────────────────────────────────────────
+  // ─── CHECKS IF USER IS ONLINE ───────────────────────────────────────────────────
+  //
+
+  isUserOnline(_id: any) {
+    return (this.currUser.presenceStore[_id] === 'online') ? true : false
+  }
+  // ─────────────────────────────────────────────────────────────────
+
+  //
+  // ─── RETURNS USER ACTIVITY STATUS ───────────────────────────────────────────────────
   //
 
   getUserActivityStatus(_id: any) {
-    return (this.currUser.presenceStore[_id] === 'online') ? true : false
+    return (this.currUser.presenceStore[_id] === 'online') ? 'Online' : 'Offline'
   }
   // ─────────────────────────────────────────────────────────────────
 

@@ -20,7 +20,7 @@
                     <!-- Username -->
                     <div class="form-group">
                         <label for="username" class="text-secondary">Username</label>
-                        <input type="text" name="username" formControlName="username"
+                        <input type="text" name="username" formControlName="username" placeholder="johndoe@umich.edu"
                             class="form-control" tabindex=1 [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
                         <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
                             <div *ngIf="f.username.errors.required">Username is required.</div>
@@ -75,9 +75,6 @@
             </div>
         </div>
     </div>
-
-    <footer>
-        <!-- import footer -->
-        <app-footer></app-footer>
-    </footer>
+    <!-- import footer -->
+    <app-footer></app-footer>
 </body>
