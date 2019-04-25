@@ -11,6 +11,7 @@ var fs      = require('fs')
 var formidable = require('formidable'),
 util = require('util')
 var crypto = require("crypto")
+const axios = require('axios');
 
 var tmp = require('tmp')
 
@@ -89,6 +90,40 @@ app.use('/chatkit', chatkit)
 //   :::::: R O U T E S : :  :   :    :     :        :          :
 // ──────────────────────────────────────────────────────────────
 //
+
+
+
+//
+// ─── GET UI AVATAR ──────────────────────────────────────────────────────────────
+//
+  
+  app.get('/uiavatar', (req, res) => {
+
+    // var download = function(uri, filename, callback){
+    //   request.head(uri, function(err, res, body){
+    //     console.log('content-type:', res.headers['content-type']);
+    //     console.log('content-length:', res.headers['content-length']);
+    
+    //     request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
+    //   });
+    // };
+    
+    // download('https://ui-avatars.com/api/?rounded=true', 'google.png', function(){
+    //   console.log('done')
+    //   res.status(200).json()
+    // });
+
+
+    axios.get('https://ui-avatars.com/api/?rounded=true')
+    .then(uiAvatar => {
+      console.log(uiAvatar)
+      res.status(200).json(uiAvatar.data);
+    })
+    .catch(error => {
+      res.status(500).send(error)
+    });
+  })
+// ────────────────────────────────────────────────────────────────────────────────
 
 
 

@@ -7,6 +7,7 @@ import { AppComponent } from '../app.component'
 import { AuthService } from '../Core/_services/auth.service'
 import { parseDate } from 'tough-cookie'
 import { Observable } from 'rxjs'
+import { UserService } from '../Core/_services/user.service'
 
 @Component({
   selector: 'app-rooms',
@@ -74,7 +75,11 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   //
     @ViewChild('newRoomPond') pond: any
     pondFiles = []
-    constructor(private http: HttpClient, private messageService: MessagingService, private authService: AuthService) {}
+    constructor(
+      private http: HttpClient,
+      private messageService: MessagingService,
+      private authService: AuthService,
+      private userService: UserService) {}
   // ────────────────────────────────────────────────────────────────────────────────
 
 
@@ -291,58 +296,48 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       console.log(this.formImport)
       console.log(this.finalRoomData)
 
-      this.pond.processFile().then((file) => {
-        console.log(file)
-        console.log(file.serverId)
+      // If no file added => get ui avatar (add to file list)
+      if ( !this.pond.getFiles().length ) {
 
-        const roomName = this.formImport.value.roomNameGroup.roomName
-        const privateRoom = this.formImport.value.privateRoomGroup.privateRoom
-        const filePath = file.serverId + '.' + file.fileExtension
-
-
-        this.currentUser.createRoom({ // Create the room
-          name: roomName,
-          private: privateRoom,
-          customData: { roomAvatar: filePath }, // Add room avatar to custom room data
-        }).then( room => { // Succes
-            this.rooms.push(room) // Add the new room to the list
-            this.roomCreated = true
-            console.log(room)
-            console.log(`Created room called ${room.name}`)
-          })
-          .catch(err => { // Failed room creation
-            console.log(`Error creating room ${err}`)
-          })
-
+        this.userService.getUiAvatar().toPromise().then((uiFile) => {
+        // no file => get one from ui avatar and add to process queue
+          console.log((uiFile))
           return
 
-        this.http.post(`${environment.apiUrl}/rooms/avatar`, this.finalRoomData)
-        .toPromise()
-        .then((response) => {
-          // roomAvatar = avatar['filename'] // Store path
-          console.log(response)
-          return
-          // Create the room
-          this.currentUser.createRoom({ // Create the room
-            name: roomName,
-            private: false,
-            // customData: { roomAvatar: roomAvatar }, // Add room avatar to custom room data
-          }).then( room => { // Succes
-              this.rooms.push(room) // Add the new room to the list
-              this.roomCreated = true
-              console.log(room)
-              console.log(`Created room called ${room.name}`)
-            })
-            .catch(err => { // Failed room creation
-              console.log(`Error creating room ${err}`)
-            })
-          console.log(JSON.stringify(response))
-        }
-        )
-        .catch(error => console.log(error))
+          this.pond.addFile(uiFile)
+          .then(file => {
+            // File has been added
+            this.pond.processFile().then((processedFile) => {
+              console.log(processedFile)
+              console.log(processedFile.serverId)
 
+              const roomName = this.formImport.value.roomNameGroup.roomName
+              const privateRoom = this.formImport.value.privateRoomGroup.privateRoom
+              const filePath = processedFile.serverId + '.' + processedFile.fileExtension
 
-      })
+              this.currentUser.createRoom({ // Create the room
+                name: roomName,
+                private: privateRoom,
+                customData: { roomAvatar: filePath }, // Add room avatar to custom room data
+              }).then( room => { // Succes
+                  this.rooms.push(room) // Add the new room to the list
+                  this.roomCreated = true
+                  console.log(room)
+                  console.log(`Created room called ${room.name}`)
+                })
+                .catch(err => { // Failed room creation
+                  console.log(`Error creating room ${err}`)
+                })
+
+                return
+            })
+
+          })
+          .catch(error => {
+            // Something went wrong
+          })
+        })
+      }
     }
   // ────────────────────────────────────────────────────────────────────────────────
 

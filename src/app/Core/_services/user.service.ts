@@ -8,6 +8,18 @@ import { environment } from '../../../environments/environment'
 export class UserService {
     constructor(private http: HttpClient) { }
 
+
+    //
+    // ─── GET A UI AVATAR ────────────────────────────────────────────────────────────
+    //
+
+        getUiAvatar() {
+            return this.http.get(`${environment.apiUrl}/uiavatar`)
+        }
+    // ────────────────────────────────────────────────────────────────────────────────
+
+
+
     //
     // ─── GET ALL CONNECTIONS FOR A GIVEN USER ───────────────────────────────────────────────────
     //

@@ -5,7 +5,8 @@ import { RouterModule, Routes } from '@angular/router'
 import { HttpClientModule } from '@angular/common/http'
 import { AuthService } from './Core/_services/auth.service'
 import { UserService } from './Core/_services/user.service'
-declare var require: any;
+import { AvatarModule } from 'ngx-avatar'
+declare var require: any
 
 
 // import filepond module
@@ -130,7 +131,8 @@ const config = {
     FormsModule,
     ReactiveFormsModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    FilePondModule
+    FilePondModule,
+    AvatarModule
   ],
   providers: [
     OktaAuthGuard,
