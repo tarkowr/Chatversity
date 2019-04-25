@@ -24,15 +24,15 @@
       <!-- Old password -->
       <div class="form-group">
         <input formControlName="oldPassword" class="form-control" type="password" name="oldPassword" id="oldPassword"
-        required placeholder="Old Password">
+        required placeholder="Old Password" (input)="onInputChange()">
       </div>
 
       <!-- New password -->
       <div class="form-group">
         <input formControlName="newPassword" class="form-control" type="password" name="newPassword" id="newPassword"
-        required placeholder="New Password">
+        required placeholder="New Password" (input)="onInputChange()">
 
-        <!--<div *nfIf="samePassword()" class="text-danger">New password cannot be the same as the old password.</div>-->
+        <div *ngIf="samePassword && changePassForm.get('oldPassword').dirty && changePassForm.get('newPassword').dirty && !noOldInput" class="text-danger">New password cannot be the same as the old password.</div>
         <div *ngIf="(submitted && f.newPassword.errors)" class="invalid-feedback">
           <div *ngIf="f.newPassword.errors.required">Please enter a new password.</div>
           <div *ngIf="f.newPassword.errors.pattern">Your new password must have atleast: <br>
@@ -44,11 +44,14 @@
       <!-- Confirm password -->
       <div class="form-group">
         <input formControlName="confirmPassword" class="form-control" type="password" name="confirmPassword" id="confirmPassword"
-        required placeholder="Confirm Password">
+        required placeholder="Confirm Password" (input)="onInputChange()">
 
         <div class="mt-2">
-          <span *ngIf="passwordsMatch" class="text-success">Passwords Match!</span> 
-          <span *ngIf="!passwordsMatch && changePassForm.get('confirmPassword').touched" class="text-danger">Passwords must match.</span>
+          <span *ngIf="passwordsMatch && changePassForm.get('confirmPassword').dirty && changePassForm.get('newPassword').dirty && !noNewInput" class="text-success">Passwords Match!</span> 
+          <span *ngIf="!passwordsMatch && changePassForm.get('confirmPassword').dirty && changePassForm.get('newPassword').dirty && !noNewInput" class="text-danger">Passwords must match.</span>
+          
+          <!-- <span *ngIf="passwordsMatch" class="text-success">Passwords Match!</span> 
+          <span *ngIf="!passwordsMatch" class="text-danger">Passwords must match.</span>  -->
         </div>
       </div>
 
