@@ -308,14 +308,17 @@ app.set('port', port)
 // const server = http.createServer(app)
 const router = express.Router()
 
-// Catch all other routes and return the index file
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'src/index.html'))
-})
+// // Catch all other routes and return the index file
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'src/index.html'))
+// })
+
+// middleware
+app.use(express.static(__dirname + '/public'))
 
 /* final catch-all route to index.html defined last */
 app.get('/*', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/index.html')
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
