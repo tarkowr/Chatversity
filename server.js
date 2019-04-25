@@ -15,10 +15,6 @@ const axios = require('axios');
 
 var tmp = require('tmp')
 
-// Setting up the root route
-app.get('/', (req, res) => {
-  res.send('Welcome to the express server')
-})
 
 // Parsers for POST data
 app.use(bodyParser.urlencoded({ 
@@ -315,6 +311,11 @@ const router = express.Router()
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'src/index.html'))
+})
+
+/* final catch-all route to index.html defined last */
+app.get('/*', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
