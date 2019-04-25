@@ -16,7 +16,8 @@
     "mobile": "tns run --bundle",
     "preview": "tns preview --bundle",
     "compodoc": "./node_modules/.bin/compodoc -p tsconfig.json -s",
-    "postinstall": "ng build --aot --prod"
+    "postinstall": "ng build --aot --prod",
+    "heroku-postbuild": "ng build --prod"
   },
   "private": true,
   "dependencies": {
