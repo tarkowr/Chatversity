@@ -299,7 +299,7 @@ app.use('/chatkit', chatkit)
 /**
  * Get port from environment and store in Express.
  */
-const port = process.env.PORT || 3200
+const port = process.env.PORT || 8080
 app.set('port', port)
 
 /**
@@ -314,12 +314,14 @@ const router = express.Router()
 // })
 
 // middleware
-app.use(express.static(__dirname + '/public'))
+// Serve only the static files form the dist directory
+app.use(express.static(__dirname + '/dist/Chatversity'));
 
-/* final catch-all route to index.html defined last */
-app.get('/*', (req, res) => {
-  res.sendFile(__dirname + '/index.html')
-})
+app.get('/*', function(req,res) {
+    
+res.sendFile(path.join(__dirname+'/dist/Chatversity/index.html'));
+});
+
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 

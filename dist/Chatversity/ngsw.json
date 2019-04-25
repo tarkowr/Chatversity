@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1556207651772,
+  "timestamp": 1556212892789,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -10,7 +10,7 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main.ff43b746f12273711e22.js",
+        "/main.5d35403d0c2b31c8b310.js",
         "/polyfills.c43906a5e2c4ad7f529e.js",
         "/runtime.26209474bfa8dc87a77c.js",
         "/styles.a2d5db5df015dcb1048a.css"
@@ -42,10 +42,10 @@
         "/assets/favicon/favicon-16x16.png",
         "/assets/favicon/favicon-32x32.png",
         "/assets/favicon/favicon.ico",
+        "/assets/favicon/manifest.json",
         "/assets/favicon/mstile-144x144.png",
         "/assets/favicon/mstile-150x150.png",
         "/assets/favicon/safari-pinned-tab.svg",
-        "/assets/favicon/site.webmanifest",
         "/assets/icons/icon-128x128.png",
         "/assets/icons/icon-144x144.png",
         "/assets/icons/icon-152x152.png",
@@ -116,10 +116,10 @@
     "/assets/favicon/favicon-16x16.png": "69b789c83e0734192bfb1e1c5df7c9dccb5a43fe",
     "/assets/favicon/favicon-32x32.png": "0a6aec2e51afacb198c07a3a27a68caa9300efd3",
     "/assets/favicon/favicon.ico": "34b07d5958581d5b3607ea3a228b2425434fe849",
+    "/assets/favicon/manifest.json": "13e5aa58eb2182d8ace63266856c8cc29c47c083",
     "/assets/favicon/mstile-144x144.png": "d32da9771ac8242a7af4a49569d068f7c0b7788b",
     "/assets/favicon/mstile-150x150.png": "49e9f7015e89ca0a3bf6a5d667f2d99e4c567df9",
     "/assets/favicon/safari-pinned-tab.svg": "7750bdaaaefc7f008e9726d2aba3f99621266a2f",
-    "/assets/favicon/site.webmanifest": "13e5aa58eb2182d8ace63266856c8cc29c47c083",
     "/assets/icons/icon-128x128.png": "8f135dfb621667a3f64dc00195d5450c9aeddac5",
     "/assets/icons/icon-144x144.png": "8222179ccf5c7a6876860d96134370033c62167e",
     "/assets/icons/icon-152x152.png": "e7a70408baf3b60f57176b169b41e89ba9d7c037",
@@ -164,8 +164,8 @@
     "/assets/upload_7524de7313ec16993be6572f11851ee7": "2ecc317522e5fbb5a09f0ed8d757d5211d7e8b10",
     "/favicon.ico": "34b07d5958581d5b3607ea3a228b2425434fe849",
     "/icon-384x384.98e997244d7280accb2b.png": "806a58f594adc73db511141c03ce02447617fdaa",
-    "/index.html": "d0cb98fc2a9572d8f08560951c55465d545b9177",
-    "/main.ff43b746f12273711e22.js": "134986ccdcb561fabeab9e796b7a6312e7c72b19",
+    "/index.html": "12dfc8d103de2515f56b18c5c35f1bd754932e31",
+    "/main.5d35403d0c2b31c8b310.js": "6b9a6caa586a6d912d7c8d2dd93eb58b2adfb952",
     "/polyfills.c43906a5e2c4ad7f529e.js": "04ab607f9953d36c1c194e4f240a3711899d1a68",
     "/runtime.26209474bfa8dc87a77c.js": "b62956c2192bfe5516d6374e753773901ed50ec5",
     "/signup-pic-100.8e6f882925eea9033901.png": "3cca8ddd4840cb4e15dd02856cb12785ce16c063",
