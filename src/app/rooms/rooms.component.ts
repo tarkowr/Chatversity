@@ -63,6 +63,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
     roomNameGroup: new FormGroup({
       roomName: new FormControl('', [
         Validators.required,
+        Validators.pattern(/(.*[a-z0-9]){3}/i),
         Validators.maxLength(60)
       ])
     }),
@@ -331,13 +332,13 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   //
 
     createRoom() { // TODO: Add to message service
-      console.log('room submitted')
-      console.log(this.formImport)
-      console.log(this.finalRoomData)
-
       const roomName = this.formImport.value.roomNameGroup.roomName
       const privateRoom = this.formImport.value.privateRoomGroup.privateRoom
       // const roomCipher = CryptoJS.AES.encrypt('secret message', 'secret key').toString()
+
+      console.log('Room Submitted!')
+      // console.log(this.formImport)
+      // console.log(this.finalRoomData)
 
       // If no file added => get ui avatar (add to file list)
       if ( this.pond.getFiles().length ) {

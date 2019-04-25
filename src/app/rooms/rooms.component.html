@@ -37,11 +37,11 @@
     <div class="col-12 col-lg-9 overflow-auto" style="background-color: #fafdff; border-left:1px solid #DAE6ED;">
       <div class="chat-window overflow-auto" style="height: calc(100vh - 174px); position:relative;">
               
-        <ng-container *ngIf="room_messages">
+        <ng-container *ngIf="room_messages && current_room">
           <div class="container-fluid mt-3 mb-2" #chatReel>
             <div *ngFor="let message of room_messages">
-
-              <ng-container *ngIf="message.room.id===current_room.id">
+              <span *ngIf="current_room.id"></span>
+              <ng-container *ngIf="message.room?.id===current_room.id">
                 <div class="row" id="chatReel">
                   <!-- Messages -->
                   <div class="col-12">
