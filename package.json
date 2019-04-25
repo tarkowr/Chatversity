@@ -3,10 +3,10 @@
   "nativescript": {
     "id": "com.chatversity"
   },
-  "version": "0.0.0",
+  "version": "10.15.3",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -15,11 +15,15 @@
     "ios": "tns run ios --bundle",
     "mobile": "tns run --bundle",
     "preview": "tns preview --bundle",
-    "compodoc": "./node_modules/.bin/compodoc -p tsconfig.json -s"
+    "compodoc": "./node_modules/.bin/compodoc -p tsconfig.json -s",
+    "postinstall": "ng build --aot --prod",
+    "heroku-postbuild": "ng build --prod"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "~7.2.0",
+    "@angular/cli": "^7.2.0",
+    "@angular/compiler-cli": "~7.2.0",
     "@angular/common": "~7.2.0",
     "@angular/compiler": "~7.2.0",
     "@angular/core": "~7.2.0",
