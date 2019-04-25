@@ -23,7 +23,11 @@ export class SmallComponent implements OnInit {
     this.graduationYear = this.getUserGradYr()
   }
 
-  // Check if user can add popup profile user as connection
+
+  //
+  // ─── CHECK IF CURRENT USER CAN ADD THIS USER AS A CONNECTION ─────────────────────────────────────────────────
+  //
+
   canAddAsConnection() {
     if (!this.currUser) {
       return false
@@ -35,10 +39,13 @@ export class SmallComponent implements OnInit {
 
     return (this.currUser.id === this.user.id) ? false : true
   }
+  // ─────────────────────────────────────────────────────────────────
+
 
   //
   // ─── CHECK IF USERS ARE CONNECTED ───────────────────────────────────────────────────
   //
+
   validateIsConnectionStatus() {
     if (!this.currUser.customData.connections) {
       this.currUser.customData['connections'] = []
@@ -53,7 +60,11 @@ export class SmallComponent implements OnInit {
   }
   // ─────────────────────────────────────────────────────────────────
 
-  // Get user's bio
+
+  //
+  // ─── GET THE POPUP USER'S BIO ───────────────────────────────────────────────────
+  //
+
   getUserBio() {
     try {
       this.bio = this.user.customData.bio
@@ -71,8 +82,13 @@ export class SmallComponent implements OnInit {
 
     return this.bio
   }
+  // ─────────────────────────────────────────────────────────────────
 
-  // Get user's gradution year
+
+  //
+  // ─── GET THE POPUP USER'S GRADUATION YEAR ───────────────────────────────────────────────────
+  //
+
   getUserGradYr() {
     try {
       this.graduationYear = this.user.customData.graduationYear
@@ -90,8 +106,13 @@ export class SmallComponent implements OnInit {
 
     return this.graduationYear
   }
+  // ─────────────────────────────────────────────────────────────────
 
-  // Add user as a connection
+
+  //
+  // ─── ADD POPUP USER AS A CONNECTION ───────────────────────────────────────────────────
+  //
+
   addConnection() {
     if (!this.validateIsConnectionStatus()) {
       return
@@ -113,17 +134,21 @@ export class SmallComponent implements OnInit {
     this.userService.update(this.currUser.id, JSON.stringify(currentUserData))
     .toPromise()
     .then((data) => {
-      console.log('UPDATED CHATKIT USER', this.currUser)
-
+      // console.log('UPDATED CHATKIT USER', this.currUser)
       this.setUserConnections(data)
-
       this.loading = false
     })
   }
+  // ─────────────────────────────────────────────────────────────────
 
-  // Set updated connections
+
+  //
+  // ─── UPDATE CURRENT USER'S DATA ───────────────────────────────────────────────────
+  //
+
   setUserConnections(userData) {
     this.currUser.customData = userData.custom_data
     this.currUser.updatedAt = userData.updated_at
   }
+  // ─────────────────────────────────────────────────────────────────
 }

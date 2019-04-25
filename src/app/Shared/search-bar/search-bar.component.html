@@ -1,3 +1,4 @@
+<!--Profile Popup-->
 <app-small *ngIf="selectedUser" [currUser]="currUser" [user]="selectedUser"></app-small>
 
 <!--Search Bar-->
@@ -10,6 +11,8 @@
 
 <!--Search results-->
 <div class="my-2 search-results" *ngIf="(submitted && !searchForm.invalid)">
+
+  <!--User results-->
   <div *ngIf="(userResults)">
       <div class="text-light">Users:</div> <hr>
       <div *ngFor="let user of userResults">
@@ -42,17 +45,19 @@
     </div>
   </div>
 
+  <!--Room results-->
   <div *ngIf="(roomResults)" class="my-2">
       <div class="text-light">Rooms:</div> <hr>
       <div *ngFor="let room of roomResults">
           <button class="btn btn-block text-left px-3 py-2 my-2 user-card d-flex align-items-center">
+              <ngx-avatar class="mr-2" *ngIf="!room.customData?.roomAvatar" [name]="room.name" size="40"></ngx-avatar>
               <span class="text-secondary ml-1">{{ room.name }}</span>
 
-              <button *ngIf="!checkIfInRoom(room.id)" class="btn ml-auto text-primary" (click)="joinRoom(room)">
+              <button *ngIf="!checkIfInRoom(room.id)" class="btn ml-auto text-primary mr-1" (click)="joinRoom(room)">
                 <i class="fa fa-plus fa-sm"></i>&nbsp; Join Room
               </button>
 
-              <div *ngIf="checkIfInRoom(room.id)" class="ml-auto py-2">
+              <div *ngIf="checkIfInRoom(room.id)" class="ml-auto py-2 mr-3">
                 <small class="text-muted">Joined</small>
               </div>
           </button>
@@ -70,6 +75,7 @@
   </div>
 </div>
 
+<!--Default Text-->
 <div *ngIf="userType" class="my-2">
   <div *ngIf="(!submitted)">
     <span class="text-light ml-2">Search users and add them as Connections!</span>

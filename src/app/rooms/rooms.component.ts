@@ -108,8 +108,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   //
 
     deleteRoom(id) {
-
-      console.log(id)
+      // console.log(id)
       this.messageService.deleteRoom(this.currentUser, id).then((latestRoom) => {
 
         // remove local messages from the deleted room...
@@ -145,6 +144,45 @@ export class RoomsComponent implements OnInit, AfterViewInit {
     }
   // ────────────────────────────────────────────────────────────────────────────────
 
+
+  //
+  // ─── HANDLE LEAVE ROOM ─────────────────────────────────────────────────────────
+  //
+
+  leaveRoom(id) {
+    // console.log(id)
+    this.messageService.leaveRoom(this.currentUser, id).then((latestRoom) => {
+
+      // Remove local messages from the room that the user left
+      for ( let i = 0; i < this.room_messages.length; i++) {
+        if ( this.room_messages[i].id === id) {
+          this.room_messages.splice(i, 1)
+        }
+      }
+
+      // Remove the room that the user left from the local rooms array
+      for ( let i = 0; i < this.rooms.length; i++) {
+        if ( this.rooms[i].id === id) {
+          this.rooms.splice(i, 1)
+        }
+      }
+
+      // Join the latest room
+      this.messageService.joinRoom(this.currentUser, latestRoom.id).then((room) => {
+
+      // Update current room
+      this.current_room = room
+
+      // Get the room messages
+      this.messageService.fetchRoomMessages(this.currentUser, room.id, '', 20).then((messages) => {
+          this.room_messages = messages
+          // console.log(this.room_messages)
+          // console.log(messages)
+        })
+      })
+    })
+  }
+  // ────────────────────────────────────────────────────────────────────────────────
 
 
   //

@@ -38,7 +38,7 @@ export class SearchBarComponent implements OnInit {
   get f() { return this.searchForm.controls }
 
   //
-  // ─── RETURN USER FROM FRIEND LIST ───────────────────────────────────────────────
+  // ─── RETURN USER FROM FRIEND LIST BY ID ───────────────────────────────────────────────
   //
 
   getUser(_id: number): any {
@@ -47,7 +47,7 @@ export class SearchBarComponent implements OnInit {
   // ────────────────────────────────────────────────────────────────────────────────
 
   //
-  // ─── RETURN USER FROM FRIEND LIST ───────────────────────────────────────────────
+  // ─── RETURN ROOM FROM ROOMS BY ID ───────────────────────────────────────────────
   //
 
   getRoom(_id: number): any {
@@ -55,16 +55,6 @@ export class SearchBarComponent implements OnInit {
   }
   // ────────────────────────────────────────────────────────────────────────────────
 
-
-  //
-  // ─── SORT CONNECTIONS LIST ──────────────────────────────────────────────────────
-  //
-
-  sortList(users: any) {
-    return  users.sort((a, b) => ((a.firstName.toLowerCase() + ' ' + a.lastName.toLowerCase())
-    > (b.firstName.toLowerCase() + ' ' + b.lastName.toLowerCase()) ? 1 : -1))
-  }
-  // ────────────────────────────────────────────────────────────────────────────────
 
   //
   // ─── FILTER LIST OF USERS BY NAME ───────────────────────────────────────────────
@@ -76,13 +66,14 @@ export class SearchBarComponent implements OnInit {
   // ────────────────────────────────────────────────────────────────────────────────
 
   //
-  // ─── FILTER LIST OF USERS BY NAME ───────────────────────────────────────────────
+  // ─── FILTER LIST OF ROOMS BY NAME ───────────────────────────────────────────────
   //
 
   getRoomsByName(_name: string) {
      this.roomResults = this.search(_name, this.rooms)
   }
   // ────────────────────────────────────────────────────────────────────────────────
+
 
   //
   // ─── HELPER SEARCH METHOD ─────────────────────────────────────────────────────────────
@@ -95,6 +86,7 @@ export class SearchBarComponent implements OnInit {
     return _data.filter(d =>
       d.name.toLowerCase().substring(0, _length).includes(_query)).splice(0, 5)
   }
+
 
   //
   // ─── HANDLE SEARCH ─────────────────────────────────────────────────────────────
@@ -124,6 +116,7 @@ export class SearchBarComponent implements OnInit {
   }
   // ────────────────────────────────────────────────────────────────────────────────
 
+
   //
   // ─── HANDLE CLICK USER BUTTON ───────────────────────────────────────────────────
   //
@@ -132,6 +125,7 @@ export class SearchBarComponent implements OnInit {
     this.selectedUser = _user
   }
   // ─────────────────────────────────────────────────────────────────
+
 
   //
   // ─── CHECK IF USERS ARE CONNECTED ───────────────────────────────────────────────────
@@ -149,6 +143,7 @@ export class SearchBarComponent implements OnInit {
   }
   // ─────────────────────────────────────────────────────────────────
 
+
   //
   // ─── HANDLE CLICK ROOM BUTTON ───────────────────────────────────────────────────
   //
@@ -157,6 +152,7 @@ export class SearchBarComponent implements OnInit {
     this.selectedRoom = _room
   }
   // ─────────────────────────────────────────────────────────────────
+
 
   //
   // ─── HANDLE JOIN ROOM ───────────────────────────────────────────────────
@@ -171,6 +167,7 @@ export class SearchBarComponent implements OnInit {
   }
   // ─────────────────────────────────────────────────────────────────
 
+
   //
   // ─── CHECK IF USER IS IN ROOM ───────────────────────────────────────────────────
   //
@@ -183,6 +180,7 @@ export class SearchBarComponent implements OnInit {
   }
   // ─────────────────────────────────────────────────────────────────
 
+
   //
   // ─── CHECKS IF USER IS ONLINE ───────────────────────────────────────────────────
   //
@@ -191,6 +189,7 @@ export class SearchBarComponent implements OnInit {
     return (this.currUser.presenceStore[_id] === 'online') ? true : false
   }
   // ─────────────────────────────────────────────────────────────────
+
 
   //
   // ─── RETURNS USER ACTIVITY STATUS ───────────────────────────────────────────────────
@@ -201,19 +200,20 @@ export class SearchBarComponent implements OnInit {
   }
   // ─────────────────────────────────────────────────────────────────
 
+
   ngOnInit() {
     // Get current user
     this.authService.getCurrentUser().subscribe(
       (user) => {
         this.currUser = user
-        console.log('CHATKIT USER:', this.currUser)
+        // console.log('CHATKIT USER:', this.currUser)
 
         // Get all users
         if (this.userType) {
           this._userService.getAll()
           .toPromise()
           .then((data) => {
-            console.log('RESPONSE USER:', data)
+            // console.log('RESPONSE USER:', data)
             this.users = data
           })
           .catch((error) => {
@@ -226,7 +226,7 @@ export class SearchBarComponent implements OnInit {
           this._msgService.getAllRooms()
           .toPromise()
           .then((data) => {
-            console.log('RESPONSE ROOM:', data)
+            // console.log('RESPONSE ROOM:', data)
             this.rooms = data
           })
           .catch((error) => {

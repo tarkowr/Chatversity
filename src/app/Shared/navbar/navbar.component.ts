@@ -1,8 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { MessagingService } from '../../Core/_services/messaging.service';
-import { AuthService } from '../../Core/_services/auth.service';
-import { Observable } from 'rxjs';
-import { forEach } from '@angular/router/src/utils/collection';
+import { Component, OnInit, Input } from '@angular/core'
+import { MessagingService } from '../../Core/_services/messaging.service'
+import { AuthService } from '../../Core/_services/auth.service'
+import { Observable } from 'rxjs'
+import { forEach } from '@angular/router/src/utils/collection'
 
 @Component({
   selector: 'app-navbar',
@@ -11,16 +11,16 @@ import { forEach } from '@angular/router/src/utils/collection';
 })
 export class NavbarComponent implements OnInit {
 
-  currentUser: any;
-  rooms: Array<any>;
-  roomsWithNewMessages: Array<any> = [];
+  currentUser: any
+  rooms: Array<any>
+  roomsWithNewMessages: Array<any> = []
 
   constructor(private authService: AuthService, private messageService: MessagingService) {}
 
   setNotifications(user) {
 
-    const rooms = user.rooms;
-    let i = 0;
+    const rooms = user.rooms
+    let i = 0
 
     // foreach room -> compare latest message to user cursor
     rooms.forEach(room => {
@@ -38,26 +38,23 @@ export class NavbarComponent implements OnInit {
             roomId: room.id
           }).position) {
 
-            console.log(`New message in ${messages[0].room.name}`);
-            this.roomsWithNewMessages.push(room);
+            // console.log(`New message in ${messages[0].room.name}`)
+            this.roomsWithNewMessages.push(room)
 
           }
         })
         .catch(err => {
-          console.log(`Error fetching messages: ${err}`);
-        });
+          console.log(`Error fetching messages: ${err}`)
+        })
 
-        i++;
-
-    });
+        i++
+    })
   }
 
   ngOnInit() {
-
     this.authService.getCurrentUser().subscribe((user) => {
       this.currentUser = user
     })
-
-    console.log(this.currentUser)
+    // console.log(this.currentUser)
   }
 }

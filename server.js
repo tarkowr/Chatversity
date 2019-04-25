@@ -28,11 +28,9 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json())
 
-
 // User CORS for local testing
 // ! TESTING ONLY - REMOVE FOR PROD
 app.use(cors())
-
 
 // Get our API routes
 const api = require('./server/routes/api')
@@ -43,8 +41,6 @@ const okta = require('./server/routes/okta')
 // Get Chatkit routes for Pusher
 const chatkit = require('./server/routes/chatkit')
 
-
-
 // API route
 app.use('/api', api)
 
@@ -54,15 +50,10 @@ app.use('/okta', okta)
 // Chatkit route for messaging
 app.use('/chatkit', chatkit)
 
-
-
-
 // Point static path to dist
 // app.use("/avatars", express.static(__dirname + "/app/assets/avatars"));
 // app.use("/uploads", express.static(__dirname + "/app/assets/uploads"));
 // app.use("/uploads", express.static(__dirname + "/uploads/adsf"));
-
-
 
 //
 // ─── CREATE MULTER INSTANCE ─────────────────────────────────────────────────────
@@ -84,13 +75,11 @@ app.use('/chatkit', chatkit)
 // ────────────────────────────────────────────────────────────────────────────────
 
 
-
 //
 // ──────────────────────────────────────────────────── I ──────────
 //   :::::: R O U T E S : :  :   :    :     :        :          :
 // ──────────────────────────────────────────────────────────────
 //
-
 
 
 //
@@ -124,7 +113,6 @@ app.use('/chatkit', chatkit)
     });
   })
 // ────────────────────────────────────────────────────────────────────────────────
-
 
 
 //
@@ -170,10 +158,6 @@ app.use('/chatkit', chatkit)
     // }
 
     
-
-
-
-
     console.log('received file')
   });
 
@@ -262,19 +246,10 @@ app.use('/chatkit', chatkit)
         return (domain === domainToFind)
       });
     });
-  // http.post(`${environment.apiUrl}/okta/forgot`)
     res.status(200).json(found);
-    // res.status(200).json(req.params.query);
-  //   res.status(200).json({
-  //     universities: universities
-  //  });
-    // TODO: Search JSON file and return university if query matched
-
-    // console.log(req.params.query);
   });
 
 // ────────────────────────────────────────────────────────────────────────────────
-
 
 
 //
@@ -297,7 +272,6 @@ app.use('/chatkit', chatkit)
   })
 
 // ────────────────────────────────────────────────────────────────────────────────
-
 
 
 /**

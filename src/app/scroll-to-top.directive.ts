@@ -1,4 +1,4 @@
-import { Directive, ElementRef } from '@angular/core';
+import { Directive, ElementRef } from '@angular/core'
 
 @Directive({
   selector: '[appScrollToTop]'
@@ -6,8 +6,8 @@ import { Directive, ElementRef } from '@angular/core';
 export class ScrollToTopDirective {
 
   constructor(el: ElementRef) {
-    el.nativeElement.style.backgroundColor = 'yellow';
-    console.log(el.nativeElement.offsetHeight);
+    el.nativeElement.style.backgroundColor = 'yellow'
+    // console.log(el.nativeElement.offsetHeight)
  }
 
 }
