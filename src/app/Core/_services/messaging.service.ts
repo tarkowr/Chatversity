@@ -220,7 +220,6 @@ export class MessagingService {
         const roomWithMessages = new Array(roomId, messages)
         console.log(roomWithMessages)
 
-
         this.rooms.push(roomWithMessages)
         return messages
       })
@@ -285,7 +284,18 @@ export class MessagingService {
     return this.http.get<any[]>(`${environment.apiUrl}/chatkit/rooms`)
   }
 
-
+  subscribeToRoom(user, roomId) {
+    user.subscribeToRoomMultipart({
+      roomId: roomId,
+      hooks: {
+          onMessage: message => {
+            // console.log('Received message', message);
+            this.messages.next(message)
+          }
+      },
+      messageLimit: 10
+    })
+  }
 
   initChatkit(userId) {
 
@@ -326,7 +336,7 @@ export class MessagingService {
         // If user has no rooms then return
         if (user.rooms.length) {
            console.log('subscribing to all rooms')
-           
+
           // Subscribe to all user rooms to be notified of new messages
           this.subscribeToAllRooms()
 

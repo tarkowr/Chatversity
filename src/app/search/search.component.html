@@ -14,11 +14,13 @@
       </div>
   
       <div class="col-12 col-lg-9" style="background-color: #fafdff; border-left:1px solid #DAE6ED;">
-        <div *ngIf="this.UserView.current">
-          <app-search-bar [userType]="true" [roomType]="false"></app-search-bar>
-        </div>
-        <div *ngIf="this.RoomView.current">
-          <app-search-bar [userType]="false" [roomType]="true"></app-search-bar>
+        <div class="p-2">
+          <div *ngIf="this.UserView.current">
+            <app-search-bar [userType]="true" [roomType]="false"></app-search-bar>
+          </div>
+          <div *ngIf="this.RoomView.current">
+            <app-search-bar [userType]="false" [roomType]="true"></app-search-bar>
+          </div>
         </div>
       </div>
     </div>
