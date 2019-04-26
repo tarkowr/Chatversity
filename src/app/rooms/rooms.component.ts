@@ -42,7 +42,8 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   messages: Object
   pondOptions: any
   finalRoomData: FormData
-  roomInvite: string;
+  roomInvite: string
+
   get roomPrivate(): string {
     return this._roomPrivate
   }
@@ -104,14 +105,11 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   }
 
 
-
-
   //
   // ─── HANDLE DELETE ROOM ─────────────────────────────────────────────────────────
   //
 
     deleteRoom(id) {
-      // console.log(id)
       this.messageService.deleteRoom(this.currentUser, id).then((latestRoom) => {
 
         // remove local messages from the deleted room...
@@ -137,9 +135,6 @@ export class RoomsComponent implements OnInit, AfterViewInit {
         // and get the room messages
         this.messageService.fetchRoomMessages(this.currentUser, room.id, '', 20).then((messages) => {
             this.room_messages = messages
-            console.log(this.room_messages)
-
-            console.log(messages)
           })
         })
 
@@ -153,7 +148,6 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   //
 
   leaveRoom(id) {
-    // console.log(id)
     this.messageService.leaveRoom(this.currentUser, id).then((latestRoom) => {
 
       // Remove local messages from the room that the user left
@@ -179,8 +173,6 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       // Get the room messages
       this.messageService.fetchRoomMessages(this.currentUser, room.id, '', 20).then((messages) => {
           this.room_messages = messages
-          // console.log(this.room_messages)
-          // console.log(messages)
         })
       })
     })
@@ -202,7 +194,6 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   // ────────────────────────────────────────────────────────────────────────────────
 
 
-
   //
   // ─── VIEW A USER IN THE ROOM ────────────────────────────────────────────────────
   //
@@ -211,7 +202,6 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       this.selectedRoomMember = user
     }
   // ────────────────────────────────────────────────────────────────────────────────
-
 
 
   //
@@ -224,13 +214,11 @@ export class RoomsComponent implements OnInit, AfterViewInit {
         text: message,
         roomId: this.current_room.id,
       }).then(res => {
-        console.log(res)
-        console.log()
+        // console.log(res)
       })
       this.message = ''
     }
   // ─────────────────────────────────────────────────────────────────
-
 
 
   //
@@ -248,15 +236,13 @@ export class RoomsComponent implements OnInit, AfterViewInit {
         this.messageService.fetchRoomMessages(this.currentUser, roomID, '', 20).then((messages) => {
 
           this.room_messages = messages
-          console.log(this.room_messages)
-
-          console.log(messages)
+          // console.log(this.room_messages)
+          // console.log(messages)
         })
       })
 
     }
   // ────────────────────────────────────────────────────────────────────────────────
-
 
 
   //
@@ -293,7 +279,6 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   // ────────────────────────────────────────────────────────────────────────────────
 
 
-
   //
   // ─── GET CHATKIT USER ───────────────────────────────────────────────────────────
   //
@@ -303,12 +288,10 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       .toPromise()
       .then(res => {
         return res
-        console.log(res)
       })
       .catch(error => console.log(error))
     }
   // ─────────────────────────────────────────────────────────────────
-
 
 
   //
@@ -320,13 +303,12 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       .toPromise()
       .then(res => {
         // this.rooms = res;
-        console.log(res)
+        // console.log(res)
         return res
       })
       .catch(error => console.log(error))
     }
   // ─────────────────────────────────────────────────────────────────
-
 
 
   //
@@ -339,12 +321,12 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       const privateRoom = this.formImport.value.privateRoomGroup.privateRoom
       // const roomCipher = CryptoJS.AES.encrypt('secret message', 'secret key').toString()
 
-      console.log('Room Submitted!')
+      // console.log('Room Submitted!')
       // console.log(this.formImport)
       // console.log(this.finalRoomData)
 
       console.log(this.pond.getFiles())
-      
+
 
       // If no file added => get ui avatar (add to file list)
       if ( this.pond.getFiles().length ) {
@@ -378,8 +360,8 @@ export class RoomsComponent implements OnInit, AfterViewInit {
         this.messageService.fetchRoomMessages(this.currentUser, room.id, '', 20).then((messages) => {
 
           this.room_messages = messages
-          console.log(this.room_messages)
-          console.log(messages)
+          // console.log(this.room_messages)
+          // console.log(messages)
         })
         // Update current room
         this.current_room = room
@@ -411,8 +393,8 @@ export class RoomsComponent implements OnInit, AfterViewInit {
         this.messageService.fetchRoomMessages(this.currentUser, room.id, '', 20).then((messages) => {
 
           this.room_messages = messages
-          console.log(this.room_messages)
-          console.log(messages)
+          // console.log(this.room_messages)
+          // console.log(messages)
         })
         // Update current room
         this.current_room = room
@@ -420,9 +402,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
     })
   }
 }
-
   // ────────────────────────────────────────────────────────────────────────────────
-
 
 
   //
@@ -431,25 +411,21 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
     MessageSentToday(msgDate: Date) {
 
-      // get current date
+      // Get current date
       const currDate = new Date()
       currDate.setDate(currDate.getDate())
-      // console.log(currDate);
 
-
-      // get message date
+      // Get message date
       msgDate = new Date(msgDate)
-      // console.log(msgDate);
 
       const daysBetween = Math.floor(( Date.parse(currDate.toDateString()) - Date.parse(msgDate.toDateString()) ) / 86400000)
 
-      if (daysBetween >= 7) {
-        // console.log('Message is at least 7 days old')
+      if (daysBetween >= 1) {
+        return false
       }
-      return false
+      return true
     }
   // ────────────────────────────────────────────────────────────────────────────────
-
 
 
   ngOnInit() {
@@ -535,9 +511,9 @@ export class RoomsComponent implements OnInit, AfterViewInit {
         }
       }
 
-      console.log(this.current_room)
-      console.log(user.rooms)
-      console.log(user)
+      // console.log(this.current_room)
+      // console.log(user.rooms)
+      // console.log(user)
     })
   }
 
