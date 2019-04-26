@@ -357,12 +357,23 @@ export class RoomsComponent implements OnInit, AfterViewInit {
             customData: {
               roomAvatar: filePath,
             }, // Add room avatar to custom room data
-          }).then( room => { // Succes
-              this.rooms.push(room) // Add the new room to the list
-              this.roomCreated = true
-              console.log(room)
-              console.log(`Created room called ${room.name}`)
-            })
+          }).then( newRoom => { // Succes
+            this.rooms.push(newRoom) // Add the new room to the list
+            this.roomCreated = true
+            this.messageService.subscribeToRoom(this.currentUser, newRoom.id)
+            // Join the latest room
+      this.messageService.joinRoom(this.currentUser, newRoom.id).then((room) => {
+
+        this.messageService.fetchRoomMessages(this.currentUser, room.id, '', 20).then((messages) => {
+
+          this.room_messages = messages
+          console.log(this.room_messages)
+          console.log(messages)
+        })
+        // Update current room
+        this.current_room = room
+      })
+    })
             .catch(err => { // Failed room creation
               console.log(`Error creating room ${err}`)
             })
@@ -374,17 +385,26 @@ export class RoomsComponent implements OnInit, AfterViewInit {
         this.currentUser.createRoom({ // Create the room
           name: roomName,
           private: privateRoom,
-        }).then( room => { // Succes
-            this.rooms.push(room) // Add the new room to the list
+        }).then( newRoom => { // Succes
+            this.rooms.push(newRoom) // Add the new room to the list
             this.roomCreated = true
-            console.log(room)
-            console.log(`Created room called ${room.name}`)
-          })
-          .catch(err => { // Failed room creation
-            console.log(`Error creating room ${err}`)
-          })
-      }
-    }
+            this.messageService.subscribeToRoom(this.currentUser, newRoom.id)
+            // Join the latest room
+      this.messageService.joinRoom(this.currentUser, newRoom.id).then((room) => {
+
+        this.messageService.fetchRoomMessages(this.currentUser, room.id, '', 20).then((messages) => {
+
+          this.room_messages = messages
+          console.log(this.room_messages)
+          console.log(messages)
+        })
+        // Update current room
+        this.current_room = room
+      })
+    })
+  }
+}
+
   // ────────────────────────────────────────────────────────────────────────────────
 
 
