@@ -29,6 +29,9 @@ router.get('/', (req, res) => {
 });
 
 
+//
+// ─── INVITE USER TO ROOM BY CODE ────────────────────────────────────────────────────────
+//
 
 router.get('/invite/:code', (req, res) => {
 
@@ -52,7 +55,7 @@ router.get('/invite/:code', (req, res) => {
   //   .then(() => console.log('added'))
   //   .catch(err => console.error(err))
 })
-
+// ────────────────────────────────────────────────────────────────────────────────
 
 
 //
@@ -66,7 +69,6 @@ router.get('/invite/:code', (req, res) => {
   });
 
 // ────────────────────────────────────────────────────────────────────────────────
-
 
 
 //
@@ -102,7 +104,6 @@ router.get('/invite/:code', (req, res) => {
 // ────────────────────────────────────────────────────────────────────────────────
 
 
-
 //
 // ─── GET READ CURSORS FOR USER ──────────────────────────────────────────────────
 //
@@ -113,13 +114,11 @@ router.get('/invite/:code', (req, res) => {
       })
       .then(cursors => {
         res.status(200).json(cursors);
-        console.log(cursors);
-        console.log('got cursors', cursors)
+        // console.log(cursors);
       })
       .catch(err => console.error(err))
   })
 // ────────────────────────────────────────────────────────────────────────────────
-
 
 
 //
@@ -144,16 +143,12 @@ router.get('/invite/:code', (req, res) => {
 // ────────────────────────────────────────────────────────────────────────────────
 
 
-
 //
 // ─── UPDATE USER ────────────────────────────────────────────────────────────────
 // 
 
   router.post('/user/:id', (req, res) => {
-    console.log(req.body);
-
     let name = req.body.name;
-
     delete req.body.name;
 
     chatkit.updateUser({
@@ -168,7 +163,7 @@ router.get('/invite/:code', (req, res) => {
         id: req.params.id,
       })
       .then((user) => {
-        console.log('UPDATED USER:', user)
+        // console.log('UPDATED USER:', user)
         res.status(200).json(user) // Return the updated user
       })
 
@@ -179,13 +174,11 @@ router.get('/invite/:code', (req, res) => {
 // ────────────────────────────────────────────────────────────────────────────────
 
 
-
 //
 // ─── GET USER ───────────────────────────────────────────────────────────────────
 //
   
   router.post('/getuser', (req, res) => {
-
       chatkit.getUser({
           id: req.body.user_id,
       })
@@ -193,7 +186,6 @@ router.get('/invite/:code', (req, res) => {
       .catch(err => res.status(500).send(err));
   });
 // ────────────────────────────────────────────────────────────────────────────────
-
 
 
 //
@@ -214,7 +206,9 @@ router.get('/invite/:code', (req, res) => {
 //
 
 router.get('/users', (req, res) => {
-  chatkit.getUsers()
+  chatkit.getUsers({
+    limit: 100
+  })
   .then((users) => {
     res.status(200).json(users)
   }).catch((err) => {
@@ -222,6 +216,7 @@ router.get('/users', (req, res) => {
   });
 })
 // ────────────────────────────────────────────────────────────────────────────────
+
 
 //
 // ─── GET ALL ROOMS ─────────────────────────────────────────────────────────────
@@ -238,6 +233,9 @@ router.get('/rooms', (req, res) => {
 // ────────────────────────────────────────────────────────────────────────────────
 
 
+//
+// ─── IMAGE UPLOAD ─────────────────────────────────────────────────────────────
+//
 
 var type = upload.single('file');
 // Upload room or user avatar to Mongo
@@ -270,46 +268,52 @@ router.post('/upload/avatar', type, (req, res) => {
   //   //   if (err) return console.error(err);
   //   //   console.log(files);
   //   // })
-  });
+});
+// ────────────────────────────────────────────────────────────────────────────────
 
-  //
-  // ─── CREATE USER ────────────────────────────────────────────────────────────────
-  //
 
-  router.post('/createuser', (req, res) => {
-    console.log(req.body)
-    chatkit.createUser({
-      id: req.body.id,
-      name: req.body.name,
-      customData: req.body.custom_data,
-    })
-      .then((user) => {
-        res.status(200).json(user);
-        console.log('User created successfully');
-      }).catch((err) => {
-        console.log(err);
-      });
+//
+// ─── CREATE USER ────────────────────────────────────────────────────────────────
+//
+
+router.post('/createuser', (req, res) => {
+  chatkit.createUser({
+    id: req.body.id,
+    name: req.body.name,
+    customData: req.body.custom_data,
   })
-  // ────────────────────────────────────────────────────────────────────────────────
+    .then((user) => {
+      res.status(200).json(user);
+      console.log('User created successfully');
+    }).catch((err) => {
+      console.log(err);
+    });
+})
+// ────────────────────────────────────────────────────────────────────────────────
 
 
+//
+// ─── GET USER'S ROOMS ─────────────────────────────────────────────────────────────
+//
 
 // Get user rooms
 router.post('/GetUserRooms', async (req, res) => {
-    
     chatkit.getUserRooms({
         userId: req.body.user_id,
     })
     .then((rooms) => res.status(200).json(rooms))
     .catch((err) => res.status(500).send(err));
 });
+// ────────────────────────────────────────────────────────────────────────────────
 
 
+//
+// ─── CREATE CHATKIT TOKEN ─────────────────────────────────────────────────────────────
+//
 
-// Get Chatkit User
 // TODO: Update to dynamically pull url from config
 router.post('/createtoken', (req, res) => {
-    console.log('CHATKIT REQUEST:', req);
+    // console.log('CHATKIT REQUEST:', req);
     axios.post(`${process.env.CHATKIT_TEST_TOKEN_ENDPOINT}/token`, {
         "grant_type": "client_credentials",
         "user_id": req.body.user_id
@@ -329,6 +333,6 @@ router.post('/createtoken', (req, res) => {
       res.status(500).send('<p>'+ error +'</p>');
     });
 });
-
+// ────────────────────────────────────────────────────────────────────────────────
 
 module.exports = router;

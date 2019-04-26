@@ -52,7 +52,7 @@ export class SignupComponent implements OnInit {
         Validators.required, Validators.email, Validators.pattern(this.formValidation.eduEmailValidation)
       ])],
       password: ['', Validators.compose([
-        Validators.required, Validators.minLength(8), Validators.pattern(this.formValidation.passwordValidation)
+        Validators.required, Validators.minLength(8), Validators.maxLength(40), Validators.pattern(this.formValidation.passwordValidation)
       ])]
     })
 

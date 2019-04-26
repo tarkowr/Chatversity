@@ -22,7 +22,7 @@
           <!-- BEGIN FORM -->
           <form *ngIf="editingForm" id="profileEditForm" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
   
-            <div *ngIf="submitted && f.name.errors">
+            <div *ngIf="submitted && (f.name.errors || f.graduationYear.errors)">
               <div class="alert alert-danger" role="alert">Unable to update profile.</div>
             </div>
 
@@ -74,7 +74,13 @@
                 <div class="form-group mb-3">
                   <label for="graduationYear" class="text-secondary">Graduation Year</label>
                   <input type="number" class="form-control" id="graduationYear" name="graduationYear" placeholder="2025"
-                  formControlName="graduationYear">
+                  formControlName="graduationYear" min="1900" max="{{ getFutureDate() }}"
+                  [ngClass]="{ 'is-invalid': submitted && f.graduationYear.errors }">
+
+                  <div *ngIf="submitted && f.graduationYear.errors" class="invalid-feedback">
+                    <div *ngIf="f.graduationYear.errors.min">Minimum year: 1900</div>
+                    <div *ngIf="f.graduationYear.errors.max">Maximum year: {{ getFutureDate() }}</div>
+                  </div>
               </div>
             </div>
           </div>

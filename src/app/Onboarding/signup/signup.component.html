@@ -89,14 +89,15 @@
             <!--Password-->
             <div class="form-group">
                 <label for="password" class="text-secondary">Password <span class="text-danger">*</span></label>
-                <input type="password" required formControlName="password" placeholder="Create a password"
+                <input type="password" required formControlName="password" placeholder="Create a password" maxlength="40"
                     class="form-control primary-border" [ngClass]="{ 'is-invalid': submitted && f.password.errors, 'danger-border': submitted && f.password.errors }" />
                 
                 <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                     <div *ngIf="f.password.errors.required">Please choose a password.</div>
-                    <div *ngIf="f.password.errors.minlength || f.password.errors.pattern">Your password must have atleast: <br>
+                    <div *ngIf="(f.password.errors.minlength || f.password.errors.pattern) && !f.password.errors.maxlength">Your password must have atleast: <br>
                       <div style="padding-left:20px">>&nbsp; 8 characters <br> >&nbsp; 1 uppercase letter <br> >&nbsp; 1 number</div>
                     </div>
+                    <div *ngIf="f.password.errors.maxlength">Your password cannot exceed 40 characters</div>
                 </div>
 
                 <button [disabled]="loading" class="btn btn-login btn-primary btn-block mt-4 py-3"><span *ngIf="!loading">SIGN UP FOR CHATVERSITY</span>

@@ -19,7 +19,7 @@ export class SettingsProfileComponent implements OnInit {
   user: any
   subscription: any
   currentUser: any
-  pondOptions: any;
+  pondOptions: any
 
   name = ''
   bio = ''
@@ -101,6 +101,7 @@ export class SettingsProfileComponent implements OnInit {
 
       this.editingForm = false
       this.loading = false
+      this.submitted = false
     })
   }
 
@@ -121,12 +122,19 @@ export class SettingsProfileComponent implements OnInit {
       // Major
       major: [ this.major, MaxLengthValidator ],
       // Graduation year
-      graduationYear: [ this.graduationYear, MaxLengthValidator ],
+      graduationYear: [ this.graduationYear, Validators.compose([Validators.min(1900), Validators.max(this.getFutureDate())]) ],
       // Interests
       interests: [ this.interests, MaxLengthValidator ],
         // Clubs
       clubs: [ this.clubs, MaxLengthValidator ]
     })
+  }
+
+  //
+  // ─── GET YEAR THAT IS 20 YEARS GREATER THAN CURRENT YEAR ─────────────────────────────────────────────────
+  //
+  getFutureDate() {
+    return new Date().getFullYear() + 20
   }
 
   //

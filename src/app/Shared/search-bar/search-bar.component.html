@@ -5,7 +5,7 @@
 <form [formGroup]="searchForm" class="my-4">
   <div class="form-group mb-3">
       <input type="search" required class="form-control primary-border px-3" id="search" name="search" placeholder="Search" 
-      formControlName="search" (input)="onSearch()">
+      formControlName="search" (input)="onSearch()" maxlength="100">
   </div>
 </form>
 

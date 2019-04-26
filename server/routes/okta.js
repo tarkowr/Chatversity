@@ -51,7 +51,6 @@ router.get('/', (req, res) => {
 
   // TODO: Update to dynamically pull url from config
   router.post('/login', (req, res) => {
-      console.log('REQUEST:', req);
       axios.post(`https://dev-117825.okta.com/api/v1/authn`, {
           "username": req.body.username,
           "password": req.body.password,
@@ -84,7 +83,6 @@ router.get('/', (req, res) => {
 //
 
   router.post('/signup', (req, res) => {
-
     const newUser = {
       profile: {
         firstName: req.body.fname,
@@ -102,7 +100,7 @@ router.get('/', (req, res) => {
     client.createUser(newUser)
     .then(user => {
       res.status(200).json(user)
-      console.log('CREATED USER', user)
+      // console.log('CREATED USER', user)
     })
     .catch((err) => {
       console.log('CREATE USER ERROR ', err);
@@ -116,7 +114,7 @@ router.get('/', (req, res) => {
 //
 
   router.post('/forgot', (req, res) => { 
-      console.log('REQUEST:', req);
+      // console.log('REQUEST:', req);
       axios.post(`https://dev-117825.okta.com/api/v1/authn`, {
           "username": req.body.username,
           "relayState": "localhost:4200",
@@ -168,12 +166,10 @@ router.get('/users/:id', (req, res) => {
     if (user) { 
       res.status(200).send(user.data);
     }
-    // console.log('test');
   })
   .catch(error => {
     res.status(500).json('<p>'+ error +'</p>');
   });
  });
-
 
 module.exports = router;

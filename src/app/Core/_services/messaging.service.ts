@@ -1,7 +1,5 @@
 import { Injectable, OnInit } from '@angular/core'
-import {AuthService} from './auth.service'
 import { ChatManager, TokenProvider } from '@pusher/chatkit-client'
-import { User } from '../_models/user'
 import { BehaviorSubject, Subscription, ReplaySubject, Subject, Observable } from 'rxjs'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { environment } from '../../../environments/environment.prod'
@@ -36,23 +34,21 @@ export class MessagingService {
   // ─── HANDLE DELETE ROOM ─────────────────────────────────────────────────────────
   //
 
-    deleteRoom(user, id) {
+  deleteRoom(user, id) {
 
-      return user.deleteRoom({ roomId: id })
-      .then(() => {
-        console.log(`Deleted room with ID: ${id}`)
+    return user.deleteRoom({ roomId: id })
+    .then(() => {
+      this.latestReadCursor = false
+      this.latestRoom = false
 
-        this.latestReadCursor = false
-        this.latestRoom = false
+      this.latestRoom = this.getLatestRoom(user)
 
-        this.latestRoom = this.getLatestRoom(user)
-
-        return this.latestRoom
-      })
-      .catch(err => {
-        console.log(`Error deleted room ${id}: ${err}`)
-      })
-    }
+      return this.latestRoom
+    })
+    .catch(err => {
+      // console.log(`Error deleted room ${id}: ${err}`)
+    })
+  }
   // ────────────────────────────────────────────────────────────────────────────────
 
 
@@ -63,8 +59,6 @@ export class MessagingService {
   leaveRoom(user, id) {
     return user.leaveRoom({ roomId: id })
     .then(room => {
-      console.log(`Left room with ID: ${room.id}`)
-
       this.latestReadCursor = false
       this.latestRoom = false
 
@@ -73,7 +67,7 @@ export class MessagingService {
       return this.latestRoom
     })
     .catch(err => {
-      console.log(err)
+      // console.log(err)
     })
   }
   // ────────────────────────────────────────────────────────────────────────────────
@@ -83,41 +77,38 @@ export class MessagingService {
   // ─── SET READ CURSOR ────────────────────────────────────────────────────────────
   //
 
-    setLatestReadCursor(user, roomId) {
+  setLatestReadCursor(user, roomId) {
 
-      // get position (ID) of latest room message
-      this.fetchRoomMessages(user, roomId, '', 1).then((messages) => {
-        // console.log(messages)
+    // Get position (ID) of latest room message
+    this.fetchRoomMessages(user, roomId, '', 1).then((messages) => {
+      // console.log(messages)
 
-        if (!messages.length) {
-          user.rooms.forEach(room => {
-            if (room.id === roomId) {
-              this.latestRoom = room
-              return
-            }
+      if (!messages.length) {
+        user.rooms.forEach(room => {
+          if (room.id === roomId) {
+            this.latestRoom = room
+            return
+          }
+        })
+      } else {
+        // Set position of cursor to match
+        user.setReadCursor({
+            roomId: roomId,
+            position: messages[0].id
           })
-        } else {
-
-          // set position of cursor to match
-          user.setReadCursor({
-              roomId: roomId,
-              position: messages[0].id
+          .then(() => {
+            user.rooms.forEach(room => {
+              if (room.id === messages[0].roomId) {
+                this.latestRoom = room
+              }
             })
-            .then(() => {
-              user.rooms.forEach(room => {
-                if (room.id === messages[0].roomId) {
-                  this.latestRoom = room
-                }
-              })
-              // console.log(`Set read cursor in room ${roomId} with position ${messages[0].id}`)
-            })
-            .catch(err => {
-              // console.log(`Error setting cursor: ${err}`)
-            })
-        }
-
-      })
-    }
+          })
+          .catch(err => {
+            // console.log(`Error setting cursor: ${err}`)
+          })
+      }
+    })
+  }
   // ────────────────────────────────────────────────────────────────────────────────
 
 
@@ -125,19 +116,19 @@ export class MessagingService {
   // ─── SET READ CURSOR ────────────────────────────────────────────────────────────
   //
 
-    setReadCursor(user, roomId, position) {
+  setReadCursor(user, roomId, position) {
 
-      user.setReadCursor({
-          roomId: roomId,
-          position: position
-        })
-        .then(() => {
-          console.log(`Set read cursor in room ${roomId}`)
-        })
-        .catch(err => {
-          // console.log(`Error setting cursor: ${err}`)
-        })
-    }
+    user.setReadCursor({
+        roomId: roomId,
+        position: position
+      })
+      .then(() => {
+        // console.log(`Set read cursor in room ${roomId}`)
+      })
+      .catch(err => {
+        // console.log(`Error setting cursor: ${err}`)
+      })
+  }
   // ────────────────────────────────────────────────────────────────────────────────
 
 
@@ -145,27 +136,23 @@ export class MessagingService {
   // ─── GET LATEST ROOM ────────────────────────────────────────────────────────────
   //
 
-    getLatestRoom(user) {
-      console.log('Getting latest room...')
-      if (this.latestRoom) { return this.latestRoom }
+  getLatestRoom(user) {
+    if (this.latestRoom) { return this.latestRoom }
 
-      let latestRoom
-      const latestReadCursor = this.getLatestReadCursor(user)
-      console.log(latestReadCursor)
+    let latestRoom
+    const latestReadCursor = this.getLatestReadCursor(user)
+    // console.log(latestReadCursor)
 
-      if (!latestReadCursor) {
-        return user.rooms[0]
-      }
-
-      user.rooms.forEach(room => {
-        // console.log(room.id)
-        // console.log(latestReadCursor.roomId)
-
-        if (room.id === latestReadCursor.roomId) { latestRoom = room }
-      })
-
-      return latestRoom
+    if (!latestReadCursor) {
+      return user.rooms[0]
     }
+
+    user.rooms.forEach(room => {
+      // console.log(latestReadCursor.roomId)
+      if (room.id === latestReadCursor.roomId) { latestRoom = room }
+    })
+    return latestRoom
+  }
   // ─────────────────────────────────────────────────────────────────
 
 
@@ -173,28 +160,25 @@ export class MessagingService {
   // ─── GET LATEST CURSOR ──────────────────────────────────────────────────────────
   //
 
-    getLatestReadCursor(user) {
+  getLatestReadCursor(user) {
 
-      if (this.latestReadCursor) { return this.latestReadCursor }
+    if (this.latestReadCursor) { return this.latestReadCursor }
+    const cursors = []
 
-      const cursors = []
+    // Get user cursor from each room
+    user.rooms.forEach(room => {
+      cursors.push(user.readCursor({ roomId: room.id }))
+    })
 
-      // Get user cursor from each room
-      user.rooms.forEach(room => {
-        cursors.push(user.readCursor({ roomId: room.id }))
-      })
+    // console.log(cursors)
 
-      // console.log(cursors)
+    // Sort to find lowest
+    const sorted = cursors.sort()
+    const latestCursor = sorted[0]
+    this.latestReadCursor = latestCursor
 
-      // then sort to find lowest
-      const sorted = cursors.sort()
-      // console.log(sorted)
-
-      const latestCursor = sorted[0]
-
-      this.latestReadCursor = latestCursor
-      return latestCursor
-    }
+    return latestCursor
+  }
   // ─────────────────────────────────────────────────────────────────
 
 
@@ -234,7 +218,7 @@ export class MessagingService {
       .then(messages => {
 
         const roomWithMessages = new Array(roomId, messages)
-        console.log(roomWithMessages)
+        // console.log(roomWithMessages)
 
         this.rooms.push(roomWithMessages)
         return messages
@@ -250,17 +234,17 @@ export class MessagingService {
   // ─── JOIN ROOM ───────────────────────────────────────────────────
   //
 
-    joinRoom(user: any, roomId: any) {
+  joinRoom(user: any, roomId: any) {
 
-    return user.joinRoom({roomId: roomId})
-        .then(room => {
-          this.setLatestReadCursor(user, roomId)
-          return room
-        })
-        .catch(err => {
-          console.log(`Error joining room ${roomId}: ${err}`)
-        })
-    }
+  return user.joinRoom({roomId: roomId})
+      .then(room => {
+        this.setLatestReadCursor(user, roomId)
+        return room
+      })
+      .catch(err => {
+        console.log(`Error joining room ${roomId}: ${err}`)
+      })
+  }
   // ─────────────────────────────────────────────────────────────────
 
 
@@ -365,33 +349,21 @@ export class MessagingService {
       }
     })
       .then(user => {
-
-        console.log(`Connected as ${user.name}. \n Setting up rooms...`)
-
+        // console.log(`Connected as ${user.name}. \n Setting up rooms...`)
         this.currentUser = user
-
         localStorage.setItem('chatkitUserId', user.id)
 
         // If user has no rooms then return
         if (user.rooms.length) {
-           console.log('Subscribing to each room...')
-
           // Subscribe to all user rooms to be notified of new messages
           this.subscribeToAllRooms()
 
           // Join the latest room
-
-          // console.log(user)
-
           const latestRoom = this.getLatestRoom(user)
           // console.log(latestRoom)
 
           this.joinRoom(user, latestRoom.id)
-          // this.getLatestRoom(user).then((room) => {
-          //   this.joinRoom(user, room.id);
-          // });
         }
-
         return user
       })
   }

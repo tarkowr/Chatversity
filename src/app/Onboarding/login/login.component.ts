@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
         Validators.email,
         Validators.pattern(this.formValidation.regularEmailValidation)]
       )],
-      password: ['', Validators.required]
+      password: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(40)])]
   })
   }
 

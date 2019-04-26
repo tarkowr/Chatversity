@@ -206,14 +206,12 @@ export class SearchBarComponent implements OnInit {
     this.authService.getCurrentUser().subscribe(
       (user) => {
         this.currUser = user
-        // console.log('CHATKIT USER:', this.currUser)
 
         // Get all users
         if (this.userType) {
           this._userService.getAll()
           .toPromise()
           .then((data) => {
-            // console.log('RESPONSE USER:', data)
             this.users = data
           })
           .catch((error) => {
@@ -226,7 +224,6 @@ export class SearchBarComponent implements OnInit {
           this._msgService.getAllRooms()
           .toPromise()
           .then((data) => {
-            // console.log('RESPONSE ROOM:', data)
             this.rooms = data
           })
           .catch((error) => {
@@ -237,7 +234,7 @@ export class SearchBarComponent implements OnInit {
 
     // Setup search box
     this.searchForm = this.formBuilder.group({
-      search: ['', Validators.required]
+      search: ['', Validators.compose([Validators.required, Validators.maxLength(100)])]
     })
   }
 
