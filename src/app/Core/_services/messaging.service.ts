@@ -151,7 +151,11 @@ export class MessagingService {
 
       let latestRoom
       const latestReadCursor = this.getLatestReadCursor(user)
-      // console.log(latestReadCursor)
+      console.log(latestReadCursor)
+
+      if (!latestReadCursor) {
+        return user.rooms[0]
+      }
 
       user.rooms.forEach(room => {
         // console.log(room.id)

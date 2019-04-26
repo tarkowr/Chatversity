@@ -358,6 +358,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
               roomAvatar: filePath,
             }, // Add room avatar to custom room data
           }).then( newRoom => { // Succes
+
             this.rooms.push(newRoom) // Add the new room to the list
             this.roomCreated = true
             this.messageService.subscribeToRoom(this.currentUser, newRoom.id)
@@ -462,11 +463,11 @@ export class RoomsComponent implements OnInit, AfterViewInit {
           this.current_room = this.messageService.getLatestRoom(user)
           this.joinRoom(this.current_room.id)
         }
-
-        this.messageService.messages.subscribe((message) => {
-          this.room_messages.push(message)
-        })
       }
+
+      this.messageService.messages.subscribe((message) => {
+        this.room_messages.push(message)
+      })
 
       this.pondOptions = {
         fileRenameFunction: (file) => {

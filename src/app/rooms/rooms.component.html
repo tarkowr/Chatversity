@@ -91,21 +91,9 @@
   </div>
 </div>
 
+
 <!-- Create room modal -->
 <div class="modal fade" id="addRoomModal" tabindex="-1" role="dialog" aria-labelledby="addRoomModal" aria-hidden="true">
-
-  <!-- Show success alert on room created -->
-  <div *ngIf="roomCreated" class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Success!</strong> Created room
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    </div>
-  </div> <!-- End success modal dialog -->
-
   <div *ngIf="!roomCreated && currentUser" class="modal-dialog" role="document">
     <div class="modal-content">
       <!-- Modal Header -->
@@ -145,7 +133,7 @@
               </file-pond>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary" [disabled]="!formImport.valid">Create room</button>
+          <button type="submit" (click)="createRoom()" class="btn btn-primary" data-dismiss="modal" [disabled]="!formImport.valid">Create room</button>
         </form>
       </div>
       <!-- Modal Footer -->
@@ -156,3 +144,5 @@
     </div> <!-- End modal content -->
   </div> <!-- End modal dialog -->
 </div> <!-- End modal -->
+
+<ngb-alert style="position:fixed; bottom:0; right: 0;" *ngIf="roomCreated" type="success" (close)="roomCreated = false">Room created!</ngb-alert>

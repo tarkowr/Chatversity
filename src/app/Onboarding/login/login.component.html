@@ -20,7 +20,7 @@
                     <!-- Username -->
                     <div class="form-group">
                         <label for="username" class="text-secondary">Username</label>
-                        <input type="text" name="username" formControlName="username" placeholder="johndoe@umich.edu"
+                        <input type="text" name="username" formControlName="username"
                             class="form-control" tabindex=1 [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
                         <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
                             <div *ngIf="f.username.errors.required">Username is required.</div>
