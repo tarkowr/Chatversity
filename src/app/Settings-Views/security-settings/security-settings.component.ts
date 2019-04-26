@@ -12,8 +12,10 @@ export class SecuritySettingsComponent implements OnInit {
 
   formValidation = new CustomFormValidation()
   changePassForm: FormGroup
-  samePassword = true
+  samePassword = false
   passwordsMatch = false
+  noNewInput = false
+  noOldInput = false
 
   submitted = false
   loading = false
@@ -28,22 +30,34 @@ export class SecuritySettingsComponent implements OnInit {
 
   //
   // ─── CHECK IF NEW PASSWORD AND CONFIRM PASSWORD MATCH ──────────────────────────
-  //
-  onChanges() {
-    this.changePassForm.valueChanges.subscribe(val => {
+  //  
 
-      if (val.oldPassword === val.newPassword) {
-        this.samePassword = true
-      } else {
-        this.samePassword = false
-      }
+  onInputChange() {
+    if (this.f.oldPassword.value === this.f.newPassword.value) {
+      this.samePassword = true
+    } else {
+      this.samePassword = false
+    }
 
-      if (val.newPassword === val.confirmPassword) {
-        this.passwordsMatch = true
-      } else {
-        this.passwordsMatch = false
-      }
-    })
+    if (this.f.newPassword.value === this.f.confirmPassword.value) {
+      this.passwordsMatch = true
+    } else {
+      this.passwordsMatch = false
+    }
+
+    if (this.f.newPassword.value === "" || this.f.confirmPassword.value === "") {
+      this.noNewInput = true
+    }
+    else {
+      this.noNewInput = false
+    }
+
+    if (this.f.oldPassword.value === "") {
+      this.noOldInput = true
+    }
+    else {
+      this.noOldInput = false
+    }
   }
 
 
@@ -69,7 +83,7 @@ export class SecuritySettingsComponent implements OnInit {
     formData.append('confirmPassword', this.changePassForm.get('confirmPassword').value)
 
     // TODO: Send to Okta and handle response
-  }
+    }
 
   ngOnInit() {
     // Build change password form
@@ -80,7 +94,5 @@ export class SecuritySettingsComponent implements OnInit {
       ])],
       confirmPassword: ['', Validators.required],
     })
-
-    this.onChanges()
   }
 }
