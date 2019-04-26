@@ -7,7 +7,6 @@
     position: sticky;
     height: 70px;
 }
-
 #header-text{
     display: none;
 }
@@ -17,7 +16,6 @@
 #header-left-text{
     padding-left: 0;
 }
-
 @media (min-width: 768px){ /*Medium*/
     #header-text{
         display: inline-block;

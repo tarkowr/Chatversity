@@ -54,87 +54,78 @@ export class AuthService {
     }
 
 
-
     //
     // ─── SEND SIGN UP REQUEST TO SERVER ─────────────────────────────────────────────
     //
 
-        signup(fname: string, lname: string, university: string, username: string, password: string) {
-            // Create Okta User
-            return this.http.post<any>(`${environment.apiUrl}/okta/signup`, { fname, lname, username, password })
+    signup(fname: string, lname: string, university: string, username: string, password: string) {
+        // Create Okta User
+        return this.http.post<any>(`${environment.apiUrl}/okta/signup`, { fname, lname, username, password })
+        .toPromise()
+        .then(user => {
+            // Create chatkit user from Okta User ID
+            return this.http.post(`${environment.apiUrl}/chatkit/createuser`, {
+                id: user.id,
+                name: user.profile.firstName + ' ' + user.profile.lastName,
+                custom_data: {
+                    connections: [],
+                    connectionRequests: [],
+                    bio: '',
+                    university: university,
+                    graduationYear: '',
+                    interests: '',
+                    clubs: '',
+                    major: '',
+                    privateAccount: false,
+                    showActivityStatus: true,
+                }
+            })
             .toPromise()
-            .then(user => {
-                // Create chatkit user from Okta User ID
-                return this.http.post(`${environment.apiUrl}/chatkit/createuser`, {
-                    id: user.id,
-                    name: user.profile.firstName + ' ' + user.profile.lastName,
-                    custom_data: {
-                        connections: [],
-                        connectionRequests: [],
-                        bio: '',
-                        university: university,
-                        graduationYear: '',
-                        interests: '',
-                        clubs: '',
-                        major: '',
-                        privateAccount: false,
-                        showActivityStatus: true,
-                    }
-                })
-                .toPromise()
-                .then((chatkitUser) => {
-                    // Created Chatkit user
-                    console.log('CREATED CHATKIT USER ', chatkitUser)
-
-                    return this.login(username, password).then(loggedinUser => {
-                        return loggedinUser
-                    })
+            .then((chatkitUser) => {
+                // Login user after signup
+                return this.login(username, password).then(loggedinUser => {
+                    return loggedinUser
                 })
             })
-            .catch(err => {
-                return reject(err)
-            })
-        }
+        })
+        .catch(err => {
+            return reject(err)
+        })
+    }
     // ─────────────────────────────────────────────────────────────────
-
 
 
     //
     // ─── VALIDATE LOGIN THROUGH OKTA ────────────────────────────────────────────────
     //
 
-        login(username: string, password: string) {
-            return this.http.post<any>(`${environment.apiUrl}/okta/login`, { username, password })
-            .toPromise()
-            .then((user) => {
+    login(username: string, password: string) {
+        return this.http.post<any>(`${environment.apiUrl}/okta/login`, { username, password })
+        .toPromise()
+        .then((user) => {
+            // console.log('LOGGED IN OKTA USER: ', user)
+            localStorage.setItem('OktaUser', JSON.stringify(user))
 
-                console.log('LOGGED IN OKTA USER: ', user)
-
-                localStorage.setItem('OktaUser', JSON.stringify(user))
-
-                return this.messageService.initChatkit(user._embedded.user.id)
-                .then(chatkitUser => {
-
-                  this.currentUser = chatkitUser
-
-                  return chatkitUser
-              })
+            return this.messageService.initChatkit(user._embedded.user.id)
+            .then(chatkitUser => {
+                this.currentUser = chatkitUser
+                return chatkitUser
             })
-        }
+        })
+    }
     // ─────────────────────────────────────────────────────────────────
-
 
 
     //
     // ─── HANDLE LOGOUT ──────────────────────────────────────────────────────────────
     //
 
-        logout() {
-            this.messageService.disconnect()
-            localStorage.clear()
-            this.router.navigate(['/login'])
-            console.clear()
-        }
+    logout() {
+        this.messageService.disconnect()
+        localStorage.clear()
+        this.router.navigate(['/login'])
+        console.clear()
+    }
     // ─────────────────────────────────────────────────────────────────
 
 }

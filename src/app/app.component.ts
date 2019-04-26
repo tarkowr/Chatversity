@@ -36,7 +36,6 @@ export class AppComponent implements OnInit {
   // ────────────────────────────────────────────────────────────────────────────────
 
 
-
   // !
   // ! ─── FOR TESTING ONLY - USE THIS FUNCTION TO REMOVE THE NAVBAR ON PAGES THAT DO NOT NEED IT
   // !

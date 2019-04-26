@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <link href="https://fonts.googleapis.com/css?family=Nunito|Poppins|Roboto" rel="stylesheet">
-</head>
-
 <body>
   <div class="container-fluid">
     <div class="row">
@@ -30,12 +23,6 @@
           <img src="../../../../assets/images/Logo-Name.png" class="img-fluid img-responsive mx-auto w-75" id="signup-top"/>
         </div>
         <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-
-            <!--Summary Error Alert-->
-          <div *ngIf="submitted && checkForFormErrors()">
-              <!--<div *ngIf="f.username.errors.invalid" class="alert alert-danger" role="alert">The username {{ f.username.value }} is invalid.</div>
-              <div *ngIf="f.password.errors.invalid" class="alert alert-danger" role="alert">Your password is too weak.</div>-->
-          </div>
 
           <div class="row">
             <div class="col-12 col-sm-6 col-md-6">
@@ -78,7 +65,6 @@
                   <div class="text-primary" *ngIf="!submitted || !f.username.errors">
                     <small><span class="text-danger">*</span> PLEASE ENTER YOUR SCHOOL EMAIL</small>
                   </div>
-                    <!-- TODO: Add search university filter here -->
                   
                 <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
                     <div *ngIf="f.username.errors.required">Please provide your school email.</div>
@@ -103,14 +89,15 @@
             <!--Password-->
             <div class="form-group">
                 <label for="password" class="text-secondary">Password <span class="text-danger">*</span></label>
-                <input type="password" required formControlName="password" placeholder="Create a password"
+                <input type="password" required formControlName="password" placeholder="Create a password" maxlength="40"
                     class="form-control primary-border" [ngClass]="{ 'is-invalid': submitted && f.password.errors, 'danger-border': submitted && f.password.errors }" />
                 
                 <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                     <div *ngIf="f.password.errors.required">Please choose a password.</div>
-                    <div *ngIf="f.password.errors.minlength || f.password.errors.pattern">Your password must have atleast: <br>
+                    <div *ngIf="(f.password.errors.minlength || f.password.errors.pattern) && !f.password.errors.maxlength">Your password must have atleast: <br>
                       <div style="padding-left:20px">>&nbsp; 8 characters <br> >&nbsp; 1 uppercase letter <br> >&nbsp; 1 number</div>
                     </div>
+                    <div *ngIf="f.password.errors.maxlength">Your password cannot exceed 40 characters</div>
                 </div>
 
                 <button [disabled]="loading" class="btn btn-login btn-primary btn-block mt-4 py-3"><span *ngIf="!loading">SIGN UP FOR CHATVERSITY</span>
@@ -118,7 +105,6 @@
                     <span class="sr-only">Loading...</span>
                   </div>
                 </button>
-
             </div>
 
             <div class="text-secondary text-center my-4">
@@ -129,4 +115,3 @@
     </div>
   </div>
 </body>
-</html>

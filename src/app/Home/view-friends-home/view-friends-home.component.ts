@@ -79,7 +79,6 @@ export class ViewFriendsHomeComponent implements OnInit {
   // ─────────────────────────────────────────────────────────────────
 
 
-
   //
   // ─── RETURN USER FROM FRIEND LIST ───────────────────────────────────────────────
   //
@@ -91,32 +90,6 @@ export class ViewFriendsHomeComponent implements OnInit {
 
 
   //
-  // ─── SORT CONNECTIONS LIST ──────────────────────────────────────────────────────
-  //
-
-  sortList(users: any) {
-    return  users.sort((a, b) => ((a.firstName.toLowerCase() + ' ' + a.lastName.toLowerCase())
-    > (b.firstName.toLowerCase() + ' ' + b.lastName.toLowerCase()) ? 1 : -1))
-  }
-  // ────────────────────────────────────────────────────────────────────────────────
-
-
-  //
-  // ─── CHECK IF USERS ARE FRIENDS ─────────────────────────────────────────────────
-  //
-
-  isConnected(_id: number) {
-    // Get current user data
-
-    // Check if this user is on the other user's connections list
-
-    // Toggle isConnection variable
-
-    return
-  }
-  // ─────────────────────────────────────────────────────────────────
-
-  //
   // ─── CHECKS IF USER IS ONLINE ───────────────────────────────────────────────────
   //
 
@@ -124,6 +97,7 @@ export class ViewFriendsHomeComponent implements OnInit {
     return (this.currentUser.presenceStore[_id] === 'online') ? true : false
   }
   // ─────────────────────────────────────────────────────────────────
+
 
   //
   // ─── SET ALL VIEW CURRENT ATTRIBUTE TO FALSE ─────────────────────────────────────────────────
@@ -135,6 +109,7 @@ export class ViewFriendsHomeComponent implements OnInit {
     })
   }
   // ─────────────────────────────────────────────────────────────────
+
 
   //
   // ─── SET CLICKED VIEW TO TRUE ─────────────────────────────────────────────────
@@ -150,7 +125,7 @@ export class ViewFriendsHomeComponent implements OnInit {
     this.AllView.current = true
 
     this._msgService.getOnlineUsers().subscribe((userAndState) => {
-      console.log(userAndState)
+      // console.log(userAndState)
     })
 
     this.authService.getCurrentUser().subscribe((user) => {
@@ -160,7 +135,7 @@ export class ViewFriendsHomeComponent implements OnInit {
       .toPromise()
       .then((connections) => {
         this.connections = connections
-        console.log(connections)
+        // console.log(connections)
       })
     })
   }

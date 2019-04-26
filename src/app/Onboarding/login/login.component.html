@@ -20,7 +20,7 @@
                     <!-- Username -->
                     <div class="form-group">
                         <label for="username" class="text-secondary">Username</label>
-                        <input type="text" name="username" formControlName="username" placeholder="johndoe@umich.edu"
+                        <input type="text" name="username" formControlName="username"
                             class="form-control" tabindex=1 [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
                         <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
                             <div *ngIf="f.username.errors.required">Username is required.</div>
@@ -38,10 +38,12 @@
                                 <a [routerLink]="['/forgot']" class="small"tabindex=7>Forgot Password?</a>
                             </div>
                         </div>
-                        <input type="password" formControlName="password"
+                        <input type="password" formControlName="password" maxlength="40"
                             class="form-control" tabindex=2 [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
                         <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                             <div *ngIf="f.password.errors.required">Password is required.</div>
+                            <div *ngIf="f.password.errors.minlength">Passwords are atleast 8 characters.</div>
+                            <div *ngIf="f.password.errors.maxlength">Passwords cannot exceed 40 characters.</div>
                         </div>
                         <button [disabled]="loading" class="btn btn-primary btn-block mt-4" tabindex=3><span *ngIf="!loading">Sign in</span>
                             <div *ngIf="loading" class="spinner-border text-whiet" role="status">

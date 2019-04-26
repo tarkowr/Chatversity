@@ -11,13 +11,10 @@ var fs      = require('fs')
 var formidable = require('formidable'),
 util = require('util')
 var crypto = require("crypto")
+const axios = require('axios');
 
 var tmp = require('tmp')
 
-// Setting up the root route
-app.get('/', (req, res) => {
-  res.send('Welcome to the express server')
-})
 
 // Parsers for POST data
 app.use(bodyParser.urlencoded({ 
@@ -27,11 +24,9 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json())
 
-
 // User CORS for local testing
 // ! TESTING ONLY - REMOVE FOR PROD
 app.use(cors())
-
 
 // Get our API routes
 const api = require('./server/routes/api')
@@ -42,8 +37,6 @@ const okta = require('./server/routes/okta')
 // Get Chatkit routes for Pusher
 const chatkit = require('./server/routes/chatkit')
 
-
-
 // API route
 app.use('/api', api)
 
@@ -53,15 +46,10 @@ app.use('/okta', okta)
 // Chatkit route for messaging
 app.use('/chatkit', chatkit)
 
-
-
-
 // Point static path to dist
 // app.use("/avatars", express.static(__dirname + "/app/assets/avatars"));
 // app.use("/uploads", express.static(__dirname + "/app/assets/uploads"));
 // app.use("/uploads", express.static(__dirname + "/uploads/adsf"));
-
-
 
 //
 // ─── CREATE MULTER INSTANCE ─────────────────────────────────────────────────────
@@ -83,13 +71,44 @@ app.use('/chatkit', chatkit)
 // ────────────────────────────────────────────────────────────────────────────────
 
 
-
 //
 // ──────────────────────────────────────────────────── I ──────────
 //   :::::: R O U T E S : :  :   :    :     :        :          :
 // ──────────────────────────────────────────────────────────────
 //
 
+
+//
+// ─── GET UI AVATAR ──────────────────────────────────────────────────────────────
+//
+  
+  app.get('/uiavatar', (req, res) => {
+
+    // var download = function(uri, filename, callback){
+    //   request.head(uri, function(err, res, body){
+    //     console.log('content-type:', res.headers['content-type']);
+    //     console.log('content-length:', res.headers['content-length']);
+    
+    //     request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
+    //   });
+    // };
+    
+    // download('https://ui-avatars.com/api/?rounded=true', 'google.png', function(){
+    //   console.log('done')
+    //   res.status(200).json()
+    // });
+
+
+    axios.get('https://ui-avatars.com/api/?rounded=true')
+    .then(uiAvatar => {
+      console.log(uiAvatar)
+      res.status(200).json(uiAvatar.data);
+    })
+    .catch(error => {
+      res.status(500).send(error)
+    });
+  })
+// ────────────────────────────────────────────────────────────────────────────────
 
 
 //
@@ -135,10 +154,6 @@ app.use('/chatkit', chatkit)
     // }
 
     
-
-
-
-
     console.log('received file')
   });
 
@@ -227,19 +242,10 @@ app.use('/chatkit', chatkit)
         return (domain === domainToFind)
       });
     });
-  // http.post(`${environment.apiUrl}/okta/forgot`)
     res.status(200).json(found);
-    // res.status(200).json(req.params.query);
-  //   res.status(200).json({
-  //     universities: universities
-  //  });
-    // TODO: Search JSON file and return university if query matched
-
-    // console.log(req.params.query);
   });
 
 // ────────────────────────────────────────────────────────────────────────────────
-
 
 
 //
@@ -264,7 +270,6 @@ app.use('/chatkit', chatkit)
 // ────────────────────────────────────────────────────────────────────────────────
 
 
-
 /**
  * Get port from environment and store in Express.
  */
@@ -277,10 +282,20 @@ app.set('port', port)
 // const server = http.createServer(app)
 const router = express.Router()
 
-// Catch all other routes and return the index file
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'src/index.html'))
-})
+// // Catch all other routes and return the index file
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'src/index.html'))
+// })
+
+// middleware
+// Serve only the static files form the dist directory
+app.use(express.static(__dirname + '/dist/Chatversity'));
+
+app.get('/*', function(req,res) {
+    
+res.sendFile(path.join(__dirname+'/dist/Chatversity/index.html'));
+});
+
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 

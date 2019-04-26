@@ -9,73 +9,96 @@ export class UserService {
     constructor(private http: HttpClient) { }
 
     //
-    // ─── GET ALL CONNECTIONS FOR A GIVEN USER ───────────────────────────────────────────────────
+    // ─── GET A UI AVATAR ────────────────────────────────────────────────────────────
     //
 
-        getConnections(id: number) {
-            return this.http.get(`${environment.apiUrl}/chatkit/connections/${id}`)
-        }
+    getUiAvatar() {
+        return this.http.get(`${environment.apiUrl}/uiavatar`)
+    }
     // ────────────────────────────────────────────────────────────────────────────────
 
 
+    //
+    // ─── GET ALL CONNECTIONS FOR A GIVEN USER ───────────────────────────────────────────────────
+    //
+
+    getConnections(id: number) {
+        return this.http.get(`${environment.apiUrl}/chatkit/connections/${id}`)
+    }
+    // ────────────────────────────────────────────────────────────────────────────────
+
 
     //
-    // ─── UPDATE ──────────────────────────────────────────────────────────────
+    // ─── UPDATE USER ──────────────────────────────────────────────────────────────
     //
 
-        update(userId, data) {
-            const headers = new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            })
-
-            return this.http.post(`${environment.apiUrl}/chatkit/user/${userId}`, data, {headers: headers})
-        }
+    update(userId, data) {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        })
+        return this.http.post(`${environment.apiUrl}/chatkit/user/${userId}`, data, {headers: headers})
+    }
     // ─────────────────────────────────────────────────────────────────
-
 
 
     //
     // ─── SEND AN INVITE TO THE REQUESTED USER ───────────────────────────────────────
     //
 
-        inviteConnection(userId) {
-            const headers = new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            })
+    inviteConnection(userId) {
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        })
 
-            const data = JSON.stringify({ 'userId': `${userId}` })
+        const data = JSON.stringify({ 'userId': `${userId}` })
 
-            return this.http.post(`${environment.apiUrl}/chatkit/invite/`, data, {headers: headers})
-        }
+        return this.http.post(`${environment.apiUrl}/chatkit/invite/`, data, {headers: headers})
+    }
     // ────────────────────────────────────────────────────────────────────────────────
 
 
+    //
+    // ─── GET ALL USERS ───────────────────────────────────────
+    //
 
     getAll() {
         const headers = new HttpHeaders({
             'Content-Type': 'application/json',
             'Accept': 'application/json',
         })
-
         return this.http.get<any[]>(`${environment.apiUrl}/chatkit/users`)
     }
+    // ────────────────────────────────────────────────────────────────────────────────
+
+
+    //
+    // ─── GET OKTA USER BY ID ───────────────────────────────────────
+    //
 
     getById(id: number) {
         return this.http.get(`${environment.apiUrl}/okta/users/` + id)
     }
+    // ────────────────────────────────────────────────────────────────────────────────
+
+
+    //
+    // ─── REGISTER OKTA USER ───────────────────────────────────────
+    //
 
     register(user: any) {
         return this.http.post(`${environment.apiUrl}/users/register`, user)
     }
+    // ────────────────────────────────────────────────────────────────────────────────
 
-    // update(user: any) {
-    //     console.log(user)
-    //     return this.http.put(`${environment.apiUrl}/updateUser/` + user.id, user)
-    // }
+
+    //
+    // ─── DELETE OKTA USER ───────────────────────────────────────
+    //
 
     delete(id: number) {
         return this.http.delete(`${environment.apiUrl}/okta/users/` + id)
     }
+    // ────────────────────────────────────────────────────────────────────────────────
 }

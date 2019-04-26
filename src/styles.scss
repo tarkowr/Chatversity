@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 
-
 @import url('https://fonts.googleapis.com/css?family=Poppins:100,300,400,500');
 
 /*Variable Overrides*/
@@ -28,7 +27,6 @@ html, body {
     width: 100%;     // Cover Full Screen
     scroll-behavior: smooth;
 }
-
 
 body{
   overflow-x: hidden;
@@ -100,4 +98,8 @@ app-messages, app-rooms {
 .dropdown-menu .dropdown-item.dropdown-item-danger:hover {
   background-color: $danger-lighten;
   background-image: none;
+}
+
+.filepond--action-process-item{
+  visibility:hidden;
 }

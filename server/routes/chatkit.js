@@ -7,6 +7,7 @@ const multer  = require('multer');
 const upload = multer({ dest: 'upload/'});
 const bodyParser = require('body-parser');
 const axios = require('axios');
+const CryptoTS = require ('crypto-ts')
 
 var router = express();
 router.use(bodyParser.urlencoded({ extended: false }));
@@ -28,6 +29,34 @@ router.get('/', (req, res) => {
 });
 
 
+//
+// ─── INVITE USER TO ROOM BY CODE ────────────────────────────────────────────────────────
+//
+
+router.get('/invite/:code', (req, res) => {
+
+  console.log(req.params.code)
+  console.log(Buffer.from(req.params.code, 'base64').toString())
+  var ciphertext = req.params.code
+
+  res.writeHead(301,  {Location: 'http://localhost:4200/login/?roomInvite=' + ciphertext})
+
+  res.end()
+
+  // console.log(CryptoJS.AES.decrypt(decodeURIComponent(req.params.code),
+  //   '86ab6a2cbf9ad906b25ef26ec04422a62335a419afa833644e81ca1d6ab2365c5a17b140fb005ac72a2a5dd84a75e1dd6feacaa479')
+  //   .toString())
+
+  
+  // chatkit.addUsersToRoom({
+  //   roomId: room.id,
+  //   userIds: ['alice', 'bob']
+  // })
+  //   .then(() => console.log('added'))
+  //   .catch(err => console.error(err))
+})
+// ────────────────────────────────────────────────────────────────────────────────
+
 
 //
 // ─── INSTANTIATE CHATKIT ────────────────────────────────────────────────────────
@@ -40,7 +69,6 @@ router.get('/', (req, res) => {
   });
 
 // ────────────────────────────────────────────────────────────────────────────────
-
 
 
 //
@@ -76,7 +104,6 @@ router.get('/', (req, res) => {
 // ────────────────────────────────────────────────────────────────────────────────
 
 
-
 //
 // ─── GET READ CURSORS FOR USER ──────────────────────────────────────────────────
 //
@@ -87,13 +114,11 @@ router.get('/', (req, res) => {
       })
       .then(cursors => {
         res.status(200).json(cursors);
-        console.log(cursors);
-        console.log('got cursors', cursors)
+        // console.log(cursors);
       })
       .catch(err => console.error(err))
   })
 // ────────────────────────────────────────────────────────────────────────────────
-
 
 
 //
@@ -118,16 +143,12 @@ router.get('/', (req, res) => {
 // ────────────────────────────────────────────────────────────────────────────────
 
 
-
 //
 // ─── UPDATE USER ────────────────────────────────────────────────────────────────
 // 
 
   router.post('/user/:id', (req, res) => {
-    console.log(req.body);
-
     let name = req.body.name;
-
     delete req.body.name;
 
     chatkit.updateUser({
@@ -142,7 +163,7 @@ router.get('/', (req, res) => {
         id: req.params.id,
       })
       .then((user) => {
-        console.log('UPDATED USER:', user)
+        // console.log('UPDATED USER:', user)
         res.status(200).json(user) // Return the updated user
       })
 
@@ -153,13 +174,11 @@ router.get('/', (req, res) => {
 // ────────────────────────────────────────────────────────────────────────────────
 
 
-
 //
 // ─── GET USER ───────────────────────────────────────────────────────────────────
 //
   
   router.post('/getuser', (req, res) => {
-
       chatkit.getUser({
           id: req.body.user_id,
       })
@@ -167,7 +186,6 @@ router.get('/', (req, res) => {
       .catch(err => res.status(500).send(err));
   });
 // ────────────────────────────────────────────────────────────────────────────────
-
 
 
 //
@@ -188,7 +206,9 @@ router.get('/', (req, res) => {
 //
 
 router.get('/users', (req, res) => {
-  chatkit.getUsers()
+  chatkit.getUsers({
+    limit: 100
+  })
   .then((users) => {
     res.status(200).json(users)
   }).catch((err) => {
@@ -196,6 +216,7 @@ router.get('/users', (req, res) => {
   });
 })
 // ────────────────────────────────────────────────────────────────────────────────
+
 
 //
 // ─── GET ALL ROOMS ─────────────────────────────────────────────────────────────
@@ -212,6 +233,9 @@ router.get('/rooms', (req, res) => {
 // ────────────────────────────────────────────────────────────────────────────────
 
 
+//
+// ─── IMAGE UPLOAD ─────────────────────────────────────────────────────────────
+//
 
 var type = upload.single('file');
 // Upload room or user avatar to Mongo
@@ -244,46 +268,52 @@ router.post('/upload/avatar', type, (req, res) => {
   //   //   if (err) return console.error(err);
   //   //   console.log(files);
   //   // })
-  });
+});
+// ────────────────────────────────────────────────────────────────────────────────
 
-  //
-  // ─── CREATE USER ────────────────────────────────────────────────────────────────
-  //
 
-  router.post('/createuser', (req, res) => {
-    console.log(req.body)
-    chatkit.createUser({
-      id: req.body.id,
-      name: req.body.name,
-      customData: req.body.custom_data,
-    })
-      .then((user) => {
-        res.status(200).json(user);
-        console.log('User created successfully');
-      }).catch((err) => {
-        console.log(err);
-      });
+//
+// ─── CREATE USER ────────────────────────────────────────────────────────────────
+//
+
+router.post('/createuser', (req, res) => {
+  chatkit.createUser({
+    id: req.body.id,
+    name: req.body.name,
+    customData: req.body.custom_data,
   })
-  // ────────────────────────────────────────────────────────────────────────────────
+    .then((user) => {
+      res.status(200).json(user);
+      console.log('User created successfully');
+    }).catch((err) => {
+      console.log(err);
+    });
+})
+// ────────────────────────────────────────────────────────────────────────────────
 
 
+//
+// ─── GET USER'S ROOMS ─────────────────────────────────────────────────────────────
+//
 
 // Get user rooms
 router.post('/GetUserRooms', async (req, res) => {
-    
     chatkit.getUserRooms({
         userId: req.body.user_id,
     })
     .then((rooms) => res.status(200).json(rooms))
     .catch((err) => res.status(500).send(err));
 });
+// ────────────────────────────────────────────────────────────────────────────────
 
 
+//
+// ─── CREATE CHATKIT TOKEN ─────────────────────────────────────────────────────────────
+//
 
-// Get Chatkit User
 // TODO: Update to dynamically pull url from config
 router.post('/createtoken', (req, res) => {
-    console.log('CHATKIT REQUEST:', req);
+    // console.log('CHATKIT REQUEST:', req);
     axios.post(`${process.env.CHATKIT_TEST_TOKEN_ENDPOINT}/token`, {
         "grant_type": "client_credentials",
         "user_id": req.body.user_id
@@ -303,6 +333,6 @@ router.post('/createtoken', (req, res) => {
       res.status(500).send('<p>'+ error +'</p>');
     });
 });
-
+// ────────────────────────────────────────────────────────────────────────────────
 
 module.exports = router;

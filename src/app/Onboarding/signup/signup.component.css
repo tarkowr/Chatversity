@@ -28,37 +28,30 @@
 .signup-btn{
   display: inline-block;
 }
-
 .offset-override{
   max-width: 500px;
   margin-right: 0%;
   margin-left: 0%;
   margin: 0 auto;
 }
-
 .primary-border{
   border: 1px solid rgba(38, 177, 255, .35);
 }
-
 .danger-border{
   border: 1px solid #ff4136;
 }
-
 ::placeholder { 
   color: #96B7C9;
   opacity: 1; 
 }
-
 input[readonly] {
   background-color: white;
 }
-
 @media (min-width: 576px){ /*Small*/
   .signup-text{
     padding-top: 30%;
   }
 }
-
 @media (min-width: 768px){ /*Medium*/
   .col-override{
     max-width: 570px;
@@ -89,14 +82,12 @@ input[readonly] {
     position: relative;
   }
 }
-
 @media (min-width: 992px){ /*Large*/
   .offset-override{
     margin-right: 8%;
     margin-left: 8%;
   }
 }
-
 @media (min-width: 1200px){ /*Extra-Large*/
   .offset-override{
     margin-right: 10%;

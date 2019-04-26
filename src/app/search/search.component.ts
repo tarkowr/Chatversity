@@ -16,7 +16,10 @@ export class SearchComponent implements OnInit {
 
   constructor() { }
 
-  // Display view by id
+  //
+  // ─── DISPLAY VIEW BY ID─────────────────────────────────────────────────
+  //
+
   showPage(_id: number) {
     this.hideAllViews()
     switch (_id) {
@@ -30,13 +33,20 @@ export class SearchComponent implements OnInit {
         break
     }
   }
+  // ─────────────────────────────────────────────────────────────────
 
-  // Hide all home views
+
+  //
+  // ─── HIDE ALL VIEWS ─────────────────────────────────────────────────
+  //
+
   hideAllViews() {
     this.views.forEach(function(view) {
       view.current = false
     })
   }
+  // ─────────────────────────────────────────────────────────────────
+
 
   ngOnInit() {
     this.UserView.current = true

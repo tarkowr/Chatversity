@@ -19,7 +19,7 @@ export class SettingsProfileComponent implements OnInit {
   user: any
   subscription: any
   currentUser: any
-  pondOptions: any;
+  pondOptions: any
 
   name = ''
   bio = ''
@@ -50,7 +50,10 @@ export class SettingsProfileComponent implements OnInit {
   // Convenience getter for easy access to form fields
   get f() { return this.profileForm.controls }
 
-  // Validation and other actions upon form submission
+  //
+  // ─── VALIDATION AND UPDATE USER AFTER FORM SUBMISSION ─────────────────────────────────────────────────
+  //
+
   onSubmit() {
     this.submitted = true
     this.loading = true
@@ -58,7 +61,7 @@ export class SettingsProfileComponent implements OnInit {
     // Stop here if form is invalid
     if (this.profileForm.invalid) {
       this.loading = false
-      console.log('ERROR: Form invalid')
+      // console.log('ERROR: Form invalid')
       return
     }
 
@@ -72,8 +75,9 @@ export class SettingsProfileComponent implements OnInit {
 
     // Get current user custom data
     const currentUserData = this.currentUser.customData
-    console.log('CHATKIT USER CUSTOM DATA: ', currentUserData)
+    // console.log('CHATKIT USER CUSTOM DATA: ', currentUserData)
 
+    // Add connections array if it doesn't exist in the customData object
     if (!currentUserData.connections) {
       currentUserData['connections'] = []
     }
@@ -90,18 +94,22 @@ export class SettingsProfileComponent implements OnInit {
     this.userService.update(this.currentUser.id, JSON.stringify(currentUserData))
     .toPromise()
     .then((data) => {
-
-      console.log('RESPONSE:', data)
+      // console.log('RESPONSE:', data)
       console.log('UPDATED CHATKIT USER:', this.currentUser)
 
       this.setUserProfile(data)
 
       this.editingForm = false
       this.loading = false
+      this.submitted = false
     })
   }
 
-  // Build profile form
+
+  //
+  // ─── INITIALIZE SETTINGS FORM ─────────────────────────────────────────────────
+  //
+
   initForm() {
     this.getUserProfile()
 
@@ -114,7 +122,7 @@ export class SettingsProfileComponent implements OnInit {
       // Major
       major: [ this.major, MaxLengthValidator ],
       // Graduation year
-      graduationYear: [ this.graduationYear, MaxLengthValidator ],
+      graduationYear: [ this.graduationYear, Validators.compose([Validators.min(1900), Validators.max(this.getFutureDate())]) ],
       // Interests
       interests: [ this.interests, MaxLengthValidator ],
         // Clubs
@@ -122,7 +130,17 @@ export class SettingsProfileComponent implements OnInit {
     })
   }
 
-  // Set updated profile data
+  //
+  // ─── GET YEAR THAT IS 20 YEARS GREATER THAN CURRENT YEAR ─────────────────────────────────────────────────
+  //
+  getFutureDate() {
+    return new Date().getFullYear() + 20
+  }
+
+  //
+  // ─── SET THE UPDATED USER PROFILE TO THE CURRENT USER ─────────────────────────────────────────────────
+  //
+
   setUserProfile(userData) {
     this.currentUser.customData.avatarURL = userData.avatar_url
     this.currentUser.customData = userData.custom_data
@@ -130,7 +148,11 @@ export class SettingsProfileComponent implements OnInit {
     this.currentUser.updatedAt = userData.updated_at
   }
 
-  // Bring in chatkit user data
+
+  //
+  // ─── GET USER PROFILE VALUES ─────────────────────────────────────────────────
+  //
+
   getUserProfile() {
     try {
       this.name = this.currentUser.name
@@ -170,7 +192,6 @@ export class SettingsProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.authService.getCurrentUser().subscribe((user) => {
       this.currentUser = user
       this.initForm()

@@ -7,6 +7,8 @@ import { AppComponent } from '../app.component'
 import { AuthService } from '../Core/_services/auth.service'
 import { parseDate } from 'tough-cookie'
 import { Observable } from 'rxjs'
+import { UserService } from '../Core/_services/user.service'
+import * as CryptoTS from 'crypto-ts'
 
 @Component({
   selector: 'app-rooms',
@@ -27,7 +29,8 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   rooms_with_messages: any = {}
   current_room: any
   chatUser: any
-  roomCreated: boolean
+  roomCreated = false
+  creatingRoom = false
   roomNotifications: Array<any> = []
   room_messages: Array<any> = []
   url: string
@@ -39,6 +42,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   messages: Object
   pondOptions: any
   finalRoomData: FormData
+  roomInvite: string;
   get roomPrivate(): string {
     return this._roomPrivate
   }
@@ -61,6 +65,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
     roomNameGroup: new FormGroup({
       roomName: new FormControl('', [
         Validators.required,
+        Validators.pattern(/(.*[a-z0-9]){3}/i),
         Validators.maxLength(60)
       ])
     }),
@@ -74,7 +79,11 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   //
     @ViewChild('newRoomPond') pond: any
     pondFiles = []
-    constructor(private http: HttpClient, private messageService: MessagingService, private authService: AuthService) {}
+    constructor(
+      private http: HttpClient,
+      private messageService: MessagingService,
+      private authService: AuthService,
+      private userService: UserService) {}
   // ────────────────────────────────────────────────────────────────────────────────
 
 
@@ -95,15 +104,14 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   }
 
 
-  
+
 
   //
   // ─── HANDLE DELETE ROOM ─────────────────────────────────────────────────────────
   //
 
     deleteRoom(id) {
-
-      console.log(id)
+      // console.log(id)
       this.messageService.deleteRoom(this.currentUser, id).then((latestRoom) => {
 
         // remove local messages from the deleted room...
@@ -139,6 +147,45 @@ export class RoomsComponent implements OnInit, AfterViewInit {
     }
   // ────────────────────────────────────────────────────────────────────────────────
 
+
+  //
+  // ─── HANDLE LEAVE ROOM ─────────────────────────────────────────────────────────
+  //
+
+  leaveRoom(id) {
+    // console.log(id)
+    this.messageService.leaveRoom(this.currentUser, id).then((latestRoom) => {
+
+      // Remove local messages from the room that the user left
+      for ( let i = 0; i < this.room_messages.length; i++) {
+        if ( this.room_messages[i].id === id) {
+          this.room_messages.splice(i, 1)
+        }
+      }
+
+      // Remove the room that the user left from the local rooms array
+      for ( let i = 0; i < this.rooms.length; i++) {
+        if ( this.rooms[i].id === id) {
+          this.rooms.splice(i, 1)
+        }
+      }
+
+      // Join the latest room
+      this.messageService.joinRoom(this.currentUser, latestRoom.id).then((room) => {
+
+      // Update current room
+      this.current_room = room
+
+      // Get the room messages
+      this.messageService.fetchRoomMessages(this.currentUser, room.id, '', 20).then((messages) => {
+          this.room_messages = messages
+          // console.log(this.room_messages)
+          // console.log(messages)
+        })
+      })
+    })
+  }
+  // ────────────────────────────────────────────────────────────────────────────────
 
 
   //
@@ -287,48 +334,93 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   //
 
     createRoom() { // TODO: Add to message service
-      console.log('room submitted')
-      console.log(this.formImport)
-      console.log(this.finalRoomData)
 
-      this.pond.processFile().then((file) => {
-        console.log(file)
+      const roomName = this.formImport.value.roomNameGroup.roomName
+      const privateRoom = this.formImport.value.privateRoomGroup.privateRoom
+      // const roomCipher = CryptoJS.AES.encrypt('secret message', 'secret key').toString()
 
-        const roomName = this.formImport.value.roomNameGroup.roomName
-        let roomAvatar = ''
+      console.log('Room Submitted!')
+      // console.log(this.formImport)
+      // console.log(this.finalRoomData)
 
-        this.http.post(`${environment.apiUrl}/rooms/avatar`, this.finalRoomData)
-        .toPromise()
-        .then((response) => console.log(JSON.stringify(response)))
-        .catch(error => console.log(error))
+      console.log(this.pond.getFiles())
+      
 
+      // If no file added => get ui avatar (add to file list)
+      if ( this.pond.getFiles().length ) {
 
-        // TODO: Add this to upload service
-        // Upload image
-        this.http.post(`${environment.apiUrl}/rooms/avatar`, this.fd)
-        .toPromise()
-        .then( avatar => {
-          roomAvatar = avatar['filename'] // Store path
-          console.log(roomAvatar)
-          // Create the room
+        // File has been added
+        this.pond.processFile().then((processedFile) => {
+          console.log(processedFile)
+          console.log(processedFile.serverId)
+
+          const filePath = processedFile.serverId + '.' + processedFile.fileExtension
+
           this.currentUser.createRoom({ // Create the room
             name: roomName,
-            private: false,
-            customData: { roomAvatar: roomAvatar }, // Add room avatar to custom room data
-          }).then( room => { // Succes
-              this.rooms.push(room) // Add the new room to the list
-              this.roomCreated = true
-              console.log(room)
-              console.log(`Created room called ${room.name}`)
-            })
+            private: privateRoom,
+            customData: {
+              roomAvatar: filePath,
+            }, // Add room avatar to custom room data
+          }).then( newRoom => { // Succes
+            this.formImport.reset()
+            this.roomCreated = true
+
+            setTimeout(() => {
+              this.roomCreated = false
+            }, 2000)
+
+            this.rooms.push(newRoom) // Add the new room to the list
+            this.messageService.subscribeToRoom(this.currentUser, newRoom.id)
+            // Join the latest room
+      this.messageService.joinRoom(this.currentUser, newRoom.id).then((room) => {
+
+        this.messageService.fetchRoomMessages(this.currentUser, room.id, '', 20).then((messages) => {
+
+          this.room_messages = messages
+          console.log(this.room_messages)
+          console.log(messages)
+        })
+        // Update current room
+        this.current_room = room
+      })
+    })
             .catch(err => { // Failed room creation
               console.log(`Error creating room ${err}`)
             })
-      })
 
+            return
+        })
+      } else {
+        // No image uploaded => create room without image
+        this.currentUser.createRoom({ // Create the room
+          name: roomName,
+          private: privateRoom,
+        }).then( newRoom => { // Succes
+          this.formImport.reset()
+          this.roomCreated = true
+          setTimeout(() => {
+            this.roomCreated = false
+          }, 2000)
 
+            this.rooms.push(newRoom) // Add the new room to the list
+            this.messageService.subscribeToRoom(this.currentUser, newRoom.id)
+            // Join the latest room
+      this.messageService.joinRoom(this.currentUser, newRoom.id).then((room) => {
+
+        this.messageService.fetchRoomMessages(this.currentUser, room.id, '', 20).then((messages) => {
+
+          this.room_messages = messages
+          console.log(this.room_messages)
+          console.log(messages)
+        })
+        // Update current room
+        this.current_room = room
       })
-    }
+    })
+  }
+}
+
   // ────────────────────────────────────────────────────────────────────────────────
 
 
@@ -362,6 +454,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
+
     this.finalRoomData = new FormData()
 
     this.authService.getCurrentUser().subscribe((user) => {
@@ -370,17 +463,31 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       if (user.rooms.length) {
 
         this.rooms = user.rooms
-        this.current_room = this.messageService.getLatestRoom(user)
-        this.joinRoom(this.current_room.id)
-        this.messageService.messages.subscribe((message) => {
-          this.room_messages.push(message)
-        })
+        if (localStorage.getItem('roomInvite') !== null) {
+          let roomInvite = localStorage.getItem('roomInvite')
+          const bytes  = CryptoTS.AES.decrypt(atob(roomInvite).toString(), '12345678901234567890')
+          console.log(roomInvite)
+          console.log(bytes)
+          const plaintext = bytes.toString(CryptoTS.enc.Utf8)
+          console.log(plaintext)
+
+          console.log(JSON.parse(plaintext))
+          this.joinRoom(JSON.parse(plaintext).roomId)
+          localStorage.removeItem('roomInvite')
+        } else {
+          this.current_room = this.messageService.getLatestRoom(user)
+          this.joinRoom(this.current_room.id)
+        }
       }
+
+      this.messageService.messages.subscribe((message) => {
+        this.room_messages.push(message)
+      })
 
       this.pondOptions = {
         fileRenameFunction: (file) => {
 
-          var randomFileName = new Uint32Array(1);
+          const randomFileName = new Uint32Array(1)
           window.crypto.getRandomValues(randomFileName)
           return `${randomFileName}${file.extension}`
       },
