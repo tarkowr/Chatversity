@@ -29,7 +29,8 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   rooms_with_messages: any = {}
   current_room: any
   chatUser: any
-  roomCreated: boolean
+  roomCreated = false
+  creatingRoom = false
   roomNotifications: Array<any> = []
   room_messages: Array<any> = []
   url: string
@@ -333,6 +334,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   //
 
     createRoom() { // TODO: Add to message service
+
       const roomName = this.formImport.value.roomNameGroup.roomName
       const privateRoom = this.formImport.value.privateRoomGroup.privateRoom
       // const roomCipher = CryptoJS.AES.encrypt('secret message', 'secret key').toString()
@@ -340,6 +342,9 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       console.log('Room Submitted!')
       // console.log(this.formImport)
       // console.log(this.finalRoomData)
+
+      console.log(this.pond.getFiles())
+      
 
       // If no file added => get ui avatar (add to file list)
       if ( this.pond.getFiles().length ) {
@@ -358,9 +363,14 @@ export class RoomsComponent implements OnInit, AfterViewInit {
               roomAvatar: filePath,
             }, // Add room avatar to custom room data
           }).then( newRoom => { // Succes
+            this.formImport.reset()
+            this.roomCreated = true
+
+            setTimeout(() => {
+              this.roomCreated = false
+            }, 2000)
 
             this.rooms.push(newRoom) // Add the new room to the list
-            this.roomCreated = true
             this.messageService.subscribeToRoom(this.currentUser, newRoom.id)
             // Join the latest room
       this.messageService.joinRoom(this.currentUser, newRoom.id).then((room) => {
@@ -387,8 +397,13 @@ export class RoomsComponent implements OnInit, AfterViewInit {
           name: roomName,
           private: privateRoom,
         }).then( newRoom => { // Succes
+          this.formImport.reset()
+          this.roomCreated = true
+          setTimeout(() => {
+            this.roomCreated = false
+          }, 2000)
+
             this.rooms.push(newRoom) // Add the new room to the list
-            this.roomCreated = true
             this.messageService.subscribeToRoom(this.currentUser, newRoom.id)
             // Join the latest room
       this.messageService.joinRoom(this.currentUser, newRoom.id).then((room) => {

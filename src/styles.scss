@@ -99,3 +99,7 @@ app-messages, app-rooms {
   background-color: $danger-lighten;
   background-image: none;
 }
+
+.filepond--action-process-item{
+  visibility:hidden;
+}

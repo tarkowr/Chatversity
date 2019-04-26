@@ -60,7 +60,7 @@ export class TopBarComponent implements OnInit {
     // Encrypt
     var ciphertext = CryptoTS.AES.encrypt(secret, '12345678901234567890')
 
-    this.roomInviteLink = btoa(ciphertext.toString())
+    this.roomInviteLink = 'https://app-chatversity.herokuapp.com/' + btoa(ciphertext.toString())
   }
 
   //
