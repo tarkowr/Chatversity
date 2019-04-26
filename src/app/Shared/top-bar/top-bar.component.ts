@@ -20,6 +20,7 @@ export class TopBarComponent implements OnInit {
   returnUrl: string
   currentUser: any
   roomInviteLink: string
+  href: string;
 
   constructor(private authService: AuthService,
     private route: ActivatedRoute,
@@ -82,6 +83,8 @@ export class TopBarComponent implements OnInit {
     this.authService.getCurrentUser().subscribe((user) => {
       this.currentUser = user
     })
+
+    this.href = this.router.url
 
     this.returnUrl = '/login'
   }
