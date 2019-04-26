@@ -30,22 +30,38 @@ export class ViewNavigationHomeComponent implements OnInit {
     })
   }
 
-  // Display home view
+  //
+  // ─── DISPLAY HOME VIEW ─────────────────────────────────────────────────
+  //
+
   showHomeView() {
     this.showPage(this.HomeView.id)
   }
+  // ─────────────────────────────────────────────────────────────────
 
-  // Display friends view
+
+  //
+  // ─── DISPLAY FRIENDS VIEW ─────────────────────────────────────────────────
+  //
   showFriendsView() {
     this.showPage(this.FriendsView.id)
   }
+  // ─────────────────────────────────────────────────────────────────
 
-  // Display profile view
+
+  //
+  // ─── DISPLAY PROFILE VIEW ─────────────────────────────────────────────────
+  //
   showProfileView() {
     this.showPage(this.ProfileView.id)
   }
+  // ─────────────────────────────────────────────────────────────────
 
-  // Display view by id
+
+  //
+  // ─── DISPLAY VIEW BY ID ─────────────────────────────────────────────────
+  //
+
   showPage(_id: number) {
     this.hideAllViews()
     switch (_id) {
@@ -63,15 +79,24 @@ export class ViewNavigationHomeComponent implements OnInit {
         break
     }
   }
+  // ─────────────────────────────────────────────────────────────────
 
-  // Hide all home views
+  //
+  // ─── HIDE ALL VIEWS ─────────────────────────────────────────────────
+  //
+
   hideAllViews() {
     this.views.forEach(function(view) {
       view.current = false
     })
   }
+  // ─────────────────────────────────────────────────────────────────
 
-  // Display views based on url param
+
+  //
+  // ─── HANDLE DISPLAYING VIEWS BY URL PARAMETER ─────────────────────────────────────────────────
+  //
+
   handleViewParam(param: string) {
     switch (param) {
       case 'profile':
@@ -85,4 +110,5 @@ export class ViewNavigationHomeComponent implements OnInit {
         break
     }
   }
+  // ─────────────────────────────────────────────────────────────────
 }

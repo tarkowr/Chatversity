@@ -37,11 +37,15 @@ export class ProfileComponent implements OnInit {
     this.authService.currentUser.subscribe(
       (user) => {
         this.currentUser = user
-        console.log('CHATKIT USER:', this.currentUser)
+        // console.log('CHATKIT USER:', this.currentUser)
         this.initForm()
       }
     )
   }
+
+  //
+  // ─── GET FORM VALUES FROM USER ─────────────────────────────────────────────────
+  //
 
   initForm() {
     try {

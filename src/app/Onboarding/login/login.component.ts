@@ -54,12 +54,14 @@ export class LoginComponent implements OnInit {
   })
   }
 
-  // convenience getter for easy access to form fields
+  // Convenience getter for easy access to form fields
   get f() { return this.loginForm.controls }
+
 
   //
   // ─── HANDLE LOGIN FORM ──────────────────────────────────────────────────────────
   //
+
     onSubmit() {
 
       this.submitted = true
@@ -101,7 +103,7 @@ export class LoginComponent implements OnInit {
 
       },
       error => {
-        console.log('LOGIN ERROR:', error)
+        // console.log('LOGIN ERROR:', error)
         this.loading = false
         this.loginForm.setErrors( {'invalid': true} )
       })

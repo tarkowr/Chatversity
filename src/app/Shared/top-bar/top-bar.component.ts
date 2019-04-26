@@ -13,8 +13,9 @@ import * as CryptoTS from 'crypto-ts'
 export class TopBarComponent implements OnInit {
   @Input() viewName: string
   @Input() headerText: string
-  @Input() roomId: string
+  @Input() room: any
   @Output() roomDeleted = new EventEmitter()
+  @Output() leftRoom = new EventEmitter()
 
   returnUrl: string
   currentUser: any
@@ -26,14 +27,23 @@ export class TopBarComponent implements OnInit {
     private messageService: MessagingService,
     private _clipboardService: ClipboardService) { }
 
-
   //
   // ─── HANDLE DELETE ROOM ─────────────────────────────────────────────────────────
   //
 
-    deleteRoom(id) {
-      this.roomDeleted.emit(id)
-    }
+  deleteRoom(id) {
+    this.roomDeleted.emit(id)
+  }
+  // ────────────────────────────────────────────────────────────────────────────────
+
+
+  //
+  // ─── HANDLE LEAVE ROOM ─────────────────────────────────────────────────────────
+  //
+
+  leaveRoom(id) {
+    this.leftRoom.emit(id)
+  }
   // ────────────────────────────────────────────────────────────────────────────────
 
 
@@ -45,38 +55,34 @@ export class TopBarComponent implements OnInit {
 
   genInviteLink() {
 
-    const secret = JSON.stringify({roomId: this.roomId})
+    const secret = JSON.stringify({roomId: this.room.id})
 
     // Encrypt
     var ciphertext = CryptoTS.AES.encrypt(secret, '12345678901234567890')
 
-    // Decrypt
-    var bytes  = CryptoTS.AES.decrypt(ciphertext.toString(), '12345678901234567890')
-    var plaintext = bytes.toString(CryptoTS.enc.Utf8)
-
-    console.log(plaintext)
-
     this.roomInviteLink = btoa(ciphertext.toString())
-    console.log(this.roomInviteLink)
   }
 
+  //
+  // ─── CHECK IF USER CREATED THE ROOM ─────────────────────────────────────────────────────────
+  //
+
+  isRoomCreator() {
+    if (!this.room) {
+      return false
+    }
+
+    return (this.room.createdByUserId === this.currentUser.id) ? true : false
+  }
+  // ────────────────────────────────────────────────────────────────────────────────
 
   ngOnInit() {
-
     console.log(CryptoTS.AES.encrypt('secret message', 'secret key').toString())
 
     this.authService.getCurrentUser().subscribe((user) => {
-
       this.currentUser = user
     })
 
     this.returnUrl = '/login'
   }
-
-  // Logout user
-  logOut() {
-    this.authService.logout()
-    this.router.navigate([this.returnUrl])
-  }
-
 }

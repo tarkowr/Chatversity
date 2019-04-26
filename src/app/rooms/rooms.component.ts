@@ -64,6 +64,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
     roomNameGroup: new FormGroup({
       roomName: new FormControl('', [
         Validators.required,
+        Validators.pattern(/(.*[a-z0-9]){3}/i),
         Validators.maxLength(60)
       ])
     }),
@@ -109,8 +110,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   //
 
     deleteRoom(id) {
-
-      console.log(id)
+      // console.log(id)
       this.messageService.deleteRoom(this.currentUser, id).then((latestRoom) => {
 
         // remove local messages from the deleted room...
@@ -146,6 +146,45 @@ export class RoomsComponent implements OnInit, AfterViewInit {
     }
   // ────────────────────────────────────────────────────────────────────────────────
 
+
+  //
+  // ─── HANDLE LEAVE ROOM ─────────────────────────────────────────────────────────
+  //
+
+  leaveRoom(id) {
+    // console.log(id)
+    this.messageService.leaveRoom(this.currentUser, id).then((latestRoom) => {
+
+      // Remove local messages from the room that the user left
+      for ( let i = 0; i < this.room_messages.length; i++) {
+        if ( this.room_messages[i].id === id) {
+          this.room_messages.splice(i, 1)
+        }
+      }
+
+      // Remove the room that the user left from the local rooms array
+      for ( let i = 0; i < this.rooms.length; i++) {
+        if ( this.rooms[i].id === id) {
+          this.rooms.splice(i, 1)
+        }
+      }
+
+      // Join the latest room
+      this.messageService.joinRoom(this.currentUser, latestRoom.id).then((room) => {
+
+      // Update current room
+      this.current_room = room
+
+      // Get the room messages
+      this.messageService.fetchRoomMessages(this.currentUser, room.id, '', 20).then((messages) => {
+          this.room_messages = messages
+          // console.log(this.room_messages)
+          // console.log(messages)
+        })
+      })
+    })
+  }
+  // ────────────────────────────────────────────────────────────────────────────────
 
 
   //
@@ -294,13 +333,13 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   //
 
     createRoom() { // TODO: Add to message service
-      console.log('room submitted')
-      console.log(this.formImport)
-      console.log(this.finalRoomData)
-
       const roomName = this.formImport.value.roomNameGroup.roomName
       const privateRoom = this.formImport.value.privateRoomGroup.privateRoom
       // const roomCipher = CryptoJS.AES.encrypt('secret message', 'secret key').toString()
+
+      console.log('Room Submitted!')
+      // console.log(this.formImport)
+      // console.log(this.finalRoomData)
 
       // If no file added => get ui avatar (add to file list)
       if ( this.pond.getFiles().length ) {

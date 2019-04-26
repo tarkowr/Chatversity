@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { View } from '../../Core/_models/view';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { AuthService } from '../../Core/_services/auth.service';
+import { Component, OnInit } from '@angular/core'
+import { View } from '../../Core/_models/view'
+import { Router, ActivatedRoute, Params } from '@angular/router'
+import { AuthService } from '../../Core/_services/auth.service'
 
 @Component({
   selector: 'app-settings',
@@ -9,101 +9,140 @@ import { AuthService } from '../../Core/_services/auth.service';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
-  ProfileView: View = { id: 1, name: 'Profile', current: false };
-  PrivacyView: View = { id: 2, name: 'Privacy', current: false };
-  SecurityView: View = { id: 3, name: 'Security', current: false };
-  ConnectionsView: View = { id: 4, name: 'Connections', current: false };
+  ProfileView: View = { id: 1, name: 'Profile', current: false }
+  PrivacyView: View = { id: 2, name: 'Privacy', current: false }
+  SecurityView: View = { id: 3, name: 'Security', current: false }
+  ConnectionsView: View = { id: 4, name: 'Connections', current: false }
 
-  views: View[] = [this.ProfileView, this.PrivacyView, this.SecurityView, this.ConnectionsView];
+  views: View[] = [this.ProfileView, this.PrivacyView, this.SecurityView, this.ConnectionsView]
 
-  headerText: string;
-  returnUrl: string;
+  headerText: string
+  returnUrl: string
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private _auth: AuthService) { }
 
   ngOnInit() {
-    this.returnUrl = '/login';
+    this.returnUrl = '/login'
 
-    this.ProfileView.current = true;
-    this.headerText = this.ProfileView.name;
+    this.ProfileView.current = true
+    this.headerText = this.ProfileView.name
 
     this.activatedRoute.queryParams.subscribe(params => {
-      const view = params['view'];
+      const view = params['view']
 
-      this.handleViewParam(view);
-    });
+      this.handleViewParam(view)
+    })
   }
+
+  //
+  // ─── LOGOUT USER ────────────────────────────────────────────────────────────────
+  //
 
   logOut() {
-    this._auth.logout();
-    this.router.navigate([this.returnUrl]);
+    this._auth.logout()
+    this.router.navigate([this.returnUrl])
   }
+  // ────────────────────────────────────────────────────────────────────────────────
 
-  // Display profile view
+  //
+  // ─── DISPLAY PROFILE VIEW ────────────────────────────────────────────────────────────────
+  //
+
   showProfileView() {
-    this.showPage(this.ProfileView.id);
+    this.showPage(this.ProfileView.id)
   }
+  // ────────────────────────────────────────────────────────────────────────────────
 
-  // Display privacy view
+
+  //
+  // ─── DISPLAY PRIVACY VIEW ────────────────────────────────────────────────────────────────
+  //
+
   showPrivacyView() {
-    this.showPage(this.PrivacyView.id);
+    this.showPage(this.PrivacyView.id)
   }
+  // ────────────────────────────────────────────────────────────────────────────────
 
-  // Display security view
+
+  //
+  // ─── DISPLAY SECURITY VIEW ────────────────────────────────────────────────────────────────
+  //
+
   showSecurityView() {
-    this.showPage(this.SecurityView.id);
+    this.showPage(this.SecurityView.id)
   }
+  // ────────────────────────────────────────────────────────────────────────────────
 
-  // Display connections view
+
+  //
+  // ─── DISPLAY CONNECTIONS VIEW ────────────────────────────────────────────────────────────────
+  //
+
   showConnectionsView() {
-    this.showPage(this.ConnectionsView.id);
+    this.showPage(this.ConnectionsView.id)
   }
+  // ────────────────────────────────────────────────────────────────────────────────
 
-  // Hide all settings views
+
+  //
+  // ─── HIDE ALL VIEW ────────────────────────────────────────────────────────────────
+  //
+
   hideAllViews() {
     this.views.forEach(function (view) {
-      view.current = false;
-    });
+      view.current = false
+    })
   }
+  // ────────────────────────────────────────────────────────────────────────────────
 
-  // Display view by id
+
+  //
+  // ─── DISPLAY VIEW BY ID ────────────────────────────────────────────────────────────────
+  //
+
   showPage(_id: number) {
-    this.hideAllViews();
+    this.hideAllViews()
     switch (_id) {
       case 2:
-        this.PrivacyView.current = true;
-        this.headerText = this.PrivacyView.name;
-        break;
+        this.PrivacyView.current = true
+        this.headerText = this.PrivacyView.name
+        break
       case 3:
-        this.SecurityView.current = true;
-        this.headerText = this.SecurityView.name;
-        break;
+        this.SecurityView.current = true
+        this.headerText = this.SecurityView.name
+        break
       case 4:
-        this.ConnectionsView.current = true;
-        this.headerText = this.ConnectionsView.name;
-        break;
+        this.ConnectionsView.current = true
+        this.headerText = this.ConnectionsView.name
+        break
       default:
-        this.ProfileView.current = true;
-        this.headerText = this.ProfileView.name;
-        break;
+        this.ProfileView.current = true
+        this.headerText = this.ProfileView.name
+        break
     }
   }
+  // ────────────────────────────────────────────────────────────────────────────────
 
-  // Display view based on url param
+
+  //
+  // ─── DISPLAY VIEW BY URL PARAMETER ────────────────────────────────────────────────────────────────
+  //
+
   handleViewParam(param: string) {
     switch (param) {
       case 'privacy':
-        this.showPrivacyView();
-        break;
+        this.showPrivacyView()
+        break
       case 'security':
-        this.showSecurityView();
-        break;
+        this.showSecurityView()
+        break
       case 'connections':
-        this.showConnectionsView();
-        break;
+        this.showConnectionsView()
+        break
       default:
-        this.showProfileView();
-        break;
+        this.showProfileView()
+        break
     }
   }
+  // ────────────────────────────────────────────────────────────────────────────────
 }

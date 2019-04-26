@@ -60,16 +60,6 @@ export class SignupComponent implements OnInit {
   }
 
   //
-  // ─── CHECK FOR USERNAME OR PASSWORD ERRORS ──────────────────────────────────────
-  //
-  checkForFormErrors() {
-    if (this.f.username.errors || this.f.password.errors) {
-      return true
-    }
-    return false
-  }
-
-  //
   // ─── CONVENIENCE GETTER FOR EASY ACCESS TO FORM FIELDS ──────────────────────────
   //
   get f() { return this.signupForm.controls }
@@ -77,6 +67,7 @@ export class SignupComponent implements OnInit {
   //
   // ─── VALIDATE UNIVERSITY WITH JSON STORE ──────────────────────────────────────
   //
+
   validateUniversity(query: string) {
     this.searchingForSchool = true
     return this.http.get(`${environment.apiUrl}/university/name/${query}`)
@@ -93,6 +84,7 @@ export class SignupComponent implements OnInit {
   //
   // ─── SEARCH FOR UNIVERSITY FROM JSON STORE ──────────────────────────────────────
   //
+
   findUniversity(query: string) {
     this.searchingForSchool = true
     return this.http.get(`${environment.apiUrl}/university/${query}`)
@@ -109,6 +101,7 @@ export class SignupComponent implements OnInit {
   //
   // ─── GET UNIVERSITY BY DOMAIN ──────────────────────────────────────
   //
+
   async getUniversity(query: string) {
     let data = new Object()
     data = await this.findUniversity(query)
@@ -122,6 +115,7 @@ export class SignupComponent implements OnInit {
   //
   // ─── UPDATE UNIVERSITY IF USER CHANGES INPUT ──────────────────────────────────────
   //
+
   userUpdateUniversity(newUniversity: string) {
     this.guessUniversity = newUniversity
 
@@ -136,11 +130,12 @@ export class SignupComponent implements OnInit {
   //
   // ─── HANDLE SIGN UP ─────────────────────────────────────────────────────────────
   //
+
   onSubmit() {
     this.submitted = true
     this.loading = true
 
-    // stop here if form is invalid
+    // Stop here if form is invalid
     if (this.signupForm.invalid) {
       this.loading = false
       return
@@ -161,7 +156,7 @@ export class SignupComponent implements OnInit {
       this.router.navigate([this.returnUrl])
     },
     error => {
-      console.log('SIGN UP ERROR:', error)
+      // console.log('SIGN UP ERROR:', error)
       this.loading = false
       this.f.username.setErrors( { 'oktaError': true } )
     })

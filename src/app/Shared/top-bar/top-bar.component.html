@@ -2,7 +2,7 @@
   <div class="col 12 col-md-3 py-3">
       <div class="d-flex h-100 align-items-center">
         <span id="header-left-text" class="text-secondary font-weight-bold cursor-default">{{ viewName }} <span id="mobile-header-text">&nbsp;|&nbsp; {{ headerText }}</span></span>
-        <button *ngIf="roomId" [disabled]="this.router.url != '/rooms'" ngbTooltip="Create Room" placement="left" triggers="hover" [autoClose]="true" class="btn btn-outline-primary ml-auto" type="button" data-toggle="modal" data-target="#addRoomModal"><i class="fa fa-plus"></i></button>
+        <button *ngIf="room" [disabled]="this.router.url != '/rooms'" ngbTooltip="Create Room" placement="left" triggers="hover" [autoClose]="true" class="btn btn-outline-primary ml-auto" type="button" data-toggle="modal" data-target="#addRoomModal"><i class="fa fa-plus"></i></button>
       </div>
   </div>
   <div class="col-md-9 py-3" style="border-left:1px solid #DAE6ED;" id="header-text">
@@ -10,15 +10,20 @@
       <span class="text-secondary font-weight-bold pl-3 cursor-default">{{ headerText }}</span>
       
       <!-- Default dropright button -->
-      <div *ngIf="roomId" class="ml-auto">
+      <div *ngIf="room  && currentUser" class="ml-auto">
         <button (click)="genInviteLink()" class="btn btn-outline-primary" data-toggle="modal" data-target="#inviteUsersModal" ngbTooltip="Invite User" placement="left" triggers="hover" [autoClose]="true" type="button"> <span><i class="fa fa-user-plus ml-auto"></i></span></button>
         <button ngbTooltip="Room Settings" placement="left" triggers="hover" [autoClose]="true" type="button" class="btn btn-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-cog"></i>
         </button>
-        <div class="dropdown-menu dropdown-menu-right">
+        <div class="dropdown-menu dropdown-menu-right p-0">
           <!-- Dropdown menu links -->
-          <button class="dropdown-item" type="button"><span><i class="fa fa-edit"></i></span> Edit</button>
-          <button class="dropdown-item dropdown-item-danger text-danger" type="button" data-toggle="modal" data-target="#deleteRoomModal"><span><i class="fa fa-trash-alt"></i></span> Delete</button>
+          <button class="dropdown-item py-2" type="button"><span><i class="fa fa-edit"></i></span> Edit</button>
+
+          <button *ngIf="isRoomCreator()" class="dropdown-item dropdown-item-danger text-danger py-2" type="button" data-toggle="modal" 
+          data-target="#deleteRoomModal"><span><i class="fa fa-trash-alt"></i></span> Delete</button>
+
+          <button *ngIf="!isRoomCreator()" class="dropdown-item dropdown-item-danger text-danger py-2" type="button" data-toggle="modal" 
+          data-target="#leaveRoomModal"><span><i class="fa fa-sign-out "></i></span> Leave</button>
         </div>
       </div>
 
@@ -27,10 +32,8 @@
 </div>
 
 
-
 <!-- Invite Users Modal -->
-
-<div *ngIf="roomId" class="modal fade" id="inviteUsersModal" tabindex="-1" role="dialog" aria-labelledby="inviteUsersModal" aria-hidden="true">
+<div *ngIf="room" class="modal fade" id="inviteUsersModal" tabindex="-1" role="dialog" aria-labelledby="inviteUsersModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -55,23 +58,38 @@
     </div>
   </div>
 
-
-
 <!-- Delete Room Modal -->
-
-<div *ngIf="roomId" class="modal fade" id="deleteRoomModal" tabindex="-1" role="dialog" aria-labelledby="deleteRoomModal" aria-hidden="true">
+<div *ngIf="room" class="modal fade" id="deleteRoomModal" tabindex="-1" role="dialog" aria-labelledby="deleteRoomModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="deleteRoomModal">Delete Room</h5>
+          <h5 class="modal-title text-secondary" id="deleteRoomModal">Delete {{ room.name }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body text-center">
-          <p class="font-weight-bold">Are you sure you want to delete this room?<small class="d-block">This action cannot be undone</small></p>
-          <button type="button" class="btn btn-outline-danger" (click)="deleteRoom(roomId)">Delete</button>
+          <p>Are you sure you want to delete this room?<small class="d-block">This action cannot be undone</small></p>
+          <button type="button" class="btn btn-outline-danger" (click)="deleteRoom(room.id)" data-dismiss="modal">Delete</button>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Leave Room Modal -->
+<div *ngIf="room" class="modal fade" id="leaveRoomModal" tabindex="-1" role="dialog" aria-labelledby="leaveRoomModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-secondary" id="leaveRoomModal">Leave {{ room.name }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <p>Are you sure you want to leave this room?</p>
+        <button type="button" class="btn btn-outline-danger" (click)="leaveRoom(room.id)" data-dismiss="modal">Leave</button>
+      </div>
+    </div>
+  </div>
+</div>
