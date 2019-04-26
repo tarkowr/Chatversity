@@ -8,7 +8,7 @@ import { AuthService } from '../Core/_services/auth.service'
 import { parseDate } from 'tough-cookie'
 import { Observable } from 'rxjs'
 import { UserService } from '../Core/_services/user.service'
-import * as CryptoJS from 'crypto-ts'
+import * as CryptoTS from 'crypto-ts'
 
 @Component({
   selector: 'app-rooms',
@@ -41,6 +41,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
   messages: Object
   pondOptions: any
   finalRoomData: FormData
+  roomInvite: string;
   get roomPrivate(): string {
     return this._roomPrivate
   }
@@ -378,6 +379,7 @@ export class RoomsComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
+
     this.finalRoomData = new FormData()
 
     this.authService.getCurrentUser().subscribe((user) => {
@@ -386,8 +388,22 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       if (user.rooms.length) {
 
         this.rooms = user.rooms
-        this.current_room = this.messageService.getLatestRoom(user)
-        this.joinRoom(this.current_room.id)
+        if (localStorage.getItem('roomInvite') !== null) {
+          let roomInvite = localStorage.getItem('roomInvite')
+          const bytes  = CryptoTS.AES.decrypt(atob(roomInvite).toString(), '12345678901234567890')
+          console.log(roomInvite)
+          console.log(bytes)
+          const plaintext = bytes.toString(CryptoTS.enc.Utf8)
+          console.log(plaintext)
+
+          console.log(JSON.parse(plaintext))
+          this.joinRoom(JSON.parse(plaintext).roomId)
+          localStorage.removeItem('roomInvite')
+        } else {
+          this.current_room = this.messageService.getLatestRoom(user)
+          this.joinRoom(this.current_room.id)
+        }
+
         this.messageService.messages.subscribe((message) => {
           this.room_messages.push(message)
         })

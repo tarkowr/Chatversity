@@ -7,7 +7,7 @@ const multer  = require('multer');
 const upload = multer({ dest: 'upload/'});
 const bodyParser = require('body-parser');
 const axios = require('axios');
-const CryptoJS = require ('crypto-ts')
+const CryptoTS = require ('crypto-ts')
 
 var router = express();
 router.use(bodyParser.urlencoded({ extended: false }));
@@ -33,20 +33,24 @@ router.get('/', (req, res) => {
 router.get('/invite/:code', (req, res) => {
 
   console.log(req.params.code)
+  console.log(Buffer.from(req.params.code, 'base64').toString())
+  var ciphertext = req.params.code
+
+  res.writeHead(301,  {Location: 'http://localhost:4200/login/?roomInvite=' + ciphertext})
+
+  res.end()
+
+  // console.log(CryptoJS.AES.decrypt(decodeURIComponent(req.params.code),
+  //   '86ab6a2cbf9ad906b25ef26ec04422a62335a419afa833644e81ca1d6ab2365c5a17b140fb005ac72a2a5dd84a75e1dd6feacaa479')
+  //   .toString())
 
   
-
-  console.log(CryptoJS.AES.decrypt(decodeURIComponent(req.params.code),
-    '86ab6a2cbf9ad906b25ef26ec04422a62335a419afa833644e81ca1d6ab2365c5a17b140fb005ac72a2a5dd84a75e1dd6feacaa479')
-    .toString())
-
-  return
-  chatkit.addUsersToRoom({
-    roomId: room.id,
-    userIds: ['alice', 'bob']
-  })
-    .then(() => console.log('added'))
-    .catch(err => console.error(err))
+  // chatkit.addUsersToRoom({
+  //   roomId: room.id,
+  //   userIds: ['alice', 'bob']
+  // })
+  //   .then(() => console.log('added'))
+  //   .catch(err => console.error(err))
 })
 
 

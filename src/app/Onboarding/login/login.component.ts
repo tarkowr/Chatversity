@@ -25,14 +25,24 @@ export class LoginComponent implements OnInit {
   submitted = false
   returnUrl = 'home'
   formValidation: CustomFormValidation = new CustomFormValidation()
+  roomInvite: string
 
   constructor (
     private formBuilder: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private messageService: MessagingService) {}
+    private messageService: MessagingService,
+    private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
+
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.roomInvite = params['roomInvite']
+      if (this.roomInvite) {
+        this.returnUrl = 'rooms'
+      }
+    })
+
     // TODO: Check if already logged in, redirect
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.compose([
@@ -82,7 +92,9 @@ export class LoginComponent implements OnInit {
 
         //     this.authService.currentUser = chatkitUser;
         //     console.log(this.authService.currentUser);
-
+        if (this.roomInvite) {
+          localStorage.setItem('roomInvite', this.roomInvite)
+        }
             this.router.navigate([this.returnUrl])
 
         // });

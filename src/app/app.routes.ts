@@ -20,6 +20,7 @@ export const routes: Routes = [
     { path: 'forgot',  component: ForgotComponent, canActivate: [RouteGuard] },
     { path: 'signup', component: SignupComponent, canActivate: [RouteGuard] },
     { path: 'login',  component: LoginComponent, canActivate: [RouteGuard] },
+    { path: 'login/:roomInvite',  component: LoginComponent, canActivate: [RouteGuard] },
 
     /* Must be logged in to access these components */
     { path: '', component: ViewNavigationHomeComponent, canActivate: [AuthGuard] },

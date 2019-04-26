@@ -45,38 +45,19 @@ export class TopBarComponent implements OnInit {
 
   genInviteLink() {
 
+    const secret = JSON.stringify({roomId: this.roomId})
+
     // Encrypt
-var ciphertext = CryptoTS.AES.encrypt('my message', 'secret key 123');
- 
-// Decrypt
-var bytes  = CryptoTS.AES.decrypt(ciphertext.toString(), 'secret key 123');
-var plaintext = bytes.toString(CryptoTS.enc.Utf8);
+    var ciphertext = CryptoTS.AES.encrypt(secret, '12345678901234567890')
 
-console.log(plaintext);
+    // Decrypt
+    var bytes  = CryptoTS.AES.decrypt(ciphertext.toString(), '12345678901234567890')
+    var plaintext = bytes.toString(CryptoTS.enc.Utf8)
 
+    console.log(plaintext)
 
-
-    const roomId = this.roomId.toString()
-    console.log(roomId)
-    
-    const cipherText = CryptoTS.AES.encrypt('hello world', 'mykey')
-
-      const decryptedString =  CryptoTS.AES.decrypt(cipherText, 'mykey')
-
-      console.log(decryptedString)
-
-    // this.roomInviteLink = 'chatversity.app/chatkit/invite/' +
-    // encodeURIComponent(encryptedString)
-
-
-console.log(this.roomId)
-
-
-    // this.roomInviteLink = encodeURIComponent(linkText)
+    this.roomInviteLink = btoa(ciphertext.toString())
     console.log(this.roomInviteLink)
-    // const randomRoomInviteString = window.crypto.getRandomValues(new Int32Array(1))[0].toString()
-    // console.log(randomRoomInviteString)
-    // CryptoTS.AES.encrypt(randomRoomInviteString, 'secret key').toString()
   }
 
 
