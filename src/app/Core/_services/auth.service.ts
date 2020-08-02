@@ -1,22 +1,20 @@
 import { Injectable, OnInit } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { environment } from '../../../environments/environment'
-import { ChatManager, TokenProvider } from '@pusher/chatkit-client'
 import { BehaviorSubject, Subject, ReplaySubject, Observable, } from 'rxjs'
 import { MessagingService } from './messaging.service'
-import {parse, stringify} from 'flatted'
-import { map } from 'rxjs/operators'
 import { Router } from '@angular/router'
 import { reject } from 'q'
 
 @Injectable()
 export class AuthService {
+    private clientLocalStorageKey: string
     private _currentUser: ReplaySubject<any>
 
     constructor(private http: HttpClient, private messageService: MessagingService, private router: Router ) {
+        this.clientLocalStorageKey = 'chatkitUserId'
         this._currentUser = new ReplaySubject<any>(1)
         this.initializeApp()
-        console.log('Auth service constructed')
     }
 
     get currentUser() {
@@ -24,7 +22,6 @@ export class AuthService {
     }
 
     set currentUser(user: any) {
-        console.log('setting current user')
         this._currentUser.next(user)
     }
 
@@ -32,25 +29,24 @@ export class AuthService {
         return this._currentUser.asObservable()
     }
 
-
     getUserId() {
-        return localStorage.getItem('chatkitUserId')
+        return localStorage.getItem(this.clientLocalStorageKey)
     }
 
-
-
     initializeApp() {
-        if (!localStorage.getItem('chatkitUserId')) { return }
-        this.messageService.initChatkit(localStorage.getItem('chatkitUserId'))
+        const clientId = localStorage.getItem(this.clientLocalStorageKey)
+
+        if (!clientId) { return }
+
+        this.messageService.initChatkit(clientId)
         .then(chatkitUser => {
-            console.log('setting chatkit user')
             localStorage.setItem('chatkitUser', chatkitUser)
             this._currentUser.next(chatkitUser)
         })
     }
 
     userLoggedIn() {
-        return localStorage.getItem('chatkitUserId') != null
+        return localStorage.getItem(this.clientLocalStorageKey) != null
     }
 
 
@@ -102,9 +98,8 @@ export class AuthService {
     login(username: string, password: string) {
         return this.http.post<any>(`${environment.apiUrl}/okta/login`, { username, password })
         .toPromise()
-        .then((user) => {
-            // console.log('LOGGED IN OKTA USER: ', user)
-            localStorage.setItem('OktaUser', JSON.stringify(user))
+        .then((user) => { // logged in okta user
+            // localStorage.setItem('OktaUser', JSON.stringify(user))
 
             return this.messageService.initChatkit(user._embedded.user.id)
             .then(chatkitUser => {

@@ -1,20 +1,14 @@
-// Get dependencies
-const cors = require('cors')
-var express = require('express')
-const path = require('path')
-const http = require('http')
-var bodyParser = require('body-parser')
-var multer  = require('multer')
-var app = express()
 const universities = require('./universities')
-var fs      = require('fs')
-var formidable = require('formidable'),
-util = require('util')
-var crypto = require("crypto")
-const axios = require('axios');
-
-var tmp = require('tmp')
-
+const cors = require('cors')
+const express = require('express')
+const path = require('path')
+const bodyParser = require('body-parser')
+const multer = require('multer')
+const app = express()
+const fs = require('fs')
+const formidable = require('formidable')
+const crypto = require("crypto")
+const axios = require('axios')
 
 // Parsers for POST data
 app.use(bodyParser.urlencoded({ 
@@ -24,21 +18,14 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json())
 
-// User CORS for local testing
-// ! TESTING ONLY - REMOVE FOR PROD
+// TESTING ONLY - REMOVE FOR PROD
 app.use(cors())
-
-// Get our API routes
-const api = require('./server/routes/api')
 
 // Get authentication routes
 const okta = require('./server/routes/okta')
 
 // Get Chatkit routes for Pusher
 const chatkit = require('./server/routes/chatkit')
-
-// API route
-app.use('/api', api)
 
 // Okta route for user auth
 app.use('/okta', okta)
@@ -69,13 +56,6 @@ app.use('/chatkit', chatkit)
   })
 
 // ────────────────────────────────────────────────────────────────────────────────
-
-
-//
-// ──────────────────────────────────────────────────── I ──────────
-//   :::::: R O U T E S : :  :   :    :     :        :          :
-// ──────────────────────────────────────────────────────────────
-//
 
 
 //
@@ -263,43 +243,31 @@ app.use('/chatkit', chatkit)
     });
 
     res.status(200).json(found);
-
-    // console.log(req.params.query);
   })
 
 // ────────────────────────────────────────────────────────────────────────────────
 
 
-/**
- * Get port from environment and store in Express.
- */
+//
+// Get port from environment and store in Express.
+//
 const port = process.env.PORT || 3200
 app.set('port', port)
 
-/**
- * Create HTTP server.
- */
+//
+// Create HTTP server.
 // const server = http.createServer(app)
+//
 const router = express.Router()
-
-// // Catch all other routes and return the index file
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'src/index.html'))
-// })
 
 // middleware
 // Serve only the static files form the dist directory
 app.use(express.static(__dirname + '/dist/Chatversity'));
 
+// Catch all other routes and return the index file
 app.get('/*', function(req,res) {
-    
-res.sendFile(path.join(__dirname+'/dist/Chatversity/index.html'));
+  res.sendFile(path.join(__dirname+'/dist/Chatversity/index.html'));
 });
 
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-// server.listen(port, () => console.log(`API running on localhost:${port}`))
+app.listen(port, () => console.log(`App listening on port ${port}!`))

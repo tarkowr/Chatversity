@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { MessagingService } from '../../Core/_services/messaging.service'
 import { ClipboardService } from 'ngx-clipboard'
 import * as CryptoTS from 'crypto-ts'
+import { environment } from '../../../environments/environment'
 
 @Component({
   selector: 'app-top-bar',
@@ -48,21 +49,29 @@ export class TopBarComponent implements OnInit {
   // ────────────────────────────────────────────────────────────────────────────────
 
 
+  //
+  // ─── COPY CLIPBOARD CONTENTS ─────────────────────────────────────────────────────────
+  //
+
   copy(text: string) {
     this._clipboardService.copyFromContent(text)
     console.log(text)
   }
+  // ────────────────────────────────────────────────────────────────────────────────
 
+  //
+  // ─── GENERATE ROOM INVITE LINK ─────────────────────────────────────────────────────────
+  //
 
   genInviteLink() {
-
     const secret = JSON.stringify({roomId: this.room.id})
+    const passphrase = 'chatdev@16273849'
 
-    // Encrypt
-    var ciphertext = CryptoTS.AES.encrypt(secret, '12345678901234567890')
-
-    this.roomInviteLink = 'https://app-chatversity.herokuapp.com/' + btoa(ciphertext.toString())
+    const ciphertext = CryptoTS.AES.encrypt(secret, passphrase)
+    this.roomInviteLink = environment.apiUrl + btoa(ciphertext.toString())
   }
+  // ────────────────────────────────────────────────────────────────────────────────
+
 
   //
   // ─── CHECK IF USER CREATED THE ROOM ─────────────────────────────────────────────────────────
@@ -78,8 +87,6 @@ export class TopBarComponent implements OnInit {
   // ────────────────────────────────────────────────────────────────────────────────
 
   ngOnInit() {
-    console.log(CryptoTS.AES.encrypt('secret message', 'secret key').toString())
-
     this.authService.getCurrentUser().subscribe((user) => {
       this.currentUser = user
     })

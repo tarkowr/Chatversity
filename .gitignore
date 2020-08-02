@@ -10,6 +10,7 @@ noahs_codes.md
 #Removing dist/ folder as travis-ci needs to see it for auto builds and deploys
 /tmp
 /out-tsc
+/dist
 
 # dependencies
 /node_modules

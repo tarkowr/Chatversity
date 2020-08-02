@@ -1,15 +1,12 @@
 const cors = require('cors');
 const express = require('express');
-// const router = express.Router();
 const Chatkit = require('@pusher/chatkit-server');
-const mongoose = require('mongoose');
 const multer  = require('multer');
 const upload = multer({ dest: 'upload/'});
 const bodyParser = require('body-parser');
 const axios = require('axios');
-const CryptoTS = require ('crypto-ts')
 
-var router = express();
+const router = express();
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
@@ -17,13 +14,11 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(cors());
 
-
 require('dotenv').config();
 
 // Specify test token endpoing
 // ! TESTING ONLY - Update for prod
 
-/* GET user listing. */
 router.get('/', (req, res) => {
     res.send('Chatkit server route works');
 });
@@ -114,9 +109,10 @@ router.get('/invite/:code', (req, res) => {
       })
       .then(cursors => {
         res.status(200).json(cursors);
-        // console.log(cursors);
       })
-      .catch(err => console.error(err))
+      .catch(err => {
+        console.error(err)
+      })
   })
 // ────────────────────────────────────────────────────────────────────────────────
 
@@ -127,18 +123,22 @@ router.get('/invite/:code', (req, res) => {
 
   router.get('/connections/:id', (req, res) => {
     chatkit.getUser({
-      // Get the user
       id: req.params.id,
     })
     .then((user) => {
-      // Then get all of the users connections
       chatkit.getUsersById({
         userIds: user.custom_data.connections,
       })
-      .then(users => res.status(200).json(users))
-      .catch(err => console.error(err))
+      .then(users => {
+        res.status(200).json(users)
+      })
+      .catch(error => {
+        res.status(error.status).send(error)
+      })
     })
-    .catch(err => res.status(500).send(err))
+    .catch(error => {
+      res.status(error.status).send(err)
+    })
   })
 // ────────────────────────────────────────────────────────────────────────────────
 
@@ -156,19 +156,15 @@ router.get('/invite/:code', (req, res) => {
       name: name,
       customData: req.body,
     }).then(() => {
-
-      // console.log('User updated successfully');
-
       chatkit.getUser({
         id: req.params.id,
       })
       .then((user) => {
-        // console.log('UPDATED USER:', user)
-        res.status(200).json(user) // Return the updated user
+        res.status(200).json(user)
       })
 
-    }).catch((err) => {
-      console.log(err);
+    }).catch((error) => {
+      res.status(error.status).send(error)
     });
   });
 // ────────────────────────────────────────────────────────────────────────────────
@@ -182,8 +178,12 @@ router.get('/invite/:code', (req, res) => {
       chatkit.getUser({
           id: req.body.user_id,
       })
-      .then(user => res.status(200).json(user))
-      .catch(err => res.status(500).send(err));
+      .then(user => {
+        res.status(200).json(user)
+      })
+      .catch(error => {
+        res.status(error.status).send(error)
+      });
   });
 // ────────────────────────────────────────────────────────────────────────────────
 
@@ -196,8 +196,12 @@ router.get('/invite/:code', (req, res) => {
     chatkit.getUser({
       id: req.params.userId,
     })
-    .then(user => res.status(200).json(user))
-    .catch(error => res.status(500).send(error))
+    .then(user => {
+      res.status(200).json(user)
+    })
+    .catch(error => {
+      res.status(error.status).send(error)
+    })
   })
 // ────────────────────────────────────────────────────────────────────────────────
 
@@ -206,13 +210,15 @@ router.get('/invite/:code', (req, res) => {
 //
 
 router.get('/users', (req, res) => {
+  const maxUserCount = 100
+
   chatkit.getUsers({
-    limit: 100
+    limit: maxUserCount
   })
   .then((users) => {
     res.status(200).json(users)
-  }).catch((err) => {
-    console.log(err);
+  }).catch((error) => {
+    res.status(error.status).send(error)
   });
 })
 // ────────────────────────────────────────────────────────────────────────────────
@@ -226,8 +232,8 @@ router.get('/rooms', (req, res) => {
   chatkit.getRooms({})
   .then((rooms) => {
     res.status(200).json(rooms)
-  }).catch((err) => {
-    console.log(err);
+  }).catch((error) => {
+    res.status(error.status).send(error)
   });
 })
 // ────────────────────────────────────────────────────────────────────────────────
@@ -284,9 +290,8 @@ router.post('/createuser', (req, res) => {
   })
     .then((user) => {
       res.status(200).json(user);
-      console.log('User created successfully');
-    }).catch((err) => {
-      console.log(err);
+    }).catch((error) => {
+      res.status(error.status).send(error)
     });
 })
 // ────────────────────────────────────────────────────────────────────────────────
@@ -301,8 +306,12 @@ router.post('/GetUserRooms', async (req, res) => {
     chatkit.getUserRooms({
         userId: req.body.user_id,
     })
-    .then((rooms) => res.status(200).json(rooms))
-    .catch((err) => res.status(500).send(err));
+    .then((rooms) => {
+      res.status(200).json(rooms)
+    })
+    .catch((error) => {
+      res.status(error.status).send(error)
+    });
 });
 // ────────────────────────────────────────────────────────────────────────────────
 
@@ -330,7 +339,7 @@ router.post('/createtoken', (req, res) => {
         res.status(200).json(user.data);
     })
     .catch(error => {
-      res.status(500).send('<p>'+ error +'</p>');
+      res.status(error.status).send(error)
     });
 });
 // ────────────────────────────────────────────────────────────────────────────────

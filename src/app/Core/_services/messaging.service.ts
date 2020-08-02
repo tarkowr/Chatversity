@@ -46,7 +46,7 @@ export class MessagingService {
       return this.latestRoom
     })
     .catch(err => {
-      // console.log(`Error deleted room ${id}: ${err}`)
+      console.error(`Error deleting room ${id}: ${err}`)
     })
   }
   // ────────────────────────────────────────────────────────────────────────────────
@@ -67,7 +67,7 @@ export class MessagingService {
       return this.latestRoom
     })
     .catch(err => {
-      // console.log(err)
+      console.error(`Error leaving room ${id}: ${err}`)
     })
   }
   // ────────────────────────────────────────────────────────────────────────────────
@@ -81,8 +81,6 @@ export class MessagingService {
 
     // Get position (ID) of latest room message
     this.fetchRoomMessages(user, roomId, '', 1).then((messages) => {
-      // console.log(messages)
-
       if (!messages.length) {
         user.rooms.forEach(room => {
           if (room.id === roomId) {
@@ -103,9 +101,7 @@ export class MessagingService {
               }
             })
           })
-          .catch(err => {
-            // console.log(`Error setting cursor: ${err}`)
-          })
+          .catch(err => {})
       }
     })
   }
@@ -119,15 +115,11 @@ export class MessagingService {
   setReadCursor(user, roomId, position) {
 
     user.setReadCursor({
-        roomId: roomId,
-        position: position
-      })
-      .then(() => {
-        // console.log(`Set read cursor in room ${roomId}`)
-      })
-      .catch(err => {
-        // console.log(`Error setting cursor: ${err}`)
-      })
+      roomId: roomId,
+      position: position
+    })
+    .then(() => {})
+    .catch(err => {})
   }
   // ────────────────────────────────────────────────────────────────────────────────
 
@@ -141,16 +133,17 @@ export class MessagingService {
 
     let latestRoom
     const latestReadCursor = this.getLatestReadCursor(user)
-    // console.log(latestReadCursor)
 
     if (!latestReadCursor) {
       return user.rooms[0]
     }
 
     user.rooms.forEach(room => {
-      // console.log(latestReadCursor.roomId)
-      if (room.id === latestReadCursor.roomId) { latestRoom = room }
+      if (room.id === latestReadCursor.roomId) {
+        latestRoom = room
+      }
     })
+
     return latestRoom
   }
   // ─────────────────────────────────────────────────────────────────
@@ -169,8 +162,6 @@ export class MessagingService {
     user.rooms.forEach(room => {
       cursors.push(user.readCursor({ roomId: room.id }))
     })
-
-    // console.log(cursors)
 
     // Sort to find lowest
     const sorted = cursors.sort()
@@ -193,6 +184,7 @@ export class MessagingService {
     this.rooms.forEach(room => {
       if (room.id === roomId) { return true}
     })
+
     return false
   }
   // ─────────────────────────────────────────────────────────────────
@@ -218,13 +210,12 @@ export class MessagingService {
       .then(messages => {
 
         const roomWithMessages = new Array(roomId, messages)
-        // console.log(roomWithMessages)
 
         this.rooms.push(roomWithMessages)
         return messages
       })
       .catch(err => {
-        console.log(`Error fetching messages: ${err}`)
+        console.error(`Error fetching messages: ${err}`)
       })
   }
   // ─────────────────────────────────────────────────────────────────
@@ -242,7 +233,7 @@ export class MessagingService {
         return room
       })
       .catch(err => {
-        console.log(`Error joining room ${roomId}: ${err}`)
+        console.error(`Error joining room ${roomId}: ${err}`)
       })
   }
   // ─────────────────────────────────────────────────────────────────
@@ -272,7 +263,6 @@ export class MessagingService {
           roomId: room.id,
           hooks: {
               onMessage: message => {
-                // console.log('Received message', message);
                 this.messages.next(message)
               }
           },
@@ -306,7 +296,6 @@ export class MessagingService {
       roomId: roomId,
       hooks: {
           onMessage: message => {
-            // console.log('Received message', message);
             this.messages.next(message)
           }
       },
@@ -332,24 +321,23 @@ export class MessagingService {
 
     return this.chatManager.connect({
       onAddedToRoom: room => {
-        console.log(`Added to room ${room.name}`)
+        // console.log(`Added to room ${room.name}`)
       },
       onRemovedFromRoom: room => {
-        console.log(`Removed from room ${room.name}`)
+        // console.log(`Removed from room ${room.name}`)
       },
       onRoomUpdated: room => {
-        console.log(`Updated room ${room.name}`)
+        // console.log(`Updated room ${room.name}`)
       },
       onRoomDeleted: room => {
-        console.log(`Deleted room ${room.name}`)
+        // console.log(`Deleted room ${room.name}`)
       },
       onPresenceChanged: (state, user) => {
         this.onlineUsers.next({ state, user })
-        console.log(`User ${user.name} is ${state.current}`)
+        // console.log(`User ${user.name} is ${state.current}`)
       }
     })
       .then(user => {
-        // console.log(`Connected as ${user.name}. \n Setting up rooms...`)
         this.currentUser = user
         localStorage.setItem('chatkitUserId', user.id)
 

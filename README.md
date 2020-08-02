@@ -11,6 +11,13 @@
 
 <br />
 
+## Installation
+1. Clone this repo
+2. Install NodeJS and run `npm install` in the root directory of the project
+3. Run `node server.js`
+4. In another terminal run `ng serve --o`
+5. The web app should open on [localhost:3200](http://localhost:3200)
+
 ## Status
 [![CircleCI](https://circleci.com/gh/NoahsNMC/Chatversity_App/tree/master.svg?style=svg)](https://circleci.com/gh/NoahsNMC/Chatversity_App/tree/master)
 ![](https://img.shields.io/github/issues/NoahsNMC/Chatversity_App.svg)
@@ -25,7 +32,6 @@
 
   >[Pusher](https://docs.pusher.com/chatkit/reference/api)  
   [Okta](https://www.okta.com/products/api-access-management/)  
-  [MongoDB](https://docs.atlas.mongodb.com/api/)  
 
 
 ## Creators

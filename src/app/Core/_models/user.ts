@@ -9,5 +9,5 @@ export class User {
     lastName: string
     university: University
     profile: UserProfile
-    active:boolean
+    active: boolean
 }

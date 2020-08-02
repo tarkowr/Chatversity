@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core'
 import { NgForm, FormGroup, FormBuilder, Validators, FormControl, FormsModule, MaxLengthValidator } from '@angular/forms'
 import { AuthService } from '../../Core/_services/auth.service'
 import { UserService } from '../../Core/_services/user.service'
-import { FilePondModule } from 'filepond'
+// import { FilePondModule } from 'filepond'
 import { environment } from '../../../environments/environment.prod'
 
 @Component({

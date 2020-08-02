@@ -13,25 +13,15 @@ export class RouteGuard implements CanActivate {
 
   constructor(
     private router: Router,
-    private authService: AuthService,
-    private route: ActivatedRoute
+    private authService: AuthService
   ) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      const currentUser = this.authService.userLoggedIn()
-
-
-
-        if (currentUser) {
-          this.tree = this.router.parseUrl(this.returnUrl)
-            return this.tree
-          // User is authorized
-          if (state.url === '/login' || state.url === '/signup' || state.url === '/forgot') {
-            this.returnUrl = '/home'
-           }
-          return true
+      const isLoggedIn = this.authService.userLoggedIn()
+        if (isLoggedIn) {
+          return this.router.parseUrl(this.returnUrl)
         }
         return true
       }

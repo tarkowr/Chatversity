@@ -1,17 +1,13 @@
-const express = require('express');
-const router = express.Router();
-
-const okta = require('@okta/okta-sdk-nodejs');
+const express = require('express')
+const router = express.Router()
+const okta = require('@okta/okta-sdk-nodejs')
+const axios = require('axios')
 
 const client = new okta.Client({
   orgUrl: 'https://dev-117825.okta.com/',
-  token: '00Regr-41ROC64cDOHPrVS-XF7RD4eCJhdOf3RUj81'    // Obtained from Developer Dashboard
+  token: '00bZLsWwzJWyfMrRXnmd-wzqLu4BCbj1TG01Va73A4' // Obtained from Developer Dashboard (Resets every month)
 });
 
-// declare axios for making http requests
-const axios = require('axios');
-
-/* GET user listing. */
 router.get('/', (req, res) => {
     res.send('Okta server route works');
 });
@@ -34,15 +30,15 @@ router.get('/', (req, res) => {
       res.status(200).json(user.data)
     })
     .catch((error) => {
-      if (error.response.status === 404) {
-        console.log('ERROR: User not found.')
+      if (errpr.response.status === 404) {
         res.send('ERROR: User not found!')
       }
-      console.log(error.response)
+      else{
+        res.status(error.status).send(error)
+      }
     })
   });
 // ────────────────────────────────────────────────────────────────────────────────
-
 
 
 //
@@ -72,7 +68,7 @@ router.get('/', (req, res) => {
           res.status(200).json(user.data);
       })
       .catch(error => {
-        res.status(500).send('<p>'+ error +'</p>');
+        res.status(error.status).send(error)
       });
   });
 // ────────────────────────────────────────────────────────────────────────────────
@@ -100,11 +96,9 @@ router.get('/', (req, res) => {
     client.createUser(newUser)
     .then(user => {
       res.status(200).json(user)
-      // console.log('CREATED USER', user)
     })
-    .catch((err) => {
-      console.log('CREATE USER ERROR ', err);
-      res.status(err.status).send(err)
+    .catch((error) => {
+      res.status(error.status).send(error)
     });
   });
 
@@ -114,7 +108,6 @@ router.get('/', (req, res) => {
 //
 
   router.post('/forgot', (req, res) => { 
-      // console.log('REQUEST:', req);
       axios.post(`https://dev-117825.okta.com/api/v1/authn`, {
           "username": req.body.username,
           "relayState": "localhost:4200",
@@ -135,18 +128,7 @@ router.get('/', (req, res) => {
           res.status(200).json(user.data);
       })
       .catch(error => {
-        // No idea if the switch statement works or if I even did it right
-        switch (error) {
-          case res.status(500):
-            res.status(500).send("<p>Error 500!</p>")
-            break;
-          case res.status(403):
-            res.status(403).send("<p>Error 403!  User not found!</p>")
-            break;
-          default:
-            res.status(500).send("<p>Error 500!</p>")
-            break;
-        };
+        res.status(error.status).send(error)
       });
   })
 // ────────────────────────────────────────────────────────────────────────────────
@@ -168,7 +150,7 @@ router.get('/users/:id', (req, res) => {
     }
   })
   .catch(error => {
-    res.status(500).json('<p>'+ error +'</p>');
+    res.status(error.status).send(error)
   });
  });
 
