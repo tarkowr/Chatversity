@@ -15,11 +15,7 @@ import { FilePondModule, registerPlugin } from 'ngx-filepond'
 
 // import and register filepond file type validation plugin
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
-import FilePondPluginFileRename from 'filepond-plugin-file-rename'
 registerPlugin(FilePondPluginFileValidateType)
-
-
-registerPlugin(FilePondPluginFileRename)
 
 
 // Angular Bootstrap

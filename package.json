@@ -1,5 +1,5 @@
 {
-  "name": "Chatversity",
+  "name": "chatversity",
   "nativescript": {
     "id": "com.chatversity"
   },
@@ -55,9 +55,8 @@
     "crypto-ts": "^1.0.2",
     "dotenv": "^7.0.0",
     "express": "^4.17.1",
-    "filepond": "^4.19.2",
-    "filepond-plugin-file-rename": "^1.1.5",
-    "filepond-plugin-file-validate-type": "^1.2.5",
+    "filepond": "^4.4.0",
+    "filepond-plugin-file-validate-type": "^1.2.4",
     "flatted": "^2.0.2",
     "formidable": "^1.2.2",
     "mongodb": "^3.6.0",
@@ -67,7 +66,7 @@
     "nativescript-theme-core": "^1.0.6",
     "ngx-avatar": "^3.7.0",
     "ngx-clipboard": "^12.3.1",
-    "ngx-filepond": "^5.0.1",
+    "ngx-filepond": "^5.0.0",
     "node-sass": "^4.14.1",
     "reflect-metadata": "~0.1.12",
     "rxjs": "~6.3.3",
@@ -76,7 +75,7 @@
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.1000.5",
+    "@angular-devkit/build-angular": "^0.13.9",
     "@angular/cli": "^7.3.10",
     "@angular/compiler-cli": "^7.2.16",
     "@fortawesome/fontawesome-free": "^5.14.0",

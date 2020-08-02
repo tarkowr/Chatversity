@@ -461,13 +461,6 @@ export class RoomsComponent implements OnInit, AfterViewInit {
       })
 
       this.pondOptions = {
-        fileRenameFunction: (file) => {
-
-          const randomFileName = new Uint32Array(1)
-          window.crypto.getRandomValues(randomFileName)
-          return `${randomFileName}${file.extension}`
-      },
-        allowFileRename: true,
         instantUpload: false,
         class: 'my-filepond',
         multiple: false,
