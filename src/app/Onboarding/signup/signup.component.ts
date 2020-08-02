@@ -1,23 +1,11 @@
 import { Component, OnInit } from '@angular/core'
-import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { HttpHeaders } from '@angular/common/http'
-import { Observable } from 'rxjs'
-import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
-import { ActivatedRoute, Router } from '@angular/router'
-import { OktaAuthService } from '@okta/okta-angular'
+import { FormGroup, FormBuilder, Validators } from '@angular/forms'
+import { Router } from '@angular/router'
 import { AuthService } from '../../Core/_services/auth.service'
-import { first } from 'rxjs/operators'
 import { University } from '../../Core/_models/university'
 import { CustomFormValidation } from '../../Core/_models/form-validation'
 import { environment } from '../../../environments/environment'
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type':  'application/json',
-    'Authorization': 'my-auth-token'
-  })
-}
 
 @Component({
   selector: 'app-signup',
@@ -59,27 +47,7 @@ export class SignupComponent implements OnInit {
     this.returnUrl = 'new-user'
   }
 
-  //
-  // ─── CONVENIENCE GETTER FOR EASY ACCESS TO FORM FIELDS ──────────────────────────
-  //
   get f() { return this.signupForm.controls }
-
-  //
-  // ─── VALIDATE UNIVERSITY WITH JSON STORE ──────────────────────────────────────
-  //
-
-  validateUniversity(query: string) {
-    this.searchingForSchool = true
-    return this.http.get(`${environment.apiUrl}/university/name/${query}`)
-    .toPromise()
-    .then(university => {
-      return university
-    })
-    .catch(error => {
-      this.searchingForSchool = false
-      return null
-    })
-  }
 
   //
   // ─── SEARCH FOR UNIVERSITY FROM JSON STORE ──────────────────────────────────────
@@ -89,10 +57,7 @@ export class SignupComponent implements OnInit {
     this.searchingForSchool = true
     return this.http.get(`${environment.apiUrl}/university/${query}`)
     .toPromise()
-    .then(university => {
-      return university
-    })
-    .catch(error => {
+    .catch(() => {
       this.searchingForSchool = false
       return null
     })
@@ -103,28 +68,12 @@ export class SignupComponent implements OnInit {
   //
 
   async getUniversity(query: string) {
-    let data = new Object()
-    data = await this.findUniversity(query)
+    let data = await this.findUniversity(query)
 
     if (data) {
       this.guessUniversity = data['name']
       this.signupForm.get('university').setValue(this.guessUniversity)
     }
-  }
-
-  //
-  // ─── UPDATE UNIVERSITY IF USER CHANGES INPUT ──────────────────────────────────────
-  //
-
-  userUpdateUniversity(newUniversity: string) {
-    this.guessUniversity = newUniversity
-
-    this.validateUniversity(this.guessUniversity)
-    .then(result => {
-      if (!result) {
-        this.f.university.setErrors({'invalid': true})
-      }
-    })
   }
 
   //
@@ -135,28 +84,16 @@ export class SignupComponent implements OnInit {
     this.submitted = true
     this.loading = true
 
-    // Stop here if form is invalid
     if (this.signupForm.invalid) {
       this.loading = false
       return
     }
-
-    // Create obj to hold formdata
-    const formData: FormData = new FormData()
-
-    // Append input to form data
-    formData.append('firstname', this.signupForm.get('firstname').value)
-    formData.append('lastname', this.signupForm.get('lastname').value)
-    formData.append('university', this.guessUniversity)
-    formData.append('username', this.signupForm.get('username').value)
-    formData.append('password', this.signupForm.get('password').value)
 
     this.auth.signup(this.f.firstname.value, this.f.lastname.value, this.guessUniversity, this.f.username.value, this.f.password.value)
     .then(data => {
       this.router.navigate([this.returnUrl])
     },
     error => {
-      // console.log('SIGN UP ERROR:', error)
       this.loading = false
       this.f.username.setErrors( { 'oktaError': true } )
     })

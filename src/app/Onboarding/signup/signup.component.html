@@ -30,7 +30,7 @@
               <!--First Name-->
               <div class="form-group mb-3">
                 <label for="firstname" class="text-secondary">First Name <span class="text-danger">*</span></label>
-                <input type="text" required class="form-control primary-border" id="firstname" name="firstname" placeholder="John" 
+                <input type="text" required class="form-control primary-border" id="firstname" name="firstname" 
                 formControlName="firstname" maxlength="30"
                 [ngClass]="{ 'is-invalid': submitted && f.firstname.errors, 'danger-border': submitted && f.firstname.errors }">
 
@@ -44,7 +44,7 @@
               <div class="col-12 col-sm-6 col-md-6">
                 <div class="form-group mb-3">
                   <label for="lastname" class="text-secondary">Last Name <span class="text-danger">*</span></label>
-                  <input type="text" required class="form-control primary-border" id="lastname" name="lastname" placeholder="Doe" 
+                  <input type="text" required class="form-control primary-border" id="lastname" name="lastname" 
                   formControlName="lastname" maxlength="30"
                   [ngClass]="{ 'is-invalid': submitted && f.lastname.errors, 'danger-border': submitted && f.lastname.errors }">
 
@@ -58,7 +58,7 @@
             <!--Username (Email) Textbox-->
             <div class="form-group mb-3">
                 <label for="username" class="text-secondary">Email <span class="text-danger">*</span></label>
-                <input type="email" required name="username" formControlName="username" placeholder="you@university.edu" 
+                <input type="email" required name="username" formControlName="username" 
                     class="form-control primary-border"
                     [ngClass]="{ 'is-invalid': submitted && f.username.errors, 'danger-border': submitted && f.username.errors }"
                     (change)="getUniversity(f.username.value)" />
@@ -77,7 +77,6 @@
             <div class="form-group mb-3">
               <label for="university" class="text-secondary">University <span class="text-danger">*</span></label>
               <input type="text" [readonly]="true" name="university" required formControlName="university" class="form-control primary-border"
-                  placeholder="University of Michigan" (change)="userUpdateUniversity(f.university.value)"
                   [ngClass]="{ 'is-invalid': submitted && f.university.errors, 'danger-border': submitted && f.university.errors }">
 
               <div *ngIf="submitted && f.university.errors" class="invalid-feedback">
@@ -89,7 +88,7 @@
             <!--Password-->
             <div class="form-group">
                 <label for="password" class="text-secondary">Password <span class="text-danger">*</span></label>
-                <input type="password" required formControlName="password" placeholder="Create a password" maxlength="40"
+                <input type="password" required formControlName="password" maxlength="40"
                     class="form-control primary-border" [ngClass]="{ 'is-invalid': submitted && f.password.errors, 'danger-border': submitted && f.password.errors }" />
                 
                 <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
