@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
+import { FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { CustomFormValidation } from '../../Core/_models/form-validation'
 
 
@@ -22,9 +22,6 @@ export class SecuritySettingsComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) { }
 
-  //
-  // ─── CONVENIENCE GETTER FOR EASY ACCESS TO FORM FIELDS ──────────────────────────
-  //
   get f() { return this.changePassForm.controls }
 
 
@@ -68,13 +65,11 @@ export class SecuritySettingsComponent implements OnInit {
     this.submitted = true
     this.loading = true
 
-    // If form is invalid then stop here
     if (this.changePassForm.invalid) {
       this.loading = false
       return
     }
 
-    // Create obj to hold formdata
     const formData: FormData = new FormData()
 
     // Append input to form data
@@ -86,7 +81,6 @@ export class SecuritySettingsComponent implements OnInit {
     }
 
   ngOnInit() {
-    // Build change password form
     this.changePassForm = this.formBuilder.group({
       oldPassword: ['', Validators.required],
       newPassword: ['', Validators.compose([

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { View } from '../../Core/_models/view'
-import { Router, ActivatedRoute, Params } from '@angular/router'
+import { Router, ActivatedRoute } from '@angular/router'
 import { AuthService } from '../../Core/_services/auth.service'
 
 @Component({
@@ -20,19 +20,6 @@ export class SettingsComponent implements OnInit {
   returnUrl: string
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private _auth: AuthService) { }
-
-  ngOnInit() {
-    this.returnUrl = '/login'
-
-    this.ProfileView.current = true
-    this.headerText = this.ProfileView.name
-
-    this.activatedRoute.queryParams.subscribe(params => {
-      const view = params['view']
-
-      this.handleViewParam(view)
-    })
-  }
 
   //
   // ─── LOGOUT USER ────────────────────────────────────────────────────────────────
@@ -145,4 +132,18 @@ export class SettingsComponent implements OnInit {
     }
   }
   // ────────────────────────────────────────────────────────────────────────────────
+
+
+  ngOnInit() {
+    this.returnUrl = '/login'
+  
+    this.ProfileView.current = true
+    this.headerText = this.ProfileView.name
+  
+    this.activatedRoute.queryParams.subscribe(params => {
+      const view = params['view']
+  
+      this.handleViewParam(view)
+    })
+  }
 }
