@@ -1,3 +1,5 @@
+# License
+
 By exercising the Licensed Rights (defined below), You accept and agree to be bound by the terms and conditions of this Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International Public License ("Public License"). To the extent this Public License may be interpreted as a contract, You are granted the Licensed Rights in consideration of Your acceptance of these terms and conditions, and the Licensor grants You such rights in consideration of benefits the Licensor receives from making the Licensed Material available under these terms and conditions.
 
 **Section 1 – Definitions.**
@@ -27,10 +29,10 @@ By exercising the Licensed Rights (defined below), You accept and agree to be bo
     5. Downstream recipients.
         1. Offer from the Licensor – Licensed Material. Every recipient of the Licensed Material automatically receives an offer from the Licensor to exercise the Licensed Rights under the terms and conditions of this Public License.
         2. No downstream restrictions. You may not offer or impose any additional or different terms or conditions on, or apply any Effective Technological Measures to, the Licensed Material if doing so restricts exercise of the Licensed Rights by any recipient of the Licensed Material.
- 
+
     6. No endorsement. Nothing in this Public License constitutes or may be construed as permission to assert or imply that You are, or that Your use of the Licensed Material is, connected with, or sponsored, endorsed, or granted official status by, the Licensor or others designated to receive attribution as provided in Section [3(a)(1)(A)(i)](https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode#s3a1Ai).
 
-2. Other rights. 
+2. Other rights
     1. Moral rights, such as the right of integrity, are not licensed under this Public License, nor are publicity, privacy, and/or other similar personality rights; however, to the extent possible, the Licensor waives and/or agrees not to assert any such rights held by the Licensor to the limited extent necessary to allow You to exercise the Licensed Rights, but not otherwise.
     2. Patent and trademark rights are not licensed under this Public License.
     3. To the extent possible, the Licensor waives any right to collect royalties from You for the exercise of the Licensed Rights, whether directly or through a collecting society under any voluntary or waivable statutory or compulsory licensing scheme. In all other cases the Licensor expressly reserves any right to collect such royalties, including when the Licensed Material is used other than for NonCommercial purposes.
@@ -39,8 +41,8 @@ By exercising the Licensed Rights (defined below), You accept and agree to be bo
 
 Your exercise of the Licensed Rights is expressly made subject to the following conditions.
 
-1. Attribution. 
-    1. If You Share the Licensed Material, You must: 
+1. Attribution
+    1. If You Share the Licensed Material, You must:
         1. retain the following if it is supplied by the Licensor with the Licensed Material:
             1. identification of the creator(s) of the Licensed Material and any others designated to receive attribution, in any reasonable manner requested by the Licensor (including by pseudonym if designated);
             2. a copyright notice;
@@ -73,7 +75,7 @@ For the avoidance of doubt, this Section [4](https://creativecommons.org/licens
 **Section 6 – Term and Termination.**
 
 1. This Public License applies for the term of the Copyright and Similar Rights licensed here. However, if You fail to comply with this Public License, then Your rights under this Public License terminate automatically.
-2. Where Your right to use the Licensed Material has terminated under Section [6(a)](https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode#s6a), it reinstates: 
+2. Where Your right to use the Licensed Material has terminated under Section [6(a)](https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode#s6a), it reinstates:
     1. automatically as of the date the violation is cured, provided it is cured within 30 days of Your discovery of the violation; or
     2. upon express reinstatement by the Licensor.
 For the avoidance of doubt, this Section [6(b)](https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode#s6b) does not affect any right the Licensor may have to seek remedies for Your violations of this Public License.

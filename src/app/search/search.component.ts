@@ -52,5 +52,4 @@ export class SearchComponent implements OnInit {
     this.UserView.current = true
     this.headerText = 'Users'
   }
-
 }

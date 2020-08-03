@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { AuthService } from './Core/_services/auth.service'
-import { User } from './Core/_models/user'
 import { Router } from '@angular/router'
-import { SwUpdate } from '@angular/service-worker'
-import { MessagingService } from './Core/_services/messaging.service'
-
 
 @Component({
   selector: 'app-root',
@@ -18,13 +14,11 @@ export class AppComponent implements OnInit {
   update = false
   currUser: any
   currentUser: any
-  // chatkitUser: any;
 
   constructor(
-      private router: Router,
-      private authService: AuthService,
-      private updates: SwUpdate,
-      private messageService: MessagingService) {}
+    private router: Router,
+    private authService: AuthService,
+  ) {}
 
   //
   // ─── LOGOUT USER ────────────────────────────────────────────────────────────────
@@ -36,11 +30,11 @@ export class AppComponent implements OnInit {
   // ────────────────────────────────────────────────────────────────────────────────
 
 
-  // !
-  // ! ─── FOR TESTING ONLY - USE THIS FUNCTION TO REMOVE THE NAVBAR ON PAGES THAT DO NOT NEED IT
-  // !
+  // 
+  // USE THIS FUNCTION TO REMOVE THE NAVBAR ON PAGES THAT DO NOT NEED IT
+  // 
 
-    RemoveNavbarForTesting() {
+    RemoveNavbar() {
       if (this.router.url === '/login'
       || this.router.url === '/signup'
       || this.router.url === '/forgot'
@@ -51,31 +45,14 @@ export class AppComponent implements OnInit {
 
       return true
     }
-  // ! ────────────────────────────────────────────────────────────────────────────────
+  // ────────────────────────────────────────────────────────────────────────────────
 
   ngOnInit() {
     console.log('%cWelcome to Chatversity!', 'font-size: 20px; color: #186fa0;')
     console.log('Initializing app...')
 
     this.authService.getCurrentUser().subscribe((user) => {
-
       this.currentUser = user
-      // if (user) { this.currentUser = user; return } else {
-      //   this.messageService.initChatkit(this.authService.getUserId())
-      // }
-
-      console.log('OKTA USER: ', user)
     })
-
-  //   this.messageService.initChatkit(this.authService.getUserId())
-  //   .then(chatkitUser => {
-  //     console.log('got chatkit user');
-  //     console.log(chatkitUser);
-  //     this.authService.currentUser = chatkitUser;
-  //     this.currentUser = chatkitUser;
-  //     console.log(this.authService.currentUser);
-
-  // });
-    console.log('User Logged In: ' + this.authService.userLoggedIn())
   }
 }

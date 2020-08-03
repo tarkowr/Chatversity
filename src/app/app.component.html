@@ -6,12 +6,12 @@
 </div>
 
 <div [class.app-mount]="(currentUser && RemoveNavbarForTesting())">
-    <div *ngIf="(currentUser && RemoveNavbarForTesting())" class="nav-wrapper">
+    <div *ngIf="(currentUser && RemoveNavbar())" class="nav-wrapper">
         <div id="primary_navigation">
-            <app-navbar *ngIf="(currentUser && RemoveNavbarForTesting())" class="h-100 d-flex align-items-center flex-column shadow-sm"></app-navbar>
+            <app-navbar *ngIf="(currentUser && RemoveNavbar())" class="h-100 d-flex align-items-center flex-column shadow-sm"></app-navbar>
         </div>
     </div>
-    <section [class.app-main]="(currentUser && RemoveNavbarForTesting())">
+    <section [class.app-main]="(currentUser && RemoveNavbar())">
         <router-outlet></router-outlet> 
     </section>
 </div>

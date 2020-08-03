@@ -1,7 +1,7 @@
 // Angular Component Imports
 import { NgModule } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
-import { RouterModule, Routes } from '@angular/router'
+import { RouterModule } from '@angular/router'
 import { HttpClientModule } from '@angular/common/http'
 import { AuthService } from './Core/_services/auth.service'
 import { UserService } from './Core/_services/user.service'
@@ -24,9 +24,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 // Component Import
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
-
-// Dashboard Component Imports
-import { DashboardComponent } from './dashboard/dashboard.component'
 
 // Error Component Imports
 import { ErrorComponent } from './Error-Views/error/error.component'
@@ -59,7 +56,7 @@ import { FooterComponent } from './Shared/footer/footer.component'
 import { NavbarComponent } from './Shared/navbar/navbar.component'
 
 // Okta Guard and Service
-import { OktaCallbackComponent, OktaAuthGuard } from '@okta/okta-angular';
+import { OktaAuthGuard } from '@okta/okta-angular';
 import { OktaAuthService } from './app.service';
 import { CallbackComponent } from './Core/callback/callback.component';
 import { ProtectedComponent } from './Core/protected/protected.component';
@@ -98,7 +95,6 @@ const config = {
     CallbackComponent,
     ProtectedComponent,
     PageNotFoundComponent,
-    DashboardComponent,
     CallbackComponent,
     FooterComponent,
     NavbarComponent,
