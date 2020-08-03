@@ -1,10 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { AuthService } from '../../Core/_services/auth.service'
-import { ActivatedRoute, Router } from '@angular/router'
-import { MessagingService } from '../../Core/_services/messaging.service'
+import { Router } from '@angular/router'
 import { ClipboardService } from 'ngx-clipboard'
-import * as CryptoTS from 'crypto-ts'
-import { environment } from '../../../environments/environment'
 
 @Component({
   selector: 'app-top-bar',
@@ -24,10 +21,9 @@ export class TopBarComponent implements OnInit {
   href: string;
 
   constructor(private authService: AuthService,
-    private route: ActivatedRoute,
     private router: Router,
-    private messageService: MessagingService,
-    private _clipboardService: ClipboardService) { }
+    private _clipboardService: ClipboardService
+  ) { }
 
   //
   // ─── HANDLE DELETE ROOM ─────────────────────────────────────────────────────────
@@ -55,23 +51,8 @@ export class TopBarComponent implements OnInit {
 
   copy(text: string) {
     this._clipboardService.copyFromContent(text)
-    console.log(text)
   }
   // ────────────────────────────────────────────────────────────────────────────────
-
-  //
-  // ─── GENERATE ROOM INVITE LINK ─────────────────────────────────────────────────────────
-  //
-
-  genInviteLink() {
-    const secret = JSON.stringify({roomId: this.room.id})
-    const passphrase = 'chatdev@16273849'
-
-    const ciphertext = CryptoTS.AES.encrypt(secret, passphrase)
-    this.roomInviteLink = environment.apiUrl + btoa(ciphertext.toString())
-  }
-  // ────────────────────────────────────────────────────────────────────────────────
-
 
   //
   // ─── CHECK IF USER CREATED THE ROOM ─────────────────────────────────────────────────────────
@@ -82,7 +63,7 @@ export class TopBarComponent implements OnInit {
       return false
     }
 
-    return (this.room.createdByUserId === this.currentUser.id) ? true : false
+    return this.room.createdByUserId === this.currentUser.id
   }
   // ────────────────────────────────────────────────────────────────────────────────
 

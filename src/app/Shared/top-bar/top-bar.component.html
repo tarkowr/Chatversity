@@ -10,15 +10,11 @@
       <span class="text-secondary font-weight-bold pl-3 cursor-default">{{ headerText }}</span>
       
       <!-- Default dropright button -->
-      <div *ngIf="room  && currentUser" class="ml-auto">
-        <button (click)="genInviteLink()" class="btn btn-outline-primary" data-toggle="modal" data-target="#inviteUsersModal" ngbTooltip="Invite User" placement="left" triggers="hover" [autoClose]="true" type="button"> <span><i class="fa fa-user-plus ml-auto"></i></span></button>
+      <div *ngIf="room && currentUser" class="ml-auto">
         <button ngbTooltip="Room Settings" placement="left" triggers="hover" [autoClose]="true" type="button" class="btn btn-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-cog"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right p-0">
-          <!-- Dropdown menu links -->
-          <!-- <button class="dropdown-item py-2" type="button"><span><i class="fa fa-edit"></i></span> Edit</button> -->
-
           <button *ngIf="isRoomCreator()" class="dropdown-item dropdown-item-danger text-danger py-2" type="button" data-toggle="modal" 
           data-target="#deleteRoomModal"><span><i class="fa fa-trash-alt"></i></span> Delete</button>
 
@@ -26,37 +22,9 @@
           data-target="#leaveRoomModal"><span><i class="fa fa-sign-out "></i></span> Leave</button>
         </div>
       </div>
-
     </div>
   </div>
 </div>
-
-
-<!-- Invite Users Modal -->
-<div *ngIf="room" class="modal fade" id="inviteUsersModal" tabindex="-1" role="dialog" aria-labelledby="inviteUsersModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="inviteUsersModal">Invite Users</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body text-center">
-          <p class="font-weight-bold">Share this link with others to grant access to your room.</p>
-
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" [value]="roomInviteLink" aria-label="Room invite link" aria-describedby="button-addon2">
-            <div class="input-group-append">
-              <div #container>
-                <button ngxClipboard type="button" [container]="container" [cbContent]="roomInviteLink" class="btn btn-outline-info" type="button" id="button-addon2">Copy</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
 <!-- Delete Room Modal -->
 <div *ngIf="room" class="modal fade" id="deleteRoomModal" tabindex="-1" role="dialog" aria-labelledby="deleteRoomModal" aria-hidden="true">

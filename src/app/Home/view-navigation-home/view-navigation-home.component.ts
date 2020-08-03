@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { View } from '../../Core/_models/view'
-import {Router, ActivatedRoute, Params} from '@angular/router'
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
   selector: 'app-view-navigation-home',

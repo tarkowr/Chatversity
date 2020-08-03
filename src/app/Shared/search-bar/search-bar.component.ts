@@ -1,9 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core'
-import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
+import { FormGroup, FormBuilder, Validators  } from '@angular/forms'
 import { UserService } from '../../Core/_services/user.service'
 import { MessagingService } from '../../Core/_services/messaging.service'
 import { AuthService } from '../../Core/_services/auth.service'
-import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-search-bar',
@@ -28,12 +27,12 @@ export class SearchBarComponent implements OnInit {
   rooms: any
   selectedRoom: any
 
-  constructor(private formBuilder: FormBuilder, private _userService: UserService, private _msgService: MessagingService,
-    private authService: AuthService, private router: Router) { }
-
-  //
-  // ─── CONVENIENCE GETTER FOR EASY ACCESS TO FORM FIELDS ──────────────────────────
-  //
+  constructor(
+    private formBuilder: FormBuilder, 
+    private _userService: UserService, 
+    private _msgService: MessagingService,
+    private authService: AuthService,
+  ) { }
 
   get f() { return this.searchForm.controls }
 
@@ -160,10 +159,8 @@ export class SearchBarComponent implements OnInit {
 
   joinRoom(_room: any) {
     this._msgService.joinRoom(this.currUser, _room.id).then((room) => {
-      this._msgService.subscribeToRoom(this.currUser, _room.id)
-    }).catch(err => {
-      console.log(err)
-    })
+      this._msgService.subscribeToRoom(this.currUser, room.id)
+    }).catch(err => {})
   }
   // ─────────────────────────────────────────────────────────────────
 
@@ -176,7 +173,7 @@ export class SearchBarComponent implements OnInit {
       return false
     }
 
-    return (this.currUser.roomSubscriptions[_id]) ? true : false
+    return this.currUser.roomSubscriptions[_id]
   }
   // ─────────────────────────────────────────────────────────────────
 
@@ -186,7 +183,7 @@ export class SearchBarComponent implements OnInit {
   //
 
   isUserOnline(_id: any) {
-    return (this.currUser.presenceStore[_id] === 'online') ? true : false
+    return this.currUser.presenceStore[_id] === 'online'
   }
   // ─────────────────────────────────────────────────────────────────
 
@@ -202,37 +199,28 @@ export class SearchBarComponent implements OnInit {
 
 
   ngOnInit() {
-    // Get current user
     this.authService.getCurrentUser().subscribe(
       (user) => {
         this.currUser = user
 
-        // Get all users
         if (this.userType) {
           this._userService.getAll()
           .toPromise()
           .then((data) => {
             this.users = data
           })
-          .catch((error) => {
-            console.log(error)
-          })
+          .catch((error) => {})
         }
-
-        // Get all rooms
-        if (this.roomType) {
+        else if (this.roomType) {
           this._msgService.getAllRooms()
           .toPromise()
           .then((data) => {
             this.rooms = data
           })
-          .catch((error) => {
-            console.log(error)
-          })
+          .catch((error) => {})
         }
      })
 
-    // Setup search box
     this.searchForm = this.formBuilder.group({
       search: ['', Validators.compose([Validators.required, Validators.maxLength(100)])]
     })
