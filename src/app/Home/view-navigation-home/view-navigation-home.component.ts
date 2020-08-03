@@ -94,7 +94,7 @@ export class ViewNavigationHomeComponent implements OnInit {
 
 
   //
-  // ─── HANDLE DISPLAYING VIEWS BY URL PARAMETER ─────────────────────────────────────────────────
+  // ─── DISPLAY VIEW BY QUERY PARAMETER ─────────────────────────────────────────────────
   //
 
   handleViewParam(param: string) {
