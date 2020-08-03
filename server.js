@@ -22,10 +22,10 @@ app.use(bodyParser.json())
 app.use(cors())
 
 // Get authentication routes
-const okta = require('./server/routes/okta')
+const okta = require('./server/okta')
 
 // Get Chatkit routes for Pusher
-const chatkit = require('./server/routes/chatkit')
+const chatkit = require('./server/chatkit')
 
 // Okta route for user auth
 app.use('/okta', okta)
@@ -63,25 +63,8 @@ app.use('/chatkit', chatkit)
 //
   
   app.get('/uiavatar', (req, res) => {
-
-    // var download = function(uri, filename, callback){
-    //   request.head(uri, function(err, res, body){
-    //     console.log('content-type:', res.headers['content-type']);
-    //     console.log('content-length:', res.headers['content-length']);
-    
-    //     request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
-    //   });
-    // };
-    
-    // download('https://ui-avatars.com/api/?rounded=true', 'google.png', function(){
-    //   console.log('done')
-    //   res.status(200).json()
-    // });
-
-
     axios.get('https://ui-avatars.com/api/?rounded=true')
     .then(uiAvatar => {
-      console.log(uiAvatar)
       res.status(200).json(uiAvatar.data);
     })
     .catch(error => {
@@ -98,14 +81,8 @@ app.use('/chatkit', chatkit)
   app.post('/user/avatar/:user_id', (req, res) => {
 
     var form = new formidable.IncomingForm()
-    // form.encoding = 'utf-8'
     form.uploadDir = `./src/assets/avatars/`
     form.keepExtensions = true
-
-    // form.on('file', function(name, file) {
-    //   file.name = req.params.user_id;
-    // });
-    // res.status(200).send('done')
 
     form.parse(req);
 
@@ -116,29 +93,9 @@ app.use('/chatkit', chatkit)
     form.on('file', function (name, file){
         console.log('Uploaded ' + file.name);
     });
-    // res.sendFile(__dirname + '/index.html');
-
-    // setTimeout(function(){
-      // form.parse(req, res)
-
-        // res.status(200).json({fields: fields, files: files})
-    // }, 1000)
-
-    // form.onPart = function(part) {
-    //   if (!part.filename) {
-    //     // let formidable handle all non-file parts
-    //     form.handlePart(part);
-    //   } else {
-    //     part.filename.name = req.params.user_id
-    //   }
-    // }
-
-    
-    console.log('received file')
   });
 
 // ────────────────────────────────────────────────────────────────────────────────
-
 
 
 //
@@ -153,16 +110,13 @@ app.use('/chatkit', chatkit)
     form.uploadDir = './src/assets/tmp'
 
     // generate tmp file name for later reference when room creation form submitted
-    // var tmpFileId = Math.floor(Math.random() * 100000)
     var id = crypto.randomBytes(20).toString('hex')
     
     form.parse(req)
 
     form.on('file', function (name, file){
-
       fs.rename(file.path, form.uploadDir + "/" + id + path.extname(file.name), function( error ) {});
 
-      console.log('Uploaded ' + file.name)
       res.type('text/plain')
       res.status(200).send(id.toString())
     })
@@ -176,9 +130,7 @@ app.use('/chatkit', chatkit)
 //
 
   app.post('/rooms/avatar', (req, res) => {
-
-    // avatar should already exist in temo folder => move to permanent storage
-
+    // avatar should already exist in temp folder => move to permanent storage
     var form = new formidable.IncomingForm()
 
     form.keepExtensions = true
@@ -198,7 +150,6 @@ app.use('/chatkit', chatkit)
 
   app.get("/rooms/:id/avatar", (req, res) => {
     res.sendFile(path.join(__dirname, `./uploads/${req.params.id}-avatar`));
-    // ? path.resolve
   });
 // ────────────────────────────────────────────────────────────────────────────────
 
@@ -209,14 +160,11 @@ app.use('/chatkit', chatkit)
 //
 
   app.get("/university/:query", (req,res) => {
-
-    // Get the user query from request body
     var query = req.params.query;
 
     // Get the web domain from the user query (username / email)
     var domainToFind = query.replace(/.*@/, "")
 
-    // Filter for university in JSON list
     var found = universities.find(university => {
       return university.domains.some((domain) => {
         return (domain === domainToFind)
@@ -233,8 +181,6 @@ app.use('/chatkit', chatkit)
 //
 
   app.get("/university/name/:query", (req,res) => {
-
-    // Get the user query from request body
     var query = req.params.query;
 
     // Filter for university in JSON list
@@ -254,10 +200,6 @@ app.use('/chatkit', chatkit)
 const port = process.env.PORT || 3200
 app.set('port', port)
 
-//
-// Create HTTP server.
-// const server = http.createServer(app)
-//
 const router = express.Router()
 
 // middleware
