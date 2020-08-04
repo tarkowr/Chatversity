@@ -29,15 +29,11 @@ export class SmallComponent implements OnInit {
   //
 
   canAddAsConnection() {
-    if (!this.currUser) {
+    if (!this.currUser || !this.currUser.customData) {
       return false
     }
 
-    if (!this.currUser.customData) {
-      return false
-    }
-
-    return (this.currUser.id === this.user.id) ? false : true
+    return !this.currUser.id === this.user.id
   }
   // ─────────────────────────────────────────────────────────────────
 
@@ -56,7 +52,7 @@ export class SmallComponent implements OnInit {
       return false
     }
 
-    return (this.currUser.customData.connections.includes(this.user.id)) ? false : true
+    return !this.currUser.customData.connections.includes(this.user.id)
   }
   // ─────────────────────────────────────────────────────────────────
 
@@ -134,7 +130,6 @@ export class SmallComponent implements OnInit {
     this.userService.update(this.currUser.id, JSON.stringify(currentUserData))
     .toPromise()
     .then((data) => {
-      // console.log('UPDATED CHATKIT USER', this.currUser)
       this.setUserConnections(data)
       this.loading = false
     })

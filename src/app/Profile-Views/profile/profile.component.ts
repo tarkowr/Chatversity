@@ -1,15 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
-import { HttpHeaders } from '@angular/common/http'
-import { Observable } from 'rxjs'
-import { NgForm, FormGroup, FormBuilder, Validators, FormControl, MaxLengthValidator } from '@angular/forms'
-import { ActivatedRoute, Router } from '@angular/router'
 import { AuthService } from '../../Core/_services/auth.service'
-import { MessagingService } from '../../Core/_services/messaging.service'
-import { environment } from '../../../environments/environment.prod'
-import { UserService } from '../../Core/_services/user.service'
-import { AppComponent } from '../../app.component'
 
 @Component({
   selector: 'app-profile',
@@ -37,7 +27,6 @@ export class ProfileComponent implements OnInit {
     this.authService.currentUser.subscribe(
       (user) => {
         this.currentUser = user
-        // console.log('CHATKIT USER:', this.currentUser)
         this.initForm()
       }
     )

@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
-import { NgForm, FormGroup, FormBuilder, Validators, FormControl, FormsModule, MaxLengthValidator } from '@angular/forms'
+import { FormGroup, FormBuilder, Validators, MaxLengthValidator } from '@angular/forms'
 import { AuthService } from '../../Core/_services/auth.service'
 import { UserService } from '../../Core/_services/user.service'
-// import { FilePondModule } from 'filepond'
 import { environment } from '../../../environments/environment.prod'
 
 @Component({
@@ -37,9 +36,7 @@ export class SettingsProfileComponent implements OnInit {
   }
 
   pondHandleAddFile(event: any) {
-    // event.preventDefault()
-    console.log('A file was added')
-    // removes the file at index 1
+
   }
 
   constructor(
@@ -47,7 +44,6 @@ export class SettingsProfileComponent implements OnInit {
     private authService: AuthService,
     private userService: UserService) {}
 
-  // Convenience getter for easy access to form fields
   get f() { return this.profileForm.controls }
 
   //
@@ -58,10 +54,8 @@ export class SettingsProfileComponent implements OnInit {
     this.submitted = true
     this.loading = true
 
-    // Stop here if form is invalid
     if (this.profileForm.invalid) {
       this.loading = false
-      // console.log('ERROR: Form invalid')
       return
     }
 
@@ -75,12 +69,6 @@ export class SettingsProfileComponent implements OnInit {
 
     // Get current user custom data
     const currentUserData = this.currentUser.customData
-    // console.log('CHATKIT USER CUSTOM DATA: ', currentUserData)
-
-    // Add connections array if it doesn't exist in the customData object
-    if (!currentUserData.connections) {
-      currentUserData['connections'] = []
-    }
 
     // Add update data
     currentUserData['name'] = _name
@@ -94,14 +82,14 @@ export class SettingsProfileComponent implements OnInit {
     this.userService.update(this.currentUser.id, JSON.stringify(currentUserData))
     .toPromise()
     .then((data) => {
-      // console.log('RESPONSE:', data)
-      console.log('UPDATED CHATKIT USER:', this.currentUser)
-
       this.setUserProfile(data)
 
       this.editingForm = false
       this.loading = false
       this.submitted = false
+    })
+    .catch((e) => {
+      this.loading = false;
     })
   }
 
@@ -113,19 +101,12 @@ export class SettingsProfileComponent implements OnInit {
   initForm() {
     this.getUserProfile()
 
-    // Build Form
     this.profileForm = this.formBuilder.group({
-      // Name
       name: [ this.name, Validators.required ],
-      // Bio
       bio: [ this.bio, MaxLengthValidator ],
-      // Major
       major: [ this.major, MaxLengthValidator ],
-      // Graduation year
       graduationYear: [ this.graduationYear, Validators.compose([Validators.min(1900), Validators.max(this.getFutureDate())]) ],
-      // Interests
       interests: [ this.interests, MaxLengthValidator ],
-        // Clubs
       clubs: [ this.clubs, MaxLengthValidator ]
     })
   }
@@ -192,7 +173,7 @@ export class SettingsProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.getCurrentUser().subscribe((user) => {
+    this.authService.currentUser.subscribe((user) => {
       this.currentUser = user
       this.initForm()
       this.pondOptions = {

@@ -5,8 +5,8 @@
       <div class="col-12 mt-4 mb-3">
 
         <!-- Button to show edit form -->
-        <button (click)="(editingForm == true ? onSubmit() : (editingForm = !editingForm))" [ngClass]="{'btn-primary': editingForm, 'btn-outline-primary': !editingForm}" class="btn px-3">
-          <i class="fa fa-edit" *ngIf="!editingForm"></i> {{ editingForm == true ? 'Save Changes' : 'Edit Profile' }}
+        <button (click)="(editingForm ? onSubmit() : (editingForm = !editingForm))" [ngClass]="{'btn-primary': editingForm, 'btn-outline-primary': !editingForm}" class="btn px-3">
+          <i class="fa fa-edit" *ngIf="!editingForm"></i> {{ editingForm ? 'Save Changes' : 'Edit Profile' }}
         </button>
   
         <!-- Button to cancel form edit => only shown when form is displayed -->
@@ -15,7 +15,6 @@
         </button>
 
       </div>
-      <!-- end edit buttons -->
 
       <div class="col-12 col-sm-12 col-lg-8 my-3">
         <ng-container *ngIf="currentUser">
@@ -29,7 +28,6 @@
           <!-- Profile Picture -->
           <figure>
               <img src="{{ currentUser.avatarURL }}" alt="User Profile Picture">
-              <!-- <input type="file" name="filepond" data-max-files="10" required> -->
               <file-pond #myPond 
                 [options]="pondOptions" 
                 [files]="pondFiles"

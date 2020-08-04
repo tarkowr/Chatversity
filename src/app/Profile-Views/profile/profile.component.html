@@ -11,16 +11,13 @@
                 <ng-container *ngIf="this.currentUser">
                     <!-- User Name -->
                     <div class="h2 text-secondary text-light-weight">{{ this.name }}</div>
-                    <!-- {{ this.user.avatarURL }} -->
 
                     <!-- User Major and Graduation Year -->
-                    <div *ngIf="(this.major || this.graduationYear)">
-                        <span class="text-primary text-uppercase" style="font-weight:100;">
-                            <span *ngIf="this.major">{{ this.major }}</span>
-                            <span *ngIf="(this.major && this.graduationYear)"> &nbsp;|&nbsp;</span>
-                            <span *ngIf="this.graduationYear"> Class of {{ this.graduationYear }}</span>
-                        </span><br>
-                    </div>
+                    <div class="text-primary text-uppercase" style="font-weight:100;">
+                        <span *ngIf="this.major">{{ this.major }}</span>
+                        <span *ngIf="(this.major && this.graduationYear)"> &nbsp;|&nbsp;</span>
+                        <span *ngIf="this.graduationYear"> Class of {{ this.graduationYear }}</span>
+                    </div><br>]
     
                     <!--User Bio-->
                     <div class="mt-3" *ngIf="this.bio">
