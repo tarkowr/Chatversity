@@ -1,6 +1,6 @@
-import { Injectable, OnInit } from '@angular/core'
+import { Injectable } from '@angular/core'
 import { ChatManager, TokenProvider } from '@pusher/chatkit-client'
-import { BehaviorSubject, Subscription, ReplaySubject, Subject, Observable } from 'rxjs'
+import { Subject, Observable } from 'rxjs'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { environment } from '../../../environments/environment.prod'
 

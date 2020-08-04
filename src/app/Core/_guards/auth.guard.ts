@@ -22,8 +22,7 @@ export class AuthGuard implements CanActivate {
       }
 
       // User not authorized so redirect to login page
-      const url = '/login'
-      const tree: UrlTree = this.router.parseUrl(url)
+      const tree: UrlTree = this.router.parseUrl('/login')
       return tree
     }
 }

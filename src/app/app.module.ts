@@ -59,14 +59,11 @@ import { NavbarComponent } from './Shared/navbar/navbar.component'
 import { OktaAuthGuard } from '@okta/okta-angular';
 import { OktaAuthService } from './app.service';
 import { CallbackComponent } from './Core/callback/callback.component';
-import { ProtectedComponent } from './Core/protected/protected.component';
-import { OktaAuthModule } from '@okta/okta-angular';
 import { routes } from './app.routes';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { RoomsComponent } from './rooms/rooms.component';
-import { ScrollToTopDirective } from './scroll-to-top.directive';
 import { PrivacySettingsComponent } from './Settings-Views/privacy-settings/privacy-settings.component';
 import { SecuritySettingsComponent } from './Settings-Views/security-settings/security-settings.component';
 import { ConnectionSettingsComponent } from './Settings-Views/connection-settings/connection-settings.component';
@@ -93,7 +90,6 @@ const config = {
     ForgotComponent,
     SmallComponent,
     CallbackComponent,
-    ProtectedComponent,
     PageNotFoundComponent,
     CallbackComponent,
     FooterComponent,
@@ -105,7 +101,6 @@ const config = {
     ViewNavigationHomeComponent,
     ViewFriendsHomeComponent,
     RoomsComponent,
-    ScrollToTopDirective,
     PrivacySettingsComponent,
     SecuritySettingsComponent,
     ConnectionSettingsComponent,
@@ -115,7 +110,6 @@ const config = {
   ],
   imports: [
     RouterModule.forRoot(routes),
-    OktaAuthModule.initAuth(config),
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,

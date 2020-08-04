@@ -1,7 +1,7 @@
-import { Injectable, OnInit } from '@angular/core'
+import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { environment } from '../../../environments/environment'
-import { BehaviorSubject, Subject, ReplaySubject, Observable, } from 'rxjs'
+import { ReplaySubject } from 'rxjs'
 import { MessagingService } from './messaging.service'
 import { Router } from '@angular/router'
 import { reject } from 'q'
@@ -23,10 +23,6 @@ export class AuthService {
 
     set currentUser(user: any) {
         this._currentUser.next(user)
-    }
-
-    getCurrentUser(): Observable<any> {
-        return this._currentUser.asObservable()
     }
 
     getUserId() {

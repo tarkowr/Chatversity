@@ -8,10 +8,6 @@ const client = new okta.Client({
   token: '00bZLsWwzJWyfMrRXnmd-wzqLu4BCbj1TG01Va73A4' // Obtained from Developer Dashboard (Resets every month)
 });
 
-router.get('/', (req, res) => {
-    res.send('Okta server route works');
-});
-
 
 //
 // ─── GET USER BY LOGIN ──────────────────────────────────────────────────────────

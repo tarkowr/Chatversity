@@ -176,7 +176,6 @@ router.post('/createuser', (req, res) => {
 // ─── GET USER'S ROOMS ─────────────────────────────────────────────────────────────
 //
 
-// Get user rooms
 router.post('/GetUserRooms', async (req, res) => {
     chatkit.getUserRooms({
         userId: req.body.user_id,
